@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="login-users.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Регистрация/Вход</h1>
+        <p>Ако нямате регистрация, моля регистрирайте се, за да създадете свой профил, където може да качите своето CV и да кандидатствате по избраните от вас обяви за работа.</p>
+    </header>
+    
+    <section class="login-users-form">      
+        <form class="register-users">
+            <h2>Регистрация:</h2>
+    
+            <label><span>*</span>Име
+            <input class="inputs" name="username" type="text" required /></label>
+
+            <label><span>*</span>Фамилия
+                <input class="inputs" name="username" type="text" required /></label>
+    
+            <label><span>*</span>E-mail
+            <input class="inputs" name="email" type="email" required /></label>
+    
+            <label><span>*</span>Парола
+            <input class="inputs" name="pass" type="password" required /></label>
+    
+            <label><span>*</span>Повторете паролата
+            <input class="inputs" name="repeat-pass" type="password" required /></label>
+    
+            <div class="pass-info">
+                <p>Паролата трябва да съдържа минимум 6 символа.</p>
+            </div>
+            <div class="required-info">
+                <span>*</span>
+                <p>Задължително поле</p>
+            </div>
+            <span class="agreed"><input type="checkbox" name="agreed">Съгласен съм с <a href="">Общите условия</a></span>
+    
+            <div class="error"></div>
+            <div class="buttons">
+                <button>Регистрация</button>
+            </div>
+        </form>
+
+        <form class="sign-in-users">
+            <h2>Вход потребители:</h2>
+    
+            <label>E-mail
+            <input class="inputs" name="username" type="text" required /></label>
+    
+            <label>Парола
+            <input class="inputs" name="pass" type="password" required /></label>
+            <div class="error"></div>
+            <a href="#">Forgotten password?</a>
+            <div class="buttons">
+                <button>Вход</button>
+            </div>
+        </form>
+    </section>
+</body>
+</html>
