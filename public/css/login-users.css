@@ -1,4 +1,4 @@
-header {
+/* header {
     width: 800px;
     margin: 0 auto;
     border-bottom: 1px solid #dcdcdc;
@@ -17,7 +17,7 @@ header p {
     font-size: 14px;
     padding-top: 10px;
     margin-bottom: 40px;
-}
+} */
 
 section.login-users-form {
     font-family: Tahoma, Helvetica, sans-serif;

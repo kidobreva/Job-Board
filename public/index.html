@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="bg" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Job Board</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login-users.css">
+
+    <script defer src="vendors/fontawesome-all.min.js"></script>
+</head>
+<body>
+    <header ng-include src="'header.html'"></header>
+    <div ng-view></div>
+    <footer ng-include src="'footer.html'" class="footer"></footer>
+
+    <!-- Vendors -->
+    <script src="vendors/angular/angular.min.js"></script>
+    <script src="vendors/angular/angular-route.min.js"></script>
+    <script src="vendors/angular/angular-animate.min.js"></script>
+    <script src="vendors/angular/angular-touch.min.js"></script>
+    <script src="vendors/bootstrap/ui-bootstrap-tpls-3.0.3.min.js"></script>
+
+    <!-- App -->
+    <script src="app.js"></script>
+    <script src="controllers/HomeCtrl.js"></script>
+    <script src="controllers/AuthCtrl.js"></script>
+    <script src="controllers/AddAdvertCtrl.js"></script>
+</body>
+</html>

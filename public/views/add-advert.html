@@ -1,0 +1,58 @@
+<form action="" method="POST">
+  <!-- City -->
+  <div class="form-group">
+    <label for="city">Град</label>
+    <input class="form-control" list="cities" id="city">
+    <datalist id="cities">
+        <option value="{{city}}">
+    </datalist>
+  </div>
+
+  <!-- Category -->
+  <div class="form-group">
+    <label for="category">Категория</label>
+    <select class="form-control" id="category">
+      <option value=""></option>
+        <option value="{{category}}">{{category}}</option>
+    </select>
+  </div>
+
+  <!-- Level -->
+  <div class="form-group">
+  <label for="level">Ниво на квалификация</label>
+    <select class="form-control" id="level">
+      <option value=""></option>
+      <option value="Мениджмънт">Мениджмънт</option>
+      <option value="Експерти/Специалисти">Експерти/Специалисти</option>
+      <option value="Служители/Работници">Служители/Работници</option>
+      <option value="Стажанти/Студенти">Стажанти/Студенти</option>
+    </select>
+  </div>
+
+  <!-- Type -->
+  <div class="form-group">
+  <label for="type">Вид заетост</label>
+    <select class="form-control" id="type">
+      <option value=""></option>
+      <option value="Пълен Работен Ден">Пълен Работен Ден</option>
+      <option value="Непълен Работен Ден/Почасова">Непълен Работен Ден/Почасова</option>
+      <option value="Временна/Сезонна/По проект">Временна/Сезонна/По проект</option>
+      <option value="Постоянна">Постоянна</option>
+    </select>
+  </div>
+
+  <!-- Title -->
+  <div class="form-group">
+  <label for="title">Заглавие</label>
+    <input class="form-control" id="title" />
+  </div>
+
+  <!-- Description -->
+  <div class="form-group">
+  <label for="description">Описание</label>
+    <textarea class="form-control" id="description"></textarea>
+  </div>
+
+  <!-- Submit -->
+  <button>Добави обява</button>
+</form>

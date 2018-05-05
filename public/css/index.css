@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
 body {
     font-family: "Montserrat", sans-serif;
@@ -10,9 +9,9 @@ body {
 
 body > header {
     padding-top: 20px;
-    background: url(images/Layer-759_02.jpg) no-repeat;
+    background: url(../images/Layer-759_02.jpg) no-repeat;
     background-size: cover;
-    height: 735px;
+    height: 200px;
 }
 
 nav, ul {
@@ -195,7 +194,7 @@ main section.banner::after {
     content: "";
     background-size: cover;
     opacity: 0.3;
-    background: url(images/steel-bg.jpg) center center;
+    background: url(../images/steel-bg.jpg) center center;
     top: 0;
     left: 0;
     bottom: 0;
@@ -209,7 +208,7 @@ main section.traders {
     padding-top: 35px;
     padding-bottom: 46px;
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0, 0.6)),
-    url('images/background-choose-us.jpg') no-repeat center;
+    url('../images/background-choose-us.jpg') no-repeat center;
     background-size: cover;
 }
 
@@ -255,7 +254,7 @@ main section.traders div.article-container a p {
 }
 
 main section.consulting-woman {
-    background-image: url("images/consulting-woman.jpg");
+    background-image: url("../images/consulting-woman.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 600px;
@@ -392,7 +391,7 @@ footer.footer div.instagram-widget ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 300px;
+    width: 350px;
 }
 
 footer.footer div.instagram-widget ul li a img {
