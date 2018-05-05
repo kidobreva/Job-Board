@@ -1,4 +1,4 @@
-angular.module('App.add-advert', ['ngRoute'])
+angular.module('App.AddAdvert', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/add-advert', {
@@ -8,5 +8,5 @@ angular.module('App.add-advert', ['ngRoute'])
 }])
 
 .controller('AddAdvertCtrl', [function() {
-
+  console.log('AddAdvertCtrl');
 }]);

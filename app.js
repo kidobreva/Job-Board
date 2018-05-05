@@ -4,6 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const fs = require('fs');
+const monk = require('monk');
+const db = monk('localhost:27017/database');
+const session = require('express-session');
+
 var app = express();
 
 // view engine setup
@@ -15,6 +20,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'ITTalents',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000*60*60*24*30 // 30 days
+  }
+}));
+
+// database middleware
+app.use(function(req, res, next) {
+  req.db = db;
+  next();
+});
+
+// routes
+fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
+    app.use(require('./routes/' + path.basename(file, '.js')));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

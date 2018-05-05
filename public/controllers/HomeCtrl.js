@@ -1,12 +1,12 @@
-angular.module('App.home', ['ngRoute'])
+var HomeModule = angular.module('App.Home', ['ngRoute']);
 
-.config(['$routeProvider', function($routeProvider) {
+HomeModule.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/home', {
     templateUrl: 'views/home.html',
     controller: 'HomeCtrl'
   });
 }])
 
-.controller('HomeCtrl', [function() {
-
+HomeModule.controller('HomeCtrl', [function() {
+  console.log('HomeCtrl');
 }]);

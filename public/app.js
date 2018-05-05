@@ -1,8 +1,8 @@
 angular.module('App', [
   'ngRoute',
-  'App.home',
-  'App.auth',
-  'App.add-advert'
+  'App.Home',
+  'App.Auth',
+  'App.AddAdvert'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
