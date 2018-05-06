@@ -199,54 +199,54 @@ main section.banner::after {
     z-index: -1;
 }
 
-main section.traders {
+main section.news {
     margin: 0;
-    padding-top: 35px;
-    padding-bottom: 46px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0, 0.6)),
-    url('../images/background-choose-us.jpg') no-repeat center;
+    url('/images/background-choose-us.jpg') no-repeat center;
     background-size: cover;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
 }
 
-main section.traders h2 {
+main section.news {
+    padding-bottom: 40px;
+}
+
+main section.news h2 {
     text-align: center;
     font-size: 40px;
-    color: #ffffff;
     margin-bottom: 20px;
 }
 
-main section.traders div.article-container {
+main section.news div.news-container {
     display: flex;
     justify-content: center;
 }
 
-main section.traders div.article-container a {
+main section.news div.news-container .news-block {
+    display: block;
     margin-right: 30px;
-    padding: 20px;
+    padding: 20px 15px;
     width: 300px;
     border: 2px solid #c79d63;
-    text-align: center;
     text-decoration: none;
 }
 
-.article-container a:hover, .article-container a:hover p, .article-container a:hover h4 {
-    background: #fff;
-    color: #090821;
-}
-
-main section.traders div.article-container a h4 {
+main section.news div.news-container .news-block a {
+    text-decoration: none;
     color: #fff;
-    margin: 0 0 17px 17px;
-    padding-top: 21px;
-    letter-spacing: 0;
-    font-size: 20px;
+    font-size: 18px;
+    line-height: 10px;
 }
 
-main section.traders div.article-container a p {
-    margin: 0 0 17px 17px;
-    font-size: 13px;
-    line-height: 18px;
-    color: #ffffff;
+main section.news div.news-container .news-block a:hover {
+    text-decoration: underline;
+}
+
+main section.news div.news-container .news-block p {
+    margin-top: 30px;
 }
 
 main section.consulting-woman {
