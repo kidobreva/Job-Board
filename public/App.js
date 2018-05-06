@@ -8,7 +8,8 @@ var App = angular.module('App', [
     'App.Logout',
     'App.Contacts',
     'App.Advert',
-    'App.Company'
+    'App.Company',
+    'App.Profile'
 ]);
 
 App.config([

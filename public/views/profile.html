@@ -1,0 +1,11 @@
+<!-- User -->
+<div ng-if="loaded && !user.isCompany">
+  <h3>Потребител</h3>
+  <p>Имейл: {{user.email}}</p>
+</div>
+
+<!-- Company -->
+<div ng-if="loaded && user.isCompany">
+  <h3>Фирма</h3>
+  <p>Имейл: {{user.email}}</p>
+</div>
