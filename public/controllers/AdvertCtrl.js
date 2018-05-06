@@ -16,13 +16,54 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
 
     $scope.loaded = false;
 
+    $scope.save = function() {
+        $http
+            .post('/favourite', $scope.advert)
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    console.log('Saved!');
+                }
+            })
+            .catch(function(err) {
+                console.error(err.data);
+            });
+    };
+
+    $scope.apply = function() {
+        $http
+            .post('/apply', $scope.user)
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    console.log('Applied!');
+                }
+            })
+            .catch(function(err) {
+                console.error(err.data);
+            });
+    };
+
     $http
         .get('/advert/' + $routeParams.id)
         .then(function(response) {
-            console.log(response);
+            console.log('advert:', response);
             if (response.status === 200) {
-                $scope.loaded = true;
                 $scope.advert = response.data;
+
+                $http
+                    .get('/profile')
+                    .then(function(response) {
+                        console.log('user:', response);
+                        if (response.status === 200) {
+                            $scope.loaded = true;
+                            $scope.user = response.data;
+                        }
+                    })
+                    .catch(function(err) {
+                        $scope.loaded = true;
+                        console.error(err.data);
+                    });
             }
         })
         .catch(function(err) {

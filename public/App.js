@@ -9,7 +9,8 @@ var App = angular.module('App', [
     'App.Contacts',
     'App.Advert',
     'App.Company',
-    'App.Profile'
+    'App.Profile',
+    'App.Favourites'
 ]);
 
 App.config([

@@ -5,4 +5,7 @@
   <p>Ниво: {{advert.level}}</p>
   <p>Тип: {{advert.type}}</p>
   <p>Описание: {{advert.description}}</p>
+
+  <button ng-if="user.isCompany === false" ng-click="apply()">Кандидатствай</button>
+  <button ng-if="user.isCompany === false" ng-click="save()">Запази в любими</button>
 </div>
