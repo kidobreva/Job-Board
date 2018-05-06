@@ -133,7 +133,7 @@ section.login-users-form {
 }
 
 .register-users button:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
 
     background-color: #aaa;
 }
@@ -219,7 +219,7 @@ section.login-users-form {
 }
 
 .sign-in-users button:hover {
-    cursor: pointer;
+    /* cursor: pointer; */
 
     background-color: #aaa;
 }

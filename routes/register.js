@@ -14,7 +14,7 @@ function validateEmail(email) {
 router.post('/register', function(req, res, next) {
     console.log('Register Post:', req.body);
     console.log(req.session);
-
+    
     if (req.body.password !== req.body.repeatPassword) {
         console.log('The passwords are not the same!');
     } else {
@@ -24,6 +24,12 @@ router.post('/register', function(req, res, next) {
             if (!validateEmail(req.body.email)) {
                 console.log('Invalid email!');
             } else {
+                req.body.isAdmin = false;
+                if (req.body.isCompany) {
+                    req.body.adverts = [];
+                } else {
+                    req.body.favourites = [];
+                }
                 req.db
                     .get('users')
                     .findOne({ email: req.body.email })

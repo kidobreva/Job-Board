@@ -1,12 +1,93 @@
-angular.module('App.AddAdvert', ['ngRoute'])
+var AppAdvert = angular.module('App.AddAdvert', ['ngRoute']);
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/add-advert', {
-    templateUrl: 'views/add-advert.html',
-    controller: 'AddAdvertCtrl'
-  });
-}])
+AppAdvert.config([
+    '$routeProvider',
+    function($routeProvider) {
+        $routeProvider.when('/add-advert', {
+            templateUrl: 'views/add-advert.html',
+            controller: 'AddAdvertCtrl',
+            title: 'Добави обява'
+        });
+    }
+]);
 
-.controller('AddAdvertCtrl', [function() {
-  console.log('AddAdvertCtrl');
-}]);
+AppAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
+    console.log('AddAdvertCtrl');
+
+    $scope.cities = [
+        'София',
+        'Пловдив',
+        'Варна',
+        'Бургас',
+        'Стара Загора',
+        'Русе',
+        'Благоевград',
+        'Велико Търново',
+        'Видин',
+        'Враца',
+        'Габрово',
+        'Добрич',
+        'Кърджали',
+        'Кюстендил',
+        'Ловеч',
+        'Монтана',
+        'Пазарджик',
+        'Перник',
+        'Плевен',
+        'Разград',
+        'Силистра',
+        'Сливен',
+        'Смолян',
+        'Търговище',
+        'Хасково',
+        'Шумен',
+        'Ямбол',
+        'Друг'
+    ];
+
+    $scope.categories = [
+        'Автомобили, Автосервизи, Бензиностанции',
+        'Административни дейности',
+        'Архитектура, Строителство и Градоустройство',
+        'Банково дело и Финанси',
+        'Държавна администрация',
+        'Енергетика',
+        'Застрахователна дейност',
+        'Здравеопазване (Медицински работници)',
+        'ИТ - Разработка/поддръжка на софтуер хардуер',
+        'Изкуство, Развлечение, Промоции',
+        'Инженерни дейности',
+        'Недвижими имоти',
+        'Охрана',
+        'Право, Юридически услуги',
+        'Производство',
+        'Ремонт, Сервиз, Поддръжка',
+        'Ресторанти, Заведения',
+        'Селско и горско стопанство',
+        'Спорт, Кинезитерапия, Рехабилитация',
+        'Счетоводство, Одит',
+        'Телекомуникации',
+        'Туристически агенции',
+        'Търговия, Продажби',
+        'Фармация',
+        'Хотели',
+        'Човешки ресурси',
+        'Шофьори и куриери',
+        'Друго'
+    ];
+
+    $scope.addAdvert = function() {
+        console.log('Add advert');
+
+        $http
+            .post('/add-advert', $scope.advert)
+            .then(function(response) {
+                if (response.status === 200) {
+                    $window.location.href = '#!/home';
+                }
+            })
+            .catch(function(err) {
+                console.error(err.data);
+            });
+    };
+});

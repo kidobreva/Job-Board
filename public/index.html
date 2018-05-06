@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Job Board</title>
+    <title ng-bind="$root.title"></title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/add-advert.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/login-users.css">
 
@@ -14,7 +16,7 @@
 </head>
 <body>
     <header ng-include src="'header.html'"></header>
-    <div ng-view></div>
+    <div ng-view class="page"></div>
     <footer ng-include src="'footer.html'" class="footer"></footer>
 
     <!-- Vendors -->
@@ -25,9 +27,10 @@
     <script src="vendors/bootstrap/ui-bootstrap-tpls-3.0.3.min.js"></script>
 
     <!-- App -->
-    <script src="app.js"></script>
+    <script src="App.js"></script>
     <script src="controllers/HomeCtrl.js"></script>
     <script src="controllers/AuthCtrl.js"></script>
     <script src="controllers/AddAdvertCtrl.js"></script>
+    <script src="controllers/AdvertsCtrl.js"></script>
 </body>
 </html>
