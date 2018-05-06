@@ -14,7 +14,7 @@ function validateEmail(email) {
 router.post('/register', function(req, res, next) {
     console.log('Register Post:', req.body);
     console.log(req.session);
-    
+
     if (req.body.password !== req.body.repeatPassword) {
         console.log('The passwords are not the same!');
     } else {
@@ -30,26 +30,28 @@ router.post('/register', function(req, res, next) {
                 } else {
                     req.body.favourites = [];
                 }
-                req.db
-                    .get('users')
+                var usersCollection = req.db.get('users');
+                usersCollection
                     .findOne({ email: req.body.email })
                     .then(function(user) {
                         if (!user) {
-                            delete req.body.repeatPassword;
-                            req.body.password = sha1(req.body.password);
-                            req.db
-                                .get('users')
-                                .insert(req.body)
-                                .then(function(user) {
-                                    console.log(
-                                        'New user has registered:',
-                                        user
-                                    );
-                                    delete req.body.password;
-                                    req.session.user = user;
-                                    req.session.save();
-                                    res.sendStatus(200);
-                                });
+                            usersCollection.find().then(function(array) {
+                                req.body.id = array.length || 1;
+                                delete req.body.repeatPassword;
+                                req.body.password = sha1(req.body.password);
+                                usersCollection
+                                    .insert(req.body)
+                                    .then(function(user) {
+                                        console.log(
+                                            'New user has registered:',
+                                            user
+                                        );
+                                        delete req.body.password;
+                                        req.session.user = user;
+                                        req.session.save();
+                                        res.sendStatus(200);
+                                    });
+                            });
                         } else {
                             console.log('The with this email already exists!');
                         }
