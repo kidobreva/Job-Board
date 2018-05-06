@@ -12,9 +12,9 @@ CompaniesModule.controller('CompaniesCtrl', function($scope, $http) {
   console.log('CompaniesCtrl');
   $scope.loaded = false;
 
-  $scope.adverts = $http.get('/companies').then(function(companies) {
+  $scope.companies = $http.get('/companies').then(function(companies) {
       console.log(companies);
       $scope.loaded = true;
-      $scope.adverts = companies.data;
+      $scope.companies = companies.data;
   });
 });
