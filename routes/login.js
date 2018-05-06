@@ -6,6 +6,7 @@ function isLogged(req) {
     return req.session.user;
 }
 
+// Login
 router.post('/login', function(req, res, next) {
     console.log('Login Post:', req.body);
 
@@ -20,12 +21,14 @@ router.post('/login', function(req, res, next) {
                 console.log('User logged in:', user);
                 delete user.password;
                 req.session.user = user;
+                req.session.save();
                 res.sendStatus(200);
             } else {
-                console.log('User not found or bad password!')
+                console.log('User not found or bad password!');
             }
-        }).catch (function (err) {
-          console.log(err);
+        })
+        .catch(function(err) {
+            console.log(err);
         });
 });
 

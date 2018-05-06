@@ -11,7 +11,7 @@ AuthModule.config([
     }
 ]);
 
-AuthModule.controller('AuthCtrl', function($scope, $http, $window) {
+AuthModule.controller('AuthCtrl', function($scope, $http, $window, $rootScope) {
     console.log('AuthCtrl');
     $scope.registerUser = {};
     $scope.registerUser.isCompany = false;
@@ -23,6 +23,7 @@ AuthModule.controller('AuthCtrl', function($scope, $http, $window) {
             .post('/login', $scope.user)
             .then(function(response) {
                 if (response.status === 200) {
+                    $rootScope.isLogged = true;
                     $window.location.href = '#!/home';
                 }
             })
@@ -39,6 +40,7 @@ AuthModule.controller('AuthCtrl', function($scope, $http, $window) {
             .post('/register', $scope.registerUser)
             .then(function(response) {
                 if (response.status === 200) {
+                    $rootScope.isLogged = true;
                     $window.location.href = '#!/home';
                 }
             })

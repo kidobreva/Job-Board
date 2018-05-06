@@ -1,0 +1,14 @@
+<table class="table" ng-if="loaded">
+  <thead>
+    <tr>
+      <th scope="col">Наименование</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="company in companies">
+      <td>{{company.title}}</td>
+      <td><a href="/company">Повече</a></td>
+    </tr>
+  </tbody>
+</table>

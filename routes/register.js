@@ -47,6 +47,7 @@ router.post('/register', function(req, res, next) {
                                     );
                                     delete req.body.password;
                                     req.session.user = user;
+                                    req.session.save();
                                     res.sendStatus(200);
                                 });
                         } else {
