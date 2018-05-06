@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/favourite', function(req, res, next) {
-    console.log('Favourite Get:', req.body);
+    console.log('Favourite Post:', req.body);
 
     const users = req.db.get('users');
     users
@@ -15,7 +15,6 @@ router.post('/favourite', function(req, res, next) {
 
                 // save to database
                 user.favourites.push(req.body);
-                req.db.get('users');
                 users.findOneAndUpdate({ id: req.session.user.id }, user);
             } else {
                 console.log('No user!');

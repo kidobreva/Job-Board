@@ -24,6 +24,7 @@ AuthModule.controller('AuthCtrl', function($scope, $http, $window, $rootScope) {
             .then(function(response) {
                 if (response.status === 200) {
                     $rootScope.isLogged = true;
+                    $rootScope.user = response.data;
                     $window.location.href = '#!/home';
                 }
             })
@@ -41,6 +42,7 @@ AuthModule.controller('AuthCtrl', function($scope, $http, $window, $rootScope) {
             .then(function(response) {
                 if (response.status === 200) {
                     $rootScope.isLogged = true;
+                    $rootScope.user = response.data;
                     $window.location.href = '#!/home';
                 }
             })

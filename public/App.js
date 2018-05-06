@@ -28,8 +28,9 @@ App.run(function($rootScope, $route, $http) {
 
     // Check for user on first visit
     $http
-        .get('/currentUser', function(response) {
+        .get('/profile', function(response) {
             $rootScope.isLogged = true;
+            $rootScope.user = response.data;
         })
         .catch(function(err) {
             $rootScope.isLogged = false;

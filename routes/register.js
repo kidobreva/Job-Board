@@ -29,6 +29,7 @@ router.post('/register', function(req, res, next) {
                     req.body.adverts = [];
                 } else {
                     req.body.favourites = [];
+                    req.body.applied = [];
                 }
                 var usersCollection = req.db.get('users');
                 usersCollection
@@ -49,7 +50,8 @@ router.post('/register', function(req, res, next) {
                                         delete req.body.password;
                                         req.session.user = user;
                                         req.session.save();
-                                        res.sendStatus(200);
+                                        // res.sendStatus(200);
+                                        res.json(user);
                                     });
                             });
                         } else {

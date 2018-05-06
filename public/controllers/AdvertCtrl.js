@@ -32,7 +32,7 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
 
     $scope.apply = function() {
         $http
-            .post('/apply', $scope.user)
+            .post('/apply', $scope.advert)
             .then(function(response) {
                 console.log(response);
                 if (response.status === 200) {

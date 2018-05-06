@@ -22,7 +22,7 @@ router.post('/login', function(req, res, next) {
                 delete user.password;
                 req.session.user = user;
                 req.session.save();
-                res.sendStatus(200);
+                res.json(user);
             } else {
                 console.log('User not found or bad password!');
             }

@@ -11,6 +11,7 @@ router.post('/add-advert', function(req, res, next) {
             if (!advert) {
                 advertsCollection.find().then(function(array) {
                     req.body.id = array.length || 1;
+                    req.body.candidates = [];
                     advertsCollection.insert(req.body).then(function(advert) {
                         console.log('New advert has been added:', advert);
                         res.sendStatus(200);
