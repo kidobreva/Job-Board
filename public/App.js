@@ -3,7 +3,8 @@ var App = angular.module('App', [
     'App.Home',
     'App.Auth',
     'App.AddAdvert',
-    'App.Adverts'
+    'App.Adverts',
+    'App.Contacts'
 ]);
 
 App.config([
