@@ -98,8 +98,14 @@ header div.consulting-rev i {
     color: #c79d63;
 }
 
-main header h2 {
+main {
+    width: 100%;
+}
+
+main header h3 {
+    font-size: 27px;
     text-align: center;
+    margin-top: 40px;
 }
 
 main section {
@@ -107,67 +113,57 @@ main section {
     margin-top: 50px;
 }
 
-main section article {
+main .professional-area {
+    width: 80%;
+    margin: 0 auto;
+    border-top: 2px solid #4E4B4B;
+    border-bottom: 2px solid #4E4B4B;
+
+    position: relative;
+}
+
+main .professional-area a.left span {
+    font-size: 31px;
+    color: #000;
+    position: absolute;
+    top: 200px;
+    left: -56px;
+}
+
+main .professional-area a.right span {
+    font-size: 31px;
+    color: #000;
+    position: absolute;
+    top: 200px;
+    left: 1050px;
+}
+
+main .professional-area section {
+    display: flex;
+    justify-content: center;
+}
+
+main .professional-area section .advert-block {
     width: 25%;
-    display: inline-block;
-    margin-left: 18px;
 }
 
-main > header h2 {
-    text-align: center;
-    font-size: 50px;
-    margin-top: 40px;
-
+main .professional-area section:last-child {
+    margin-bottom: 40px;
 }
 
-main section.travel-business-customer div.icon {
-    display: inline-block;
-    vertical-align: top;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    background: #090821;
-    color: #fff;
-    border-radius: 50%;
-    margin-right: 7px;
+main .professional-area section img {
+    width: 120px;
+    height: 120px;
 }
 
-main section.travel-business-customer article p {
-    font-size: 16px;
-    margin: 10px 0 0;
-    text-transform: none;
-    color: #000000;
-    text-align: left;
+main .professional-area section .links{
+    margin-top: 10px;
 }
 
-main section.travel-business-customer article header h2 {
-    text-align: left;
-}
-
-main section.financial-energy-surface div.icon {
-    display: inline-block;
-    vertical-align: top;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    background: #090821;
-    color: #fff;
-    border-radius: 50%;
-    margin-right: 7px;
-}
-
-main section.financial-energy-surface article p {
-    font-size: 16px;
-    margin: 10px 0 0;
-    text-transform: none;
-    color: #000000;
-    text-align: left;
-}
-
-main section.financial-energy-surface article header h2 {
-    text-align: left;
+main .professional-area section .links a {
+    text-decoration: none;
+    color: #000;
+    font-size: 15px;
 }
 
 main h5{
