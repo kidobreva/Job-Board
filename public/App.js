@@ -5,7 +5,8 @@ var App = angular.module('App', [
     'App.AddAdvert',
     'App.Adverts',
     'App.Companies',
-    'App.Logout'
+    'App.Logout',
+    'App.Contacts'
 ]);
 
 App.config([
