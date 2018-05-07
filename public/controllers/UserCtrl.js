@@ -11,7 +11,7 @@ User.config([
     }
 ]);
 
-User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $timeout) {
+User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $timeout, $rootScope) {
     console.log('UserCtrl');
 
     $scope.loaded = false;
@@ -21,6 +21,24 @@ User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $time
             $scope.timeout = true;
         }
     }, 1000);
+
+    $scope.blockUser = function() {
+        $http
+            .put('/user/block/' + $routeParams.id, { isBlocked: true })
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.user = response.data;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
+    };
 
     $http
         .get('/user/' + $routeParams.id)

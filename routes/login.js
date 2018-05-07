@@ -18,11 +18,15 @@ router.post('/login', function(req, res, next) {
         })
         .then(function(user) {
             if (user) {
-                console.log('User logged in:', user);
-                delete user.password;
-                req.session.user = user;
-                req.session.save();
-                res.json(user);
+                if (!user.isBlocked) {
+                    console.log('User logged in:', user);
+                    delete user.password;
+                    req.session.user = user;
+                    req.session.save();
+                    res.json(user);
+                } else {
+                    console.log('This user is blocked!');
+                }
             } else {
                 console.log('User not found or bad password!');
             }

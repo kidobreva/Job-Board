@@ -1,4 +1,4 @@
-<div id="loader" ng-if="timeout"></div>
+<div id="loader" ng-if="timeout && !loaded"></div>
 <p ng-if="loaded && !companies.length">Няма фирми!</p>
 <table class="table" ng-if="loaded && companies.length">
   <thead>

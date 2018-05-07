@@ -43,4 +43,22 @@ Company.controller('CompanyCtrl', function(
             $scope.timeout = false;
             console.error(err.data);
         });
+
+    $scope.blockCompany = function() {
+        $http
+            .put('/company/block/' + $routeParams.id, { isBlocked: true })
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.company = response.data;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
+    };
 });

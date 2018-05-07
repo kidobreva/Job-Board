@@ -2,4 +2,5 @@
 <div ng-if="loaded">
     <h3>Потребител</h3>
     <p>Имейл: {{user.email}}</p>
+    <button ng-if="$root.user.isAdmin" ng-click="blockUser()">Блокирай потребителя</button>
 </div>
