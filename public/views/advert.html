@@ -8,4 +8,7 @@
 
   <button ng-if="user.isCompany === false" ng-click="apply()">Кандидатствай</button>
   <button ng-if="user.isCompany === false" ng-click="save()">Запази в любими</button>
+  <button ng-if="user.isCompany === false" ng-click="reportAdvert()">Направи оплакване</button>
+  <button ng-if="user.isCompany" ng-click="deleteAdvert()">Премахни обявата</button>
+  <button ng-if="user.isAdmin" ng-click="blockAdvert()">Блокирай обявата</button>
 </div>

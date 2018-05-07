@@ -1,12 +1,13 @@
-<nav>
+<nav ng-if="headerLoaded">
     <ul class="nav-primary">
         <li class="nav-item home-btn"><a href="#!/home">Начало</a></li>
-        <li class="nav-item login-btn" ng-if="!isLogged"><a href="#!/auth">Вход и регистрация</a></li>
-        <li class="nav-item add-advert-btn" ng-if="isLogged && user.isCompany"><a href="#!/add-advert">Добави обява</a></li>
-        <li class="nav-item profile-btn" ng-if="isLogged"><a href="#!/profile">Профил</a></li>
-        <li class="nav-item favourites-btn" ng-if="isLogged"><a href="#!/favourites">Любими</a></li>
+        <li class="nav-item login-btn" ng-if="!user"><a href="#!/auth">Вход и регистрация</a></li>
+        <li class="nav-item add-advert-btn" ng-if="user && user.isCompany"><a href="#!/add-advert">Добави обява</a></li>
+        <li class="nav-item profile-btn" ng-if="user"><a href="#!/profile">Профил</a></li>
+        <li class="nav-item favourites-btn" ng-if="user"><a href="#!/favourites">Любими</a></li>
         <li class="nav-item adverts-btn"><a href="#!/adverts">Обяви</a></li>
-        <li class="nav-item companies-btn" ng-if="isLogged"><a href="#!/companies">Фирми</a></li>
-        <li class="nav-item logout-btn" ng-if="isLogged"><a href="#!/logout">Излез</a></li>
+        <li class="nav-item users-btn" ng-if="user && user.isAdmin"><a href="#!/users">Потребители</a></li>
+        <li class="nav-item companies-btn" ng-if="user && user.isAdmin"><a href="#!/companies">Фирми</a></li>
+        <li class="nav-item logout-btn" ng-if="user"><a href="#!/logout">Излез</a></li>
     </ul>
 </nav>

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/advert/:id', function(req, res, next) {
-    console.log('Adverts Get:', req.params);
+    console.log('Advert Get:', req.params);
 
     req.db
         .get('adverts')

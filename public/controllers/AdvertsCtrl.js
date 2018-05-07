@@ -19,5 +19,7 @@ AdvertsModule.controller('AdvertsCtrl', function($scope, $http) {
         console.log(adverts);
         $scope.loaded = true;
         $scope.adverts = adverts.data;
-    });
+    }).catch (function (err) {
+        console.log(err);
+    })
 });

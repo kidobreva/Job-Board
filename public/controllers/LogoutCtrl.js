@@ -17,8 +17,9 @@ LogoutModule.controller('LogoutCtrl', function($http, $window, $rootScope) {
         .get('/logout')
         .then(function(response) {
             if (response.status === 200) {
-                console.log('Logged out!');
+                $rootScope.user = null;
                 $rootScope.isLogged = false;
+                console.log('Logged out!');
                 $window.location.href = '#!/home';
             }
         })

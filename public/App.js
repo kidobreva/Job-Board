@@ -26,16 +26,6 @@ App.config([
 App.run(function($rootScope, $route, $http) {
     console.log('Init App');
 
-    // Check for user on first visit
-    $http
-        .get('/profile', function(response) {
-            $rootScope.isLogged = true;
-            $rootScope.user = response.data;
-        })
-        .catch(function(err) {
-            $rootScope.isLogged = false;
-        });
-
     // Change page title, based on Route information
     $rootScope.$on('$routeChangeSuccess', function(
         currentRoute,
@@ -43,4 +33,20 @@ App.run(function($rootScope, $route, $http) {
     ) {
         $rootScope.title = $route.current.title;
     });
+
+    // Check for user on first visit
+    $http
+        .get('/profile')
+        .then(function(response) {
+            console.log(response);
+            $rootScope.user = response.data;
+            $rootScope.isLogged = true;
+            $rootScope.headerLoaded = true;
+        })
+        .catch(function(err) {
+            console.log(err);
+            $rootScope.user = null;
+            $rootScope.isLogged = false;
+            $rootScope.headerLoaded = true;
+        });
 });

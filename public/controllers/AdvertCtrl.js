@@ -44,6 +44,20 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
             });
     };
 
+    $scope.deleteAdvert = function() {
+        $http
+            .delete('/advert/' + $routeParams.id)
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    console.log('Advert deleted!');
+                }
+            })
+            .catch(function(err) {
+                console.error(err.data);
+            });
+    }
+
     $http
         .get('/advert/' + $routeParams.id)
         .then(function(response) {
