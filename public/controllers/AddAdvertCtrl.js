@@ -47,7 +47,7 @@ AppAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
             .post('/add-advert', $scope.advert)
             .then(function(response) {
                 if (response.status === 200) {
-                    $window.location.href = '#!/home';
+                    $window.location.href = '#!/adverts';
                 }
             })
             .catch(function(err) {

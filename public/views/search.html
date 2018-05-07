@@ -1,0 +1,24 @@
+<div id="loader" ng-if="timeout"></div>
+<p ng-if="loaded && !adverts.length">Няма намерени резултати!</p>
+<table class="table" ng-if="loaded && adverts.length">
+  <thead>
+    <tr>
+      <th scope="col">Наименование</th>
+      <th scope="col">Град</th>
+      <th scope="col">Категория</th>
+      <th scope="col">Ниво</th>
+      <th scope="col">Тип</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="advert in adverts">
+      <td>{{advert.title}}</td>
+      <th scope="row">{{advert.city}}</th>
+      <td>{{advert.category}}</td>
+      <td>{{advert.level}}</td>
+      <td>{{advert.type}}</td>
+      <td><a href="#!/advert/{{advert.id}}">Повече</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -18,7 +18,8 @@ html, body {
 
 .page {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
     margin: 20px 0;
 }
@@ -250,4 +251,25 @@ nav > ul > li > a {
 
         opacity: 1;
     }
+}
+
+
+/* Transition for the pages */
+.page.ng-enter {
+    transition: 0.5s linear all;
+
+    opacity: 0;
+}
+
+.page.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.page.ng-leave {
+    transition: 0.1s linear all;
+
+    opacity: 1;
+}
+.page.ng-leave.ng-leave-active {
+    opacity: 0;
 }

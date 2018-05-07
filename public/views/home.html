@@ -1,3 +1,28 @@
+<!-- Search form -->
+<form class="add-advert" ng-submit="searchAdvert($event)">
+    <h3>Търсене на обява</h3>
+
+    <!-- City -->
+    <div class="form-group">
+        <label for="city">Град</label>
+        <select class="form-control" id="city" ng-model="advert.city">
+            <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
+            </select>
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+        <label for="category">Категория</label>
+        <select class="form-control" id="category" ng-model="advert.category">
+        <option value=""></option>
+            <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+        </select>
+    </div>
+
+    <!-- Submit -->
+    <button>Търси обява</button>
+</form>
+
 <main>
     <header>
         <h3>Избрани професионални области</h3>

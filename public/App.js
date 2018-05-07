@@ -1,5 +1,6 @@
 var App = angular.module('App', [
     'ngRoute',
+    'ngAnimate',
     'App.Home',
     'App.Auth',
     'App.AddAdvert',
@@ -13,7 +14,8 @@ var App = angular.module('App', [
     'App.Favourites',
     'App.Users',
     'App.User',
-    'App.About'
+    'App.About',
+    'App.Search'
 ]);
 
 App.config([
