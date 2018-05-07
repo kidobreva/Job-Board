@@ -12,7 +12,8 @@ var App = angular.module('App', [
     'App.Profile',
     'App.Favourites',
     'App.Users',
-    'App.User'
+    'App.User',
+    'App.About'
 ]);
 
 App.config([

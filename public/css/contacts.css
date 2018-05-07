@@ -6,6 +6,10 @@ section.contacts {
     color: #4E4B4B;
 }
 
+section.contacts .header-info h2 {
+    border-bottom: 2px solid #4E4B4B;
+}
+
 section.contacts .contact-div {
     display: flex;
     justify-content: space-around;
