@@ -4,10 +4,9 @@
   <!-- City -->
   <div class="form-group">
     <label for="city">Град</label>
-    <input class="form-control" list="cities" id="city" ng-model="advert.city" />
-    <datalist id="cities">
-        <option ng-repeat="city in cities" value="{{city}}">
-    </datalist>
+    <select class="form-control" id="city" ng-model="advert.city">
+        <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
+        </select>
   </div>
 
   <!-- Category -->

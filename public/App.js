@@ -23,7 +23,7 @@ App.config([
     }
 ]);
 
-App.run(function($rootScope, $route, $http) {
+App.run(function($rootScope, $route, $http, $location) {
     console.log('Init App');
 
     // Change page title, based on Route information
@@ -33,6 +33,10 @@ App.run(function($rootScope, $route, $http) {
     ) {
         $rootScope.title = $route.current.title;
     });
+
+    $rootScope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
 
     // Check for user on first visit
     $http

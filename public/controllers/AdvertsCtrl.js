@@ -15,11 +15,14 @@ AdvertsModule.controller('AdvertsCtrl', function($scope, $http) {
     console.log('AdvertsCtrl');
     $scope.loaded = false;
 
-    $scope.adverts = $http.get('/adverts').then(function(adverts) {
-        console.log(adverts);
-        $scope.loaded = true;
-        $scope.adverts = adverts.data;
-    }).catch (function (err) {
-        console.log(err);
-    })
+    $http
+        .get('/adverts')
+        .then(function(adverts) {
+            console.log(adverts);
+            $scope.adverts = adverts.data;
+            $scope.loaded = true;
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
 });

@@ -1,13 +1,34 @@
-<nav ng-if="headerLoaded">
+<nav ng-if="headerLoaded" class="nav-menu">
     <ul class="nav-primary">
-        <li class="nav-item home-btn"><a href="#!/home">Начало</a></li>
-        <li class="nav-item login-btn" ng-if="!user"><a href="#!/auth">Вход и регистрация</a></li>
-        <li class="nav-item add-advert-btn" ng-if="user && user.isCompany"><a href="#!/add-advert">Добави обява</a></li>
-        <li class="nav-item profile-btn" ng-if="user"><a href="#!/profile">Профил</a></li>
-        <li class="nav-item favourites-btn" ng-if="user"><a href="#!/favourites">Любими</a></li>
-        <li class="nav-item adverts-btn"><a href="#!/adverts">Обяви</a></li>
-        <li class="nav-item users-btn" ng-if="user && user.isAdmin"><a href="#!/users">Потребители</a></li>
-        <li class="nav-item companies-btn" ng-if="user && user.isAdmin"><a href="#!/companies">Фирми</a></li>
-        <li class="nav-item logout-btn" ng-if="user"><a href="#!/logout">Излез</a></li>
+        <!-- Left -->
+        <li class="nav-item home-btn" ng-class="{activeMenu: isActive('/home') }">
+            <a href="#!/home">Начало</a>
+        </li>
+        <li class="nav-item add-advert-btn" ng-if="user && user.isCompany" ng-class="{activeMenu: isActive('/add-advert') }">
+            <a href="#!/add-advert">Добави обява</a>
+        </li>
+        <li class="nav-item profile-btn" ng-if="user && !user.isAdmin" ng-class="{activeMenu: isActive('/profile') }">
+            <a href="#!/profile">Профил</a>
+        </li>
+        <li class="nav-item favourites-btn" ng-if="user && !user.isAdmin && !user.isCompany" ng-class="{activeMenu: isActive('/favourites') }">
+            <a href="#!/favourites">Любими</a>
+        </li>
+        <li class="nav-item adverts-btn" ng-class="{activeMenu: isActive('/adverts') }">
+            <a href="#!/adverts">Обяви</a>
+        </li>
+        <li class="nav-item users-btn" ng-if="user && user.isAdmin" ng-class="{activeMenu: isActive('/users') }">
+            <a href="#!/users">Потребители</a>
+        </li>
+        <li class="nav-item companies-btn" ng-if="user && user.isAdmin" ng-class="{activeMenu: isActive('/companies') }">
+            <a href="#!/companies">Фирми</a>
+        </li>
+
+        <!-- Right -->
+        <li class="menu-right nav-item login-btn" ng-if="!user" ng-class="{activeMenu: isActive('/auth') }">
+            <a href="#!/auth">Вход и регистрация</a>
+        </li>
+        <li class="menu-right nav-item logout-btn" ng-if="user" ng-class="{activeMenu: isActive('/logout') }">
+            <a href="#!/logout">Излез</a>
+        </li>
     </ul>
 </nav>
