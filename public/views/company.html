@@ -1,3 +1,4 @@
+<div id="loader" ng-if="timeout"></div>
 <div ng-if="loaded">
   <button ng-if="user.isAdmin" ng-click="blockCompany()">Блокирай фирмата</button>
   <button ng-if="user.isCompany === false" ng-click="reportCompany()">Направи оплакване</button>

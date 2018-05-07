@@ -1,3 +1,5 @@
+<div id="loader" ng-if="timeout"></div>
+<p ng-if="loaded && !favourites.length">Нямате любими!</p>
 <div ng-if="loaded">
     <div ng-repeat="favourite in favourites">
             <p>Наименование: {{favourite.title}}</p>

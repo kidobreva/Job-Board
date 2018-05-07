@@ -12,6 +12,7 @@ router.get('/adverts', function(req, res, next) {
                 console.log('Adverts:', adverts);
                 res.json(adverts);
             } else {
+                res.sendStatus(404);
                 console.log('No adverts!')
             }
         }).catch (function (err) {

@@ -23,6 +23,23 @@ html, body {
     margin: 20px 0;
 }
 
+header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+header img {
+    width: 450px;
+}
+
+header > div {
+    margin-bottom: 1.5rem;
+    padding: 0.25rem 0.5rem;
+
+    background: rgba(0, 0, 0, 0.5);
+}
+
 /* Navigation */
 
 nav {
@@ -36,7 +53,7 @@ nav {
     width: 980px;
     margin: 0 auto;
 
-    background: rgba(30, 144, 255, 0.85);
+    background: rgba(30, 144, 255, 0.9);
 }
 
 nav > ul {
@@ -46,8 +63,8 @@ nav > ul {
     zoom: 1;
     flex-wrap: wrap;
     /* justify-content: center; */
-    width: 100%;
 
+    width: 100%;
     margin: 0;
     padding: 0;
 
@@ -157,11 +174,80 @@ nav > ul > li > a {
 
 .activeMenu a:before {
     width: 100% !important;
+
     background: orange !important;
 }
 
 @media all and (max-width: 480px) {
     .nav-menu ul li a:hover:before {
         width: 0;
+    }
+}
+
+
+/* Loader */
+#loader {
+    width: 100px;
+    height: 100px;
+
+    -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+    position: relative;
+
+    -webkit-animation-name: animatebottom;
+            animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+}
+
+@-webkit-keyframes animatebottom {
+    from {
+        bottom: -100px;
+
+        opacity: 0;
+    }
+    to {
+        bottom: 0;
+
+        opacity: 1;
+    }
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -100px;
+
+        opacity: 0;
+    }
+    to {
+        bottom: 0;
+
+        opacity: 1;
     }
 }

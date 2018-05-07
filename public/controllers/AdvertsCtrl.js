@@ -11,9 +11,15 @@ AdvertsModule.config([
     }
 ]);
 
-AdvertsModule.controller('AdvertsCtrl', function($scope, $http) {
+AdvertsModule.controller('AdvertsCtrl', function($scope, $http, $timeout) {
     console.log('AdvertsCtrl');
     $scope.loaded = false;
+
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
 
     $http
         .get('/adverts')
@@ -21,8 +27,11 @@ AdvertsModule.controller('AdvertsCtrl', function($scope, $http) {
             console.log(adverts);
             $scope.adverts = adverts.data;
             $scope.loaded = true;
+            $scope.timeout = false;
         })
         .catch(function(err) {
+            $scope.loaded = true;
+            $scope.timeout = false;
             console.log(err);
         });
 });

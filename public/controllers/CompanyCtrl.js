@@ -11,10 +11,22 @@ Company.config([
     }
 ]);
 
-Company.controller('CompanyCtrl', function($scope, $http, $window, $routeParams) {
+Company.controller('CompanyCtrl', function(
+    $scope,
+    $http,
+    $window,
+    $routeParams,
+    $timeout
+) {
     console.log('CompanyCtrl');
 
     $scope.loaded = false;
+
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
 
     $http
         .get('/company/' + $routeParams.id)
@@ -22,10 +34,13 @@ Company.controller('CompanyCtrl', function($scope, $http, $window, $routeParams)
             console.log(response);
             if (response.status === 200) {
                 $scope.loaded = true;
+                $scope.timeout = false;
                 $scope.company = response.data;
             }
         })
         .catch(function(err) {
+            $scope.loaded = true;
+            $scope.timeout = false;
             console.error(err.data);
         });
 });

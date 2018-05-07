@@ -11,10 +11,22 @@ Favourites.config([
     }
 ]);
 
-Favourites.controller('FavouritesCtrl', function($scope, $http, $window, $routeParams) {
+Favourites.controller('FavouritesCtrl', function(
+    $scope,
+    $http,
+    $window,
+    $routeParams,
+    $timeout
+) {
     console.log('FavouritesCtrl');
 
     $scope.loaded = false;
+
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
 
     $http
         .get('/profile')
@@ -22,10 +34,13 @@ Favourites.controller('FavouritesCtrl', function($scope, $http, $window, $routeP
             console.log(response);
             if (response.status === 200) {
                 $scope.loaded = true;
+                $scope.timeout = false;
                 $scope.favourites = response.data.favourites;
             }
         })
         .catch(function(err) {
+            $scope.loaded = true;
+            $scope.timeout = false;
             console.error(err.data);
         });
 });

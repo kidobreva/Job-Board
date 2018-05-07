@@ -1,3 +1,5 @@
+<div id="loader" ng-if="timeout"></div>
+<p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
 <table class="table" ng-if="loaded && user.isAdmin">
     <thead>
         <tr>

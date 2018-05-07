@@ -11,10 +11,16 @@ User.config([
     }
 ]);
 
-User.controller('UserCtrl', function($scope, $http, $window, $routeParams) {
+User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $timeout) {
     console.log('UserCtrl');
 
     $scope.loaded = false;
+
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
 
     $http
         .get('/user/' + $routeParams.id)
@@ -22,10 +28,13 @@ User.controller('UserCtrl', function($scope, $http, $window, $routeParams) {
             console.log(response);
             if (response.status === 200) {
                 $scope.loaded = true;
+                $scope.timeout = false;
                 $scope.user = response.data;
             }
         })
         .catch(function(err) {
+            $scope.loaded = true;
+            $scope.timeout = false;
             console.error(err.data);
         });
 });

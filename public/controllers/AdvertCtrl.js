@@ -11,11 +11,19 @@ Advert.config([
     }
 ]);
 
-Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
+Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams, $timeout) {
     console.log('AdvertCtrl');
 
     $scope.loaded = false;
 
+    // Loader
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
+
+    // Save to favourites
     $scope.save = function() {
         $http
             .post('/favourite', $scope.advert)
@@ -30,6 +38,7 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
             });
     };
 
+    // Apply for an advert
     $scope.apply = function() {
         $http
             .post('/apply', $scope.advert)
@@ -44,6 +53,7 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
             });
     };
 
+    // Delete advert
     $scope.deleteAdvert = function() {
         $http
             .delete('/advert/' + $routeParams.id)
@@ -58,6 +68,7 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
             });
     }
 
+    // Get adverts
     $http
         .get('/advert/' + $routeParams.id)
         .then(function(response) {
@@ -71,11 +82,13 @@ Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams) {
                         console.log('user:', response);
                         if (response.status === 200) {
                             $scope.loaded = true;
+                            $scope.timeout = false;
                             $scope.user = response.data;
                         }
                     })
                     .catch(function(err) {
                         $scope.loaded = true;
+                        $scope.timeout = false;
                         console.error(err.data);
                     });
             }

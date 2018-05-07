@@ -1,4 +1,6 @@
-<table class="table" ng-if="loaded">
+<div id="loader" ng-if="timeout"></div>
+<p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
+<table class="table" ng-if="loaded && adverts.length">
   <thead>
     <tr>
       <th scope="col">Наименование</th>

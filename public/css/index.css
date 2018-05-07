@@ -11,8 +11,8 @@ body > header {
     padding-top: 20px;
     background: url(../images/Layer-759_02.jpg) no-repeat;
     background-size: cover;
-    background-position-y: -50px;
-    height: 250px;
+    background-position-y: -150px;
+    height: 225px;
 }
 
 ul:not(.nav-primary) {
