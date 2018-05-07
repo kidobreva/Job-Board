@@ -16,11 +16,13 @@ router.get('/users', function(req, res, next) {
 
     req.db
         .get('users')
-        .find()
+        .find({isCompany: false})
         .then(function(users) {
             if (users.length) {
+                users.forEach(function (user) {
+                    delete user.password;
+                });
                 console.log('Users:', users);
-                delete user.password;
                 res.json(users);
             } else {
                 console.log('No users!');

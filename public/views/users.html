@@ -1,0 +1,22 @@
+<table class="table" ng-if="loaded && user.isAdmin">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Имейл</th>
+            <th scope="col">Име</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{user.id}}</td>
+            <th scope="row">{{user.email}}</th>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>
+                <a href="#!/user/{{user.id}}">Повече</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

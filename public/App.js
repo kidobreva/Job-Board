@@ -10,7 +10,9 @@ var App = angular.module('App', [
     'App.Advert',
     'App.Company',
     'App.Profile',
-    'App.Favourites'
+    'App.Favourites',
+    'App.Users',
+    'App.User'
 ]);
 
 App.config([
@@ -34,6 +36,7 @@ App.run(function($rootScope, $route, $http, $location) {
         $rootScope.title = $route.current.title;
     });
 
+    // Set active class
     $rootScope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };

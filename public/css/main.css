@@ -65,7 +65,7 @@ nav > ul li {
     display: inline-block;
 }
 
-nav > ul li:first-child {
+/* nav > ul li:first-child {
     border-left: 1px solid rgba(255, 255, 255, 0.6);
 }
 
@@ -75,7 +75,7 @@ nav > ul li:not(:first-child) {
 
 nav > ul li:last-child {
     border-right: 1px solid rgba(255, 255, 255, 0.6);
-}
+} */
 
 nav > ul li a:hover {
     text-decoration: none;
