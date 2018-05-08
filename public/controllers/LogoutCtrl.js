@@ -1,5 +1,6 @@
 var LogoutModule = angular.module('App.Logout', ['ngRoute']);
 
+// Route
 LogoutModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -10,9 +11,11 @@ LogoutModule.config([
     }
 ]);
 
+// Controller
 LogoutModule.controller('LogoutCtrl', function($http, $window, $rootScope) {
     console.log('LogoutCtrl');
 
+    // Logout
     $http
         .get('/logout')
         .then(function(response) {

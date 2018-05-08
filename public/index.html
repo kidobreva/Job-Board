@@ -14,11 +14,17 @@
     <link rel="stylesheet" href="css/contacts.css">
     <link rel="stylesheet" href="css/about.css">
 
+    <!-- Font Awesome -->
     <script defer src="vendors/fontawesome-all.min.js"></script>
 </head>
 <body>
+    <!-- Header -->
     <header ng-include src="'header.html'"></header>
+
+    <!-- View -->
     <div ng-view class="page"></div>
+
+    <!-- Footer -->
     <footer ng-include src="'footer.html'" class="footer"></footer>
 
     <!-- Vendors -->
@@ -28,22 +34,32 @@
     <script src="vendors/angular/angular-touch.min.js"></script>
     <script src="vendors/bootstrap/ui-bootstrap-tpls-3.0.3.min.js"></script>
 
-    <!-- App -->
+    <!-- App (Controllers) -->
     <script src="App.js"></script>
     <script src="controllers/HomeCtrl.js"></script>
+
+    <!-- auth -->
     <script src="controllers/AuthCtrl.js"></script>
+    <script src="controllers/LogoutCtrl.js"></script>
+
+    <!-- adverts -->
     <script src="controllers/AddAdvertCtrl.js"></script>
     <script src="controllers/AdvertsCtrl.js"></script>
-    <script src="controllers/CompaniesCtrl.js"></script>
-    <script src="controllers/LogoutCtrl.js"></script>
-    <script src="controllers/ContactsCtrl.js"></script>
     <script src="controllers/AdvertCtrl.js"></script>
+    <script src="controllers/SearchCtrl.js"></script>
+
+    <!-- companies -->
+    <script src="controllers/CompaniesCtrl.js"></script>
     <script src="controllers/CompanyCtrl.js"></script>
+
+    <!-- user -->
+    <script src="controllers/UserCtrl.js"></script>
+    <script src="controllers/UsersCtrl.js"></script>
     <script src="controllers/ProfileCtrl.js"></script>
     <script src="controllers/FavouritesCtrl.js"></script>
-    <script src="controllers/UsersCtrl.js"></script>
-    <script src="controllers/UserCtrl.js"></script>
+
+    <!-- other -->
     <script src="controllers/AboutCtrl.js"></script>
-    <script src="controllers/SearchCtrl.js"></script>
+    <script src="controllers/ContactsCtrl.js"></script>
 </body>
 </html>

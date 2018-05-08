@@ -1,5 +1,6 @@
 var Favourites = angular.module('App.Favourites', ['ngRoute']);
 
+// Route
 Favourites.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,6 +12,7 @@ Favourites.config([
     }
 ]);
 
+// Controller
 Favourites.controller('FavouritesCtrl', function(
     $scope,
     $http,
@@ -20,14 +22,15 @@ Favourites.controller('FavouritesCtrl', function(
 ) {
     console.log('FavouritesCtrl');
 
+    // Loader
     $scope.loaded = false;
-
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get favourites
     $http
         .get('/profile')
         .then(function(response) {

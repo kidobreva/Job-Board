@@ -6,7 +6,7 @@ function isLogged(req) {
     return req.session.user;
 }
 
-// Login
+// Login POST
 router.post('/login', function(req, res, next) {
     console.log('Login Post:', req.body);
 

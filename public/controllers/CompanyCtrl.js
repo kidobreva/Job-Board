@@ -1,5 +1,6 @@
 var Company = angular.module('App.Company', ['ngRoute']);
 
+// Route
 Company.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,6 +12,7 @@ Company.config([
     }
 ]);
 
+// Controller
 Company.controller('CompanyCtrl', function(
     $scope,
     $http,
@@ -20,14 +22,15 @@ Company.controller('CompanyCtrl', function(
 ) {
     console.log('CompanyCtrl');
 
+    // Loader
     $scope.loaded = false;
-
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get company
     $http
         .get('/company/' + $routeParams.id)
         .then(function(response) {
@@ -44,9 +47,10 @@ Company.controller('CompanyCtrl', function(
             console.error(err.data);
         });
 
+    // (Admin) Block company
     $scope.blockCompany = function() {
         $http
-            .put('/company/block/' + $routeParams.id, { isBlocked: true })
+            .patch('/company/block/' + $routeParams.id, { isBlocked: true })
             .then(function(response) {
                 console.log(response);
                 if (response.status === 200) {

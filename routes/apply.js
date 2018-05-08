@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Apply POST
 router.post('/apply', function(req, res, next) {
     console.log('Apply Post:', req.body);
 

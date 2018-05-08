@@ -1,3 +1,4 @@
+// Register modules
 var App = angular.module('App', [
     'ngRoute',
     'ngAnimate',
@@ -18,6 +19,7 @@ var App = angular.module('App', [
     'App.Search'
 ]);
 
+// Config
 App.config([
     '$locationProvider',
     '$routeProvider',
@@ -28,6 +30,7 @@ App.config([
     }
 ]);
 
+// Run
 App.run(function($rootScope, $route, $http, $location) {
     console.log('Init App');
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Favourite POST
 router.post('/favourite', function(req, res, next) {
     console.log('Favourite Post:', req.body);
 

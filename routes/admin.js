@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Advert DELETE
 router.delete('/advert/:id', function(req, res, next) {
     console.log('Advert Delete:', req.params);
 
@@ -20,7 +21,8 @@ router.delete('/advert/:id', function(req, res, next) {
         });
 });
 
-router.put('/company/block/:id', function(req, res, next) {
+// (Admin) Company block PATCH
+router.patch('/company/block/:id', function(req, res, next) {
     console.log('Company Block:', req.query);
 
     req.db
@@ -42,7 +44,8 @@ router.put('/company/block/:id', function(req, res, next) {
         });
 });
 
-router.put('/user/block/:id', function(req, res, next) {
+// (Admin) User block PATCH
+router.patch('/user/block/:id', function(req, res, next) {
     console.log('User Block:', req.query);
 
     req.db

@@ -6,6 +6,12 @@
   <p>Ниво: {{advert.level}}</p>
   <p>Тип: {{advert.type}}</p>
   <p>Описание: {{advert.description}}</p>
+  <p>Заплата: {{advert.salary}}</p>
+
+  <p>Изтича на: {{advert.isExpired}}</p>
+
+  <p>Брой кандидатствали: {{advert.candidates.length}}</p>
+  <p>Брой преглеждания: {{advert.views}}</p>
 
   <button ng-if="user.isCompany === false" ng-click="apply()">Кандидатствай</button>
   <button ng-if="user.isCompany === false" ng-click="save()">Запази в любими</button>

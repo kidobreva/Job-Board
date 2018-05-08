@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Adverts GET
 router.get('/adverts', function(req, res, next) {
     console.log('Adverts Get:', req.body);
 

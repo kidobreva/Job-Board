@@ -1,5 +1,6 @@
 var User = angular.module('App.User', ['ngRoute']);
 
+// Route
 User.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,20 +12,22 @@ User.config([
     }
 ]);
 
+// Controller
 User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $timeout, $rootScope) {
     console.log('UserCtrl');
 
+    // Loader
     $scope.loaded = false;
-
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // (Admin) Block user
     $scope.blockUser = function() {
         $http
-            .put('/user/block/' + $routeParams.id, { isBlocked: true })
+            .patch('/user/block/' + $routeParams.id, { isBlocked: true })
             .then(function(response) {
                 console.log(response);
                 if (response.status === 200) {
@@ -40,6 +43,7 @@ User.controller('UserCtrl', function($scope, $http, $window, $routeParams, $time
             });
     };
 
+    // Get user
     $http
         .get('/user/' + $routeParams.id)
         .then(function(response) {

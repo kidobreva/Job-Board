@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Search GET
 router.get('/search', function(req, res, next) {
     console.log('Search Adverts:', req.query);
 

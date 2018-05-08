@@ -1,5 +1,6 @@
 var AboutModule = angular.module('App.About', ['ngRoute']);
 
+// Route
 AboutModule.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/about', {
         templateUrl: 'views/about.html',
@@ -8,6 +9,7 @@ AboutModule.config(['$routeProvider', function ($routeProvider) {
     })
 }]);
 
+// Controller
 AboutModule.controller('AboutCtrl', [function() {
     console.log('AboutCtrl');
-  }]);
+}]);

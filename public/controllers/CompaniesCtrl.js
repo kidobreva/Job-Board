@@ -1,5 +1,6 @@
 var CompaniesModule = angular.module('App.Companies', ['ngRoute']);
 
+// Route
 CompaniesModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,16 +12,19 @@ CompaniesModule.config([
     }
 ]);
 
+// Controller
 CompaniesModule.controller('CompaniesCtrl', function($scope, $http, $timeout) {
     console.log('CompaniesCtrl');
-    $scope.loaded = false;
 
+    // Loader
+    $scope.loaded = false;
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get companies
     $http
         .get('/companies')
         .then(function(companies) {

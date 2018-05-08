@@ -1,5 +1,6 @@
 var AuthModule = angular.module('App.Auth', ['ngRoute']);
 
+// Route
 AuthModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,11 +12,13 @@ AuthModule.config([
     }
 ]);
 
+// Controller
 AuthModule.controller('AuthCtrl', function($scope, $http, $window, $rootScope) {
     console.log('AuthCtrl');
     $scope.registerUser = {};
     $scope.registerUser.isCompany = false;
 
+    // Login
     $scope.login = function() {
         console.log('Login');
 
@@ -33,6 +36,7 @@ AuthModule.controller('AuthCtrl', function($scope, $http, $window, $rootScope) {
             });
     };
 
+    // Register
     $scope.register = function() {
         console.log('Register');
         console.log($scope.registerUser);

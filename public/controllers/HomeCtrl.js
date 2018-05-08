@@ -1,5 +1,6 @@
 var HomeModule = angular.module('App.Home', ['ngRoute']);
 
+// Route
 HomeModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,9 +12,11 @@ HomeModule.config([
     }
 ]);
 
+// Controller
 HomeModule.controller('HomeCtrl', function($scope, $window) {
     console.log('HomeCtrl');
 
+    // Cities
     $scope.cities = [
         'София',
         'Варна',
@@ -28,6 +31,7 @@ HomeModule.controller('HomeCtrl', function($scope, $window) {
         'Друг'
     ];
 
+    // Categories
     $scope.categories = [
         'ИТ - Разработка/поддръжка на софтуер хардуер',
         'Счетоводство, Одит',
@@ -40,6 +44,7 @@ HomeModule.controller('HomeCtrl', function($scope, $window) {
         'Друго'
     ];
 
+    // Search advert
     $scope.searchAdvert = function() {
         $window.location.href = `#!/search?category=${
             $scope.advert.category

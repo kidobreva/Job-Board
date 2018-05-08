@@ -1,5 +1,6 @@
 var SearchModule = angular.module('App.Search', ['ngRoute']);
 
+// Route
 SearchModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,6 +12,7 @@ SearchModule.config([
     }
 ]);
 
+// Controller
 SearchModule.controller('SearchCtrl', function(
     $scope,
     $http,
@@ -18,8 +20,16 @@ SearchModule.controller('SearchCtrl', function(
     $routeParams
 ) {
     console.log('SearchCtrl');
-    $scope.loaded = false;
 
+    // Loader
+    $scope.loaded = false;
+    $timeout(function() {
+        if (!$scope.loaded) {
+            $scope.timeout = true;
+        }
+    }, 1000);
+
+    // Query
     var query = '/search?';
     if ($routeParams.category !== 'undefined') {
         query += 'category=' + $routeParams.category + '&';
@@ -28,12 +38,7 @@ SearchModule.controller('SearchCtrl', function(
         query += 'city=' + $routeParams.city + '&';
     }
 
-    $timeout(function() {
-        if (!$scope.loaded) {
-            $scope.timeout = true;
-        }
-    }, 1000);
-
+    // Search
     $http
         .get(query)
         .then(function(adverts) {

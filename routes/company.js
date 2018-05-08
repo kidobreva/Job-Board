@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// Company GET
 router.get('/company/:id', function(req, res, next) {
     console.log('Company Get:', req.params);
 

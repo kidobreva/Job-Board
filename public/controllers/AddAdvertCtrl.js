@@ -1,6 +1,7 @@
-var AppAdvert = angular.module('App.AddAdvert', ['ngRoute']);
+var AddAdvert = angular.module('App.AddAdvert', ['ngRoute']);
 
-AppAdvert.config([
+// Route
+AddAdvert.config([
     '$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/add-advert', {
@@ -11,9 +12,11 @@ AppAdvert.config([
     }
 ]);
 
-AppAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
+// Controller
+AddAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
     console.log('AddAdvertCtrl');
 
+    // Cities
     $scope.cities = [
         'София',
         'Варна',
@@ -28,6 +31,7 @@ AppAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
         'Друг'
     ];
 
+    // Categories
     $scope.categories = [
         'ИТ - Разработка/поддръжка на софтуер хардуер',
         'Счетоводство, Одит',
@@ -40,6 +44,7 @@ AppAdvert.controller('AddAdvertCtrl', function($scope, $http, $window) {
         'Друго'
     ];
 
+    // Add advert
     $scope.addAdvert = function() {
         console.log('Add advert');
 

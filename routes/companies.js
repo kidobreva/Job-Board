@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// (Admin) Companies GET
 router.get('/companies', function(req, res, next) {
     console.log('Companies Get:', req.body);
 

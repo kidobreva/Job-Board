@@ -1,5 +1,6 @@
 var AdvertsModule = angular.module('App.Adverts', ['ngRoute']);
 
+// Route
 AdvertsModule.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,16 +12,19 @@ AdvertsModule.config([
     }
 ]);
 
+// Controller
 AdvertsModule.controller('AdvertsCtrl', function($scope, $http, $timeout) {
     console.log('AdvertsCtrl');
-    $scope.loaded = false;
 
+    // Loader
+    $scope.loaded = false;
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get adverts
     $http
         .get('/adverts')
         .then(function(adverts) {

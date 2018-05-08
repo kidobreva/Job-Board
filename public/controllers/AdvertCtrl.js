@@ -1,5 +1,6 @@
 var Advert = angular.module('App.Advert', ['ngRoute']);
 
+// Route
 Advert.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,6 +12,7 @@ Advert.config([
     }
 ]);
 
+// Controller
 Advert.controller('AdvertCtrl', function($scope, $http, $window, $routeParams, $timeout) {
     console.log('AdvertCtrl');
 

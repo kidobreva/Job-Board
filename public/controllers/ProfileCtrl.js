@@ -1,5 +1,6 @@
 var Profile = angular.module('App.Profile', ['ngRoute']);
 
+// Route
 Profile.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,6 +12,7 @@ Profile.config([
     }
 ]);
 
+// Controller
 Profile.controller('ProfileCtrl', function(
     $scope,
     $http,
@@ -20,14 +22,15 @@ Profile.controller('ProfileCtrl', function(
 ) {
     console.log('ProfileCtrl');
 
+    // Loader
     $scope.loaded = false;
-
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get profile
     $http
         .get('/profile')
         .then(function(response) {

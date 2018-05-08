@@ -1,5 +1,6 @@
 var Users = angular.module('App.Users', ['ngRoute']);
 
+// Route
 Users.config([
     '$routeProvider',
     function($routeProvider) {
@@ -11,17 +12,19 @@ Users.config([
     }
 ]);
 
+// Controller
 Users.controller('UsersCtrl', function($scope, $http, $window, $routeParams, $timeout) {
     console.log('UsersCtrl');
 
+    // Loader
     $scope.loaded = false;
-
     $timeout(function() {
         if (!$scope.loaded) {
             $scope.timeout = true;
         }
     }, 1000);
 
+    // Get users
     $http
         .get('/users')
         .then(function(response) {

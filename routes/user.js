@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+// User GET
 router.get('/user/:id', function(req, res, next) {
     console.log('User Get:', req.params);
 
