@@ -12,51 +12,13 @@ body > header {
     background: url(../images/Layer-759_02.jpg) no-repeat;
     background-size: cover;
     background-position-y: -150px;
-    height: 225px;
+    height: 250px;
 }
 
 ul:not(.nav-primary) {
     height: 60px;
     list-style: none;
 }
-
-/* nav, ul {
-    height: 60px;
-    list-style: none;
-}
-
-header nav {
-    background: rgba(199, 157, 99, .75);
-    width: 1100px;
-    margin: 0 auto
-}
-
-header nav ul.nav-primary {
-    background: rgba(199,157,99,0.75);
-    display: flex;
-    justify-content: center;
-}
-
-header nav ul.nav-primary li.nav-item {
-    line-height: 60px;
-    margin: 0 70px 0 auto;
-}
-
-header nav ul.nav-primary li.nav-item a {
-    color: #ffffff;
-    font-weight: 900;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-header nav ul.nav-primary .home.nav-item {
-    margin-left:30px;
-}
-
-header nav ul.nav-primary .home.nav-item a {
-    color: #ffffff;
-    opacity: 0.7;
-} */
 
 header div.consulting-rev {
     width: 500px;
@@ -300,15 +262,6 @@ main section.consulting-woman article.testimonial-info footer p {
     color: #777777;
 }
 
-footer {
-    height: 280px;
-    background: rgb(9, 8, 33);
-    display: flex;
-    flex-direction: row;
-    justify-content:space-around;
-    color: #ffffff
-}
-
 main section.partners {
     height: 90px;
     margin-top: 45px;
@@ -322,6 +275,15 @@ main section.partners ul {
 main section.partners ul li a img {
     width: 135px;
     height: 60px;
+}
+
+footer {
+    height: 280px;
+    background: rgb(9, 8, 33);
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    color: #ffffff
 }
 
 footer div.info-socials-container {

@@ -1,0 +1,49 @@
+section.user-profile {
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 40px;
+
+    display: flex;
+}
+
+section.user-profile .user-info {
+    width: 30%;
+}
+
+section.user-profile .user-info img {
+    width: 80%;
+}
+
+section.user-profile .info-panel {
+    border: 1px solid #BBB;
+    margin-top: 30px;
+    padding: 27px 20px;
+    background: #FFF;
+    box-shadow: 0 0 15px #999;
+}
+
+section.user-profile .profil-controll {
+    width: 70%;
+}
+
+section.user-profile .profil-controll {
+    margin-left: 50px;
+
+    width: 100%;
+}
+
+section.user-profile .page-options {
+    background: #34376a;
+    color: #FFF;
+
+    padding: 5px 4px 5px 10px;
+}
+
+section.user-profile .options {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 26px 0;
+    border-bottom: 1px solid #CCC;
+}
+

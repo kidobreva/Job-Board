@@ -1,8 +1,49 @@
 <div id="loader" ng-if="timeout"></div>
 <!-- User -->
 <div ng-if="loaded && !user.isCompany">
-  <h3>Потребител</h3>
-  <p>Имейл: {{user.email}}</p>
+  <section class="user-profile">
+    <div class="user-info">
+        <img src="{{ user.img }}" alt="">
+        <form>
+          <label>Моля прикачете снимка
+              <input type="file" nv-file-select uploader="uploader"/>
+          </label>
+          <ul>
+              <li ng-repeat="item in uploader.queue">
+                  Name: <span ng-bind="item.file.name"></span><br/>
+                  <button ng-click="item.upload()">upload</button>
+              </li>
+          </ul>  
+        </form>        
+        <div class="info-panel">
+            <p>Име: {{ user.firstName + ' ' + user.lastName }}</p>
+            <p>E-mail: {{ user.email }}</p>
+            <p>Регистриран на: {{ user.registeredDate }}</p>
+        </div>
+    </div>
+
+    <div class="profil-controll">
+        <div class="page-options">
+            <strong>Настройки на профила</strong>
+        </div>
+        <div class="options">
+            <span><a href="">Моите CV - та</a> [0]</span>
+            <a href="">Покажи</a>
+        </div>
+        <div class="options">
+            <span><a href="">Избрани обяви</a> [0]</span>
+            <a href="">Покажи</a>
+        </div>
+        <div class="options">
+            <span><a href="">Къде сте кандидатствали</a> [0]</span>
+            <a href="">Покажи</a>
+        </div>
+        <div class="options">
+            <span><a href="">Настрoйки на профила</a></span>
+            <a href="">Покажи</a>
+        </div>
+    </div>
+</section>
 </div>
 
 <!-- Company -->

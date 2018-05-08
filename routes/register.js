@@ -42,6 +42,7 @@ router.post('/register', function(req, res, next) {
                             } else {
                                 req.body.favourites = [];
                                 req.body.applied = [];
+                                req.body.registeredDate = Date.now();
                             }
 
                             // get users and register
