@@ -16,7 +16,8 @@ var App = angular.module('App', [
     'App.Users',
     'App.User',
     'App.About',
-    'App.Search'
+    'App.Search',
+    'App.Price'
 ]);
 
 // Config
