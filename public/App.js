@@ -13,6 +13,7 @@
         'App.Users',
         'App.Profile',
         'App.Favourites',
+        'App.MyCV',
 
         // Companies
         'App.Company',

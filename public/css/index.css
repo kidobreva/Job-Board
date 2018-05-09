@@ -90,16 +90,14 @@ main .professional-area {
     position: relative;
 }
 
-main .professional-area a.left span {
-    font-size: 31px;
+main .professional-area a.left svg {
     color: #000;
     position: absolute;
     top: 200px;
     left: -56px;
 }
 
-main .professional-area a.right span {
-    font-size: 31px;
+main .professional-area a.right svg {
     color: #000;
     position: absolute;
     top: 200px;
@@ -120,8 +118,8 @@ main .professional-area section:last-child {
 }
 
 main .professional-area section img {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
 }
 
 main .professional-area section .links{
