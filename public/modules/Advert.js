@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams) {
+    function Service($http, $routeParams) {
         // Save to favourites
         this.save = function(scope) {
             $http
@@ -41,7 +41,7 @@
         };
 
         // Delete advert
-        this.deleteAdvert = function(scope) {
+        this.deleteAdvert = function() {
             $http
                 .delete('/advert/' + $routeParams.id)
                 .then(function(response) {
@@ -88,7 +88,7 @@
     }
 
     // Controller
-    function Ctrl($scope, AdvertService, $timeout) {
+    function Ctrl(AdvertService, $scope, $timeout) {
         console.log('AdvertCtrl');
 
         $scope.loaded = false;

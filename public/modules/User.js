@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams, $rootScope) {
+    function Service($http, $routeParams) {
         // (Admin) Block user
         this.blockUser = function(scope) {
             $http
@@ -50,7 +50,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, UserService) {
+    function Ctrl(UserService, $scope, $timeout) {
         console.log('UserCtrl');
 
         // Loader

@@ -8,7 +8,7 @@
     }
 
     // Controller
-    function Ctrl($http, $window, $rootScope) {
+    function Ctrl($rootScope, $http, $window) {
         console.log('LogoutCtrl');
 
         // Logout

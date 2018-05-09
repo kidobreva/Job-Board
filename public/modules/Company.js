@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams) {
+    function Service($http, $routeParams) {
         // Get company
         this.getCompany = function(scope) {
             $http
@@ -50,7 +50,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, CompanyService) {
+    function Ctrl(CompanyService, $scope, $timeout) {
         console.log('CompanyCtrl');
 
         // Loader

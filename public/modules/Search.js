@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($routeParams, $http) {
+    function Service($http, $routeParams) {
         // Query
         var query = '/search?';
         if ($routeParams.category !== 'undefined') {
@@ -38,7 +38,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, SearchService) {
+    function Ctrl(SearchService, $scope, $timeout) {
         console.log('SearchCtrl');
 
         // Loader

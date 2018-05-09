@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $rootScope) {
+    function Service($http, $rootScope, $window) {
         // Login
         this.login = function(scope) {
             console.log('Login');
@@ -49,7 +49,7 @@
     }
 
     // Controller
-    function Ctrl($scope, AuthService) {
+    function Ctrl(AuthService, $scope) {
         console.log('AuthCtrl');
         $scope.registerUser = {};
         $scope.registerUser.isCompany = false;

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Add advert POST
-router.post('/add-advert', function(req, res, next) {
+router.post('/add-advert', function(req, res) {
     console.log('Add Advert Post:', req.body);
 
     var advertsCollection = req.db.get('adverts');

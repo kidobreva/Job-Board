@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Apply POST
-router.post('/apply', function(req, res, next) {
+router.post('/apply', function(req, res) {
     console.log('Apply Post:', req.body);
 
     const users = req.db.get('users');

@@ -29,7 +29,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, CompaniesService) {
+    function Ctrl(CompaniesService, $scope, $timeout) {
         console.log('CompaniesCtrl');
 
         // Loader

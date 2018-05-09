@@ -9,6 +9,7 @@ const fs = require('fs');
 const monk = require('monk');
 const db = monk('localhost:27017/database');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 const sha1 = require('sha1');
 const favicon = require('serve-favicon');
 
@@ -19,7 +20,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(bodyParser.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

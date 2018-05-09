@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Favourite POST
-router.post('/favourite', function(req, res, next) {
+router.post('/favourite', function(req, res) {
     console.log('Favourite Post:', req.body);
 
     const users = req.db.get('users');

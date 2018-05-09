@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams) {
+    function Service($http) {
         // Get users
         this.getUsers = function(scope) {
             $http
@@ -31,7 +31,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, UsersService) {
+    function Ctrl(UsersService, $scope, $timeout) {
         console.log('UsersCtrl');
 
         // Loader

@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams) {
+    function Service($http) {
         // Get favourites
         this.getFavourites = function(scope) {
             $http
@@ -31,7 +31,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $timeout, FavouritesService) {
+    function Ctrl(FavouritesService, $scope, $timeout) {
         console.log('FavouritesCtrl');
 
         // Loader

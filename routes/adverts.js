@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Adverts GET
-router.get('/adverts', function(req, res, next) {
+router.get('/adverts', function(req, res) {
     console.log('Adverts Get:', req.body);
 
     req.db
@@ -14,10 +14,11 @@ router.get('/adverts', function(req, res, next) {
                 res.json(adverts);
             } else {
                 res.sendStatus(404);
-                console.log('No adverts!')
+                console.log('No adverts!');
             }
-        }).catch (function (err) {
-          console.log(err);
+        })
+        .catch(function(err) {
+            console.log(err);
         });
 });
 

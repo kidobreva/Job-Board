@@ -28,7 +28,7 @@
     }
 
     // Controller
-    function Ctrl($scope, AddAdvertService) {
+    function Ctrl(AddAdvertService, $scope) {
         console.log('AddAdvertCtrl');
 
         // Cities

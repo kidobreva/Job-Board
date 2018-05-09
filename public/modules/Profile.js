@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $window, $routeParams) {
+    function Service($http) {
         // Get profile
         this.getProfile = function(scope) {
             $http
@@ -32,10 +32,26 @@
                     console.error(err.data);
                 });
         };
+
+        this.uploadPicture = function(scope) {
+            var fileReader = new FileReader();
+            fileReader.onloadend = function(e) {
+                $http
+                    .post('/profile/upload-picture/' + scope.user.id, {
+                        data: e.target.result
+                    })
+                    .then(function() {
+                        scope.user.img = e.target.result;
+                    });
+            };
+            fileReader.readAsDataURL(
+                angular.element(document.querySelector('.upload'))[0].files[0]
+            );
+        };
     }
 
     // Controller
-    function Ctrl($scope, $timeout) {
+    function Ctrl(ProfileService, $scope, $timeout) {
         console.log('ProfileCtrl');
 
         // Loader
@@ -47,6 +63,8 @@
         }, 1000);
 
         ProfileService.getProfile($scope);
+
+        $scope.uploadPicture = ProfileService.uploadPicture.bind(null, $scope);
     }
 
     // Module

@@ -9,7 +9,7 @@
     }
 
     // Service
-    function Service($http, $timeout) {
+    function Service($http) {
         // Get adverts
         this.getAdverts = function(scope) {
             $http
@@ -29,7 +29,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $http, $timeout, AdvertsService) {
+    function Ctrl(AdvertsService, $scope, $timeout) {
         console.log('AdvertsCtrl');
 
         // Loader
