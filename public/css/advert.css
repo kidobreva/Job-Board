@@ -1,0 +1,10 @@
+.advert-page {
+    display: flex;
+    width: 980px;
+}
+
+.advert-page .advert-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}

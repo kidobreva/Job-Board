@@ -53,7 +53,7 @@
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
                     if (response.status === 200) {
-                        $window.location.href = '#!/adverts';
+                        // $window.location.href = '#!/adverts';
                     }
                 })
                 .catch(function(err) {
