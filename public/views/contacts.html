@@ -21,7 +21,7 @@
                 <textarea class="form-control" id="text" required ng-model="message.text" /></textarea></label>
         
             <button class="btn btn-primary"
-                    ng-click="addAlert(); clicked()"
+                    ng-click="clicked()"
                     ng-disabled="contactForm.$invalid" 
                     ng-style="{ 'cursor' : (!contactForm.$invalid) ? 'pointer' : 'normal' }">Изпрати запитване</button>
             <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>

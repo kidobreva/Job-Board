@@ -20,7 +20,7 @@ router.post('/api/login', function(req, res) {
             if (user) {
                 if (!user.isBlocked) {
                     console.log('User logged in:', user);
-                    delete user.password;
+                    //delete user.password;
                     req.session.user = user;
                     req.session.save();
                     res.json(user);

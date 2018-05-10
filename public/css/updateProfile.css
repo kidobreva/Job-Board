@@ -2,7 +2,9 @@ section.userProfile {
     width: 1000px;
     margin: 0 auto;
     padding: 20px;
+
     font-family: Tahoma, Helvetica, sans-serif;
+
     color: #4E4B4B;
 }
 
@@ -27,8 +29,6 @@ section.userProfile form {
     box-shadow: 1px 1px 2px #bbc6cc;
 }
 
-
-
 section.userProfile form label {
     display: flex;
     justify-content: center;
@@ -37,7 +37,6 @@ section.userProfile form label {
 
 section.userProfile form label span {
     float: left;
-
     font-size: 15px;
 
     width: 140px;
@@ -62,6 +61,7 @@ section.userProfile form input {
 section.userProfile form .pass-info {
     width: 400px;
     height: 30px;
+
     margin: 15px auto;
 
     border-radius: 5px;
@@ -70,9 +70,7 @@ section.userProfile form .pass-info {
 
 section.userProfile form .pass-info p {
     font-size: 15px;
-
     padding: 5px;
-
     text-align: justify;
 }
 
@@ -98,6 +96,5 @@ section.userProfile form button.save {
 
 section.userProfile form button.save:hover {
     cursor: pointer;
-
     background-color: #aaa;
 }

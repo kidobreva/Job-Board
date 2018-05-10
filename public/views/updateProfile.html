@@ -2,33 +2,40 @@
     <div class="header-info">
         <h2>Настройки на профила</h2>
     </div>
-    <form class="user-info" method="post">
+    <form class="user-info" name="updateProfileForm" ng-submit="updateProfile()">
         <label><span>*Име</span>
-            <input class="inputs" name="firstname" type="text" required /></label>
+            <input class="inputs" type="text" ng-model="user.firstName" required /></label>
 
         <label><span>*Фамилия</span>
-            <input class="inputs" name="lastname" type="text" required /></label>
+            <input class="inputs" type="text" ng-model="user.lastName" required /></label>
 
-        <label><span>*E-mail</span>
-            <input class="inputs" name="email" type="email" required />
-        </label>
+        <label>E-mail
+            <input class="inputs" ng-model="user.email" required /></label>
+        <span ng-if="user.email && !validateEmail() && isSubmitted()">Моля въведете валиден имейл!</span>
+        
 
         <label><span>Нова парола</span>
-            <input class="inputs" name="new-pass" type="password" /></label>
+            <input class="inputs" type="password" ng-model="user.newPassword" /></label>
 
-        <label><span>Повтори новата парола</span>
-            <input class="inputs" name="repeat-new-pass" type="password" /></label>
+        <label>Повтори новата парола
+            <input class="inputs" type="password" ng-model="user.repeatNewPassword" /></label>
+            <span ng-if="user.newPassword && user.newPassword !== user.repeatNewPassword && isSubmitted()">Моля въведете еднакви пароли!</span>
 
         <div class="pass-info">
             <p>Паролата трябва да съдържа минимум 6 символа.</p>
         </div>
 
         <label><span>*Текуща парола</span>
-            <input class="inputs" name="current-pass" type="password" required /></label>
+            <input class="inputs" type="password" ng-model="user.currentPass" required /></label>
+            <!-- <span ng-if="!user.currentPass && isSubmitted()">Моля въведете текуща парола!</span> -->
 
         <div class="save-changes">
-            <button class="save">Запази</button>
-            <p></p>
+            <button class="btn btn-primary" 
+                    ng-click="clicked()" 
+                    ng-disabled="updateProfileForm.$invalid"
+                    ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }">Запази</button>
+            
         </div>
+        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
     </form>
 </section>

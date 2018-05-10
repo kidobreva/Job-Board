@@ -18,7 +18,7 @@
     }
 
     // Controller
-    function Ctrl(SendMessageService, $scope, $window) {
+    function Ctrl(SendMessageService, $scope) {
         console.log('ContactsCtrl');
 
         $scope.sendMessage = function () {
@@ -32,16 +32,7 @@
                     SendMessageService.sendMessage($scope.message)
                     .then(function (response) {
                         if (response.status === 200) {                       
-                            $scope.alerts = [];
-        
-                            $scope.addAlert = function() {
-                                $scope.alerts.length = 0;
-                                $scope.alerts.push({ type: 'primary', msg: 'Съобщението ви беше изпратено успешно!' });
-                            }
-                                
-                            $scope.closeAlert = function(index) {
-                                $scope.alerts.splice(index, 1);  
-                            }    
+                            $scope.addAlert();   
                         }
                     })
                     .catch(function(err) {
@@ -50,7 +41,19 @@
                 }          
                 
             }
-        }      
+        }  
+        
+        $scope.alerts = [];
+        
+        $scope.addAlert = function() {
+            $scope.alerts.length = 0;
+            $scope.alerts.push({ type: 'primary', msg: 'Съобщението ви беше изпратено успешно!' });
+            $scope.$apply();
+        }
+            
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);  
+        } 
         
         $scope.isSubmitted = function () {
             return $scope.submit;
