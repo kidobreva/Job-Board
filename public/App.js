@@ -15,6 +15,7 @@
         'App.Profile',
         'App.Favourites',
         'App.MyCV',
+        'App.UpdateProfile',
 
         // Companies
         'App.Company',

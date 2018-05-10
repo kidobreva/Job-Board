@@ -1,0 +1,103 @@
+section.userProfile {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Tahoma, Helvetica, sans-serif;
+    color: #4E4B4B;
+}
+
+section.userProfile .header-info {
+    margin-bottom: 30px;
+}
+
+section.userProfile .header-info h2 {
+    border-bottom: 2px solid #4E4B4B;
+}
+
+section.userProfile form {
+    display: flex;
+    flex-direction: column;
+
+    width: 700px;
+    margin: 20px auto;
+    padding: 10px;
+
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px #bbc6cc;
+}
+
+
+
+section.userProfile form label {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+section.userProfile form label span {
+    float: left;
+
+    font-size: 15px;
+
+    width: 140px;
+    margin-top: 10px;
+    padding-right: 10px;
+}
+
+section.userProfile form input {
+    font-size: 12px;
+    line-height: 15px;
+
+    width: 341px;
+    height: 37px;
+
+    margin: 11px 6px 16px 0;
+    padding: 3px 3px 3px 5px;
+
+    border: 1px solid #dadada;
+    border-radius: 5px;
+}
+
+section.userProfile form .pass-info {
+    width: 400px;
+    height: 30px;
+    margin: 15px auto;
+
+    border-radius: 5px;
+    background-color: #ffb619;
+}
+
+section.userProfile form .pass-info p {
+    font-size: 15px;
+
+    padding: 5px;
+
+    text-align: justify;
+}
+
+section.userProfile form .save-changes {
+    display: flex;
+}
+
+section.userProfile form .save-changes p {
+    margin-left: 30px;
+}
+
+section.userProfile form button.save {
+    font-size: 15px;
+    font-weight: bold;
+
+    padding: 10px 25px;
+    margin: 0 auto;
+
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    background-color: #eee;
+}
+
+section.userProfile form button.save:hover {
+    cursor: pointer;
+
+    background-color: #aaa;
+}
