@@ -61,7 +61,7 @@ router.post('/api/register', function(req, res) {
                                             'New user has registered:',
                                             user
                                         );
-                                        delete req.body.password;
+                                        //delete req.body.password;
 
                                         // save to session
                                         req.session.user = user;
