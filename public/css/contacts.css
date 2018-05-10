@@ -15,33 +15,40 @@ section.contacts .contact-div {
     justify-content: space-around;
 }
 
-section.contacts .contact-form {
+section.contacts form {
     display: flex;
     flex-direction: column;
 
-    width: 300px;
-    margin-top: 25px;    
+    width: 330px;
+    font-size: 15px; 
+
+    margin-top: 25px;
 }
 
-section.contacts .contact-form label {
-    font-size: 15px;
+section.contacts form h4 {
+    margin-bottom: 20px;
 }
 
-section.contacts .contact-form textarea {
-    width: 298px;
-    height: 80px;
+section.contacts form span {
+    color: #ee382d;
+    margin-bottom: 10px;
+}
+
+section.contacts form textarea {
+    height: 180px;
     margin-bottom: 15px;
-
-    /* resize: none; */
 }
 
-section.contacts .contact-form input {
-    width: 100%;
-    margin: 5px 0 15px;
+section.contacts form .btn {
+    margin-bottom: 20px;
 }
 
 section.contacts .contact-info {
     margin-top: 25px;
+}
+
+section.contacts .contact-info h4 {
+    margin-bottom: 20px;
 }
 
 section.contacts .contact-info p {
