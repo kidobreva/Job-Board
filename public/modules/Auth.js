@@ -9,53 +9,52 @@
     }
 
     // Service
-    function Service($http, $rootScope, $window) {
+    function Service($rootScope) {
         // Login
-        this.login = function(scope) {
+        this.login = function(user) {
             console.log('Login');
-
-            $http
-                .post('/login', scope.user)
-                .then(function(response) {
-                    if (response.status === 200) {
-                        $rootScope.isLogged = true;
-                        $rootScope.user = response.data;
-                        $window.location.href = '#!/profile';
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+            return $rootScope.promise('POST', '/api/login', user);
         };
 
         // Register
-        this.register = function(scope) {
+        this.register = function(user) {
             console.log('Register');
-            console.log(scope.registerUser);
-
-            $http
-                .post('/register', scope.registerUser)
-                .then(function(response) {
-                    if (response.status === 200) {
-                        $rootScope.isLogged = true;
-                        $rootScope.user = response.data;
-                        $window.location.href = '#!/profile';
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+            return $rootScope.promise('POST', '/api/register', user);
         };
     }
 
     // Controller
-    function Ctrl(AuthService, $scope) {
+    function Ctrl(AuthService, $rootScope, $scope, $window) {
         console.log('AuthCtrl');
         $scope.registerUser = {};
         $scope.registerUser.isCompany = false;
 
-        $scope.login = AuthService.login.bind(null, $scope);
-        $scope.register = AuthService.register.bind(null, $scope);
+        $scope.login = function() {
+            AuthService.login($scope.user)
+                .then(function(response) {
+                    if (response.status === 200) {
+                        $rootScope.isLogged = true;
+                        $rootScope.user = response.data;
+                        $window.location.href = '#!/profile';
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err.data);
+                });
+        };
+        $scope.register = function() {
+            AuthService.register($scope.registerUser)
+                .then(function(response) {
+                    if (response.status === 200) {
+                        $rootScope.isLogged = true;
+                        $rootScope.user = response.data;
+                        $window.location.href = '#!/profile';
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err.data);
+                });
+        };
     }
 
     // Module

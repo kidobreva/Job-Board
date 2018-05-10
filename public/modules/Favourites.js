@@ -9,24 +9,10 @@
     }
 
     // Service
-    function Service($http) {
+    function Service($rootScope) {
         // Get favourites
-        this.getFavourites = function(scope) {
-            $http
-                .get('/profile')
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.favourites = response.data.favourites;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.getFavourites = function() {
+            return $rootScope.promise('GET', '/api/profile');
         };
     }
 
@@ -42,7 +28,20 @@
             }
         }, 1000);
 
-        FavouritesService.getFavourites($scope);
+        FavouritesService.getFavourites()
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.favourites = response.data.favourites;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
     }
 
     // Module

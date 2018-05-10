@@ -13,7 +13,7 @@ function validateEmail(email) {
 }
 
 // Register POST
-router.post('/register', function(req, res) {
+router.post('/api/register', function(req, res) {
     console.log('Register Post:', req.body);
     console.log(req.session);
 

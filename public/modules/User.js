@@ -9,43 +9,19 @@
     }
 
     // Service
-    function Service($http, $routeParams) {
+    function Service($rootScope, $http, $routeParams) {
         // (Admin) Block user
-        this.blockUser = function(scope) {
-            $http
-                .patch('/user/block/' + $routeParams.id, { isBlocked: true })
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.user = response.data;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.blockUser = function() {
+            return $rootScope.promise(
+                'PATCH',
+                '/api/user/block/' + $routeParams.id,
+                { isBlocked: true }
+            );
         };
 
         // Get user
-        this.getUser = function(scope) {
-            $http
-                .get('/user/' + $routeParams.id)
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.user = response.data;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.getUser = function() {
+            return $rootScope.promise('GET', '/api/user/' + $routeParams.id);
         };
     }
 
@@ -61,8 +37,36 @@
             }
         }, 1000);
 
-        $scope.blockUser = UserService.blockUser.bind(null, $scope);
-        UserService.getUser($scope);
+        $scope.blockUser = function() {
+            UserService.blockUser()
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        $scope.loaded = true;
+                        $scope.timeout = false;
+                        $scope.user = response.data;
+                    }
+                })
+                .catch(function(err) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    console.error(err.data);
+                });
+        };
+        UserService.getUser()
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.user = response.data;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
     }
 
     // Module

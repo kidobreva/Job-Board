@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Logout GET
-router.get('/logout', function(req, res) {
+router.get('/api/logout', function(req, res) {
     req.session.destroy(function(err) {
         if (err) {
             res.sendStatus(500);

@@ -9,43 +9,19 @@
     }
 
     // Service
-    function Service($http, $routeParams) {
+    function Service($rootScope, $routeParams) {
         // Get company
-        this.getCompany = function(scope) {
-            $http
-                .get('/company/' + $routeParams.id)
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.company = response.data;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.getCompany = function() {
+            return $rootScope.promise('GET', '/api/company/' + $routeParams.id);
         };
 
         // (Admin) Block company
-        this.blockCompany = function(scope) {
-            $http
-                .patch('/company/block/' + $routeParams.id, { isBlocked: true })
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.company = response.data;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.blockCompany = function() {
+            return $rootScope.promise(
+                'PATCH',
+                '/api/company/block/' + $routeParams.id,
+                { isBlocked: true }
+            );
         };
     }
 
@@ -61,8 +37,39 @@
             }
         }, 1000);
 
-        CompanyService.getCompany($scope);
-        $scope.blockCompany = CompanyService.getCompany.bind(null, $scope);
+        // Get company
+        CompanyService.getCompany()
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.company = response.data;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
+
+        // (Admin) Block company
+        $scope.blockCompany = function() {
+            CompanyService.getCompany()
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        $scope.loaded = true;
+                        $scope.timeout = false;
+                        $scope.company = response.data;
+                    }
+                })
+                .catch(function(err) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    console.error(err.data);
+                });
+        };
     }
 
     // Module

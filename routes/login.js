@@ -7,7 +7,7 @@ function isLogged(req) {
 }
 
 // Login POST
-router.post('/login', function(req, res) {
+router.post('/api/login', function(req, res) {
     console.log('Login Post:', req.body);
 
     req.db

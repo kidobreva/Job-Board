@@ -9,9 +9,9 @@
     }
 
     // Service
-    function Service($http, $routeParams) {
+    function Service($rootScope, $http, $routeParams) {
         // Query
-        var query = '/search?';
+        var query = '/api/search?';
         if ($routeParams.category !== 'undefined') {
             query += 'category=' + $routeParams.category + '&';
         }
@@ -20,20 +20,8 @@
         }
 
         // Search
-        this.search = function(scope) {
-            $http
-                .get(query)
-                .then(function(adverts) {
-                    console.log(adverts);
-                    scope.adverts = adverts.data;
-                    scope.loaded = true;
-                    scope.timeout = false;
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.log(err);
-                });
+        this.search = function() {
+            return $rootScope.promise('GET', query);
         };
     }
 
@@ -49,7 +37,18 @@
             }
         }, 1000);
 
-        SearchService.search($scope);
+        SearchService.search()
+            .then(function(adverts) {
+                console.log(adverts);
+                $scope.adverts = adverts.data;
+                $scope.loaded = true;
+                $scope.timeout = false;
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.log(err);
+            });
     }
 
     // Module

@@ -3,6 +3,7 @@
     var modules = [
         'ngRoute',
         'ngAnimate',
+        'ui.bootstrap',
 
         // Auth
         'App.Auth',
@@ -48,6 +49,36 @@
     // Run
     function Run($rootScope, $route, $http, $location) {
         console.log('Init App');
+
+        $rootScope.promise = function(type, url, data) {
+            var promise;
+            switch (type) {
+                case 'GET':
+                    promise = $http.get(url, data);
+                    break;
+                case 'POST':
+                    promise = $http.post(url, data);
+                    break;
+                case 'PUT':
+                    promise = $http.put(url, data);
+                    break;
+                case 'PATCH':
+                    promise = $http.patch(url, data);
+                    break;
+                case 'DELETE':
+                    promise = $http.delete(url, data);
+                    break;
+            }
+            return new Promise(function(resolve, reject) {
+                promise
+                    .then(function(response) {
+                        resolve(response);
+                    })
+                    .catch(function(err) {
+                        reject(err);
+                    });
+            });
+        };
 
         // Change page title, based on Route information
         $rootScope.$on('$routeChangeSuccess', function(

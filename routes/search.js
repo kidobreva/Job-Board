@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // Search GET
-router.get('/search', function(req, res) {
+router.get('/api/search', function(req, res) {
     console.log('Search Adverts:', req.query);
 
     req.db

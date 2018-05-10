@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 
 // Profile GET
-router.get('/profile', function(req, res) {
+router.get('/api/profile', function(req, res) {
     if (req.session.user) {
         res.json(req.session.user);
     } else {
@@ -12,7 +12,7 @@ router.get('/profile', function(req, res) {
 });
 
 // Profile POST
-router.post('/profile/upload-picture/:id', function(req, res) {
+router.post('/api/profile/upload-picture/:id', function(req, res) {
     console.log('Profile Post:', req.body.data);
 
     // Create folder for user

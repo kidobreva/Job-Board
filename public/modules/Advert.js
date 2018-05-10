@@ -9,56 +9,29 @@
     }
 
     // Service
-    function Service($http, $routeParams) {
+    function Service($rootScope, $routeParams, $http) {
         // Save to favourites
-        this.save = function(scope) {
-            $http
-                .post('/favourite', scope.advert)
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        console.log('Saved!');
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+        this.save = function(advert) {
+            return $rootScope.promise('POST', '/api/favourite', advert);
         };
 
         // Apply for an advert
-        this.apply = function(scope) {
-            $http
-                .post('/apply', scope.advert)
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        console.log('Applied!');
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+        this.apply = function(advert) {
+            return $rootScope.promise('POST', '/api/apply', advert);
         };
 
         // Delete advert
         this.deleteAdvert = function() {
-            $http
-                .delete('/advert/' + $routeParams.id)
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        console.log('Advert deleted!');
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+            return $rootScope.promise(
+                'DELETE',
+                '/api/advert/' + $routeParams.id
+            );
         };
 
         // Get adverts
         this.getAdverts = function(scope) {
             $http
-                .get('/advert/' + $routeParams.id)
+                .get('/api/advert/' + $routeParams.id)
                 .then(function(response) {
                     console.log('advert:', response);
                     if (response.status === 200) {
@@ -100,9 +73,42 @@
             }
         }, 1000);
 
-        $scope.save = AdvertService.save.bind(null, $scope);
-        $scope.apply = AdvertService.apply.bind(null, $scope);
-        $scope.deleteAdvert = AdvertService.deleteAdvert.bind(null, $scope);
+        $scope.save = function() {
+            AdvertService.save($scope.advert)
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        console.log('Saved!');
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err.data);
+                });
+        };
+        $scope.apply = function() {
+            AdvertService.apply($scope.advert)
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        console.log('Applied!');
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err.data);
+                });
+        };
+        $scope.deleteAdvert = function() {
+            AdvertService.deleteAdvert()
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        console.log('Advert deleted!');
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err.data);
+                });
+        };
         AdvertService.getAdverts($scope);
     }
 

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // (Admin) Companies GET
-router.get('/companies', function(req, res) {
+router.get('/api/companies', function(req, res) {
     console.log('Companies Get:', req.body);
 
     req.db

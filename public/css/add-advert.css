@@ -1,3 +1,11 @@
 .add-advert textarea {
   min-height: 250px;
 }
+
+.add-advert {
+  font-size: 0.9rem;
+}
+
+.add-advert select {
+  font-size: 1rem;
+}

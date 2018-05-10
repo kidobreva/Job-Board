@@ -1,24 +1,20 @@
 <div id="loader" ng-if="timeout"></div>
 <p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
-<table class="table" ng-if="loaded && adverts.length">
-  <thead>
-    <tr>
-      <th scope="col">Наименование</th>
-      <th scope="col">Град</th>
-      <th scope="col">Категория</th>
-      <th scope="col">Ниво</th>
-      <th scope="col">Тип</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="advert in adverts">
-      <td>{{advert.title}}</td>
-      <th scope="row">{{advert.city}}</th>
-      <td>{{advert.category}}</td>
-      <td>{{advert.level}}</td>
-      <td>{{advert.type}}</td>
-      <td><a href="#!/advert/{{advert.id}}">Повече</a></td>
-    </tr>
-  </tbody>
-</table>
+
+<div class="adverts-page" ng-if="loaded">
+  <table class="table table-hover" ng-if="adverts.length">
+    <tbody>
+      <tr ng-repeat="advert in adverts">
+        <td>PAID</td>
+        <td colspan="2">
+          <a href="#!/advert/{{advert.id}}"><p>{{advert.title}}</p></a>
+          <span>Заплата от: <b>{{advert.salary.min | currency: "лв."}}</b> до <b>{{advert.salary.max | currency: "лв." }}</b></span><br />
+          <span>{{ advert.date | date: "fullDate" }}</span>, <span>{{advert.city}}</span>
+        </td>
+        <td>{{advert.img}} LOGO</td>
+        <td>{{advert.company}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ul ng-show="adverts.length" uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>

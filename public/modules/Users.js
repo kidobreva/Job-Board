@@ -9,24 +9,10 @@
     }
 
     // Service
-    function Service($http) {
+    function Service($rootScope) {
         // Get users
-        this.getUsers = function(scope) {
-            $http
-                .get('/users')
-                .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        scope.loaded = true;
-                        scope.timeout = false;
-                        scope.users = response.data;
-                    }
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.error(err.data);
-                });
+        this.getUsers = function() {
+            return $rootScope.promise('GET', '/api/users');
         };
     }
 
@@ -42,7 +28,20 @@
             }
         }, 1000);
 
-        UsersService.getUsers($scope);
+        UsersService.getUsers()
+            .then(function(response) {
+                console.log(response);
+                if (response.status === 200) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.users = response.data;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
     }
 
     // Module

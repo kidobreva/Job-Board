@@ -9,22 +9,10 @@
     }
 
     // Service
-    function Service($http) {
+    function Service($rootScope) {
         // Get companies
-        this.getCompanies = function(scope) {
-            $http
-                .get('/companies')
-                .then(function(companies) {
-                    console.log(companies);
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    scope.companies = companies.data;
-                })
-                .catch(function(err) {
-                    scope.loaded = true;
-                    scope.timeout = false;
-                    console.log(err);
-                });
+        this.getCompanies = function() {
+            return $rootScope.promise('GET', '/api/companies');
         };
     }
 
@@ -40,7 +28,22 @@
             }
         }, 1000);
 
-        $scope.getCompanies = CompaniesService.getCompanies.bind(null, $scope);
+        $scope.getCompanies = function() {
+            CompaniesService.getCompanies()
+                .then(function(companies) {
+                    console.log(companies);
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.companies = companies.data;
+                })
+                .catch(function(err) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    console.log(err);
+                });
+        };
+
+        $scope.getCompanies();
     }
 
     // Module

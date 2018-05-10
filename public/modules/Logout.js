@@ -13,7 +13,7 @@
 
         // Logout
         $http
-            .get('/logout')
+            .get('/api/logout')
             .then(function(response) {
                 if (response.status === 200) {
                     $rootScope.user = null;
