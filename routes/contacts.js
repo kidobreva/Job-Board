@@ -12,7 +12,9 @@ router.post('/api/send-message', function(req, res) {
             if (user) {
                 // save to database
                 user.messages.push(req.body);
-                users.findOneAndUpdate({ id: 0 }, user);
+                users.findOneAndUpdate({ id: 0 }, user).then(function() {
+                    res.sendStatus(200);
+                });
             }
         })
         .catch(function(err) {

@@ -99,10 +99,9 @@
                 .get('/profile')
                 .then(function(response) {
                     console.log(response);
-                    $rootScope.user = response.data;
                     $rootScope.isLogged = true;
                     $rootScope.headerLoaded = true;
-                    return $rootScope.user;
+                    return response.data;
                 })
                 .catch(function(err) {
                     console.log(err);
@@ -112,6 +111,6 @@
                 });
         };
         // Check for user on first visit
-        $rootScope.getUser();
+        $rootScope.user = $rootScope.getUser();
     }
 })();
