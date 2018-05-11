@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const sha1 = require('sha1');
 const fs = require('fs');
 
 // Profile GET
@@ -64,7 +65,7 @@ router.post('/api/profile/upload-picture/:id', function(req, res) {
 
 // Profile edit
 router.post('/api/profile/edit', function(req, res) {
-    console.log('Profile Post:', req.body.data);
+    console.log('Profile Post:', req.body);
 
     const users = req.db.get('users');
     users
@@ -73,8 +74,10 @@ router.post('/api/profile/edit', function(req, res) {
             if (user) {
                 // edit
                 if (req.body.newPassword) {
-                    user.password = req.body.newPassword;
+                    user.password = sha1(req.body.newPassword);
                     delete req.body.newPassword;
+                    delete req.body.repeatNewPassword;
+                    delete req.body.currentPass;
                 }
                 for (var prop in user) {
                     if (user[prop] !== req.body[prop]) {

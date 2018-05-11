@@ -1,122 +1,105 @@
-<!-- Search form -->
-<form class="add-advert" ng-submit="searchAdvert($event)">
-    <h3>Търсене на обява</h3>
-
-    <!-- City -->
-    <div class="form-group">
-        <label for="city">Град</label>
-        <select class="form-control" id="city" ng-model="advert.city">
-            <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
-            </select>
-    </div>
-
-    <!-- Category -->
-    <div class="form-group">
-        <label for="category">Категория</label>
-        <select class="form-control" id="category" ng-model="advert.category">
-        <option value=""></option>
-            <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-        </select>
-    </div>
-
-    <!-- Submit -->
-    <button>Търси обява</button>
-</form>
-
 <main>
     <header>
         <h3>Избрани професионални области</h3>
     </header>
+
+    <!-- Carousel -->
     <div class="professional-area">
-        <a class="left" href="#">            
-            <i class="fas fa-angle-left fa-5x"></i>
-        </a>
-        <a class="right" href="#">
-            <i class="fas fa-angle-right fa-5x"></i>
-        </a>
-        <section>
-            <div class="advert-block">
-                <div>
-                    <img src="images/it.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Информационни технологии (IT)</a>
-                </div>
-            </div>
+        <div class="carousel">
+            <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                <!-- Slide 0 -->
+                <div uib-slide index="0">
+                    <section>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/it.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Информационни технологии (IT)</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div>
-                    <img src="images/acc.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Счетоводство, одит, финанси</a>
-                </div>
-            </div>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/acc.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Счетоводство, одит, финанси</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div>
-                    <img src="images/adm.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Административни и офис дейности</a>
-                </div>
-            </div>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/adm.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Административни и офис дейности</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div>
-                    <img src="images/bank.jpg" alt="">
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/bank.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Банки, кредитиране</a>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="links">
-                    <a href="">Банки, кредитиране</a>
-                </div>
-            </div>
-        </section>
 
-        <section>
-            <div class="advert-block">
-                <div>
-                    <img src="images/eng.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Инженерни и технически дейности</a>
-                </div>
-            </div>
+                <!-- Slide 1 -->
+                <div uib-slide index="1">
+                    <section>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/eng.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Инженерни и технически дейности</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div>
-                    <img src="images/media.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Медии</a>
-                </div>
-            </div>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/media.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Медии</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div class="picture">
-                    <img src="images/med.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Медицина, фармация, здравеопазване</a>
-                </div>
-            </div>
+                        <div class="advert-block">
+                            <div class="picture">
+                                <img src="images/med.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Медицина, фармация, здравеопазване</a>
+                            </div>
+                        </div>
 
-            <div class="advert-block">
-                <div>
-                    <img src="images/arch.jpg" alt="">
-                </div>
-                <div class="links">
-                    <a href="">Архитектура, строителство</a>
+                        <div class="advert-block">
+                            <div>
+                                <img src="images/arch.jpg" alt="">
+                            </div>
+                            <div class="links">
+                                <a href="">Архитектура, строителство</a>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
+    <!-- Banner -->
     <section class="banner">
         <h5>
             <span>To help entrepreneurs get their act together</span> before they talk to investors.
         </h5>
     </section>
 
+    <!-- News -->
     <section class="news">
         <h2>Водещи бизнес новини</h2>
         <div class="news-container">
@@ -143,26 +126,28 @@
         </div>
     </section>
 
+    <!-- Testimonial -->
     <section class="consulting-woman">
         <article class="testimonial-info">
             <p>We were amazed by how little effort was required on our part to have Consulting WP prepare these materials.
                 We exchanged a few phone calls and e-mails, and they… handled the rest.</p>
-            <footer>
+            <div>
                 <h4>Amanda Seyfried</h4>
                 <p><strong>Founder & CEO, Arcade Systems</strong></p>
-            </footer>
+            </div>
         </article>
     </section>
 
-
-    <section class="partners">
-        <ul>
-            <li><a href="#"><img src="images/partner-TVC.png" alt="TVC Marketing"></a></li>
-            <li><a href="#"><img src="images/partner-fast-brothers.png" alt=""></a></li>
-            <li><a href="#"><img src="images/partner-arcade.png" alt=""></a></li>
-            <li><a href="#"><img src="images/partner-KPhone.png" alt=""></a></li>
-            <li><a href="#"><img src="images/partner-Edtech.png" alt=""></a></li>
-            <li><a href="#"><img src="images/partner-Volker-Stevin.png" alt=""></a></li>
-        </ul>
+    <!-- Company logos -->
+    <section class="companies">
+        <div>
+            <a href="#"><img src="images/companies/ImperiaOnline.png" alt="Imperia Online"></a>
+            <a href="#"><img src="images/companies/ittalents.png" alt="IT Talents"></a>
+            <a href="#"><img src="images/companies/Traderbg.png" alt="TraderBG"></a>
+            <a href="#"><img src="images/companies/Upnetix.png" alt="Upnetix"></a>
+            <a href="#"><img src="images/companies/nemetschek.png" alt="Nemetschek"></a>
+            <a href="#"><img src="images/companies/epam.png" alt="Epam"></a>
+            <!-- <a href="#"><img src="images/companies/Experian.png" alt="Experian"></a> -->
+        </div>
     </section>
 </main>

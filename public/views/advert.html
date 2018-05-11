@@ -17,6 +17,7 @@
   <div class="advert-right">
     <p>Описание: {{advert.description}}</p>
   
+    <!-- Buttons -->
     <button ng-if="user.isCompany === false" ng-click="apply()">Кандидатствай</button>
     <button ng-if="user.isCompany === false" ng-click="save()">Запази в любими</button>
     <button ng-if="user.isCompany === false" ng-click="reportAdvert()">Направи оплакване</button>

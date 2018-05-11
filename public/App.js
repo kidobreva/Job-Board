@@ -94,20 +94,24 @@
             return viewLocation === $location.path();
         };
 
+        $rootScope.getUser = function() {
+            $http
+                .get('/profile')
+                .then(function(response) {
+                    console.log(response);
+                    $rootScope.user = response.data;
+                    $rootScope.isLogged = true;
+                    $rootScope.headerLoaded = true;
+                    return $rootScope.user;
+                })
+                .catch(function(err) {
+                    console.log(err);
+                    $rootScope.user = null;
+                    $rootScope.isLogged = false;
+                    $rootScope.headerLoaded = true;
+                });
+        };
         // Check for user on first visit
-        $http
-            .get('/profile')
-            .then(function(response) {
-                console.log(response);
-                $rootScope.user = response.data;
-                $rootScope.isLogged = true;
-                $rootScope.headerLoaded = true;
-            })
-            .catch(function(err) {
-                console.log(err);
-                $rootScope.user = null;
-                $rootScope.isLogged = false;
-                $rootScope.headerLoaded = true;
-            });
+        $rootScope.getUser();
     }
 })();

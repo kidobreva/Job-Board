@@ -50,10 +50,6 @@
                 if (response.status === 200) {
                     $scope.loaded = true;
                     $scope.timeout = false;
-
-                    response.data.registeredDate = new Date(
-                        response.data.registeredDate
-                    ).toDateString();
                     $scope.user = response.data;
                 }
             })
