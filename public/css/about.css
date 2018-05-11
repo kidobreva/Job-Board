@@ -17,3 +17,7 @@ section.about .header-info h2 {
 section.about p {
     font-size: 15px;
 }
+
+section ul.list {
+    list-style-type: disc;
+}

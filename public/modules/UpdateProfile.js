@@ -20,7 +20,7 @@
     // Controller
     function Ctrl(UpdateProfileService, $rootScope, $scope) {
         console.log('UpdateProfileCtrl');
-        $scope.user = $rootScope.user;
+        $scope.user = $rootScope.getUser();
 
         $scope.updateProfile = function() {
             if ($scope.user.currentPass && !$scope.validateEmail($scope.user.email)) {

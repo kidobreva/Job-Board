@@ -31,7 +31,7 @@
         // Get adverts
         AdvertsService.getAdverts()
             .then(function(advertsArr) {
-                advertsArr = advertsArr.data;
+                advertsArr = advertsArr.data.reverse();
                 $scope.maxSize = 10;
                 $scope.adverts = advertsArr.slice(0, $scope.maxSize);
                 $scope.totalItems = advertsArr.length;

@@ -16,8 +16,58 @@
       </tr>
     </tbody>
   </table>
-  <div class="search-from">
+<!-- Search form -->
+  <form class="add-advert" ng-submit="searchAdvert($event)">
+      <h3>Търсене на обява</h3>
+      <!-- Search words -->
+      <div class="form-group">
+          <label for="words">Ключови думи</label>
+          <input class="form-control" id="words" ng-model="advert.words" />
+      </div>
 
-  </div>
+      <!-- City -->
+      <div class="form-group">
+          <label for="city">Населено място</label>
+          <select class="form-control" id="city" ng-model="advert.city">
+              <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
+            </select>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+          <label for="category">Категория</label>
+          <select class="form-control" id="category" ng-model="advert.category">
+          <option value=""></option>
+              <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+          </select>
+      </div>
+
+    <!-- Type -->
+    <div class="form-group">
+      <label for="type">Вид заетост</label>
+      <select class="form-control" id="type" ng-model="advert.type" required>
+        <option value=""></option>
+        <option value="Пълен Работен Ден">Пълен Работен Ден</option>
+        <option value="Непълен Работен Ден/Почасова">Непълен Работен Ден</option>
+        <option value="Временна/Сезонна/По проект">Временна/Сезонна</option>
+        <option value="Постоянна">Постоянна</option>
+      </select>
+    </div>
+
+    <!-- Level -->
+    <div class="form-group">
+      <label for="level">Ниво на квалификация</label>
+      <select class="form-control" id="level" ng-model="advert.level" required>
+        <option value=""></option>
+        <option value="Мениджмънт">Мениджмънт</option>
+        <option value="Експерти/Специалисти">Експерти/Специалисти</option>
+        <option value="Служители/Работници">Служители/Работници</option>
+        <option value="Стажанти/Студенти">Стажанти/Студенти</option>
+      </select>
+    </div>
+
+      <!-- Submit -->
+      <button class="btn btn-info">Търси обява</button>
+  </form>
 </div>
 <ul ng-show="adverts.length" uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>

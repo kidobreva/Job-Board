@@ -1,0 +1,115 @@
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    height: 270px;
+
+    color: #fff;
+    background: rgb(9, 8, 33);
+}
+
+footer div.info-socials-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    list-style: none;
+}
+
+footer div.info-socials-container ul.info li {
+    width: 180px;
+    /* margin-top: 20px; */
+
+    color: #fff;
+    /* margin-left: 20px; */
+}
+
+footer div.info-socials-container ul.info li i {
+    font-size: 16px;
+
+    padding: 2px;
+}
+
+footer div.info-socials-container li ul.socials {
+    display: flex;
+    justify-content: center;
+
+    width: 153px;
+    margin-top: 60px;
+    margin-left: 50px;
+}
+
+footer div.info-socials-container li ul.socials li {
+    width: 200px;
+}
+
+/* footer div.info-socials-container li ul.socials li a {
+  display: block;
+  width: 32px;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 50%;
+  background: rgb(131,131,143);
+  color: #090821;
+  margin-top: 40px;
+  margin-left: 20px;
+} */
+
+footer .navigation-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    /* width: 850px; */
+}
+
+footer .payments-methods {
+    /* width: 650px; */
+    margin-left: 280px;
+}
+
+footer .payments-methods svg {
+    padding-left: 10px;
+}
+
+footer .navigation ul {
+    display: flex;
+
+    margin-top: 25px;
+    padding-left: 0;
+
+    list-style: none;
+}
+
+footer .navigation ul li {
+    padding-left: 30px;
+}
+
+footer .navigation ul li a {
+    font-size: 18px;
+
+    text-decoration: none;
+
+    color: white;
+}
+
+footer .navigation ul li a:hover {
+    text-decoration: underline;
+}
+
+footer ul.socials {
+    font-size: 1.8rem;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+footer .info-socials-container ul.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    height: 65%;
+}

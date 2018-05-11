@@ -1,69 +1,54 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+/* cyrillic */
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-style: normal;
+
+    src: local('Montserrat Regular'), local('Montserrat-Regular'),
+    url(/vendors/fonts/JTUSjIg1_i6t8kCHKm459W1hyzbi.woff2)
+    format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* latin */
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-style: normal;
+
+    src: local('Montserrat Regular'), local('Montserrat-Regular'),
+    url(/vendors/fonts/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2)
+    format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 body {
-    font-family: "Montserrat", sans-serif;
-    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    /* font-size: 12px; */
+
     margin: 0;
     padding: 0;
 }
 
 body > header {
-    padding-top: 20px;
-    background: url(../images/Layer-759_02.jpg) no-repeat;
-    background-size: cover;
-    background-position-y: -150px;
     height: 250px;
+    padding-top: 20px;
+
+    background: url(../images/Layer-759_02.jpg) no-repeat;
+    background-position-y: -150px;
+    background-size: cover;
 }
 
 ul:not(.nav-primary) {
-    height: 60px;
+    /* height: 60px; */
     list-style: none;
 }
 
-header div.consulting-rev {
-    width: 500px;
-    margin: 0 auto;
-}
-
-header div.consulting-rev h1 {
-    color: #ffffff;
-    font-size: 60px;
-    text-align: center;
-    margin-top: 100px;
-    margin-bottom: 50px;
-    text-transform: uppercase;
-}
-
-header div.consulting-rev p {
-    font-size: 24px;
-    color: #ffffff;
-    text-align: center;
-}
-
-header div.consulting-rev a {
-    margin: 20px auto;
-    display: block;
-    width: 120px;
-    height: 25px;
-    background: #090821;
-    padding: 10px;
-    line-height: 25px;
-    text-align: center;
-    border-radius: 5px;
-    color: white;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-decoration: none;
-}
-
 .consulting-rev a:hover, .consulting-rev a:hover .fa-chevron-right {
-    background: #c79d63;
-    color: #090821;
     cursor: pointer;
-}
 
-header div.consulting-rev i {
-    color: #c79d63;
+    color: #090821;
+    background: #c79d63;
 }
 
 main {
@@ -72,36 +57,41 @@ main {
 
 main header h3 {
     font-size: 27px;
-    text-align: center;
+
     margin-top: 40px;
+
+    text-align: center;
 }
 
 main section {
     text-align: center;
-    margin-top: 50px;
 }
 
 main .professional-area {
-    width: 80%;
-    margin: 0 auto;
-    border-top: 2px solid #4E4B4B;
-    border-bottom: 2px solid #4E4B4B;
-
     position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 980px;
+    margin: 0 auto;
+
+    border-top: 2px solid #4e4b4b;
+    border-bottom: 2px solid #4e4b4b;
 }
 
 main .professional-area a.left svg {
     color: #000;
-    position: absolute;
-    top: 200px;
-    left: -56px;
+    /* position: absolute; */
+    /* top: 200px; */
+    /* left: -56px; */
 }
 
 main .professional-area a.right svg {
     color: #000;
-    position: absolute;
-    top: 200px;
-    left: 1050px;
+    /* position: absolute; */
+    /* top: 200px; */
+    /* left: 1050px; */
 }
 
 main .professional-area section {
@@ -113,39 +103,41 @@ main .professional-area section .advert-block {
     width: 25%;
 }
 
-main .professional-area section:last-child {
-    margin-bottom: 40px;
-}
-
 main .professional-area section img {
-    width: 150px;
-    height: 150px;
+    /* width: 150px;
+    height: 150px; */
 }
 
-main .professional-area section .links{
+main .professional-area section .links {
     margin-top: 10px;
 }
 
 main .professional-area section .links a {
-    text-decoration: none;
-    color: #000;
     font-size: 15px;
+
+    text-decoration: none;
+
+    color: #000;
 }
 
-main h5{
-    text-align: center;
+main h5 {
     font-size: 24px;
+
     width: 520px;
     margin: 0 auto;
+
+    text-align: center;
 }
 
 main section.banner {
-    margin-bottom: 0;
+    position: relative;
+
+    display: block;
+
     margin-top: 40px;
+    margin-bottom: 0;
     padding-top: 35px;
     padding-bottom: 46px;
-    display: block;
-    position: relative;
 }
 
 main section.banner span {
@@ -153,27 +145,31 @@ main section.banner span {
 }
 
 main section.banner::after {
-    content: "";
-    background-size: cover;
-    opacity: 0.3;
-    background: url(../images/steel-bg.jpg) center center;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
     position: absolute;
     z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+
+    opacity: 0.3;
+    background: url(../images/steel-bg.jpg) center center;
+    background-size: cover;
 }
 
 main section.news {
+    font-family: 'Montserrat', sans-serif;
+
     margin: 0;
     padding-top: 10px;
     padding-bottom: 10px;
-    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0, 0.6)),
+
+    color: #fff;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url('/images/background-choose-us.jpg') no-repeat center;
     background-size: cover;
-    font-family: "Montserrat", sans-serif;
-    color: #fff;
 }
 
 main section.news {
@@ -181,9 +177,11 @@ main section.news {
 }
 
 main section.news h2 {
-    text-align: center;
     font-size: 40px;
+
     margin-bottom: 20px;
+
+    text-align: center;
 }
 
 main section.news div.news-container {
@@ -193,18 +191,23 @@ main section.news div.news-container {
 
 main section.news div.news-container .news-block {
     display: block;
+
+    width: 300px;
     margin-right: 30px;
     padding: 20px 15px;
-    width: 300px;
-    border: 2px solid #c79d63;
+
     text-decoration: none;
+
+    border: 2px solid #c79d63;
 }
 
 main section.news div.news-container .news-block a {
-    text-decoration: none;
-    color: #fff;
     font-size: 18px;
     line-height: 10px;
+
+    text-decoration: none;
+
+    color: #fff;
 }
 
 main section.news div.news-container .news-block a:hover {
@@ -216,28 +219,33 @@ main section.news div.news-container .news-block p {
 }
 
 main section.consulting-woman {
-    background-image: url("../images/consulting-woman.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    position: relative;
+
     height: 600px;
     margin: 0;
-    position: relative;
+
+    background-image: url('../images/consulting-woman.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 main section.consulting-woman article.testimonial-info {
     position: absolute;
     top: 70px;
     right: 40px;
+
     width: 500px;
     padding: 64px 60px 53px 60px;
-    background: rgba(255, 255, 255, .7);
+
+    background: rgba(255, 255, 255, 0.7);
 }
 
-.testimonial-info > p::before,
-.testimonial-info > p::after {
-    content: open-quote;
-    color: #c79d63;
+.testimonial-info > p::before, .testimonial-info > p::after {
     font-size: 32px;
+
+    content: open-quote;
+
+    color: #c79d63;
 }
 
 .testimonial-info > p::after {
@@ -246,6 +254,7 @@ main section.consulting-woman article.testimonial-info {
 
 main section.consulting-woman article.testimonial-info footer {
     margin-top: 20px;
+
     text-align: left;
 }
 
@@ -254,120 +263,73 @@ main section.consulting-woman article.testimonial-info footer h4 {
 }
 
 main section.consulting-woman article.testimonial-info footer p {
-    padding: 0;
-    margin-bottom: 0;
     font-size: 14px;
-    color: #777777;
+
+    margin-bottom: 0;
+    padding: 0;
+
+    color: #777;
 }
 
-main section.partners {
-    height: 90px;
-    margin-top: 45px;
-}
 
-main section.partners ul {
+main section.companies div {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+
+    width: 1280px;
+    height: 150px;
+    margin: 0 auto;
 }
 
-main section.partners ul li a img {
-    width: 135px;
-    height: 60px;
+main section.companies a img {
+    width: 150px;
 }
 
-footer {
-    height: 280px;
-    background: rgb(9, 8, 33);
+.professional-area > div {
     display: flex;
-    flex-direction: row;
-    justify-content:space-around;
-    color: #ffffff
-}
-
-footer div.info-socials-container {
-    list-style: none;
-}
-
-footer div.info-socials-container ul.info li {
-    color: #ffffff;
-    width: 180px;
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-footer div.info-socials-container ul.info li i {
-    font-size: 16px;
-    padding: 2px;
-}
-
-footer div.info-socials-container li ul.socials {
-    display: flex;
-    justify-content: center;
-    width: 153px;
-    margin-top: 60px;
-    margin-left: 50px;
-}
-
-footer div.info-socials-container li ul.socials li {
-    width: 200px;
-}
-
-footer div.info-socials-container li ul.socials li a {
-    display: block;
-    width: 32px;
-    font-size: 18px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 50%;
-    background: rgb(131,131,143);
-    color: #090821;
-    margin-top: 40px;
-    margin-left: 20px;
-}
-
-footer .navigation-footer {
-    display: flex;
-    width: 850px;
     flex-direction: column;
+    justify-content: space-around;
+
+    height: 385px;
+}
+
+.info-socials-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+.carousel svg {
+    width: 40px;
+    height: 40px;
+}
+
+.carousel {
+    display: flex;
+    justify-content: center;
+
+    height: 305px;
+}
+
+.carousel > div {
+    display: flex;
+    align-items: center;
+
+    width: 980px;
+}
+
+.carousel ol {
+    display: none;
+}
+
+/* .carousel .slide {
+    height: 385px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+} */
+
+.carousel section {
+    display: flex;
     justify-content: center;
 }
-
-footer .payments-methods {
-    /* width: 650px; */
-    margin-left: 280px;
-}
-
-footer .payments-methods svg {
-    padding-left: 10px;
-}
-
-footer .navigation ul {
-    margin-top: 25px;
-    padding-left: 0px;
-
-    display: flex;
-
-    list-style: none;
-}
-
-footer .navigation ul li {
-    padding-left: 30px;
-}
-
-footer .navigation ul li a {
-    font-size: 18px;
-
-    text-decoration: none;
-
-    color: white;
-}
-
-footer .navigation ul li a:hover {
-    text-decoration: underline;
-}
-
-
-
-
-
-
