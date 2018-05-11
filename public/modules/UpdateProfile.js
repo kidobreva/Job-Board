@@ -26,18 +26,22 @@
             if ($scope.user.currentPass && !$scope.validateEmail($scope.user.email)) {
                 console.log('Invalid email!');
             } else {
-                if ($scope.user.newPassword) {
-                   if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
-                    || $scope.user.newPassword.length < 6 
-                    || new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
-                        console.log($scope.user)
-                       console.log('The passwords are not the same!');
-                    } else {
-                        sendUserData();
-                    }
+                if (new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
+                    console.log('Invalid currentPass!');   
                 } else {
-                        // sendUserData();
+                    if ($scope.user.newPassword) {
+                        if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
+                            || $scope.user.newPassword.length < 6 ) {
+                                console.log($scope.user)
+                                console.log('The passwords are not the same!');
+                            } else {
+                                sendUserData();
+                            }
+                        } else {
+                            // sendUserData();
+                     }
                 }
+                
             }
 
             $scope.alerts = [];
