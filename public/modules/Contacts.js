@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/contacts', {
             templateUrl: 'views/contacts.html',
-            controller: 'ContactsCtrl',
+            controller: 'Contacts',
             title: 'Контакти'
         });
     }
@@ -78,8 +78,8 @@
 
     // Module
     angular
-        .module('App.Contacts', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Contacts', ['ngRoute'])
+        .config(Config)
         .service('SendMessageService', Service)
-        .controller('ContactsCtrl', Ctrl);
+        .controller('Contacts', Ctrl);
 })();

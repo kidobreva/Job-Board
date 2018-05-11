@@ -12,7 +12,7 @@ router.get('/api/profile', function(req, res) {
     }
 });
 
-// Profile POST
+// Upload picture POST
 router.post('/api/profile/upload-picture/:id', function(req, res) {
     console.log('Profile Post:', req.body.data);
 
@@ -99,8 +99,60 @@ router.post('/api/profile/edit', function(req, res) {
                             res.json(user);
                         });
                 }
+            } else {
+                console.log('No user!');
+            }
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+});
 
-                
+// Upload CV POST
+router.post('/api/profile/upload-cv/:id', function(req, res) {
+    console.log('CV Post:', req.body.data);
+
+    const users = req.db.get('users');
+    users
+        .findOne({ id: req.session.user.id })
+        .then(function(user) {
+            if (user) {
+                req.body.data = req.body.data.replace(
+                    'data:application/pdf;base64,',
+                    ''
+                );
+                // Create folder for user
+                const dir = `public/uploads/${req.session.user.id.toString()}/`;
+                if (!fs.existsSync('public/uploads')) {
+                    fs.mkdirSync('public/uploads');
+                }
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                }
+                fs.writeFile(
+                    dir + `cv${user.cv.length + 1}.pdf`,
+                    req.body.data,
+                    'base64',
+                    err => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log('File saved!');
+                    }
+                );
+
+                const cv = `uploads/${req.session.user.id.toString()}/cv${user.cv.length + 1}.pdf`;
+                // save to session
+                req.session.user.cv.push(cv);
+                req.session.save();
+
+                // save to database
+                user.cv.push(cv);
+                users
+                    .findOneAndUpdate({ id: req.session.user.id }, user)
+                    .then(function() {
+                        res.json({ cv: cv });
+                    });
             } else {
                 console.log('No user!');
             }

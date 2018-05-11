@@ -3,31 +3,26 @@
     function Config($routeProvider) {
         $routeProvider.when('/profile', {
             templateUrl: 'views/profile.html',
-            controller: 'ProfileCtrl',
+            controller: 'Profile',
             title: 'Профил'
         });
     }
 
     // Service
-    function Service($rootScope, $http) {
+    function Service($rootScope) {
         // Get profile
         this.getProfile = function() {
             return $rootScope.promise('GET', '/api/profile');
         };
 
-        this.uploadPicture = function(scope) {
-            var fileReader = new FileReader();
-            fileReader.onloadend = function(e) {
-                $http
-                    .post('/api/profile/upload-picture/' + scope.user.id, {
-                        data: e.target.result
-                    })
-                    .then(function() {
-                        scope.user.img = e.target.result;
-                    });
-            };
-            fileReader.readAsDataURL(
-                angular.element(document.querySelector('.upload'))[0].files[0]
+        // Upload picture
+        this.uploadPicture = function(e) {
+            return $rootScope.promise(
+                'POST',
+                '/api/profile/upload-picture/' + $rootScope.user.id,
+                {
+                    data: e.target.result
+                }
             );
         };
     }
@@ -44,6 +39,7 @@
             }
         }, 1000);
 
+        // Get profile
         ProfileService.getProfile()
             .then(function(response) {
                 console.log(response);
@@ -59,13 +55,25 @@
                 console.error(err.data);
             });
 
-        $scope.uploadPicture = ProfileService.uploadPicture.bind(null, $scope);
+        // Upload picture
+        $scope.uploadPicture = function() {
+            var fileReader = new FileReader();
+            fileReader.onloadend = function(e) {
+                ProfileService.uploadPicture(e).then(function() {
+                    $scope.user.img = e.target.result;
+                    $scope.$apply();
+                });
+            };
+            fileReader.readAsDataURL(
+                angular.element(document.querySelector('.upload'))[0].files[0]
+            );
+        };
     }
 
     // Module
     angular
-        .module('App.Profile', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Profile', ['ngRoute'])
+        .config(Config)
         .service('ProfileService', Service)
-        .controller('ProfileCtrl', Ctrl);
+        .controller('Profile', Ctrl);
 })();

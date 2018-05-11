@@ -29,11 +29,11 @@
             <a href="#!/myCV">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="">Избрани обяви</a> [0]</span>
+            <span><a href="#!/favourites">Наблюдавани обяви</a> [{{ user.favourites.length || 0 }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="">Къде сте кандидатствали</a> [0]</span>
+            <span><a href="">Къде сте кандидатствали</a> [{{ user.applied.length || 0 }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">

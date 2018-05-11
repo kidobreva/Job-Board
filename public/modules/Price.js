@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/price', {
             templateUrl: 'views/price.html',
-            controller: 'PriceCtrl',
+            controller: 'Price',
             title: 'Цени на услугите'
         });
     }
@@ -15,7 +15,7 @@
 
     // Module
     angular
-        .module('App.Price', ['ngRoute'])
-        .config(['$routeProvider', Config])
-        .controller('PriceCtrl', Ctrl);
+        .module('Price', ['ngRoute'])
+        .config(Config)
+        .controller('Price', Ctrl);
 })();

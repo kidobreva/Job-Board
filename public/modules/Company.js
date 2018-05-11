@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/company/:id', {
             templateUrl: 'views/company.html',
-            controller: 'CompanyCtrl',
+            controller: 'Company',
             title: 'Информация за фирма'
         });
     }
@@ -74,8 +74,8 @@
 
     // Module
     angular
-        .module('App.Company', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Company', ['ngRoute'])
+        .config(Config)
         .service('CompanyService', Service)
-        .controller('CompanyCtrl', Ctrl);
+        .controller('Company', Ctrl);
 })();

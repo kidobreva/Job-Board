@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/home', {
             templateUrl: 'views/home.html',
-            controller: 'HomeCtrl',
+            controller: 'Home',
             title: 'Job Board - Начало'
         });
     }
@@ -56,7 +56,7 @@
 
     // Module
     angular
-        .module('App.Home', ['ngRoute'])
-        .config(['$routeProvider', Config])
-        .controller('HomeCtrl', Ctrl);
+        .module('Home', ['ngRoute'])
+        .config(Config)
+        .controller('Home', Ctrl);
 })();

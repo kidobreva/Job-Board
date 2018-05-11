@@ -1,12 +1,12 @@
 <div id="loader" ng-if="timeout"></div>
-<p ng-if="loaded && !favourites.length">Нямате любими!</p>
+<p ng-if="loaded && !favourites.length">Нямате наблюдавани обяви!</p>
 <div ng-if="loaded">
     <div ng-repeat="favourite in favourites">
-            <p>Наименование: {{favourite.title}}</p>
-            <p>Град: {{favourite.city}}</p>
-            <p>Категория: {{favourite.category}}</p>
-            <p>Ниво: {{favourite.level}}</p>
-            <p>Тип: {{favourite.type}}</p>
-            <p>Описание: {{favourite.description}}</p>
+        <p>Наименование: {{favourite.title}}</p>
+        <p>Град: {{favourite.city}}</p>
+        <p>Категория: {{favourite.category}}</p>
+        <p>Ниво: {{favourite.level}}</p>
+        <p>Тип: {{favourite.type}}</p>
+        <p>Описание: {{favourite.description}}</p>
     </div>
 </div>

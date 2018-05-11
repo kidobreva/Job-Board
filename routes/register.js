@@ -42,6 +42,7 @@ router.post('/api/register', function(req, res) {
                             } else {
                                 req.body.favourites = [];
                                 req.body.applied = [];
+                                req.body.cv = [];
                                 req.body.registeredDate = Date.now();
                             }
 

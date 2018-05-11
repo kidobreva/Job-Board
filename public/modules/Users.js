@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/users', {
             templateUrl: 'views/users.html',
-            controller: 'UsersCtrl',
+            controller: 'Users',
             title: 'Потребители'
         });
     }
@@ -46,8 +46,8 @@
 
     // Module
     angular
-        .module('App.Users', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Users', ['ngRoute'])
+        .config(Config)
         .service('UsersService', Service)
-        .controller('UsersCtrl', Ctrl);
+        .controller('Users', Ctrl);
 })();

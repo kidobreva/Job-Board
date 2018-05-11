@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/auth', {
             templateUrl: 'views/auth.html',
-            controller: 'AuthCtrl',
+            controller: 'Auth',
             title: 'Вход и регистрация'
         });
     }
@@ -59,8 +59,8 @@
 
     // Module
     angular
-        .module('App.Auth', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Auth', ['ngRoute'])
+        .config(Config)
         .service('AuthService', Service)
-        .controller('AuthCtrl', Ctrl);
+        .controller('Auth', Ctrl);
 })();

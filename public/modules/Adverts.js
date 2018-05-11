@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/adverts', {
             templateUrl: 'views/adverts.html',
-            controller: 'AdvertsCtrl',
+            controller: 'Adverts',
             title: 'Обяви'
         });
     }
@@ -62,8 +62,8 @@
 
     // Module
     angular
-        .module('App.Adverts', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Adverts', ['ngRoute'])
+        .config(Config)
         .service('AdvertsService', Service)
-        .controller('AdvertsCtrl', Ctrl);
+        .controller('Adverts', Ctrl);
 })();

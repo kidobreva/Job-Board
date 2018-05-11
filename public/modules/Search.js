@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/search', {
             templateUrl: 'views/search.html',
-            controller: 'SearchCtrl',
+            controller: 'Search',
             title: 'Търсене на обяви'
         });
     }
@@ -53,8 +53,8 @@
 
     // Module
     angular
-        .module('App.Search', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Search', ['ngRoute'])
+        .config(Config)
         .service('SearchService', Service)
-        .controller('SearchCtrl', Ctrl);
+        .controller('Search', Ctrl);
 })();

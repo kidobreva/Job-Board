@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/about', {
             templateUrl: 'views/about.html',
-            controller: 'AboutCtrl',
+            controller: 'About',
             title: 'За нас'
         });
     }
@@ -15,7 +15,7 @@
 
     // Module
     angular
-        .module('App.About', ['ngRoute'])
-        .config(['$routeProvider', Config])
-        .controller('AboutCtrl', Ctrl);
+        .module('About', ['ngRoute'])
+        .config(Config)
+        .controller('About', Ctrl);
 })();

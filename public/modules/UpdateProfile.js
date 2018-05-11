@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/updateProfile', {
             templateUrl: 'views/updateProfile.html',
-            controller: 'UpdateProfileCtrl',
+            controller: 'UpdateProfile',
             title: 'Настойки на профила'
         });
     }
@@ -15,12 +15,30 @@
             console.log('Add message');
             return $rootScope.promise('POST', '/api/profile/edit', user);
         }
+
+        this.getProfile = function() {
+            return $rootScope.promise('GET', '/api/profile');
+        };
     }
 
     // Controller
     function Ctrl(UpdateProfileService, $rootScope, $scope) {
         console.log('UpdateProfileCtrl');
-        // $scope.user = $rootScope.getUser();
+        UpdateProfileService.getProfile()
+            .then(function(response) {
+                if (response.status === 200) {
+                    $scope.user = response.data;
+                    $scope.loaded = true;
+                    $scope.$apply();
+                    console.log($scope.loaded);
+                    $scope.timeout = false;
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
 
         $scope.updateProfile = function() {
             if (new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
@@ -94,8 +112,8 @@
         
     // Module
     angular
-        .module('App.UpdateProfile', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('UpdateProfile', ['ngRoute'])
+        .config(Config)
         .service('UpdateProfileService', Service)
-        .controller('UpdateProfileCtrl', Ctrl);
+        .controller('UpdateProfile', Ctrl);
 })();

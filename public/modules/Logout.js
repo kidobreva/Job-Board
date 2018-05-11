@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/logout', {
             templateUrl: 'views/logout.html',
-            controller: 'LogoutCtrl'
+            controller: 'Logout'
         });
     }
 
@@ -29,7 +29,7 @@
 
     // Module
     angular
-        .module('App.Logout', ['ngRoute'])
-        .config(['$routeProvider', Config])
-        .controller('LogoutCtrl', Ctrl);
+        .module('Logout', ['ngRoute'])
+        .config(Config)
+        .controller('Logout', Ctrl);
 })();

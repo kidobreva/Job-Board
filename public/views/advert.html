@@ -1,27 +1,31 @@
 <div id="loader" ng-if="timeout"></div>
 <div ng-if="loaded" class="advert-page">
   <div class="advert-left">
+
     <p>Наименование: {{advert.title}}</p>
     <p>Град: {{advert.city}}</p>
     <p>Категория: {{advert.category}}</p>
     <p>Ниво: {{advert.level}}</p>
     <p>Тип: {{advert.type}}</p>
-    
+
     <p>Заплата: {{advert.salary}}</p>
-  
+
     <p>Изтича на: {{advert.isExpired}}</p>
-  
+
     <p>Брой кандидатствали: {{advert.candidates.length}}</p>
     <p>Брой преглеждания: {{advert.views}}</p>
+    <div>
+        <button ng-if="user.isCompany === false" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
+        <button ng-if="user.isCompany === false" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
+      </div>
   </div>
   <div class="advert-right">
     <p>Описание: {{advert.description}}</p>
-  
-    <!-- Buttons -->
-    <button ng-if="user.isCompany === false" ng-click="apply()">Кандидатствай</button>
-    <button ng-if="user.isCompany === false" ng-click="save()">Запази в любими</button>
-    <button ng-if="user.isCompany === false" ng-click="reportAdvert()">Направи оплакване</button>
-    <button ng-if="user.isCompany" ng-click="deleteAdvert()">Премахни обявата</button>
-    <button ng-if="user.isAdmin" ng-click="blockAdvert()">Блокирай обявата</button>
+
+    <button class="btn btn-success" ng-if="user.isCompany === false" ng-click="apply()"><b>Кандидатствай</b></button>
   </div>
+
+  <!-- Buttons -->
+  <button ng-if="user.isCompany" ng-click="deleteAdvert()">Премахни обявата</button>
+  <button ng-if="user.isAdmin" ng-click="blockAdvert()">Блокирай обявата</button>
 </div>

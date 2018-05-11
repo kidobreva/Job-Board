@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/favourites', {
             templateUrl: 'views/favourites.html',
-            controller: 'FavouritesCtrl',
+            controller: 'Favourites',
             title: 'Любими обяви'
         });
     }
@@ -46,8 +46,8 @@
 
     // Module
     angular
-        .module('App.Favourites', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Favourites', ['ngRoute'])
+        .config(Config)
         .service('FavouritesService', Service)
-        .controller('FavouritesCtrl', Ctrl);
+        .controller('Favourites', Ctrl);
 })();

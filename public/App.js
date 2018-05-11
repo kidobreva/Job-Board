@@ -6,44 +6,43 @@
         'ui.bootstrap',
 
         // Auth
-        'App.Auth',
-        'App.Logout',
+        'Auth',
+        'Logout',
 
         // Users
-        'App.User',
-        'App.Users',
-        'App.Profile',
-        'App.Favourites',
-        'App.MyCV',
-        'App.UpdateProfile',
+        'User',
+        'Users',
+        'Profile',
+        'Favourites',
+        'MyCV',
+        'UpdateProfile',
 
         // Companies
-        'App.Company',
-        'App.Companies',
+        'Company',
+        'Companies',
 
         // Adverts
-        'App.Advert',
-        'App.Adverts',
-        'App.Search',
-        'App.AddAdvert',
+        'Advert',
+        'Adverts',
+        'Search',
+        'AddAdvert',
 
         // Other
-        'App.Home',
-        'App.About',
-        'App.Price',
-        'App.Contacts'
+        'Home',
+        'About',
+        'Price',
+        'Contacts'
     ];
 
     // Module
     angular
         .module('App', modules)
-        .config(['$locationProvider', '$routeProvider', Config])
+        .config(Config)
         .run(Run);
 
     // Config
     function Config($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix('!');
-
         $routeProvider.otherwise({ redirectTo: '/home' });
     }
 
@@ -51,6 +50,7 @@
     function Run($rootScope, $route, $http, $location) {
         console.log('Init App');
 
+        // Promise function
         $rootScope.promise = function(type, url, data) {
             var promise;
             switch (type) {
@@ -82,35 +82,29 @@
         };
 
         // Change page title, based on Route information
-        $rootScope.$on('$routeChangeSuccess', function(
-            currentRoute,
-            previousRoute
-        ) {
+        $rootScope.$on('$routeChangeSuccess', function() {
             $rootScope.title = $route.current.title;
         });
 
-        // Set active class
+        // Set active class for the navbar
         $rootScope.isActive = function(viewLocation) {
             return viewLocation === $location.path();
         };
 
-        $rootScope.getUser = function() {
-            $http
-                .get('/profile')
-                .then(function(response) {
-                    console.log(response);
-                    $rootScope.isLogged = true;
-                    $rootScope.headerLoaded = true;
-                    return response.data;
-                })
-                .catch(function(err) {
-                    console.log(err);
-                    $rootScope.user = null;
-                    $rootScope.isLogged = false;
-                    $rootScope.headerLoaded = true;
-                });
-        };
-        // Check for user on first visit
-        $rootScope.user = $rootScope.getUser();
+        // Check for user on init
+        $rootScope
+            .promise('GET', '/api/profile')
+            .then(function(response) {
+                console.log(response);
+                $rootScope.isLogged = true;
+                $rootScope.headerLoaded = true;
+                $rootScope.user = response.data;
+            })
+            .catch(function(err) {
+                console.log(err);
+                $rootScope.user = null;
+                $rootScope.isLogged = false;
+                $rootScope.headerLoaded = true;
+            });
     }
 })();

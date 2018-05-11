@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/companies', {
             templateUrl: 'views/companies.html',
-            controller: 'CompaniesCtrl',
+            controller: 'Companies',
             title: 'Фирми'
         });
     }
@@ -48,8 +48,8 @@
 
     // Module
     angular
-        .module('App.Companies', ['ngRoute'])
-        .config(['$routeProvider', Config])
+        .module('Companies', ['ngRoute'])
+        .config(Config)
         .service('CompaniesService', Service)
-        .controller('CompaniesCtrl', Ctrl);
+        .controller('Companies', Ctrl);
 })();
