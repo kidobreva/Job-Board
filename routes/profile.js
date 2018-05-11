@@ -72,29 +72,35 @@ router.post('/api/profile/edit', function(req, res) {
         .findOne({ id: req.session.user.id })
         .then(function(user) {
             if (user) {
-                // edit
-                if (req.body.newPassword) {
-                    user.password = sha1(req.body.newPassword);
-                    delete req.body.newPassword;
-                    delete req.body.repeatNewPassword;
-                    delete req.body.currentPass;
-                }
-                for (var prop in user) {
-                    if (user[prop] !== req.body[prop]) {
-                        user[prop] = req.body[prop];
+                if (sha1(req.body.currentPass) !== req.session.user.password) {
+                    res.sendStatus(401);
+                } else {
+                    // edit
+                    if (req.body.newPassword) {
+                        user.password = sha1(req.body.newPassword);
+                        delete req.body.newPassword;
+                        delete req.body.repeatNewPassword;
+                        delete req.body.currentPass;
                     }
+                    for (var prop in user) {
+                        if (user[prop] !== req.body[prop]) {
+                            user[prop] = req.body[prop];
+                        }
+                    }
+
+                    // save to session
+                    req.session.user = user;
+                    req.session.save();
+
+                    // save to database
+                    users
+                        .findOneAndUpdate({ id: req.session.user.id }, user)
+                        .then(function() {
+                            res.json(user);
+                        });
                 }
 
-                // save to session
-                req.session.user = user;
-                req.session.save();
-
-                // save to database
-                users
-                    .findOneAndUpdate({ id: req.session.user.id }, user)
-                    .then(function() {
-                        res.json(user);
-                    });
+                
             } else {
                 console.log('No user!');
             }

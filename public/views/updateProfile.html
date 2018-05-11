@@ -9,17 +9,12 @@
         <label><span>*Фамилия</span>
             <input class="inputs" type="text" ng-model="user.lastName" required /></label>
 
-        <label><span>E-mail</span>
-            <input class="inputs" ng-model="user.email" required /></label>
-        <span class="red" ng-if="user.email && !validateEmail() && isSubmitted()">Моля въведете валиден имейл!</span>
-        
-
         <label><span>Нова парола</span>
-            <input class="inputs" type="password" ng-model="user.newPassword" /></label>
+            <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.newPassword" /></label>
 
         <label><span>Повтори новата парола</span>
-            <input class="inputs" type="password" ng-model="user.repeatNewPassword" /></label>
-            <span class="red" ng-if="user.newPassword && user.newPassword !== user.repeatNewPassword && isSubmitted()">Моля въведете еднакви пароли!</span>
+            <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.repeatNewPassword" /></label>
+            <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>
 
         <div class="pass-info">
             <p>Паролата трябва да съдържа минимум 6 символа.</p>
@@ -27,7 +22,7 @@
 
         <label><span>*Текуща парола</span>
             <input class="inputs" type="password" ng-model="user.currentPass" required /></label>
-            <span class="red" ng-if="!user.currentPass && isSubmitted()">Моля въведете текуща парола!</span>
+            <span class="red" ng-if="errCode">Моля въведете текуща парола!</span>
 
         <div class="save-changes">
             <button class="btn btn-primary" 

@@ -23,25 +23,21 @@
         // $scope.user = $rootScope.getUser();
 
         $scope.updateProfile = function() {
-            if ($scope.user.currentPass && !$scope.validateEmail($scope.user.email)) {
-                console.log('Invalid email!');
+            if (new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
+                sendUserData();
+                console.log('Invalid currentPass!');   
             } else {
-                if (new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
-                    console.log('Invalid currentPass!');   
-                } else {
-                    if ($scope.user.newPassword) {
-                        if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
-                            || $scope.user.newPassword.length < 6 ) {
-                                console.log($scope.user)
-                                console.log('The passwords are not the same!');
-                            } else {
-                                sendUserData();
-                            }
+                if ($scope.user.newPassword) {
+                    if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
+                        || $scope.user.newPassword.length < 6 ) {                            
+                            console.log($scope.user)
+                            console.log('The passwords are not the same!');
                         } else {
-                             sendUserData();
-                     }
-                }
-                
+                            sendUserData();
+                        }
+                    } else {
+                         sendUserData();
+                 }
             }
 
             $scope.alerts = [];
@@ -59,17 +55,31 @@
             function sendUserData () {
                 UpdateProfileService.updateProfile($scope.user)
                     .then(function (response) {
+                        console.log(response);
                         if (response.status === 200) {                       
                             $scope.addAlert();
                         }
                         
                     })
                     .catch(function(err) {
-                        $scope.addAlert();                        
+                        if (err.status === 401) {
+                            $scope.errCode = true;
+                            $scope.$apply();
+                        }                        
                         console.log('error', err);
                     });
             }
-        }               
+        } 
+        
+
+        $scope.validatePass = function () {
+            var invalid = false;
+            console.log($scope.user.repeatNewPassword);
+            if ($scope.user.repeatNewPassword && $scope.user.repeatNewPassword !== $scope.user.newPassword) {
+                invalid = true;                
+            }
+            $scope.invalid = invalid;
+        }
 
         $scope.isSubmitted = function () {
             return $scope.submit;
@@ -77,11 +87,6 @@
 
         $scope.clicked = function () {
             $scope.submit = true;
-        }
-
-        $scope.validateEmail = function() {
-            var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return regex.test(String($scope.user.email).toLowerCase());
         }
     
     }
