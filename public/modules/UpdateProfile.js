@@ -38,7 +38,7 @@
                                 sendUserData();
                             }
                         } else {
-                            // sendUserData();
+                             sendUserData();
                      }
                 }
                 
@@ -65,13 +65,11 @@
                         
                     })
                     .catch(function(err) {
-                        $scope.addAlert();
-                        
+                        $scope.addAlert();                        
                         console.log('error', err);
                     });
             }
-        }
-               
+        }               
 
         $scope.isSubmitted = function () {
             return $scope.submit;
