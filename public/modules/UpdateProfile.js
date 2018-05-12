@@ -10,9 +10,9 @@
 
     // Service
     function Service($rootScope) {
-        // Add message
+        // Add new data
         this.updateProfile = function (user) {
-            console.log('Add message');
+            console.log('Add new data');
             return $rootScope.promise('POST', '/api/profile/edit', user);
         }
 
@@ -46,17 +46,21 @@
                 sendUserData();
                 console.log('Invalid currentPass!');   
             } else {
-                if ($scope.user.newPassword) {
-                    if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
-                        || $scope.user.newPassword.length < 6 ) {                            
-                            console.log($scope.user)
-                            console.log('The passwords are not the same!');
-                        } else {
-                            sendUserData();
-                        }
-                    } else {
-                         sendUserData();
-                 }
+                if ($scope.invalid === false) {
+                    sendUserData();
+                }
+                
+                // if ($scope.user.newPassword) {
+                //     if ($scope.user.newPassword !== $scope.user.repeatNewPassword 
+                //         || $scope.user.newPassword.length < 6 ) {                            
+                //             console.log($scope.user)
+                //             console.log('The passwords are not the same!');
+                //         } else {
+                //             sendUserData();
+                //         }
+                //     } else {
+                //          sendUserData();
+                //  }
             }
 
             $scope.alerts = [];
@@ -75,8 +79,11 @@
                 UpdateProfileService.updateProfile($scope.user)
                     .then(function (response) {
                         console.log(response);
-                        if (response.status === 200) {                       
-                            $scope.addAlert();
+                        if (response.status === 200) {   
+                            $scope.errCode = false; 
+                            //$scope.errCodeEqualPass = false;                   
+                            $scope.addAlert();  
+                            $scope.user = response.data;                          
                         }
                         
                     })
@@ -84,7 +91,11 @@
                         if (err.status === 401) {
                             $scope.errCode = true;
                             $scope.$apply();
-                        }                        
+                        } 
+                        // if (err.status === 400) {
+                        //     $scope.errCodeEqualPass = true;
+                        //     $scope.$apply();
+                        // }                         
                         console.log('error', err);
                     });
             }
@@ -93,20 +104,33 @@
 
         $scope.validatePass = function () {
             var invalid = false;
-            console.log($scope.user.repeatNewPassword);
-            if ($scope.user.repeatNewPassword && $scope.user.repeatNewPassword !== $scope.user.newPassword) {
+            var shortPass = false;
+            //console.log($scope.user.repeatNewPassword);
+            if ($scope.user.repeatNewPassword &&
+                $scope.user.repeatNewPassword !== $scope.user.newPassword ) {
                 invalid = true;                
             }
-            $scope.invalid = invalid;
+            
+            $scope.invalid = invalid;            
         }
+        // function isShortPass ($scope) {
+        //     if ($scope.user.newPassword.length < 6 &&
+        //         $scope.user.repeatNewPassword < 6 ) {
+        //         console.log('new pass lenght', $scope.user.newPassword.length);
+        //         shortPass = true;                
+        //     }
+        //     $shortPass = shortPass;
+        // }
 
-        $scope.isSubmitted = function () {
-            return $scope.submit;
-        }
+        
 
-        $scope.clicked = function () {
-            $scope.submit = true;
-        }
+        // $scope.isSubmitted = function () {
+        //     return $scope.submit;
+        // }
+
+        // $scope.clicked = function () {
+        //     $scope.submit = true;
+        // }
     
     }
 

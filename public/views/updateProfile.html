@@ -11,10 +11,12 @@
 
         <label><span>Нова парола</span>
             <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.newPassword" /></label>
+            <!-- <span class="red" ng-if="shortPass">Моля въведете парола с минимум 6 символа!</span> -->
+            <!-- <span class="red" ng-if="errCodeEqualPass">Моля въведете нова парола!</span> -->
 
         <label><span>Повтори новата парола</span>
             <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.repeatNewPassword" /></label>
-            <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>
+            <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>            
 
         <div class="pass-info">
             <p>Паролата трябва да съдържа минимум 6 символа.</p>
@@ -26,7 +28,6 @@
 
         <div class="save-changes">
             <button class="btn btn-primary" 
-                    ng-click="clicked()" 
                     ng-disabled="updateProfileForm.$invalid"
                     ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }">Запази</button>
             
@@ -34,3 +35,6 @@
         <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
     </form>
 </section>
+
+
+<!-- ng-click="clicked()" -->

@@ -25,16 +25,6 @@
 
     <!-- Font Awesome -->
     <script defer src="vendors/fontawesome-all.min.js"></script>
-</head>
-<body>
-    <!-- Header -->
-    <header ng-include src="'header.html'"></header>
-
-    <!-- View -->
-    <div ng-view class="page"></div>
-
-    <!-- Footer -->
-    <footer ng-include src="'footer.html'" class="footer"></footer>
 
     <!-- Vendors -->
     <script src="vendors/selectFile.js"></script>
@@ -68,5 +58,15 @@
     <!-- other -->
     <script src="modules/Home.js"></script>
     <script src="modules/Contacts.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header ng-include src="'header.html'"></header>
+
+    <!-- View -->
+    <div ng-view class="page"></div>
+
+    <!-- Footer -->
+    <footer ng-include src="'footer.html'" class="footer"></footer>    
 </body>
 </html>

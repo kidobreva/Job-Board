@@ -85,6 +85,7 @@ section.userProfile form button.btn {
 
 section.userProfile form .save-changes {
     margin: 0 auto;
+    padding-bottom: 20px;
 }
 
 /*section.userProfile form .save-changes p {

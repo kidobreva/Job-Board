@@ -1,19 +1,23 @@
-section.user-profile {
+section.user-profile,
+section.company-profile {
     width: 980px;
     margin: 0 auto;
 
     display: flex;
 }
 
-section.user-profile .user-info {
+section.user-profile .user-info,
+section.company-profile .company-info {
     width: 30%;
 }
 
-section.user-profile .user-info img {
+section.user-profile .user-info img,
+section.company-profile .company-info img {
     width: 80%;
 }
 
-section.user-profile .info-panel {
+section.user-profile .info-panel,
+section.company-profile .info-panel {
     border: 1px solid #BBB;
     margin-top: 30px;
     padding: 27px 20px;
@@ -21,17 +25,15 @@ section.user-profile .info-panel {
     box-shadow: 0 0 15px #999;
 }
 
-section.user-profile .profil-controll {
-    width: 70%;
-}
-
-section.user-profile .profil-controll {
+section.user-profile .profil-controll,
+section.company-profile .profil-controll {
     margin-left: 50px;
 
     width: 100%;
 }
 
-section.user-profile .page-options {
+section.user-profile .page-options,
+section.company-profile .page-options {
     background: rgba(186, 216, 247, 0.9);;
     color: #000;
 
@@ -39,7 +41,8 @@ section.user-profile .page-options {
     padding: 10px 10px 10px 10px;
 }
 
-section.user-profile .options {
+section.user-profile .options,
+section.company-profile .options {
     display: flex;
     justify-content: space-between;
 

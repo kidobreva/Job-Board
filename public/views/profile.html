@@ -48,7 +48,49 @@
 </div>
 
 <!-- Company -->
-<div ng-if="loaded && user.isCompany">
-  <h3>Фирма</h3>
-  <p>Имейл: {{user.email}}</p>
+<div ng-if="loaded && user.isCompany" class="profile-page">
+    <section class="company-profile">
+        <div class="company-info">
+            <!-- Picture -->
+            <div class="company-picture">
+                <img ng-src="{{user.img}}">
+            </div>
+    
+            <!-- Upload picture -->
+            <label for="select">Прикачване на снимка</label>
+            <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
+            <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
+            <label ng-show="chosen" id="selected"></label>
+            <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
+    
+            <!-- Info panel -->
+            <div class="info-panel">
+                <p>Име: {{ user.title }}</p>
+                <p>E-mail: {{ user.email }}</p>
+                <p>Регистриран на: {{ user.registeredDate | date }}</p>
+            </div>
+        </div>
+    
+        <div class="profil-controll">
+            <div class="page-options">
+                <strong>Настройки на профила</strong>
+            </div>
+            <div class="options">
+                <span><a href="#!/add-advert">Добави обява</a></span>
+                <a href="#!/add-advert">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="#!/favourites">Публикувани обяви</a> [{{ user.favourites.length }}]</span>
+                <a href="">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
+                <a href="">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="#!/updateProfile">Настрoйки на профила</a></span>
+                <a href="#!/updateProfile">Покажи</a>
+            </div>
+        </div>
+    </section>
 </div>
