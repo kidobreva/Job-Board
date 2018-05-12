@@ -23,7 +23,8 @@
 
     // Controller
     function Ctrl(UpdateProfileService, $rootScope, $scope) {
-        console.log('UpdateProfileCtrl');
+        console.log('Init UpdateProfile Controller');
+        
         UpdateProfileService.getProfile()
             .then(function(response) {
                 if (response.status === 200) {

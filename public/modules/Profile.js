@@ -29,7 +29,7 @@
 
     // Controller
     function Ctrl(ProfileService, $scope, $timeout) {
-        console.log('ProfileCtrl');
+        console.log('Init Profile Controller');
 
         // Loader
         $scope.loaded = false;
@@ -39,14 +39,18 @@
             }
         }, 1000);
 
+        // Custom file select
+        $scope.getFile = new selectFile;
+        $scope.getFile.targets('choose','selected');
+
         // Get profile
         ProfileService.getProfile()
             .then(function(response) {
                 console.log(response);
                 if (response.status === 200) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
                     $scope.user = response.data;
+                    $scope.timeout = false;
+                    $scope.loaded = true;
                 }
             })
             .catch(function(err) {
@@ -61,12 +65,18 @@
             fileReader.onloadend = function(e) {
                 ProfileService.uploadPicture(e).then(function() {
                     $scope.user.img = e.target.result;
+                    $scope.chosen = false;
                     $scope.$apply();
                 });
             };
             fileReader.readAsDataURL(
                 angular.element(document.querySelector('.upload'))[0].files[0]
             );
+        };
+
+        $scope.isChosen = function() {
+            $scope.chosen = true;
+            $scope.$apply();
         };
     }
 

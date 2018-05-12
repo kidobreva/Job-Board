@@ -8,9 +8,9 @@
     <p>Ниво: {{advert.level}}</p>
     <p>Тип: {{advert.type}}</p>
 
-    <p>Заплата: {{advert.salary}}</p>
+    <p>Заплата: от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</p>
 
-    <p>Изтича на: {{advert.isExpired}}</p>
+    <p>Изтича на: {{advert.isExpired | date}}</p>
 
     <p>Брой кандидатствали: {{advert.candidates.length}}</p>
     <p>Брой преглеждания: {{advert.views}}</p>

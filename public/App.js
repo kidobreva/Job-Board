@@ -5,11 +5,8 @@
         'ngAnimate',
         'ui.bootstrap',
 
-        // Auth
-        'Auth',
-        'Logout',
-
         // Users
+        'Auth',
         'User',
         'Users',
         'Profile',
@@ -20,17 +17,15 @@
         // Companies
         'Company',
         'Companies',
+        'AddAdvert',
 
         // Adverts
         'Advert',
         'Adverts',
         'Search',
-        'AddAdvert',
 
         // Other
         'Home',
-        'About',
-        'Price',
         'Contacts'
     ];
 
@@ -43,12 +38,43 @@
     // Config
     function Config($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix('!');
+
+        // Routes
+        $routeProvider.when('/about', {
+            templateUrl: 'views/about.html',
+            title: 'За нас'
+        });
+        $routeProvider.when('/price', {
+            templateUrl: 'views/price.html',
+            title: 'Цени на услугите'
+        });
+        $routeProvider.when('/logout', {
+            resolve: {
+                logout: function($rootScope, $window) {
+                    $rootScope
+                        .promise('GET', '/api/logout')
+                        .then(function(response) {
+                            if (response.status === 200) {
+                                $rootScope.user = null;
+                                $rootScope.isLogged = false;
+                                console.log('Logged out!');
+                                $window.location.href = '#!/home';
+                            }
+                        })
+                        .catch(function() {
+                            $window.location.href = '#!/home';
+                        });
+                }
+            }
+        });
+
+        // Not found
         $routeProvider.otherwise({ redirectTo: '/home' });
     }
 
     // Run
     function Run($rootScope, $route, $http, $location) {
-        console.log('Init App');
+        console.log('Init App Run');
 
         // Promise function
         $rootScope.promise = function(type, url, data) {
@@ -100,8 +126,7 @@
                 $rootScope.headerLoaded = true;
                 $rootScope.user = response.data;
             })
-            .catch(function(err) {
-                console.log(err);
+            .catch(function() {
                 $rootScope.user = null;
                 $rootScope.isLogged = false;
                 $rootScope.headerLoaded = true;

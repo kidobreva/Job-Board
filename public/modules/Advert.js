@@ -4,20 +4,24 @@
         $routeProvider.when('/advert/:id', {
             templateUrl: 'views/advert.html',
             controller: 'Advert',
-            title: 'Информация за обява'
+            resolve: {
+                title: function($route) {
+                    return 'Информация за обява №' + $route.current.params.id;
+                }
+            }
         });
     }
 
     // Service
-    function Service($rootScope, $routeParams, $http) {
+    function Service($rootScope, $routeParams) {
         // Save to favourites
-        this.save = function(advert) {
-            return $rootScope.promise('POST', '/api/favourite', advert);
+        this.save = function(id) {
+            return $rootScope.promise('POST', '/api/favourite', { data: id });
         };
 
         // Apply for an advert
-        this.apply = function(advert) {
-            return $rootScope.promise('POST', '/api/apply', advert);
+        this.apply = function(id) {
+            return $rootScope.promise('POST', '/api/apply', { data: id });
         };
 
         // Delete advert
@@ -29,52 +33,50 @@
         };
 
         // Get adverts
-        this.getAdverts = function(scope) {
-            $http
-                .get('/api/advert/' + $routeParams.id)
-                .then(function(response) {
-                    console.log('advert:', response);
-                    if (response.status === 200) {
-                        scope.advert = response.data;
-
-                        $http
-                            .get('/profile')
-                            .then(function(response) {
-                                console.log('user:', response);
-                                if (response.status === 200) {
-                                    scope.loaded = true;
-                                    scope.timeout = false;
-                                    scope.user = response.data;
-                                }
-                            })
-                            .catch(function(err) {
-                                scope.loaded = true;
-                                scope.timeout = false;
-                                console.error(err.data);
-                            });
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+        this.getAdverts = function() {
+            return $rootScope.promise('GET', '/api/advert/' + $routeParams.id);
         };
     }
 
     // Controller
-    function Ctrl(AdvertService, $scope, $timeout) {
-        console.log('AdvertCtrl');
+    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title) {
+        console.log('Init Advert Controller');
+        $rootScope.title = title;
 
-        $scope.loaded = false;
+        // Get adverts
+        AdvertService.getAdverts()
+            .then(function(response) {
+                if (response.status === 200) {
+                    $scope.advert = response.data;
+                    $scope.timeout = false;
+                    $scope.loaded = true;
+                    $rootScope
+                        .promise('GET', '/api/profile')
+                        .then(function(response) {
+                            $scope.user = response.data;
+                        })
+                        .catch(function(err) {
+                            //
+                        });
+                }
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
+            });
 
         // Loader
+        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;
             }
         }, 1000);
 
+        // Save to favourites
         $scope.save = function() {
-            AdvertService.save($scope.advert)
+            AdvertService.save($scope.advert.id)
                 .then(function(response) {
                     console.log(response);
                     if (response.status === 200) {
@@ -85,8 +87,10 @@
                     console.error(err.data);
                 });
         };
+
+        // Apply for an advert
         $scope.apply = function() {
-            AdvertService.apply($scope.advert)
+            AdvertService.apply($scope.advert.id)
                 .then(function(response) {
                     console.log(response);
                     if (response.status === 200) {
@@ -97,6 +101,8 @@
                     console.error(err.data);
                 });
         };
+
+        // Delete advert
         $scope.deleteAdvert = function() {
             AdvertService.deleteAdvert()
                 .then(function(response) {
@@ -109,7 +115,6 @@
                     console.error(err.data);
                 });
         };
-        AdvertService.getAdverts($scope);
     }
 
     // Module

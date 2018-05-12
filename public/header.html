@@ -26,18 +26,18 @@
         </li>
 
         <!-- Favourites -->
-        <li class="nav-item favourites-btn"
+        <!-- <li class="nav-item favourites-btn"
             ng-if="$root.isLogged && !$root.user.isAdmin && !$root.user.isCompany"
             ng-class="{activeMenu: isActive('/favourites') }">
 
             <a href="#!/favourites">Наблюдавани</a>
-        </li>
+        </li> -->
 
         <!-- Adverts -->
         <li class="nav-item adverts-btn"
             ng-class="{activeMenu: isActive('/adverts') }">
 
-            <a href="#!/adverts">Обяви</a>
+            <a href="#!/adverts">Обяви за работа</a>
         </li>
 
         <!-- (Admin) Users -->
@@ -48,12 +48,11 @@
             <a href="#!/users">Потребители</a>
         </li>
 
-        <!-- (Admin) Companies -->
+        <!-- Companies -->
         <li class="nav-item companies-btn"
-            ng-if="$root.isLogged && $root.user.isAdmin"
             ng-class="{activeMenu: isActive('/companies') }">
 
-            <a href="#!/companies">Фирми</a>
+            <a href="#!/companies">Работодатели</a>
         </li>
 
         <!-- Right part of the menu -->

@@ -3,7 +3,7 @@ const router = express.Router();
 const sha1 = require('sha1');
 const fs = require('fs');
 
-// Profile GET
+// (GET) Profile
 router.get('/api/profile', function(req, res) {
     if (req.session.user) {
         res.json(req.session.user);
@@ -12,30 +12,9 @@ router.get('/api/profile', function(req, res) {
     }
 });
 
-// Upload picture POST
+// (POST) Upload picture
 router.post('/api/profile/upload-picture/:id', function(req, res) {
     console.log('Profile Post:', req.body.data);
-
-    // Create folder for user
-    // const dir = `uploads/${req.session.user.id.toString()}/`;
-    // if (!fs.existsSync('uploads')) {
-    //     fs.mkdirSync('uploads');
-    // }
-    // if (!fs.existsSync(dir)) {
-    //     fs.mkdirSync(dir);
-    // }
-    // if (req.body.data.slice(0, 10) === 'data:image') {
-    //     fs.writeFile(
-    //         dir + `/profile.${req.body.data.slice(11, 14)}`,
-    //         Buffer.from(req.body.data.slice(22), 'base64'),
-    //         err => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             console.log('File saved!');
-    //         }
-    //     );
-    // }
 
     const users = req.db.get('users');
     users
@@ -141,7 +120,8 @@ router.post('/api/profile/upload-cv/:id', function(req, res) {
                     }
                 );
 
-                const cv = `uploads/${req.session.user.id.toString()}/cv${user.cv.length + 1}.pdf`;
+                const cv = `uploads/${req.session.user.id.toString()}/cv${user
+                    .cv.length + 1}.pdf`;
                 // save to session
                 req.session.user.cv.push(cv);
                 req.session.save();

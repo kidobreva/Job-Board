@@ -1,16 +1,19 @@
 <div id="loader" ng-if="timeout"></div>
 <!-- User -->
-<div ng-if="loaded && !user.isCompany">
+<div ng-if="loaded && !user.isCompany" class="profile-page">
   <section class="user-profile">
     <div class="user-info">
         <!-- Picture -->
-        <img src="{{ user.img }}" alt="">
+        <div class="profile-picture">
+            <img ng-src="{{user.img}}">
+        </div>
 
         <!-- Upload picture -->
-        <label>Моля прикачете снимка
-              <input type="file" class="upload" name="file"/>
-        </label>
-        <button ng-click="uploadPicture()">upload</button>
+        <label for="select">Прикачване на снимка</label>
+        <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
+        <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
+        <label ng-show="chosen" id="selected"></label>
+        <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
 
         <!-- Info panel -->
         <div class="info-panel">
@@ -25,15 +28,15 @@
             <strong>Настройки на профила</strong>
         </div>
         <div class="options">
-            <span><a href="#!/myCV">Моите CV - та</a> [0]</span>
+            <span><a href="#!/myCV">Моите CV - та</a> [{{ user.cv.length }}]</span>
             <a href="#!/myCV">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="#!/favourites">Наблюдавани обяви</a> [{{ user.favourites.length || 0 }}]</span>
+            <span><a href="#!/favourites">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="">Къде сте кандидатствали</a> [{{ user.applied.length || 0 }}]</span>
+            <span><a href="">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">

@@ -27,7 +27,7 @@
 
     // Controller
     function Ctrl(UserService, $scope, $timeout) {
-        console.log('UserCtrl');
+        console.log('Init User Controller');
 
         // Loader
         $scope.loaded = false;

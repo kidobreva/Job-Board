@@ -29,7 +29,7 @@
 
     // Controller
     function Ctrl(MyCVService, $scope, $timeout) {
-        console.log('MyCVCtrl');
+        console.log('Init MyCV Controller');
 
         // Loader
         $scope.loaded = false;

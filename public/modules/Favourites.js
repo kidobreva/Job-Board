@@ -18,7 +18,7 @@
 
     // Controller
     function Ctrl(FavouritesService, $scope, $timeout) {
-        console.log('FavouritesCtrl');
+        console.log('Init Favourites Controller');
 
         // Loader
         $scope.loaded = false;

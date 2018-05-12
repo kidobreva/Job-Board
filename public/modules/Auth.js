@@ -25,7 +25,7 @@
 
     // Controller
     function Ctrl(AuthService, $rootScope, $scope, $window) {
-        console.log('AuthCtrl');
+        console.log('Init Auth Controller');
         $scope.registerUser = {};
         $scope.registerUser.isCompany = false;
 

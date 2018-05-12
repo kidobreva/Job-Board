@@ -10,7 +10,7 @@
 
     // Controller
     function Ctrl($scope, $window) {
-        console.log('HomeCtrl');
+        console.log('Init Home Controller');
 
         // Carousel
         $scope.myInterval = 5000;

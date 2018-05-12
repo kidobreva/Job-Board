@@ -27,7 +27,7 @@
 
     // Controller
     function Ctrl(CompanyService, $scope, $timeout) {
-        console.log('CompanyCtrl');
+        console.log('Init Company Controller');
 
         // Loader
         $scope.loaded = false;

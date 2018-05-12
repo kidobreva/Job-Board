@@ -41,6 +41,9 @@ app.use(function(req, res, next) {
     req.db = db;
     next();
 });
+db.then(() => {
+    console.log('Database connected to the server!');
+});
 
 // routes
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
@@ -48,7 +51,7 @@ fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
 });
 
 // Register admin
-var users = db.get('users');
+const users = db.get('users');
 users.findOne({ id: 0 }).then(function(user) {
     if (!user) {
         users.insert({

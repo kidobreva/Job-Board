@@ -27,7 +27,7 @@
 
     // Controller
     function Ctrl(SearchService, $scope, $timeout) {
-        console.log('SearchCtrl');
+        console.log('Init Search Controller');
 
         // Loader
         $scope.loaded = false;

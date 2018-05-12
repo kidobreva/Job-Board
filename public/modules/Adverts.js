@@ -18,7 +18,7 @@
 
     // Controller
     function Ctrl(AdvertsService, $scope, $timeout) {
-        console.log('AdvertsCtrl');
+        console.log('Init Adverts Controller');
 
         // Loader
         $scope.loaded = false;
@@ -31,11 +31,10 @@
         // Get adverts
         AdvertsService.getAdverts()
             .then(function(advertsArr) {
-                advertsArr = advertsArr.data.reverse();
                 $scope.maxSize = 10;
-                $scope.adverts = advertsArr.slice(0, $scope.maxSize);
-                $scope.totalItems = advertsArr.length;
-                $scope.advertsArr = advertsArr;
+                $scope.adverts = advertsArr.data.slice(0, $scope.maxSize);
+                $scope.totalItems = advertsArr.data.length;
+                $scope.advertsArr = advertsArr.data;
                 $scope.loaded = true;
                 $scope.timeout = false;
             })

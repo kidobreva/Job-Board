@@ -1,11 +1,14 @@
 .adverts-page {
-  width: 980px;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: space-between;
+    width: 980px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .adverts-page table {
-  width: 670px;
+    width: 670px;
 }
 
+.pagination-sm {
+    justify-content: flex-end;
+}

@@ -13,13 +13,13 @@
         // Add advert
         this.addAdvert = function(advert) {
             console.log('Add advert');
-            return $rootScope.promise('POST', '/api/add-advert', advert);
+            return $rootScope.promise('POST', '/api/advert', advert);
         };
     }
 
     // Controller
     function Ctrl(AddAdvertService, $scope, $window) {
-        console.log('AddAdvertCtrl');
+        console.log('Init AddAdvert Controller');
 
         // Cities
         $scope.cities = [

@@ -2,8 +2,16 @@
     <form class="register-users" name="registerUsers" ng-submit="register($event)">
         <h2>Регистрация:</h2>
 
-        <label><input type="radio" ng-checked="registerUser.isCompany" name="is-company" ng-value="false" ng-model="registerUser.isCompany"> Кандидат</label>
-        <label><input type="radio" ng-checked="registerUser.isCompany" name="is-company" ng-value="true" ng-model="registerUser.isCompany"> Работодател</label>
+        <div class="radios">
+            <div class="custom-control custom-radio">
+                <input type="radio" id="candidate" ng-checked="registerUser.isCompany" name="is-company" ng-value="false" ng-model="registerUser.isCompany" class="custom-control-input" />
+                <label class="custom-control-label" for="candidate">Кандидат</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="company" ng-checked="registerUser.isCompany" name="is-company" ng-value="true" ng-model="registerUser.isCompany" class="custom-control-input" />
+                <label class="custom-control-label" for="company">Работодател</label>
+            </div>
+        </div>
 
         <div ng-if="!registerUser.isCompany" >
             <label><span>*</span>Име

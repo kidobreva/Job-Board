@@ -19,7 +19,7 @@
 
     // Controller
     function Ctrl(SendMessageService, $scope) {
-        console.log('ContactsCtrl');
+        console.log('Init Contacts Controller');
 
         $scope.sendMessage = function () {
             // Email validation

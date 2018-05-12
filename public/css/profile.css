@@ -1,7 +1,6 @@
 section.user-profile {
     width: 980px;
     margin: 0 auto;
-    padding-top: 40px;
 
     display: flex;
 }
@@ -48,3 +47,10 @@ section.user-profile .options {
     border-bottom: 1px solid #CCC;
 }
 
+.profile-picture {
+    margin-bottom: 1.5rem;
+}
+
+.profile-page {
+    padding-bottom: 2rem;
+}
