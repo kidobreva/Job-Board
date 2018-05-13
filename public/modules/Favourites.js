@@ -12,7 +12,7 @@
     function Service($rootScope) {
         // Get favourites
         this.getFavourites = function() {
-            return $rootScope.promise('GET', '/api/profile');
+            return $rootScope.promise.get('/api/profile');
         };
     }
 
@@ -21,7 +21,6 @@
         console.log('Init Favourites Controller');
 
         // Loader
-        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;
@@ -31,11 +30,9 @@
         FavouritesService.getFavourites()
             .then(function(response) {
                 console.log(response);
-                if (response.status === 200) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.favourites = response.data.favourites;
-                }
+                $scope.loaded = true;
+                $scope.timeout = false;
+                $scope.favourites = response.data.favourites;
             })
             .catch(function(err) {
                 $scope.loaded = true;

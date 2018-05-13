@@ -21,7 +21,7 @@
 
         // Search
         this.search = function() {
-            return $rootScope.promise('GET', query);
+            return $rootScope.promise.post(query);
         };
     }
 
@@ -30,7 +30,6 @@
         console.log('Init Search Controller');
 
         // Loader
-        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;

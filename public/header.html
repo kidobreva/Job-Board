@@ -1,4 +1,4 @@
-<div><a href="#!/home"><img src="images/logo.png" /></a></div>
+<div><a href="/home"><img src="images/logo.png" /></a></div>
 <nav ng-if="headerLoaded" class="nav-menu">
     <ul class="nav-primary">
         <!-- Left part of the menu -->
@@ -6,7 +6,7 @@
         <li class="nav-item home-btn"
             ng-class="{activeMenu: isActive('/home') }">
 
-            <a href="#!/home">Начало</a>
+            <a href="/home">Начало</a>
         </li>
 
         <!-- Add advert -->
@@ -14,7 +14,7 @@
             ng-if="$root.isLogged && $root.user.isCompany"
             ng-class="{activeMenu: isActive('/add-advert') }">
 
-            <a href="#!/add-advert">Добави обява</a>
+            <a href="/add-advert">Добави обява</a>
         </li>
 
         <!-- Profile -->
@@ -22,7 +22,7 @@
             ng-if="$root.isLogged && !$root.user.isAdmin"
             ng-class="{activeMenu: isActive('/profile') }">
 
-            <a href="#!/profile">Профил</a>
+            <a href="/profile">Профил</a>
         </li>
 
         <!-- Favourites -->
@@ -30,29 +30,29 @@
             ng-if="$root.isLogged && !$root.user.isAdmin && !$root.user.isCompany"
             ng-class="{activeMenu: isActive('/favourites') }">
 
-            <a href="#!/favourites">Наблюдавани</a>
+            <a href="/favourites">Наблюдавани</a>
         </li> -->
 
         <!-- Adverts -->
         <li class="nav-item adverts-btn"
             ng-class="{activeMenu: isActive('/adverts') }">
 
-            <a href="#!/adverts">Обяви за работа</a>
+            <a href="/adverts">Обяви за работа</a>
         </li>
 
         <!-- (Admin) Users -->
         <li class="nav-item users-btn"
             ng-if="$root.isLogged && $root.user.isAdmin"
-            ng-class="{activeMenu: isActive('/users') }">
+            ng-class="{activeMenu: isActive('/admin/users') }">
 
-            <a href="#!/users">Потребители</a>
+            <a href="/admin/users">Потребители</a>
         </li>
 
         <!-- Companies -->
         <li class="nav-item companies-btn"
             ng-class="{activeMenu: isActive('/companies') }">
 
-            <a href="#!/companies">Работодатели</a>
+            <a href="/companies">Работодатели</a>
         </li>
 
         <!-- Right part of the menu -->
@@ -60,14 +60,14 @@
         <li class="menu-right nav-item about-btn with-margin"
             ng-class="{activeMenu: isActive('/about') }">
 
-            <a href="#!/about">За нас</a>
+            <a href="/about">За нас</a>
         </li>
 
         <!-- Contacts -->
         <li class="menu-right nav-item contacts-btn"
             ng-class="{activeMenu: isActive('/contacts') }">
 
-            <a href="#!/contacts">Контакти</a>
+            <a href="/contacts">Контакти</a>
         </li>
 
         <!-- Login -->
@@ -75,7 +75,7 @@
             ng-if="!$root.isLogged"
             ng-class="{activeMenu: isActive('/auth') }">
 
-            <a href="#!/auth">Вход и регистрация</a>
+            <a href="/auth">Вход и регистрация</a>
         </li>
 
         <!-- Logout -->
@@ -83,7 +83,7 @@
             ng-if="$root.isLogged"
             ng-class="{activeMenu: isActive('/logout') }">
 
-            <a href="#!/logout">Излез</a>
+            <a href="/logout">Излез</a>
         </li>
     </ul>
 </nav>

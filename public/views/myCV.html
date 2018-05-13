@@ -4,6 +4,6 @@
     <input type="file" class="upload" name="file" />
   </label>
   <button ng-click="uploadCV()">Прикачи CV</button>
-  <object ng-repeat="cv in user.cv" data="{{cv}}" type="application/pdf" width="400px" height="200px">
+  <object ng-repeat="cv in $root.user.cv" data="{{cv}}" type="application/pdf" width="400px" height="200px">
   </object>
 </div>

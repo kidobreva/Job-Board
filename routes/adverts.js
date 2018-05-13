@@ -6,25 +6,21 @@ router.get('/api/advert/:id', function(req, res) {
     const id = +req.params.id;
     const adverts = req.db.get('adverts');
     adverts.findOne({ id }).then(function(advert) {
-        if (advert) {
+        if (!advert) {
+            res.sendStatus(404);
+        } else {
             adverts.findOneAndUpdate(
                 { id },
                 {
                     $set: {
                         views: ++advert.views,
-                        isExpired:
-                            Date.now() < advert.expire
-                                ? advert.expire
-                                : 'Изтекла'
+                        isExpired: Date.now() < advert.expire ? advert.expire : 'Изтекла'
                     }
                 }
             );
 
-            advert.isExpired =
-                Date.now() < advert.expire ? advert.expire : 'Изтекла';
+            advert.isExpired = Date.now() < advert.expire ? advert.expire : 'Изтекла';
             res.json(advert);
-        } else {
-            res.sendStatus(404);
         }
     });
 });
@@ -45,7 +41,9 @@ router.get('/api/adverts', function(req, res) {
 
 // (POST) Add advert
 router.post('/api/advert', function(req, res) {
-    if (req.session.user.isCompany) {
+    if (!req.session.user && !req.session.user.isCompany) {
+        res.sendStatus(401);
+    } else {
         const adverts = req.db.get('adverts');
         adverts.stats().then(stats => {
             req.body.id = ++stats.count;
@@ -54,9 +52,7 @@ router.post('/api/advert', function(req, res) {
             req.body.views = 0;
             req.body.candidates = [];
             req.body.date = Date.now();
-            req.body.expire = new Date(
-                req.body.date + 1000 * 60 * 60 * 24 * 30
-            );
+            req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
             adverts.insert(req.body).then(function() {
                 res.sendStatus(200);
             });
@@ -66,45 +62,47 @@ router.post('/api/advert', function(req, res) {
 
 // (POST) Apply for an advert
 router.post('/api/apply', function(req, res) {
-    const users = req.db.get('users');
-    users
-        .findOne({ id: req.session.user.id })
-        .then(function(user) {
-            if (user) {
-                var adverts = req.db.get('adverts');
-                adverts.findOne({ id: req.body.data }).then(function(advert) {
-                    users
-                        .findOne({ id: advert.companyId })
-                        .then(function(user) {
+    if (!req.session.user) {
+        res.sendStatus(401);
+    } else if (req.session.user.isCompany) {
+        res.sendStatus(403);
+    } else {
+        const users = req.db.get('users');
+        users
+            .findOne({ id: req.session.user.id })
+            .then(function(user) {
+                if (user) {
+                    var adverts = req.db.get('adverts');
+                    adverts.findOne({ id: req.body.data }).then(function(advert) {
+                        users.findOne({ id: advert.companyId }).then(function(user) {
                             user.notifications.unshift({
                                 candidateId: req.session.user.id,
                                 advertId: advert.id,
                                 message: `${req.session.user.firstName} ${
                                     req.session.user.lastName
-                                } кандидатства за вашата обява - ${
-                                    advert.title
-                                }!`
+                                } кандидатства за вашата обява - ${advert.title}!`
                             });
                             users.findOneAndUpdate({ id: user.id }, user);
                         });
-                    advert.candidates.push(req.session.user.id);
-                    adverts.findOneAndUpdate({ id: req.body.data }, advert);
-                });
+                        advert.candidates.push(req.session.user.id);
+                        adverts.findOneAndUpdate({ id: req.body.data }, advert);
+                    });
 
-                // save to session
-                req.session.user.applied.push(req.body.data);
-                req.session.save();
+                    // save to session
+                    req.session.user.applied.push(req.body.data);
+                    req.session.save();
 
-                // save to database
-                user.applied.push(req.body.data);
-                users.findOneAndUpdate({ id: req.session.user.id }, user);
-            } else {
-                console.log('No user!');
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+                    // save to database
+                    user.applied.push(req.body.data);
+                    users.findOneAndUpdate({ id: req.session.user.id }, user);
+                } else {
+                    console.log('No user!');
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
 });
 
 // (GET) Search adverts

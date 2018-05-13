@@ -24,6 +24,7 @@ app.use(bodyParser.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(
     session({
         secret: 'ITTalents',
@@ -62,6 +63,12 @@ users.findOne({ id: 0 }).then(function(user) {
             messages: []
         });
     }
+});
+
+// For using HTML5Mode in AngularJS
+app.all('/*', function(req, res) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('public/index.html', { root: __dirname });
 });
 
 // catch 404 and forward to error handler

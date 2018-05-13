@@ -12,7 +12,7 @@
     function Service($rootScope) {
         // Get adverts
         this.getAdverts = function() {
-            return $rootScope.promise('GET', '/api/adverts');
+            return $rootScope.promise.get('/api/adverts');
         };
     }
 
@@ -21,7 +21,6 @@
         console.log('Init Adverts Controller');
 
         // Loader
-        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;

@@ -13,12 +13,12 @@
         // Add advert
         this.addAdvert = function(advert) {
             console.log('Add advert');
-            return $rootScope.promise('POST', '/api/advert', advert);
+            return $rootScope.promise.post('/api/advert', advert);
         };
     }
 
     // Controller
-    function Ctrl(AddAdvertService, $scope, $window) {
+    function Ctrl(AddAdvertService, $scope) {
         console.log('Init AddAdvert Controller');
 
         // Cities
@@ -51,10 +51,8 @@
 
         $scope.addAdvert = function() {
             AddAdvertService.addAdvert($scope.advert)
-                .then(function(response) {
-                    if (response.status === 200) {
-                        // $window.location.href = '#!/adverts';
-                    }
+                .then(function() {
+                    // show success alert and clean the form
                 })
                 .catch(function(err) {
                     console.error(err);

@@ -1,11 +1,11 @@
 <div id="loader" ng-if="timeout"></div>
 <!-- User -->
-<div ng-if="loaded && !user.isCompany" class="profile-page">
+<div ng-if="loaded && !$root.user.isCompany" class="profile-page">
   <section class="user-profile">
     <div class="user-info">
         <!-- Picture -->
         <div class="profile-picture">
-            <img ng-src="{{user.img}}">
+            <img ng-src="{{$root.user.img}}">
         </div>
 
         <!-- Upload picture -->
@@ -17,9 +17,9 @@
 
         <!-- Info panel -->
         <div class="info-panel">
-            <p>Име: {{ user.firstName + ' ' + user.lastName }}</p>
-            <p>E-mail: {{ user.email }}</p>
-            <p>Регистриран на: {{ user.registeredDate | date }}</p>
+            <p>Име: {{ $root.user.firstName + ' ' + $root.user.lastName }}</p>
+            <p>E-mail: {{ $root.user.email }}</p>
+            <p>Регистриран на: {{ $root.user.registeredDate | date }}</p>
         </div>
     </div>
 
@@ -28,27 +28,27 @@
             <strong>Настройки на профила</strong>
         </div>
         <div class="options">
-            <span><a href="#!/myCV">Моите CV - та</a> [{{ user.cv.length }}]</span>
-            <a href="#!/myCV">Покажи</a>
+            <span><a href="/myCV">Моите CV - та</a> [{{ $root.user.cv.length }}]</span>
+            <a href="/myCV">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="#!/favourites">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>
+            <span><a href="/favourites">Наблюдавани обяви</a> [{{ $root.user.favourites.length }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
+            <span><a href="">Къде сте кандидатствали</a> [{{ $root.user.applied.length }}]</span>
             <a href="">Покажи</a>
         </div>
         <div class="options">
-            <span><a href="#!/updateProfile">Настрoйки на профила</a></span>
-            <a href="#!/updateProfile">Покажи</a>
+            <span><a href="/updateProfile">Настрoйки на профила</a></span>
+            <a href="/updateProfile">Покажи</a>
         </div>
     </div>
 </section>
 </div>
 
 <!-- Company -->
-<div ng-if="loaded && user.isCompany">
+<div ng-if="loaded && $root.user.isCompany">
   <h3>Фирма</h3>
-  <p>Имейл: {{user.email}}</p>
+  <p>Имейл: {{$root.user.email}}</p>
 </div>

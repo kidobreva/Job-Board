@@ -37,7 +37,7 @@
 
     // Config
     function Config($locationProvider, $routeProvider) {
-        $locationProvider.hashPrefix('!');
+        $locationProvider.html5Mode(true);
 
         // Routes
         $routeProvider.when('/about', {
@@ -51,18 +51,16 @@
         $routeProvider.when('/logout', {
             resolve: {
                 logout: function($rootScope, $window) {
-                    $rootScope
-                        .promise('GET', '/api/logout')
-                        .then(function(response) {
-                            if (response.status === 200) {
-                                $rootScope.user = null;
-                                $rootScope.isLogged = false;
-                                console.log('Logged out!');
-                                $window.location.href = '#!/home';
-                            }
+                    $rootScope.promise
+                        .get('/api/logout')
+                        .then(function() {
+                            $rootScope.user = null;
+                            $rootScope.isLogged = false;
+                            console.log('Logged out!');
+                            $window.location.href = '/home';
                         })
                         .catch(function() {
-                            $window.location.href = '#!/home';
+                            $window.location.href = '/home';
                         });
                 }
             }
@@ -76,23 +74,38 @@
     function Run($rootScope, $route, $http, $location) {
         console.log('Init App Run');
 
-        // Promise function
-        $rootScope.promise = function(type, url, data) {
+        // Change page title, based on Route information
+        $rootScope.$on('$routeChangeSuccess', function() {
+            $rootScope.title = $route.current.title;
+        });
+
+        // Set active class for the navbar
+        $rootScope.isActive = function(viewLocation) {
+            return viewLocation === $location.path();
+        };
+
+        // Promise switch
+        var GET = 'GET';
+        var POST = 'POST';
+        var PUT = 'PUT';
+        var PATCH = 'PATCH';
+        var DELETE = 'DELETE';
+        function promise(type, url, data) {
             var promise;
             switch (type) {
-                case 'GET':
-                    promise = $http.get(url, data);
+                case GET:
+                    promise = $http.get(url);
                     break;
-                case 'POST':
+                case POST:
                     promise = $http.post(url, data);
                     break;
-                case 'PUT':
+                case PUT:
                     promise = $http.put(url, data);
                     break;
-                case 'PATCH':
+                case PATCH:
                     promise = $http.patch(url, data);
                     break;
-                case 'DELETE':
+                case DELETE:
                     promise = $http.delete(url, data);
                     break;
             }
@@ -105,31 +118,41 @@
                         reject(err);
                     });
             });
-        };
+        }
 
-        // Change page title, based on Route information
-        $rootScope.$on('$routeChangeSuccess', function() {
-            $rootScope.title = $route.current.title;
-        });
-
-        // Set active class for the navbar
-        $rootScope.isActive = function(viewLocation) {
-            return viewLocation === $location.path();
+        // Promise functions
+        $rootScope.promise = {
+            get: function(url) {
+                return promise(GET, url);
+            },
+            post: function(url, data) {
+                return promise(POST, url, data);
+            },
+            put: function(url, data) {
+                return promise(PUT, url, data);
+            },
+            patch: function(url, data) {
+                return promise(PATCH, url, data);
+            },
+            delete: function(url, data) {
+                return promise(DELETE, url, data);
+            }
         };
 
         // Check for user on init
-        $rootScope
-            .promise('GET', '/api/profile')
+        $rootScope.promise
+            .get('/api/profile')
             .then(function(response) {
-                console.log(response);
+                $rootScope.user = response.data;
                 $rootScope.isLogged = true;
                 $rootScope.headerLoaded = true;
-                $rootScope.user = response.data;
+                console.log('Current user:', response.data);
             })
             .catch(function() {
                 $rootScope.user = null;
                 $rootScope.isLogged = false;
                 $rootScope.headerLoaded = true;
+                console.warn('No user logged in!');
             });
     }
 })();

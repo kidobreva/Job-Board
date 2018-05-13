@@ -12,7 +12,7 @@
     function Service($rootScope) {
         // Get companies
         this.getCompanies = function() {
-            return $rootScope.promise('GET', '/api/companies');
+            return $rootScope.promise.get('/api/companies');
         };
     }
 
@@ -21,7 +21,6 @@
         console.log('Init Companies Controller');
 
         // Loader
-        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;
@@ -31,7 +30,6 @@
         $scope.getCompanies = function() {
             CompaniesService.getCompanies()
                 .then(function(companies) {
-                    console.log(companies);
                     $scope.loaded = true;
                     $scope.timeout = false;
                     $scope.companies = companies.data;
