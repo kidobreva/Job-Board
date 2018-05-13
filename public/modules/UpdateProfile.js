@@ -10,19 +10,11 @@
 
     // Service
     function Service($rootScope) {
-<<<<<<< HEAD
-        // Add new data
-        this.updateProfile = function (user) {
-            console.log('Add new data');
-            return $rootScope.promise('POST', '/api/profile/edit', user);
-        }
-=======
         // Add message
         this.updateProfile = function(user) {
             console.log('Add message');
             return $rootScope.promise.post('/api/profile/edit', user);
         };
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
 
         this.getProfile = function() {
             return $rootScope.promise.get('/api/profile');
@@ -52,7 +44,6 @@
                 sendUserData();
                 console.log('Invalid currentPass!');
             } else {
-<<<<<<< HEAD
                 if ($scope.invalid === false) {
                     sendUserData();
                 }
@@ -68,21 +59,6 @@
                 //     } else {
                 //          sendUserData();
                 //  }
-=======
-                if ($scope.user.newPassword) {
-                    if (
-                        $scope.user.newPassword !== $scope.user.repeatNewPassword ||
-                        $scope.user.newPassword.length < 6
-                    ) {
-                        console.log($scope.user);
-                        console.log('The passwords are not the same!');
-                    } else {
-                        sendUserData();
-                    }
-                } else {
-                    sendUserData();
-                }
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
             }
 
             $scope.alerts = [];
@@ -101,7 +77,6 @@
                 UpdateProfileService.updateProfile($scope.user)
                     .then(function(response) {
                         console.log(response);
-<<<<<<< HEAD
                         if (response.status === 200) {   
                             $scope.errCode = false; 
                             //$scope.errCodeEqualPass = false;                   
@@ -109,23 +84,16 @@
                             $scope.user = response.data;                          
                         }
                         
-=======
-                        $scope.addAlert();
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
                     })
                     .catch(function(err) {
                         if (err.status === 401) {
                             $scope.errCode = true;
                             $scope.$apply();
-<<<<<<< HEAD
                         } 
                         // if (err.status === 400) {
                         //     $scope.errCodeEqualPass = true;
                         //     $scope.$apply();
                         // }                         
-=======
-                        }
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
                         console.log('error', err);
                     });
             }
@@ -133,7 +101,6 @@
 
         $scope.validatePass = function() {
             var invalid = false;
-<<<<<<< HEAD
             var shortPass = false;
             //console.log($scope.user.repeatNewPassword);
             if ($scope.user.repeatNewPassword &&
@@ -162,25 +129,6 @@
         //     $scope.submit = true;
         // }
     
-=======
-            console.log($scope.user.repeatNewPassword);
-            if (
-                $scope.user.repeatNewPassword &&
-                $scope.user.repeatNewPassword !== $scope.user.newPassword
-            ) {
-                invalid = true;
-            }
-            $scope.invalid = invalid;
-        };
-
-        $scope.isSubmitted = function() {
-            return $scope.submit;
-        };
-
-        $scope.clicked = function() {
-            $scope.submit = true;
-        };
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
     }
 
     // Module

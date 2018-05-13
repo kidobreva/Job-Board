@@ -46,7 +46,6 @@ router.post('/api/profile/upload-picture/:id', function(req, res) {
 // Profile edit
 router.post('/api/profile/edit', function(req, res) {
     console.log('Profile Post:', req.body);
-<<<<<<< HEAD
 
     const users = req.db.get('users');
     users
@@ -56,16 +55,6 @@ router.post('/api/profile/edit', function(req, res) {
                 //if (req.body.currentPass === req.body.newPassword) {
                 //    res.sendStatus(400);
                 //} else {
-=======
-    if (!req.session.user) {
-        res.sendStatus(401);
-    } else {
-        const users = req.db.get('users');
-        users
-            .findOne({ id: req.session.user.id })
-            .then(function(user) {
-                if (user) {
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
                     if (sha1(req.body.currentPass) !== req.session.user.password) {
                         res.sendStatus(401);
                     } else {
@@ -87,7 +76,6 @@ router.post('/api/profile/edit', function(req, res) {
                         req.session.save();
 
                         // save to database
-<<<<<<< HEAD
                         users
                             .findOneAndUpdate({ id: req.session.user.id }, user)
                             .then(function() {
@@ -102,20 +90,6 @@ router.post('/api/profile/edit', function(req, res) {
         .catch(function(err) {
             console.log(err);
         });
-=======
-                        users.findOneAndUpdate({ id: req.session.user.id }, user).then(function() {
-                            res.json(user);
-                        });
-                    }
-                } else {
-                    console.log('No user!');
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
-    }
->>>>>>> 6b0d8c9f594afc4ec8b0374e1c5dc97fc4ffda2f
 });
 
 // Upload CV POST
