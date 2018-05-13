@@ -10,50 +10,38 @@
 
     // Service
     function Service($rootScope) {
-        // Get profile
-        this.getProfile = function() {
-            return $rootScope.promise('GET', '/api/profile');
-        };
-
         // Upload picture
         this.uploadCV = function(file) {
-            return $rootScope.promise(
-                'POST',
-                '/api/profile/upload-cv/' + $rootScope.user.id,
-                {
-                    data: file
-                }
-            );
+            return $rootScope.promise.post('/api/profile/upload-cv/' + $rootScope.user.id, {
+                data: file
+            });
         };
     }
 
     // Controller
-    function Ctrl(MyCVService, $scope, $timeout) {
+    function Ctrl(MyCVService, $rootScope, $scope, $window, $interval, $timeout) {
         console.log('Init MyCV Controller');
 
-        // Loader
-        $scope.loaded = false;
+        var int = $interval(function() {
+            if ($rootScope.headerLoaded) {
+                $interval.cancel(int);
+
+                // Check if the there is user
+                if (!$rootScope.user) {
+                    $window.location.href = '/home';
+                } else {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                }
+            }
+        }, 100);
+
+        // Show loading animation
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;
             }
         }, 1000);
-
-        // Get profile
-        MyCVService.getProfile()
-            .then(function(response) {
-                console.log(response);
-                if (response.status === 200) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.user = response.data;
-                }
-            })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
-            });
 
         // Upload picture
         $scope.uploadCV = function() {

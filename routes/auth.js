@@ -40,7 +40,9 @@ router.post('/api/login', function(req, res) {
 
 // Logout GET
 router.get('/api/logout', function(req, res) {
-    if (req.session.user) {
+    if (!req.session.user) {
+        res.sendStatus(401);
+    } else {
         req.session.destroy(function(err) {
             if (err) {
                 res.sendStatus(500);
@@ -49,8 +51,6 @@ router.get('/api/logout', function(req, res) {
                 res.sendStatus(200);
             }
         });
-    } else {
-        res.sendStatus(401);
     }
 });
 
@@ -98,23 +98,18 @@ router.post('/api/register', function(req, res) {
                                 req.body.password = sha1(req.body.password);
 
                                 // Register successful
-                                usersCollection
-                                    .insert(req.body)
-                                    .then(function(user) {
-                                        console.log(
-                                            'New user has registered:',
-                                            user
-                                        );
-                                        //delete req.body.password;
+                                usersCollection.insert(req.body).then(function(user) {
+                                    console.log('New user has registered:', user);
+                                    //delete req.body.password;
 
-                                        // save to session
-                                        req.session.user = user;
-                                        req.session.save();
+                                    // save to session
+                                    req.session.user = user;
+                                    req.session.save();
 
-                                        // response
-                                        res.json(user);
-                                        // res.sendStatus(200);
-                                    });
+                                    // response
+                                    res.json(user);
+                                    // res.sendStatus(200);
+                                });
                             });
                         } else {
                             console.log('The with this email already exists!');

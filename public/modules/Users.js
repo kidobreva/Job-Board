@@ -1,8 +1,8 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        $routeProvider.when('/users', {
-            templateUrl: 'views/users.html',
+        $routeProvider.when('/admin/users', {
+            templateUrl: 'views/admin/users.html',
             controller: 'Users',
             title: 'Потребители'
         });
@@ -12,36 +12,49 @@
     function Service($rootScope) {
         // Get users
         this.getUsers = function() {
-            return $rootScope.promise('GET', '/api/users');
+            return $rootScope.promise.get('/api/admin/users');
         };
     }
 
     // Controller
-    function Ctrl(UsersService, $scope, $timeout) {
+    function Ctrl(UsersService, $rootScope, $scope, $window, $interval, $timeout) {
         console.log('Init Users Controller');
 
-        // Loader
-        $scope.loaded = false;
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
-
-        UsersService.getUsers()
-            .then(function(response) {
-                console.log(response);
-                if (response.status === 200) {
+        // Get users
+        function getUsers() {
+            UsersService.getUsers()
+                .then(function(response) {
                     $scope.loaded = true;
                     $scope.timeout = false;
                     $scope.users = response.data;
+                })
+                .catch(function() {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                });
+        }
+
+        var int = $interval(function() {
+            if ($rootScope.headerLoaded) {
+                $interval.cancel(int);
+
+                // Check if the user is admin
+                if (!$rootScope.user) {
+                    $window.location.href = '/home';
+                } else if (!$rootScope.user.isAdmin) {
+                    $window.location.href = '/home';
+                } else {
+                    getUsers();
+
+                    // Show loading animation
+                    $timeout(function() {
+                        if (!$scope.loaded) {
+                            $scope.timeout = true;
+                        }
+                    }, 1000);
                 }
-            })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
-            });
+            }
+        }, 100);
     }
 
     // Module

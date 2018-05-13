@@ -13,13 +13,13 @@
         // Login
         this.login = function(user) {
             console.log('Login');
-            return $rootScope.promise('POST', '/api/login', user);
+            return $rootScope.promise.post('/api/login', user);
         };
 
         // Register
         this.register = function(user) {
             console.log('Register');
-            return $rootScope.promise('POST', '/api/register', user);
+            return $rootScope.promise.post('/api/register', user);
         };
     }
 
@@ -32,11 +32,9 @@
         $scope.login = function() {
             AuthService.login($scope.user)
                 .then(function(response) {
-                    if (response.status === 200) {
-                        $rootScope.isLogged = true;
-                        $rootScope.user = response.data;
-                        $window.location.href = '#!/profile';
-                    }
+                    $rootScope.isLogged = true;
+                    $rootScope.user = response.data;
+                    $window.location.href = '/profile';
                 })
                 .catch(function(err) {
                     console.error(err.data);
@@ -45,11 +43,9 @@
         $scope.register = function() {
             AuthService.register($scope.registerUser)
                 .then(function(response) {
-                    if (response.status === 200) {
-                        $rootScope.isLogged = true;
-                        $rootScope.user = response.data;
-                        $window.location.href = '#!/profile';
-                    }
+                    $rootScope.isLogged = true;
+                    $rootScope.user = response.data;
+                    $window.location.href = '/profile';
                 })
                 .catch(function(err) {
                     console.error(err.data);

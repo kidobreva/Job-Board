@@ -8,7 +8,7 @@
       <tr ng-repeat="advert in adverts">
         <td>PAID</td>
         <td colspan="2">
-          <a href="#!/advert/{{advert.id}}"><p>{{advert.title}}</p></a>
+          <a href="/advert/{{advert.id}}"><p>{{advert.title}}</p></a>
           <span>Заплата от: <b>{{advert.salary.min | currency: "лв."}}</b> до <b>{{advert.salary.max | currency: "лв." }}</b></span><br />
           <span>{{ advert.date | date: "fullDate" }}</span>, гр. <span>{{advert.city}}</span>
         </td>

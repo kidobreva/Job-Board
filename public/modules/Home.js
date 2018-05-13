@@ -48,7 +48,7 @@
 
         // // Search advert
         // $scope.searchAdvert = function() {
-        //     $window.location.href = `#!/search?category=${
+        //     $window.location.href = `/search?category=${
         //         $scope.advert.category
         //     }&city=${$scope.advert.city}`;
         // };

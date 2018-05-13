@@ -12,16 +12,14 @@
     function Service($rootScope, $routeParams) {
         // Get company
         this.getCompany = function() {
-            return $rootScope.promise('GET', '/api/company/' + $routeParams.id);
+            return $rootScope.promise.get('/api/company/' + $routeParams.id);
         };
 
         // (Admin) Block company
         this.blockCompany = function() {
-            return $rootScope.promise(
-                'PATCH',
-                '/api/company/block/' + $routeParams.id,
-                { isBlocked: true }
-            );
+            return $rootScope.promise.patch('/api/company/block/' + $routeParams.id, {
+                isBlocked: true
+            });
         };
     }
 
@@ -30,7 +28,6 @@
         console.log('Init Company Controller');
 
         // Loader
-        $scope.loaded = false;
         $timeout(function() {
             if (!$scope.loaded) {
                 $scope.timeout = true;
@@ -41,11 +38,9 @@
         CompanyService.getCompany()
             .then(function(response) {
                 console.log(response);
-                if (response.status === 200) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.company = response.data;
-                }
+                $scope.loaded = true;
+                $scope.timeout = false;
+                $scope.company = response.data;
             })
             .catch(function(err) {
                 $scope.loaded = true;
@@ -58,11 +53,9 @@
             CompanyService.getCompany()
                 .then(function(response) {
                     console.log(response);
-                    if (response.status === 200) {
-                        $scope.loaded = true;
-                        $scope.timeout = false;
-                        $scope.company = response.data;
-                    }
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.company = response.data;
                 })
                 .catch(function(err) {
                     $scope.loaded = true;
