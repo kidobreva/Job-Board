@@ -73,7 +73,7 @@
     }
 
     // Run
-    function Run($rootScope, $route, $http, $location) {
+    function Run($rootScope, $route, $http, $location, $routeParams) {
         console.log('Init App Run');
 
         // Change page title, based on Route information
@@ -83,6 +83,9 @@
 
         // Set active class for the navbar
         $rootScope.isActive = function(viewLocation) {
+            if ($routeParams.page) {
+                return viewLocation + $routeParams.page === $location.path();
+            }
             return viewLocation === $location.path();
         };
 

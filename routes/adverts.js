@@ -26,13 +26,17 @@ router.get('/api/advert/:id', function(req, res) {
 });
 
 // (GET) Adverts
-router.get('/api/adverts', (req, res) => {
+router.get('/api/adverts/:page', (req, res) => {
     req.db
         .get('adverts')
         .find({}, { sort: { id: -1 } })
         .then(advertsArr => {
+            console.log(advertsArr);
             if (advertsArr[0]) {
-                res.json(advertsArr);
+                res.json({
+                    adverts: advertsArr.slice((req.params.page - 1) * 10, req.params.page * 10),
+                    len: advertsArr.length
+                });
             } else {
                 res.sendStatus(404);
             }

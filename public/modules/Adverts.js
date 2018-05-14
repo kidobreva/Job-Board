@@ -1,7 +1,7 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        $routeProvider.when('/adverts', {
+        $routeProvider.when('/adverts/:page', {
             templateUrl: 'views/adverts.html',
             controller: 'Adverts',
             title: 'Обяви'
@@ -11,15 +11,15 @@
     // Service
     function Service($rootScope) {
         // Get adverts
-        this.getAdverts = function() {
-            return $rootScope.promise.get('/api/adverts');
+        this.getAdverts = function(page) {
+            return $rootScope.promise.get('/api/adverts/' + page);
         };
     }
 
     // Controller
-    function Ctrl(AdvertsService, $scope, $timeout) {
+    function Ctrl(AdvertsService, $scope, $timeout, $routeParams, $location) {
         console.log('Init Adverts Controller');
-
+        $scope.currentPage = $routeParams.page;
         // Loader
         $timeout(function() {
             if (!$scope.loaded) {
@@ -28,33 +28,39 @@
         }, 1000);
 
         // Get adverts
-        AdvertsService.getAdverts()
-            .then(function(advertsArr) {
-                $scope.maxSize = 10;
-                $scope.adverts = advertsArr.data.slice(0, $scope.maxSize);
-                $scope.totalItems = advertsArr.data.length;
-                $scope.advertsArr = advertsArr.data;
-                $scope.loaded = true;
-                $scope.timeout = false;
-            })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.log(err);
-            });
+        function getAdverts() {
+            AdvertsService.getAdverts($routeParams.page)
+                .then(function(advertsArr) {
+                    console.log(advertsArr);
+                    $scope.maxSize = 10;
+                    $scope.adverts = advertsArr.data.adverts;
+                    $scope.totalItems = advertsArr.data.len;
+                    // $scope.advertsArr = advertsArr.data.adverts;
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                })
+                .catch(function(err) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    console.log(err);
+                });
+        }
+        getAdverts();
 
         // Pagination
         function paginate(arr, size, num) {
-            return arr.slice((num - 1) * size, num * size);
+            // return arr.slice((num - 1) * size, num * size);
         }
 
         $scope.changePage = function() {
-            $scope.adverts = paginate(
-                $scope.advertsArr,
-                $scope.maxSize,
-                $scope.currentPage
-            );
-            console.log('Page changed to: ' + $scope.currentPage);
+            // $scope.adverts = paginate(
+            //     $scope.advertsArr,
+            //     $scope.maxSize,
+            //     $scope.currentPage
+            // );
+            $location.path('/adverts/' + $scope.currentPage);
+            // console.log('Page changed to: ' + $scope.currentPage);
+            // getAdverts();
         };
     }
 
