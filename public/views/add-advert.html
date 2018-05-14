@@ -60,6 +60,17 @@
     <input class="form-control" id="title" ng-model="advert.title" required />
   </div>
 
+  <!-- PAID -->
+  <div class="form-group">
+    <label for="paid">Вид платена обява</label>
+    <select class="form-control" id="paid" ng-model="advert.paid" required>
+      <option value=""></option>
+      <option value="pro">PRO - 150лв</option>
+      <option value="top">TOP - 130лв</option>
+      <option value="vip">VIP - 110лв</option>
+    </select>
+  </div>
+
   <!-- Description -->
   <div class="form-group">
   <label for="description">Описание</label>

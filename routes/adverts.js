@@ -54,7 +54,13 @@ router.post('/api/advert', (req, res) => {
             req.body.date = Date.now();
             req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
             adverts.insert(req.body).then(() => {
-                res.sendStatus(200);
+                const users = req.db.get('users');
+                users.findOneAndUpdate({id: req.session.user.id}, {$push: {adverts: req.body}}).then(() => {
+                    req.session.user.adverts.push(req.body);
+                    req.session.save().then(() => {
+                        res.sendStatus(200);
+                    });
+                });
             });
         });
     }

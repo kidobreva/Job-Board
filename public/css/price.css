@@ -20,6 +20,16 @@ section.price span.bold {
     font-weight: bold;
 }
 
+section.price span.free {
+    margin-top: 0.5rem;
+    display: block;
+    white-space: nowrap;
+}
+
+section.price td.price-span {
+   vertical-align: middle;
+}
+
 section.price .table-head {
     background-color:  rgba(186, 216, 247, 0.9);
 }

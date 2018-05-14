@@ -18,11 +18,10 @@ section.company-profile .company-info img {
 
 section.user-profile .info-panel,
 section.company-profile .info-panel {
-    border: 1px solid #BBB;
     margin-top: 30px;
     padding: 27px 20px;
     background: #FFF;
-    box-shadow: 0 0 15px #999;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);;
 }
 
 section.user-profile .profil-controll,

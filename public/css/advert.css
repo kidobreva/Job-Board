@@ -10,6 +10,14 @@
     align-items: center;
 }
 
-.advert-page .advert-left {
+.advert-page aside.advert-left {
     width: 300px;
+}
+
+.advert-page aside.advert-left div {
+    margin-bottom: 20px;
+}
+
+.advert-page aside.advert-left div span {
+    display: block;
 }
