@@ -45,8 +45,8 @@ router.post('/api/advert', (req, res) => {
         res.sendStatus(401);
     } else {
         const adverts = req.db.get('adverts');
-        adverts.stats().then(stats => {
-            req.body.id = ++stats.count;
+        adverts.find().then(advertsArr => {
+            req.body.id = ++advertsArr.length;
             req.body.company = req.session.user.title;
             req.body.companyId = req.session.user.id;
             req.body.views = 0;

@@ -51,12 +51,26 @@
 
         $scope.addAdvert = function() {
             AddAdvertService.addAdvert($scope.advert)
-                .then(function() {
+                .then(function(response) {
                     // show success alert and clean the form
+                    $scope.addAlert();
+                    angular.element(document.forms)[0].reset();
                 })
                 .catch(function(err) {
                     console.error(err);
                 });
+        };
+
+        $scope.alerts = [];
+
+        $scope.addAlert = function() {
+            $scope.alerts.length = 0;
+            $scope.alerts.push({ type: 'primary', msg: 'Обявата ви беше успешно публикувана!' });
+            $scope.$apply();
+        };
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
         };
     }
 

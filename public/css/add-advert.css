@@ -9,3 +9,7 @@
 .add-advert select {
     font-size: 1rem;
 }
+
+.add-advert button {
+    margin-bottom: 20px;
+}
