@@ -24,7 +24,7 @@
     }
 
     // Controller
-    function Ctrl(AuthService, $rootScope, $scope, $window) {
+    function Ctrl(AuthService, $rootScope, $scope, $location) {
         console.log('Init Auth Controller');
         $scope.registerUser = {};
         $scope.registerUser.isCompany = false;
@@ -34,7 +34,8 @@
                 .then(function(response) {
                     $rootScope.isLogged = true;
                     $rootScope.user = response.data;
-                    $window.location.href = '/profile';
+                    $location.path('/profile');
+                    $rootScope.$apply();
                 })
                 .catch(function(err) {
                     console.error(err.data);
@@ -45,7 +46,8 @@
                 .then(function(response) {
                     $rootScope.isLogged = true;
                     $rootScope.user = response.data;
-                    $window.location.href = '/profile';
+                    $location.path('/profile');
+                    $rootScope.$apply();
                 })
                 .catch(function(err) {
                     console.error(err.data);

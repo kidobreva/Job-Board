@@ -19,7 +19,7 @@
     }
 
     // Controller
-    function Ctrl(MyCVService, $rootScope, $scope, $window, $interval, $timeout) {
+    function Ctrl(MyCVService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init MyCV Controller');
 
         var int = $interval(function() {
@@ -28,7 +28,8 @@
 
                 // Check if the there is user
                 if (!$rootScope.user) {
-                    $window.location.href = '/home';
+                    $location.path('/home');
+                    $rootScope.$apply();
                 } else {
                     $scope.loaded = true;
                     $scope.timeout = false;

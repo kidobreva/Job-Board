@@ -26,7 +26,7 @@
         ProfileService,
         $rootScope,
         $scope,
-        $window,
+        $location,
         $interval,
         $timeout
     ) {
@@ -38,7 +38,8 @@
 
                 // Check if the there is user
                 if (!$rootScope.user) {
-                    $window.location.href = '/home';
+                    $location.path('/home');
+                    // $rootScope.$apply();
                 } else {
                     $scope.loaded = true;
                     $scope.timeout = false;

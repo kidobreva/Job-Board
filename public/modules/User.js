@@ -24,7 +24,7 @@
     }
 
     // Controller
-    function Ctrl(UserService, $rootScope, $scope, $window, $interval, $timeout) {
+    function Ctrl(UserService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init User Controller');
 
         var int = $interval(function() {
@@ -33,9 +33,11 @@
 
                 // Check if the the user is a company or an admin
                 if (!$rootScope.user) {
-                    $window.location.href = '/home';
-                } else if (!$rootScope.user.isCompany || !$rootScope.user.isAdmin) {
-                    $window.location.href = '/home';
+                    $location.path('/home');
+                    // $rootScope.$apply();
+                } else if ($rootScope.user.role !== 'COMPANY' || $rootScope.user.role !== 'ADMIN') {
+                    $location.path('/home');
+                    // $rootScope.$apply();
                 } else {
                     UserService.getUser()
                         .then(function(response) {

@@ -1,7 +1,7 @@
 <div id="loader" ng-if="timeout"></div>
 <p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
 
-<div class="adverts-page" ng-if="loaded">
+<div class="adverts-page" ng-if="loaded && adverts">
   <!-- Adverts table -->
   <table class="table table-hover">
     <tbody>

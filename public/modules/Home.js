@@ -9,7 +9,7 @@
     }
 
     // Controller
-    function Ctrl($scope, $window) {
+    function Ctrl($scope, $location) {
         console.log('Init Home Controller');
 
         // Carousel
@@ -48,9 +48,9 @@
 
         // // Search advert
         // $scope.searchAdvert = function() {
-        //     $window.location.href = `/search?category=${
+        //     $location.url(`/search?category=${
         //         $scope.advert.category
-        //     }&city=${$scope.advert.city}`;
+        //     }&city=${$scope.advert.city}`);
         // };
     }
 

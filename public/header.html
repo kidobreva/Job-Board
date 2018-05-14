@@ -9,25 +9,25 @@
             <a href="/home">Начало</a>
         </li>
 
-        <!-- Add advert -->
-        <li class="nav-item add-advert-btn"
-            ng-if="$root.isLogged && $root.user.isCompany"
-            ng-class="{activeMenu: isActive('/add-advert') }">
-
-            <a href="/add-advert">Добави обява</a>
-        </li>
-
         <!-- Profile -->
         <li class="nav-item profile-btn"
-            ng-if="$root.isLogged && !$root.user.isAdmin"
+            ng-if="$root.isLogged && $root.user.role !== 'ADMIN'"
             ng-class="{activeMenu: isActive('/profile') }">
 
             <a href="/profile">Профил</a>
         </li>
 
+        <!-- Add advert -->
+        <li class="nav-item add-advert-btn"
+            ng-if="$root.isLogged && $root.user.role === 'COMPANY'"
+            ng-class="{activeMenu: isActive('/add-advert') }">
+
+            <a href="/add-advert">Добави обява</a>
+        </li>
+
         <!-- Favourites -->
         <!-- <li class="nav-item favourites-btn"
-            ng-if="$root.isLogged && !$root.user.isAdmin && !$root.user.isCompany"
+            ng-if="$root.isLogged && $root.user.role !== 'ADMIN' && $root.user.role !== 'COMPANY'"
             ng-class="{activeMenu: isActive('/favourites') }">
 
             <a href="/favourites">Наблюдавани</a>
@@ -42,7 +42,7 @@
 
         <!-- (Admin) Users -->
         <li class="nav-item users-btn"
-            ng-if="$root.isLogged && $root.user.isAdmin"
+            ng-if="$root.isLogged && $root.user.role === 'ADMIN'"
             ng-class="{activeMenu: isActive('/admin/users') }">
 
             <a href="/admin/users">Потребители</a>

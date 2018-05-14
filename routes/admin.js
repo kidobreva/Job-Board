@@ -1,116 +1,94 @@
 const express = require('express');
 const router = express.Router();
 
-// Get users
-router.get('/api/admin/users', function(req, res) {
-    if (!req.session.user && !req.session.user.isAdmin) {
+// (Get) Users
+router.get('/api/admin/users', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
             .get('users')
-            .find({ isCompany: false })
-            .then(function(users) {
-                if (users.length) {
-                    users.forEach(function(user) {
+            .find({ role: 'USER' })
+            .then(users => {
+                if (!users.length) {
+                    res.sendStatus(404);
+                } else {
+                    users.forEach(user => {
                         delete user.password;
                     });
-                    console.log('Users:', users);
                     res.json(users);
-                } else {
-                    console.log('No users!');
                 }
-            })
-            .catch(function(err) {
-                console.log(err);
             });
     }
 });
 
-// Advert DELETE
-router.delete('/api/advert/:id', function(req, res) {
-    if (!req.session.user && (!req.session.user.isCompany || !req.session.user.isAdmin)) {
+// (DELETE) Advert
+router.delete('/api/advert/:id', (req, res) => {
+    if (!req.session.user && req.session.user.role === 'USER') {
         res.sendStatus(401);
     } else {
         req.db
             .get('adverts')
             .findOneAndDelete({ id: +req.params.id })
-            .then(function(advert) {
+            .then(advert => {
                 if (advert) {
                     console.log('Advert Deleted:', advert);
                     res.sendStatus(200);
                 } else {
                     res.sendStatus(404);
                 }
-            })
-            .catch(function(err) {
-                console.log(err);
             });
     }
 });
 
-// (Admin) Company block PATCH
-router.patch('/api/company/block/:id', function(req, res) {
-    if (!req.session.user && !req.session.user.isAdmin) {
+// (PATCH) Block company
+router.patch('/api/company/block/:id', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
             .get('users')
-            .findOneAndUpdate({ id: +req.params.id, isCompany: true }, { $set: req.body })
-            .then(function(company) {
+            .findOneAndUpdate({ id: +req.params.id, role: 'COMPANY' }, { $set: req.body })
+            .then(company => {
                 if (company) {
                     console.log('Company Info:', company);
                     res.json(company);
                 } else {
                     res.sendStatus(404);
                 }
-            })
-            .catch(function(err) {
-                console.log(err);
             });
     }
 });
 
-// (Admin) User block PATCH
-router.patch('/api/user/block/:id', function(req, res) {
-    if (!req.session.user && !req.session.user.isAdmin) {
+// (PATCH) Block user
+router.patch('/api/user/block/:id', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
             .get('users')
-            .findOneAndUpdate({ id: +req.params.id, isCompany: false }, { $set: req.body })
-            .then(function(user) {
+            .findOneAndUpdate({ id: +req.params.id, role: 'USER' }, { $set: req.body })
+            .then(user => {
                 if (user) {
                     console.log('User Info:', user);
                     res.json(user);
                 } else {
                     res.sendStatus(404);
                 }
-            })
-            .catch(function(err) {
-                console.log(err);
             });
     }
 });
 
-// Send message to Admin POST
-router.post('/api/send-message', function(req, res) {
-    console.log('Send message Post:', req.body);
-
+// (POST) Send message to Admin
+router.post('/api/send-message', (req, res) => {
     const users = req.db.get('users');
-    users
-        .findOne({ id: 0 })
-        .then(function(user) {
-            if (user) {
-                // save to database
-                user.messages.push(req.body);
-                users.findOneAndUpdate({ id: 0 }, user).then(function() {
-                    res.sendStatus(200);
-                });
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+    users.stats().then(stats => {
+        if (stats.count) {
+            users.findOneAndUpdate({ id: 0 }, { $push: { messages: req.body } }).then(() => {
+                res.sendStatus(200);
+            });
+        }
+    });
 });
 
 module.exports = router;

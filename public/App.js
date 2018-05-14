@@ -50,17 +50,19 @@
         });
         $routeProvider.when('/logout', {
             resolve: {
-                logout: function($rootScope, $window) {
+                logout: function($rootScope, $location) {
                     $rootScope.promise
                         .get('/api/logout')
                         .then(function() {
                             $rootScope.user = null;
                             $rootScope.isLogged = false;
                             console.log('Logged out!');
-                            $window.location.href = '/home';
+                            $location.path('/home');
+                            $rootScope.$apply();
                         })
                         .catch(function() {
-                            $window.location.href = '/home';
+                            $location.path('/home');
+                            $rootScope.$apply();
                         });
                 }
             }

@@ -17,7 +17,7 @@
     }
 
     // Controller
-    function Ctrl(UsersService, $rootScope, $scope, $window, $interval, $timeout) {
+    function Ctrl(UsersService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init Users Controller');
 
         // Get users
@@ -40,9 +40,11 @@
 
                 // Check if the user is admin
                 if (!$rootScope.user) {
-                    $window.location.href = '/home';
-                } else if (!$rootScope.user.isAdmin) {
-                    $window.location.href = '/home';
+                    $location.path('/home');
+                    $rootScope.$apply();
+                } else if ($rootScope.user.role !== 'ADMIN') {
+                    $location.path('/home');
+                    $rootScope.$apply();
                 } else {
                     getUsers();
 

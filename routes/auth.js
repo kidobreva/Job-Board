@@ -8,118 +8,96 @@ function validateEmail(email) {
     return regex.test(String(email).toLowerCase());
 }
 
-// Login POST
-router.post('/api/login', function(req, res) {
-    console.log('Login Post:', req.body);
-
-    req.db
-        .get('users')
-        .findOne({
-            email: req.body.email,
-            password: sha1(req.body.password)
-        })
-        .then(function(user) {
-            if (user) {
-                if (!user.isBlocked) {
-                    console.log('User logged in:', user);
-                    //delete user.password;
-                    req.session.user = user;
-                    req.session.save();
-                    res.json(user);
-                } else {
-                    console.log('This user is blocked!');
-                }
-            } else {
-                console.log('User not found or bad password!');
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-});
-
-// Logout GET
-router.get('/api/logout', function(req, res) {
+// Logout
+router.get('/api/logout', (req, res) => {
     if (!req.session.user) {
         res.sendStatus(401);
     } else {
-        req.session.destroy(function(err) {
-            if (err) {
-                res.sendStatus(500);
-                res.json({ err: err });
-            } else {
-                res.sendStatus(200);
-            }
+        req.session.destroy(err => {
+            res.sendStatus(err ? 500 : 200);
         });
     }
 });
 
-// Register POST
-router.post('/api/register', function(req, res) {
-    console.log('Register Post:', req.body);
-    console.log(req.session);
-
-    // Parity
-    if (req.body.password !== req.body.repeatPassword) {
-        console.log('The passwords are not the same!');
+// Login
+router.post('/api/login', (req, res) => {
+    console.log('Login Post:', req.body);
+    if (req.session.user) {
+        res.sendStatus(400);
     } else {
-        // Length
-        if (req.body.password.length < 6) {
-            console.log('The password is too short!');
-        } else {
-            // Email validation
-            if (!validateEmail(req.body.email)) {
-                console.log('Invalid email!');
+        req.db
+            .get('users')
+            .findOne({
+                email: req.body.email,
+                password: sha1(req.body.password)
+            })
+            .then(user => {
+                if (user) {
+                    if (!user.isBlocked) {
+                        console.log('User logged in:', user);
+                        delete user.password;
+                        req.session.user = user;
+                        req.session.save(() => {
+                            res.json(user);
+                        });
+                    } else {
+                        res.sendStatus(403);
+                        console.log('This user is blocked!');
+                    }
+                } else {
+                    res.sendStatus(404);
+                    console.log('User not found or bad password!');
+                }
+            });
+    }
+});
+
+// Register
+router.post('/api/register', (req, res) => {
+    if (
+        req.session.user ||
+        req.body.password !== req.body.repeatPassword ||
+        req.body.password.length < 6 ||
+        !validateEmail(req.body.email)
+    ) {
+        res.sendStatus(400);
+    } else {
+        // get users and check for existing email
+        const users = req.db.get('users');
+        users.findOne({ email: req.body.email }).then(user => {
+            if (user) {
+                res.sendStatus(409);
             } else {
-                // get users
-                var usersCollection = req.db.get('users');
-                usersCollection
-                    .findOne({ email: req.body.email })
-                    .then(function(user) {
-                        if (!user) {
-                            // before register
-                            req.body.isAdmin = false;
-                            if (req.body.isCompany) {
-                                req.body.adverts = [];
-                                req.body.notifications = [];
-                            } else {
-                                req.body.favourites = [];
-                                req.body.applied = [];
-                                req.body.cv = [];
-                                req.body.registeredDate = Date.now();
-                            }
+                // before register
+                if (req.body.isCompany) {
+                    req.body.role = 'COMPANY';
+                    req.body.adverts = [];
+                    req.body.notifications = [];
+                } else {
+                    req.body.role = 'USER';
+                    req.body.cv = [];
+                    req.body.applied = [];
+                    req.body.favourites = [];
+                }
+                delete req.body.isCompany;
+                delete req.body.repeatPassword;
+                req.body.registeredDate = Date.now();
+                req.body.password = sha1(req.body.password);
 
-                            // get users and register
-                            usersCollection.find().then(function(array) {
-                                req.body.id = array.length || 1;
-
-                                // for security
-                                delete req.body.repeatPassword;
-                                req.body.password = sha1(req.body.password);
-
-                                // Register successful
-                                usersCollection.insert(req.body).then(function(user) {
-                                    console.log('New user has registered:', user);
-                                    //delete req.body.password;
-
-                                    // save to session
-                                    req.session.user = user;
-                                    req.session.save();
-
-                                    // response
-                                    res.json(user);
-                                    // res.sendStatus(200);
-                                });
-                            });
-                        } else {
-                            console.log('The with this email already exists!');
-                        }
-                    })
-                    .catch(function(err) {
-                        console.log(err);
+                // save to database
+                users.stats().then(stats => {
+                    req.body.id = stats.count++;
+                    users.insert(req.body).then(user => {
+                        delete req.body.password;
+                        console.log('New user has registered:', user);
+                        req.session.user = user;
+                        req.session.save(() => {
+                            res.json(user);
+                        });
                     });
+                });
             }
-        }
+        });
     }
 });
 

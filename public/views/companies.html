@@ -1,6 +1,6 @@
-<div id="loader" ng-if="timeout && !loaded"></div>
-<p ng-if="loaded && !companies.length">Няма фирми!</p>
-<table class="table" ng-if="loaded && companies.length">
+<div id="loader" ng-if="timeout"></div>
+<p ng-if="loaded && !companies">Няма фирми!</p>
+<table class="table" ng-if="loaded && companies">
   <thead>
     <tr>
       <th scope="col">Наименование</th>

@@ -24,10 +24,8 @@
     <link rel="stylesheet" href="css/price.css">
     <link rel="stylesheet" href="css/contacts.css">
 
-    <!-- Font Awesome -->
-    <script defer src="vendors/fontawesome-all.min.js"></script>
-
     <!-- Vendors -->
+    <script src="vendors/fontawesome-all.min.js"></script>
     <script src="vendors/selectFile.js"></script>
     <script src="vendors/angular/angular.min.js"></script>
     <script src="vendors/angular/angular-route.min.js"></script>
@@ -39,26 +37,27 @@
 
     <!-- App modules -->
     <script src="App.js"></script>
-    <!-- adverts -->
-    <script src="modules/AddAdvert.js"></script>
-    <script src="modules/Adverts.js"></script>
-    <script src="modules/Advert.js"></script>
-    <script src="modules/Search.js"></script>
+    <script src="modules/Auth.js"></script>
+    <script src="modules/Home.js"></script>
+    <script src="modules/Contacts.js"></script>
 
     <!-- users -->
-    <script src="modules/Auth.js"></script>
     <script src="modules/User.js"></script>
     <script src="modules/Users.js"></script>
     <script src="modules/Profile.js"></script>
     <script src="modules/Favourites.js"></script>
     <script src="modules/MyCV.js"></script>
     <script src="modules/UpdateProfile.js"></script>
-    <script src="modules/Companies.js"></script>
-    <script src="modules/Company.js"></script>
 
-    <!-- other -->
-    <script src="modules/Home.js"></script>
-    <script src="modules/Contacts.js"></script>
+    <!-- adverts -->
+    <script src="modules/Adverts.js"></script>
+    <script src="modules/Advert.js"></script>
+    <script src="modules/Search.js"></script>
+
+    <!-- companies -->
+    <script src="modules/Company.js"></script>
+    <script src="modules/Companies.js"></script>
+    <script src="modules/AddAdvert.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -68,6 +67,6 @@
     <div ng-view class="page"></div>
 
     <!-- Footer -->
-    <footer ng-include src="'footer.html'" class="footer"></footer>    
+    <footer ng-include src="'footer.html'" class="footer"></footer>
 </body>
 </html>

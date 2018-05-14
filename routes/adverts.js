@@ -26,11 +26,11 @@ router.get('/api/advert/:id', function(req, res) {
 });
 
 // (GET) Adverts
-router.get('/api/adverts', function(req, res) {
+router.get('/api/adverts', (req, res) => {
     req.db
         .get('adverts')
         .find({}, { sort: { id: -1 } })
-        .then(function(advertsArr) {
+        .then(advertsArr => {
             if (advertsArr[0]) {
                 res.json(advertsArr);
             } else {
@@ -40,8 +40,8 @@ router.get('/api/adverts', function(req, res) {
 });
 
 // (POST) Add advert
-router.post('/api/advert', function(req, res) {
-    if (!req.session.user && !req.session.user.isCompany) {
+router.post('/api/advert', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'COMPANY') {
         res.sendStatus(401);
     } else {
         const adverts = req.db.get('adverts');
@@ -53,7 +53,7 @@ router.post('/api/advert', function(req, res) {
             req.body.candidates = [];
             req.body.date = Date.now();
             req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
-            adverts.insert(req.body).then(function() {
+            adverts.insert(req.body).then(() => {
                 res.sendStatus(200);
             });
         });
@@ -61,69 +61,64 @@ router.post('/api/advert', function(req, res) {
 });
 
 // (POST) Apply for an advert
-router.post('/api/apply', function(req, res) {
+router.post('/api/apply', (req, res) => {
     if (!req.session.user) {
         res.sendStatus(401);
-    } else if (req.session.user.isCompany) {
+    } else if (req.session.user.role === 'COMPANY') {
         res.sendStatus(403);
     } else {
         const users = req.db.get('users');
         users
-            .findOne({ id: req.session.user.id })
-            .then(function(user) {
-                if (user) {
-                    var adverts = req.db.get('adverts');
-                    adverts.findOne({ id: req.body.data }).then(function(advert) {
-                        users.findOne({ id: advert.companyId }).then(function(user) {
-                            user.notifications.unshift({
+            .findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: req.body.data } })
+            .then(user => {
+                if (!user) {
+                    console.log('No user!');
+                } else {
+                    req.db
+                        .get('adverts')
+                        .findOneAndUpdate(
+                            { id: req.body.data },
+                            { $push: { candidates: req.session.user.id } }
+                        )
+                        .then(advert => {
+                            const notification = {
                                 candidateId: req.session.user.id,
                                 advertId: advert.id,
                                 message: `${req.session.user.firstName} ${
                                     req.session.user.lastName
                                 } кандидатства за вашата обява - ${advert.title}!`
-                            });
-                            users.findOneAndUpdate({ id: user.id }, user);
+                            };
+                            users
+                                .findOneAndUpdate(
+                                    { id: advert.companyId },
+                                    { $push: { notifications: notification } }
+                                )
+                                .then(() => {
+                                    req.session.user.applied.push(req.body.data);
+                                    req.session.save(() => {
+                                        res.sendStatus(200);
+                                    });
+                                });
                         });
-                        advert.candidates.push(req.session.user.id);
-                        adverts.findOneAndUpdate({ id: req.body.data }, advert);
-                    });
-
-                    // save to session
-                    req.session.user.applied.push(req.body.data);
-                    req.session.save();
-
-                    // save to database
-                    user.applied.push(req.body.data);
-                    users.findOneAndUpdate({ id: req.session.user.id }, user);
-                } else {
-                    console.log('No user!');
                 }
-            })
-            .catch(function(err) {
-                console.log(err);
             });
     }
 });
 
 // (GET) Search adverts
-router.get('/api/search', function(req, res) {
+router.get('/api/search', (req, res) => {
     console.log('Search Adverts:', req.query);
 
     const adverts = req.db.get('adverts');
-    adverts
-        .find(req.query)
-        .then(function(adverts) {
-            if (adverts.length) {
-                console.log('Adverts:', adverts);
-                res.json(adverts);
-            } else {
-                res.sendStatus(404);
-                console.log('No adverts!');
-            }
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
+    adverts.find(req.query).then(adverts => {
+        if (adverts.length) {
+            console.log('Adverts:', adverts);
+            res.json(adverts);
+        } else {
+            res.sendStatus(404);
+            console.log('No adverts!');
+        }
+    });
 });
 
 module.exports = router;

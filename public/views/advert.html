@@ -15,17 +15,17 @@
     <p>Брой кандидатствали: {{advert.candidates.length}}</p>
     <p>Брой преглеждания: {{advert.views}}</p>
     <div>
-        <button ng-if="user.isCompany === false" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
-        <button ng-if="user.isCompany === false" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
+        <button ng-if="user.role !== 'COMPANY' === false" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
+        <button ng-if="user.role !== 'COMPANY' === false" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
       </div>
   </div>
   <div class="advert-right">
     <p>Описание: {{advert.description}}</p>
 
-    <button class="btn btn-success" ng-if="user.isCompany === false" ng-click="apply()"><b>Кандидатствай</b></button>
+    <button class="btn btn-success" ng-if="user.role !== 'COMPANY' === false" ng-click="apply()"><b>Кандидатствай</b></button>
   </div>
 
   <!-- Buttons -->
-  <button ng-if="user.isCompany" ng-click="deleteAdvert()">Премахни обявата</button>
-  <button ng-if="user.isAdmin" ng-click="blockAdvert()">Блокирай обявата</button>
+  <button ng-if="user.role === 'COMPANY'" ng-click="deleteAdvert()">Премахни обявата</button>
+  <button ng-if="user.role === 'ADMIN'" ng-click="blockAdvert()">Блокирай обявата</button>
 </div>
