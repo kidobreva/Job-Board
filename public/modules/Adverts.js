@@ -28,39 +28,22 @@
         }, 1000);
 
         // Get adverts
-        function getAdverts() {
-            AdvertsService.getAdverts($routeParams.page)
-                .then(function(advertsArr) {
-                    console.log(advertsArr);
-                    $scope.maxSize = 10;
-                    $scope.adverts = advertsArr.data.adverts;
-                    $scope.totalItems = advertsArr.data.len;
-                    // $scope.advertsArr = advertsArr.data.adverts;
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                })
-                .catch(function(err) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    console.log(err);
-                });
-        }
-        getAdverts();
-
-        // Pagination
-        function paginate(arr, size, num) {
-            // return arr.slice((num - 1) * size, num * size);
-        }
+        AdvertsService.getAdverts($routeParams.page)
+            .then(function(advertsArr) {
+                $scope.maxSize = 10;
+                $scope.adverts = advertsArr.data.adverts;
+                $scope.totalItems = advertsArr.data.len;
+                $scope.loaded = true;
+                $scope.timeout = false;
+            })
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.log(err);
+            });
 
         $scope.changePage = function() {
-            // $scope.adverts = paginate(
-            //     $scope.advertsArr,
-            //     $scope.maxSize,
-            //     $scope.currentPage
-            // );
             $location.path('/adverts/' + $scope.currentPage);
-            // console.log('Page changed to: ' + $scope.currentPage);
-            // getAdverts();
         };
     }
 

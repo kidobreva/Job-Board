@@ -2,28 +2,24 @@
 <p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
 
 <div class="adverts-page" ng-if="loaded && adverts">
-  <!-- Adverts table -->
-  <table class="table table-hover">
-    <tbody>
-      <tr ng-repeat="advert in adverts">
-        <td>PAID</td>
-        <td colspan="2">
-          <a href="/advert/{{advert.id}}"><p>{{advert.title}}</p></a>
-          <span>Заплата от: <b>{{advert.salary.min | currency: "лв."}}</b> до <b>{{advert.salary.max | currency: "лв." }}</b></span><br />
-          <span>{{ advert.date | date: "fullDate" }}</span>, гр. <span>{{advert.city}}</span>
-        </td>
-        <td>{{advert.img}} LOGO</td>
-        <td>{{advert.company}}</td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="5">
-          
-      </td>
-      </tr>
-    </tfoot>
-  </table>
+  <!-- Adverts list -->
+  <div class="adverts-list">
+    <div class="adverts-div" ng-repeat="advert in adverts">
+      <div class="advert-logo">LOGO</div>
+      <div class="advert-info">
+        <a href="/advert/{{advert.id}}">
+          <p>{{advert.title}}</p>
+        </a>
+        <span>Заплата от:
+          <b>{{advert.salary.min | currency: "лв."}}</b> до
+          <b>{{advert.salary.max | currency: "лв." }}</b>
+        </span>
+        <br />
+        <span>{{ advert.date | date: "fullDate" }}</span>, гр.
+        <span>{{advert.city}}</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Search form -->
   <form class="add-advert" ng-submit="searchAdvert($event)">
@@ -79,5 +75,6 @@
       <button class="btn btn-info">Търси обява</button>
   </form>
 </div>
+
 <!-- Pagination -->
 <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>

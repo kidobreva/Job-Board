@@ -1,3 +1,4 @@
+// require
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -11,6 +12,7 @@ const sha1 = require('sha1');
 
 const app = express();
 
+// use
 app.use(logger('dev'));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false }));
@@ -30,10 +32,10 @@ app.use(
 // database middleware
 app.use((req, res, next) => {
     req.db = db;
-    db.then(() => {
-        console.log('Database connected to the server!');
-    });
     next();
+});
+db.then(() => {
+    console.log('Database connected to the server!');
 });
 
 // API routes

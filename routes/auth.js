@@ -85,8 +85,8 @@ router.post('/api/register', (req, res) => {
                 req.body.password = sha1(req.body.password);
 
                 // save to database
-                users.stats().then(stats => {
-                    req.body.id = stats.count++;
+                users.count().then(len => {
+                    req.body.id = len++;
                     users.insert(req.body).then(user => {
                         delete req.body.password;
                         console.log('New user has registered:', user);

@@ -21,13 +21,32 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
         const users = req.db.get('users');
         users.findOne({ id: req.session.user.id }).then(user => {
             if (user) {
-                const img = req.body.data;
+                let img = req.body.data;
+
+                // Create folder for user
+                const dir = `uploads/${req.session.user.id}/`;
+                if (!fs.existsSync('uploads')) {
+                    fs.mkdirSync('uploads');
+                }
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                }
+                if (img.slice(0, 10) === 'data:image') {
+                    fs.writeFile(
+                        dir + `/profile.${img.slice(11, 14)}`,
+                        Buffer.from(img.slice(22), 'base64'),
+                        err => {
+                            console.log(err ? err : 'File saved!');
+                        }
+                    );
+                }
+                img = `uploads/profile.${img.slice(11, 14)}`;
 
                 // save to database
                 users.findOneAndUpdate({ id: req.session.user.id }, { $set: { img } }).then(() => {
                     req.session.user.img = img;
                     req.session.save(() => {
-                        res.json({ img });
+                        res.sendStatus(200);
                     });
                 });
             } else {

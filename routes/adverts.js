@@ -49,8 +49,8 @@ router.post('/api/advert', (req, res) => {
         res.sendStatus(401);
     } else {
         const adverts = req.db.get('adverts');
-        adverts.find().then(advertsArr => {
-            req.body.id = ++advertsArr.length;
+        adverts.count().then(len => {
+            req.body.id = ++len;
             req.body.company = req.session.user.title;
             req.body.companyId = req.session.user.id;
             req.body.views = 0;
@@ -59,12 +59,17 @@ router.post('/api/advert', (req, res) => {
             req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
             adverts.insert(req.body).then(() => {
                 const users = req.db.get('users');
-                users.findOneAndUpdate({id: req.session.user.id}, {$push: {adverts: req.body}}).then(() => {
-                    req.session.user.adverts.push(req.body);
-                    req.session.save().then(() => {
-                        res.sendStatus(200);
+                users
+                    .findOneAndUpdate(
+                        { id: req.session.user.id },
+                        { $push: { adverts: req.body.id } }
+                    )
+                    .then(() => {
+                        req.session.user.adverts.push(req.body.id);
+                        req.session.save(() => {
+                            res.sendStatus(200);
+                        });
                     });
-                });
             });
         });
     }

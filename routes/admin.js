@@ -82,8 +82,8 @@ router.patch('/api/user/block/:id', (req, res) => {
 // (POST) Send message to Admin
 router.post('/api/send-message', (req, res) => {
     const users = req.db.get('users');
-    users.stats().then(stats => {
-        if (stats.count) {
+    users.count().then(len => {
+        if (len) {
             users.findOneAndUpdate({ id: 0 }, { $push: { messages: req.body } }).then(() => {
                 res.sendStatus(200);
             });

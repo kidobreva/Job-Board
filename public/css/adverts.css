@@ -5,10 +5,23 @@
     justify-content: space-between;
 }
 
-.adverts-page table {
-    width: 670px;
+.adverts-list > div {
+    display: flex;
+    border: 1px solid;
+}
+
+.advert-logo {
+    width: 150px;
 }
 
 .pagination-sm {
     justify-content: flex-end;
+}
+
+.advert-info {
+    width: 500px;
+}
+
+.adverts-div {
+    margin-bottom: 1rem;
 }
