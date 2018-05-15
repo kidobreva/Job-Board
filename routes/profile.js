@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sha1 = require('sha1');
 const fs = require('fs');
+const path = require('path');
 
 // (GET) Profile
 router.get('/api/profile', (req, res) => {
@@ -24,23 +25,29 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                 let img = req.body.data;
 
                 // Create folder for user
-                const dir = `uploads/${req.session.user.id}/`;
-                if (!fs.existsSync('uploads')) {
-                    fs.mkdirSync('uploads');
+                const dir = path.join(
+                    'public',
+                    path.join('uploads', req.session.user.id.toString())
+                );
+                if (!fs.existsSync(path.join('public', 'uploads'))) {
+                    fs.mkdirSync(path.join('public', 'uploads'));
                 }
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                 }
                 if (img.slice(0, 10) === 'data:image') {
                     fs.writeFile(
-                        dir + `/profile.${img.slice(11, 14)}`,
+                        path.join(dir, `profile.${img.slice(11, 14)}`),
                         Buffer.from(img.slice(22), 'base64'),
                         err => {
                             console.log(err ? err : 'File saved!');
                         }
                     );
                 }
-                img = `uploads/profile.${img.slice(11, 14)}`;
+                img = path.join(
+                    'uploads',
+                    path.join(req.session.user.id.toString(), `profile.${img.slice(11, 14)}`)
+                );
 
                 // save to database
                 users.findOneAndUpdate({ id: req.session.user.id }, { $set: { img } }).then(() => {
@@ -107,21 +114,32 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
             if (user) {
                 req.body.data = req.body.data.replace('data:application/pdf;base64,', '');
                 // Create folder for user
-                const dir = `public/uploads/${req.session.user.id.toString()}/`;
-                if (!fs.existsSync('public/uploads')) {
-                    fs.mkdirSync('public/uploads');
+                const dir = path.join(
+                    'public',
+                    path.join('uploads', req.session.user.id.toString())
+                );
+                if (!fs.existsSync(path.join('public', 'uploads'))) {
+                    fs.mkdirSync(path.join('public', 'uploads'));
                 }
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                 }
-                fs.writeFile(dir + `cv${user.cv.length + 1}.pdf`, req.body.data, 'base64', err => {
-                    if (err) {
-                        console.log(err);
+                fs.writeFile(
+                    path.join(dir, `cv${user.cv.length + 1}.pdf`),
+                    req.body.data,
+                    'base64',
+                    err => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log('File saved!');
                     }
-                    console.log('File saved!');
-                });
+                );
 
-                const cv = `uploads/${req.session.user.id.toString()}/cv${user.cv.length + 1}.pdf`;
+                const cv = path.join(
+                    'uploads',
+                    path.join(req.session.user.id.toString(), `cv${user.cv.length + 1}.pdf`)
+                );
 
                 // save to database
                 users.findOneAndUpdate({ id: req.session.user.id }, { $push: { cv } }).then(() => {
