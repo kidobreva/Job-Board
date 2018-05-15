@@ -1,5 +1,6 @@
 <form class="add-advert" ng-submit="addAdvert()">
-  <h3>Публикуване на обява</h3><br />
+  <h3 ng-if="!isEdit">Публикуване на обява</h3><br />
+  <h3 ng-if="isEdit">Промяна на обява</h3><br />
 
   <!-- City -->
   <div class="form-group">
@@ -79,6 +80,7 @@
   </div>
 
   <!-- Submit -->
-  <button class="btn btn-primary">Публикувай обявата</button>
+  <button ng-if="!isEdit" class="btn btn-primary">Публикувай обявата</button>
+  <button ng-if="isEdit" class="btn btn-primary">Запази промените</button>
   <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
 </form>

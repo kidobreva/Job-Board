@@ -120,24 +120,6 @@ section.login-users-form {
     font-style: italic;
 }
 
-.register-users button {
-    font-size: 15px;
-    font-weight: bold;
-
-    padding: 10px 25px;
-    margin-top: 10px;
-
-    border: 1px solid #dcdcdc;
-    border-radius: 10px;
-    background-color: #eee;
-}
-
-.register-users button:hover {
-    /* cursor: pointer; */
-
-    background-color: #aaa;
-}
-
 .error {
     margin-bottom: 1rem;
 
@@ -189,12 +171,6 @@ section.login-users-form {
     /*box-shadow: 1px 1px 1px 1px gray inset;*/
 }
 
-.sign-in-users a {
-    color: #ee7870;
-    text-decoration: none;
-    font-size: 14px;
-}
-
 .sign-in-users .buttons {
     display: flex;
     flex-direction: row;
@@ -206,22 +182,19 @@ section.login-users-form {
     margin-left: 175px;
 }
 
-.sign-in-users button {
-    font-size: 15px;
-    font-weight: bold;
-
-    padding: 10px 25px;
-    margin-top: 20px;
-
-    border: 1px solid #dcdcdc;
-    border-radius: 10px;
-    background-color: #eee;
+.sign-in-users .buttons a {
+    color: #ee7870;
+    text-decoration: none;
+    margin-left: 40px;
+    align-self: center;
 }
 
-.sign-in-users button:hover {
-    /* cursor: pointer; */
+.sign-in-users .buttons a:hover {
+    text-decoration: underline;
+}
 
-    background-color: #aaa;
+.sign-in-users .btn {
+    width: 100px;
 }
 
 .login-users-form .radios {

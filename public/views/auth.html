@@ -55,7 +55,9 @@
 
         <div class="error"></div>
         <div class="buttons">
-            <button ng-disabled="registerUsers.$invalid" ng-style="{ 'cursor' : (!registerUsers.$invalid) ? 'pointer' : 'normal' }">Регистрация</button>
+            <button class="btn btn-primary" 
+                    ng-disabled="registerUsers.$invalid" 
+                    ng-style="{ 'cursor' : (!registerUsers.$invalid) ? 'pointer' : 'normal' }">Регистрация</button>
         </div>
     </form>
 
@@ -68,9 +70,11 @@
         <label>Парола
         <input class="inputs" name="pass" type="password" ng-model="user.password" required /></label>
         <div class="error"></div>
-        <a href="/">Забравена парола</a>
         <div class="buttons">
-                <button ng-disabled="loginUsers.$invalid" ng-style="{ 'cursor' : (!loginUsers.$invalid) ? 'pointer' : 'normal' }">Вход</button>
+            <button class="btn btn-primary"
+            ng-disabled="loginUsers.$invalid" 
+            ng-style="{ 'cursor' : (!loginUsers.$invalid) ? 'pointer' : 'normal' }">Вход</button>
+            <a href="/">Забравена парола</a>
         </div>
         <p>Ако нямате регистрация, моля регистрирайте се, за да създадете свой профил, където може да качите своето CV и да кандидатствате по избраните от вас обяви за работа.</p>
     </form>

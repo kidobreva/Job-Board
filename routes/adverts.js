@@ -50,27 +50,37 @@ router.post('/api/advert', (req, res) => {
     } else {
         const adverts = req.db.get('adverts');
         adverts.count().then(len => {
-            req.body.id = ++len;
-            req.body.company = req.session.user.title;
-            req.body.companyId = req.session.user.id;
-            req.body.views = 0;
-            req.body.candidates = [];
-            req.body.date = Date.now();
-            req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
-            adverts.insert(req.body).then(() => {
-                const users = req.db.get('users');
-                users
-                    .findOneAndUpdate(
-                        { id: req.session.user.id },
-                        { $push: { adverts: req.body.id } }
-                    )
-                    .then(() => {
-                        req.session.user.adverts.push(req.body.id);
+            adverts.find({ id: req.body.id }).then(advert => {
+                if(advert) {
+                    adverts.findOneAndUpdate({ id: req.body.id }, req.body).then(() => {
                         req.session.save(() => {
                             res.sendStatus(200);
                         });
                     });
-            });
+                } else {
+                    req.body.id = ++len;
+                    req.body.company = req.session.user.title;
+                    req.body.companyId = req.session.user.id;
+                    req.body.views = 0;
+                    req.body.candidates = [];
+                    req.body.date = Date.now();
+                    req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
+                    adverts.insert(req.body).then(() => {
+                        const users = req.db.get('users');
+                        users
+                            .findOneAndUpdate(
+                                { id: req.session.user.id },
+                                { $push: { adverts: req.body.id } }
+                            )
+                            .then(() => {
+                                req.session.user.adverts.push(req.body.id);
+                                req.session.save(() => {
+                                    res.json(req.body.id);
+                                });
+                            });
+                    });
+                }
+            });            
         });
     }
 });

@@ -1,6 +1,19 @@
 (function() {
     // Config
     function Config($routeProvider) {
+        $routeProvider.when('/advert/:id/edit', {
+            templateUrl: 'views/add-advert.html',
+            controller: 'AddAdvert',
+            title: 'Промени обява',
+            // resolve: {
+            //     isCompnany: function($rootScope, $location) {
+            //         if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
+            //             $location.path('/home');
+            //             // $rootScope.$apply();
+            //         }
+            //     }
+            // }
+        });
         $routeProvider.when('/add-advert', {
             templateUrl: 'views/add-advert.html',
             controller: 'AddAdvert',
@@ -23,11 +36,26 @@
             console.log('Add advert');
             return $rootScope.promise.post('/api/advert', advert);
         };
+        this.getAdvert = function (advertId) {
+            return $rootScope.promise.get('/api/advert/' + advertId);
+        }
     }
 
     // Controller
-    function Ctrl(AddAdvertService, $scope) {
+    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams) {
         console.log('Init AddAdvert Controller');
+
+        if ($routeParams.id) {
+            AddAdvertService.getAdvert($routeParams.id)
+                .then((advert) => {
+                    $scope.isEdit = true;
+                    $scope.advert = advert.data;
+                    $scope.$apply();
+                })
+                .catch(function(err) {
+                    console.error(err);
+                });
+        }
 
         // Cities
         $scope.cities = [
@@ -60,9 +88,12 @@
         $scope.addAdvert = function() {
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
+                    $rootScope.user.adverts.push(response);
                     // show success alert and clean the form
-                    $scope.addAlert();
-                    angular.element(document.forms)[0].reset();
+                    $scope.addAlert(true);
+                    if (!isEdit) {
+                        angular.element(document.forms)[0].reset();
+                    }                    
                 })
                 .catch(function(err) {
                     console.error(err);
@@ -71,9 +102,14 @@
 
         // Alert
         $scope.alerts = [];
-        $scope.addAlert = function() {
+        $scope.addAlert = function(isEdit) {
             $scope.alerts.length = 0;
-            $scope.alerts.push({ type: 'primary', msg: 'Обявата ви беше успешно публикувана!' });
+            if (!isEdit) {
+                $scope.alerts.push({ type: 'primary', msg: 'Обявата ви беше успешно публикувана!' });
+            } else {
+                $scope.alerts.push({ type: 'primary', msg: 'Промените бяха запазени успешно!' });
+            }
+            
             $scope.$apply();
         };
         $scope.closeAlert = function(index) {

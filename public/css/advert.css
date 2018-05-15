@@ -4,39 +4,53 @@
     margin: 20px 0;
 }
 
-.advert-page .advert-right {
+.advert-page main {
     width: 680px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+ 
+.advert-page main div.company-picture {
+    margin-bottom: 20px;
+}
 
-.advert-page aside.advert-left {
+.advert-page main h4 {
+    align-self: flex-start;
+    margin: 40px 30px 20px; 
+}
+
+.advert-page main div.discription {
+    align-self: flex-start;
+    margin: 0 30px;
+}
+
+.advert-page aside {
     width: 300px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     position: relative;
 }
 
-.advert-page aside.advert-left .advert-info {    
+.advert-page aside .advert-info {    
     width: 100%;
-    padding-left: 20px;
+    padding: 0 20px;
 }
 
-.advert-page aside.advert-left h5 {
+.advert-page aside h5 {
     margin: 20px 0px;
     text-align: center;
     padding-left: 0;
 }
 
-.advert-page aside.advert-left div {
+.advert-page aside div {
     margin-bottom: 20px;
 }
 
-.advert-page aside.advert-left div span {
+.advert-page aside div span {
     display: block;
 }
 
-.advert-page aside.advert-left div span.bold {
+.advert-page aside div span.bold {
     font-weight: bold;
     font-size: 14px;
 }
@@ -44,10 +58,11 @@
 .advert-page .buttons {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
-.advert-page .buttons.btn {
-    margin-bottom: 20px;
+.advert-page .buttons .btn {
+    margin: 10px auto;
 }
 
 /*ribbon*/
