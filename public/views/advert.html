@@ -1,54 +1,69 @@
 <div id="loader" ng-if="timeout"></div>
 <div ng-if="loaded" class="advert-page">
   <aside class="advert-left"> 
-    <h5>Информация</h5>   
-    <div>
-      <span>Град:</span>
-      <span>{{advert.city}}</span>
+    <h5>Информация</h5>
+    <div ng-if="advert.paid !== 'free'" ng-class="{
+      pro: advert.paid === 'pro',
+      top: advert.paid === 'top',
+      vip: advert.paid === 'vip'
+    }" class="side-ribbon left-ribbon"><div class="ribbon-size">{{advert.paid}}</div></div>
+    <div class="advert-info">
+        <div>
+            <span class="bold">Организация:</span>
+            <a href="/companies/{{advert.companyId}}">{{advert.company}}</a>
+          </div>
+        <div>
+          <span class="bold">Град:</span>
+          <span>{{advert.city}}</span>
+        </div>
+        <div>
+          <span class="bold">Категория:</span>
+          <span>{{advert.category}}</span>
+        </div>
+        <div>
+          <span class="bold">Ниво:</span>
+          <span>{{advert.level}}</span>
+        </div>
+        <div>
+          <span class="bold">Тип:</span>
+          <span>{{advert.type}}</span>
+        </div>
+        <div>
+          <span class="bold">Заплата:</span>
+          <span>от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</span>
+        </div>
+    
+        <div>
+          <span class="bold">Изтича на:</span>
+          <span>{{advert.isExpired | date}}</span>
+        </div>
+    
+        <div>
+            <span class="bold">Брой кандидатствали:</span>
+            <span>{{advert.candidates.length}}</span>
+        </div>
+    
+        <div>
+            <span class="bold">Брой преглеждания:</span>
+            <span>{{advert.views}}</span>
+        </div>
     </div>
-    <div>
-      <span>Категория:</span>
-      <span>{{advert.category}}</span>
-    </div>
-    <div>
-      <span>Ниво:</span>
-      <span>{{advert.level}}</span>
-    </div>
-    <div>
-      <span>Тип:</span>
-      <span>{{advert.type}}</span>
-    </div>
-    <div>
-      <span>Заплата:</span>
-      <span>от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</span>
-    </div>
-
-    <div>
-      <span>Изтича на:</span>
-      <span>{{advert.isExpired | date}}</span>
-    </div>
-
-    <div>
-        <span>Брой кандидатствали:</span>
-        <span>{{advert.candidates.length}}</span>
-    </div>
-
-    <div>
-        <span>Брой преглеждания:</span>
-        <span>{{advert.views}}</span>
-    </div>
-    <div>
-      <button ng-if="user.role === 'COMPANY'" class="btn btn-danger" ng-click="deleteAdvert()">Премахни обявата</button>
-      <button ng-if="user.role === 'ADMIN'" ng-click="blockAdvert()">Блокирай обявата</button>
-      <button ng-if="user.role !== 'COMPANY'" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
-      <button ng-if="user.role !== 'COMPANY'" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
+    
+    <div class="buttons">
+      <button ng-if="$root.user.role === 'COMPANY'" class="btn btn-danger" ng-click="deleteAdvert()">Премахни обявата</button>
+      <button ng-if="$root.user.role === 'ADMIN'" class="btn btn-danger" ng-click="blockAdvert()">Блокирай обявата</button>
+      <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
+      <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
     </div>
   </aside>
   <div class="advert-right">
-    <p>{{advert.title}}</p>
-    <p>Описание: {{advert.description}}</p>
+    <div ng-if="{{$root.user.img}}" class="company-picture">
+        <img ng-src="{{$root.user.img}}">
+    </div>
+    <h1>{{advert.title}}</h1>
+    <div>Описание: {{advert.description}}</div>
 
-    <button class="btn btn-success" ng-if="user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
+    <button class="btn btn-success" ng-if="$root.user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
     
   </div>
 
