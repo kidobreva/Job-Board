@@ -3,7 +3,7 @@
     function Config($routeProvider) {
         $routeProvider.when('/my-adverts/:page', {
             templateUrl: 'views/myAdverts.html',
-            controller: 'myAdverts',
+            controller: 'MyAdverts',
             title: 'Моите Обяви',
             resolve: {
                 isCompnany: function($rootScope, $location) {

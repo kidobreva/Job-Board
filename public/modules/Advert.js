@@ -40,7 +40,7 @@
     }
 
     // Controller
-    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title) {
+    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce) {
         console.log('Init Advert Controller');
         $rootScope.title = title;
 
@@ -48,6 +48,7 @@
         AdvertService.getAdvert()
             .then(function(response) {
                 $scope.advert = response.data;
+                $scope.advert.description = $sce.trustAsHtml(response.data.description);
                 $scope.timeout = false;
                 $scope.loaded = true;
             })

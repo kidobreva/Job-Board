@@ -12,24 +12,14 @@
     function Service($rootScope) {
         // Upload picture
         this.uploadPicture = function(e) {
-            return $rootScope.promise.post(
-                '/api/profile/upload-picture/' + $rootScope.user.id,
-                {
-                    data: e.target.result
-                }
-            );
+            return $rootScope.promise.post('/api/profile/upload-picture/' + $rootScope.user.id, {
+                data: e.target.result
+            });
         };
     }
 
     // Controller
-    function Ctrl(
-        ProfileService,
-        $rootScope,
-        $scope,
-        $location,
-        $interval,
-        $timeout
-    ) {
+    function Ctrl(ProfileService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init Profile Controller');
 
         var int = $interval(function() {

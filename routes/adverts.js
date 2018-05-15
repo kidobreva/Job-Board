@@ -51,7 +51,7 @@ router.post('/api/advert', (req, res) => {
         const adverts = req.db.get('adverts');
         adverts.count().then(len => {
             adverts.find({ id: req.body.id }).then(advert => {
-                if(advert) {
+                if (advert[0]) {
                     adverts.findOneAndUpdate({ id: req.body.id }, req.body).then(() => {
                         req.session.save(() => {
                             res.sendStatus(200);
@@ -80,7 +80,7 @@ router.post('/api/advert', (req, res) => {
                             });
                     });
                 }
-            });            
+            });
         });
     }
 });

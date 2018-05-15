@@ -41,7 +41,7 @@ body > header {
 
 ul:not(.nav-primary) {
     /* height: 60px; */
-    list-style: none;
+    /* list-style: none; */
 }
 
 .consulting-rev a:hover, .consulting-rev a:hover .fa-chevron-right {

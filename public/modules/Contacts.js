@@ -11,33 +11,32 @@
     // Service
     function Service($rootScope) {
         // Add message
-        this.sendMessage = function (message) {
+        this.sendMessage = function(message) {
             console.log('Add message');
             return $rootScope.promise.post('/api/send-message', message);
-        }
+        };
     }
 
     // Controller
     function Ctrl(SendMessageService, $scope) {
         console.log('Init Contacts Controller');
 
-        $scope.sendMessage = function () {
+        $scope.sendMessage = function() {
             // Email validation
             if (!$scope.validateEmail($scope.message.email)) {
                 console.log('Invalid email!');
             } else {
-                if(!$scope.validatePhone($scope.message.phone)) {
+                if (!$scope.validatePhone($scope.message.phone)) {
                     console.log('Invalid email!');
                 } else {
                     SendMessageService.sendMessage($scope.message)
-                        .then(function (response) {
+                        .then(function(response) {
                             $scope.addAlert();
                         })
                         .catch(function(err) {
                             console.error(err);
                         });
                 }
-
             }
         };
 
@@ -53,11 +52,11 @@
             $scope.alerts.splice(index, 1);
         };
 
-        $scope.isSubmitted = function () {
+        $scope.isSubmitted = function() {
             return $scope.submit;
         };
 
-        $scope.clicked = function () {
+        $scope.clicked = function() {
             $scope.submit = true;
         };
 
@@ -71,8 +70,6 @@
             return regex.test(Number($scope.message.phone));
         };
     }
-
-
 
     // Module
     angular

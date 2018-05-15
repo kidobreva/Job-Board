@@ -104,12 +104,13 @@ footer ul.socials {
 
     display: flex;
     justify-content: space-between;
+    list-style: none;
 }
 
 footer .info-socials-container ul.info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
+    list-style: none;
     height: 65%;
 }

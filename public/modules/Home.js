@@ -17,7 +17,6 @@
         $scope.noWrapSlides = false;
         $scope.active = 0;
 
-
         // // Cities
         // $scope.cities = [
         //     'София',

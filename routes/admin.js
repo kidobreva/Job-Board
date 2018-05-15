@@ -24,7 +24,10 @@ router.get('/api/admin/users', (req, res) => {
 
 // (DELETE) Advert
 router.delete('/api/advert/:id', (req, res) => {
-    if (!req.session.user && req.session.user.role === 'USER') {
+    if (
+        !req.session.user &&
+        (req.session.user.role === 'ADMIN' || req.session.user.id === req.params.id)
+    ) {
         res.sendStatus(401);
     } else {
         req.db

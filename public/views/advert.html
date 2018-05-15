@@ -50,8 +50,8 @@
     </div>
     
     <div class="buttons">
-      <a href="/advert/{{advert.id}}/edit" ng-if="$root.user.role === 'COMPANY'" class="btn btn-primary" >Промени обявата</a>
-      <button ng-if="$root.user.role === 'COMPANY'" class="btn btn-danger" ng-click="deleteAdvert()">Премахни обявата</button>
+      <a href="/advert/{{advert.id}}/edit" ng-if="$root.user.id === advert.companyId" class="btn btn-primary" >Промени обявата</a>
+      <button ng-if="$root.user.id === advert.companyId" class="btn btn-danger" ng-click="deleteAdvert()">Премахни обявата</button>
       <button ng-if="$root.user.role === 'ADMIN'" class="btn btn-danger" ng-click="blockAdvert()">Блокирай обявата</button>
       <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
       <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
@@ -63,7 +63,7 @@
     </div>
     <h1>{{advert.title}}</h1>
     <h4>Описание и изисквания:</h4>
-    <div class="discription">{{advert.description}}</div>
+    <div ng-bind-html="advert.description" class="discription"></div>
 
     <button class="btn btn-success" ng-if="$root.user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
     

@@ -1,29 +1,36 @@
 (function() {
     // Config
     function Config($routeProvider) {
+        // Check for user on first visit
+        function isCompany($rootScope, $location, $interval) {
+            var int = $interval(function() {
+                if ($rootScope.user || $rootScope.user === null) {
+                    $interval.cancel(int);
+                    if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
+                        $location.path('/home');
+                        // $rootScope.$apply();
+                    }
+                }
+            }, 100);
+        }
+
         $routeProvider.when('/advert/:id/edit', {
             templateUrl: 'views/add-advert.html',
             controller: 'AddAdvert',
             title: 'Промени обява',
-            // resolve: {
-            //     isCompnany: function($rootScope, $location) {
-            //         if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
-            //             $location.path('/home');
-            //             // $rootScope.$apply();
-            //         }
-            //     }
-            // }
+            resolve: {
+                isCompnany: function($rootScope, $location, $interval) {
+                    isCompany.apply(null, arguments);
+                }
+            }
         });
         $routeProvider.when('/add-advert', {
             templateUrl: 'views/add-advert.html',
             controller: 'AddAdvert',
             title: 'Добави обява',
             resolve: {
-                isCompnany: function($rootScope, $location) {
-                    if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
-                        $location.path('/home');
-                        // $rootScope.$apply();
-                    }
+                isCompnany: function($rootScope, $location, $interval) {
+                    isCompany.apply(null, arguments);
                 }
             }
         });
@@ -36,9 +43,9 @@
             console.log('Add advert');
             return $rootScope.promise.post('/api/advert', advert);
         };
-        this.getAdvert = function (advertId) {
+        this.getAdvert = function(advertId) {
             return $rootScope.promise.get('/api/advert/' + advertId);
-        }
+        };
     }
 
     // Controller
@@ -47,7 +54,7 @@
 
         if ($routeParams.id) {
             AddAdvertService.getAdvert($routeParams.id)
-                .then((advert) => {
+                .then(advert => {
                     $scope.isEdit = true;
                     $scope.advert = advert.data;
                     $scope.$apply();
@@ -90,10 +97,12 @@
                 .then(function(response) {
                     $rootScope.user.adverts.push(response);
                     // show success alert and clean the form
-                    $scope.addAlert(true);
-                    if (!isEdit) {
+                    $scope.addAlert($scope.isEdit);
+                    if (!$scope.isEdit) {
+                        $scope.advert.description = '';
                         angular.element(document.forms)[0].reset();
-                    }                    
+                        $scope.$apply();
+                    }
                 })
                 .catch(function(err) {
                     console.error(err);
@@ -105,11 +114,14 @@
         $scope.addAlert = function(isEdit) {
             $scope.alerts.length = 0;
             if (!isEdit) {
-                $scope.alerts.push({ type: 'primary', msg: 'Обявата ви беше успешно публикувана!' });
+                $scope.alerts.push({
+                    type: 'primary',
+                    msg: 'Обявата ви беше успешно публикувана!'
+                });
             } else {
                 $scope.alerts.push({ type: 'primary', msg: 'Промените бяха запазени успешно!' });
             }
-            
+
             $scope.$apply();
         };
         $scope.closeAlert = function(index) {
