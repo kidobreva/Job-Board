@@ -133,12 +133,19 @@ router.post('/api/apply', (req, res) => {
 // (GET) Search adverts
 router.get('/api/search', (req, res) => {
     console.log('Search Adverts:', req.query);
+    if (req.query.companyId) {
+        req.query.companyId = +req.query.companyId;
+    }
 
     const adverts = req.db.get('adverts');
     adverts.find(req.query).then(adverts => {
-        if (adverts.length) {
+        const len = adverts.length;
+        if (len) {
             console.log('Adverts:', adverts);
-            res.json(adverts);
+            res.json({
+                adverts,
+                len
+            });
         } else {
             res.sendStatus(404);
             console.log('No adverts!');

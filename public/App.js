@@ -23,6 +23,7 @@
         'Advert',
         'Adverts',
         'Search',
+        'MyAdverts',
 
         // Other
         'Home',
