@@ -1,26 +1,38 @@
 <div id="loader" ng-if="timeout"></div>
 <p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
 
-<div class="adverts-page" ng-if="loaded && adverts">
+<section class="adverts-page" ng-if="loaded && adverts">
   <!-- Adverts list -->
   <div class="adverts-list">
+    <h2>Публикувани обяви</h2>
     <div class="adverts-div" ng-repeat="advert in adverts">
-      <div class="advert-logo">LOGO</div>
+     <div ng-if="$root.user.img" class="advert-logo">
+        <div ng-if="advert.paid !== 'free'" ng-class="{
+            pro: advert.paid === 'pro',
+            top: advert.paid === 'top',
+            vip: advert.paid === 'vip'
+            }" class="corner-ribbon corner-ribbon-left"><div class="ribbon-size">{{advert.paid}}</div>
+        </div>
+        <img ng-src="{{$root.user.img}}">
+      </div>
       <div class="advert-info">
         <a href="/advert/{{advert.id}}">
           <p>{{advert.title}}</p>
         </a>
-        <span>Заплата от:
-          <b>{{advert.salary.min | currency: "лв."}}</b> до
-          <b>{{advert.salary.max | currency: "лв." }}</b>
-        </span>
-        <br />
-        <span>{{ advert.date | date: "fullDate" }}</span>, гр.
-        <span>{{advert.city}}</span>
+        <div>
+          <span>Заплата от:
+            <b>{{advert.salary.min | currency: "лв."}}</b> до
+            <b>{{advert.salary.max | currency: "лв." }}</b>
+          </span>
+        <div/>
+        <div>
+          <span>Публикувана на {{ advert.date | date: "fullDate" }}</span>, гр.
+          <span>{{advert.city}}</span>
+        </div>
       </div>
     </div>
   </div>  
-</div>
+</section>
 
 <!-- Pagination -->
 <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>

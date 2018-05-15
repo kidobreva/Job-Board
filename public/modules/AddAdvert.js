@@ -113,13 +113,15 @@
         $scope.alerts = [];
         $scope.addAlert = function(isEdit) {
             $scope.alerts.length = 0;
-            if (!isEdit) {
+            if (!$scope.isEdit) {
                 $scope.alerts.push({
                     type: 'primary',
                     msg: 'Обявата ви беше успешно публикувана!'
                 });
             } else {
-                $scope.alerts.push({ type: 'primary', msg: 'Промените бяха запазени успешно!' });
+                $scope.alerts.push({
+                     type: 'primary', 
+                     msg: 'Промените бяха запазени успешно!' });
             }
 
             $scope.$apply();
