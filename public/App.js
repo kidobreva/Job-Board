@@ -26,6 +26,7 @@
         'Adverts',
         'Search',
         'MyAdverts',
+        'Candidates',
 
         // Other
         'Home',

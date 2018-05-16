@@ -1,0 +1,18 @@
+@import "_config.scss";
+
+.add-advert {
+    font-size: 0.9rem;
+    textarea {
+        min-height: 250px;
+    }
+    select {
+        font-size: 1rem;
+    }
+    .btn {
+        margin-bottom: 20px;
+    }
+}
+
+#ng-wig-editable {
+    max-width: 300px;
+}

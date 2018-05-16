@@ -4,7 +4,20 @@
         $routeProvider.when('/profile', {
             templateUrl: 'views/profile.html',
             controller: 'Profile',
-            title: 'Профил'
+            title: 'Профил',
+            // resolve: {
+            //     isCompany: function($rootScope, $location, $interval) {
+            //         var int = $interval(function() {
+            //             if ($rootScope.user || $rootScope.user === null) {
+            //                 $interval.cancel(int);
+            //                 if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
+            //                     $location.path('/home');
+            //                     // $rootScope.$apply();
+            //                 }
+            //             }
+            //         }, 100);
+            //     }
+            // }
         });
     }
 

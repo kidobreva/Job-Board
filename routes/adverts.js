@@ -157,4 +157,29 @@ router.get('/api/search', (req, res) => {
     });
 });
 
+// (Get) Users
+router.get('/api/advert/:id/candidates', (req, res) => {
+    // if (!req.session.user) {
+    //     res.sendStatus(401);
+    // } else {
+        const users =  req.db.get('users');
+        const adverts = req.db.get('adverts');
+        adverts.findOne({id: +req.params.id}).then(advert => {
+            users.find({id: {$all: advert.candidates}})
+                .then(users => {
+                    console.log(users)
+                    if (!users.length) {
+                        res.sendStatus(404);
+                    } else {
+                        users.forEach(user => {
+                            delete user.password;
+                        });
+                        res.json(users);
+                    }
+                })
+        });
+        
+    // }
+});
+
 module.exports = router;

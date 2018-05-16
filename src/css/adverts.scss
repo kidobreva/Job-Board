@@ -1,0 +1,139 @@
+@import "_config.scss";
+
+section {
+    &.adverts-page {
+        width: 980px;
+        font-size: 0.9rem;
+        display: flex;
+        font-family: Tahoma, Helvetica, sans-serif;
+        margin-bottom: 2rem;
+        h2 {
+            border-bottom: 2px solid #4E4B4B;
+            margin-bottom: 2rem;
+        }
+        .adverts-list {
+            width: 80%;
+            margin: 0 auto;
+            > div {    
+                display: flex;
+                box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+                transition: all 0.2s ease-out;
+                height: 140px;
+                margin-bottom: 2rem;
+                position: relative;
+                &:hover {
+                    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.6);
+                }
+            }
+        }
+        .adverts {
+            width: 65%;
+        }
+        .advert-logo {
+            width: 150px;
+            align-self: center;
+            margin-left: 1rem;
+            img {
+                max-width: 100%;
+                max-height: 200px;
+            }
+        }
+        .advert-info {
+            width: 50%;
+            margin-left: 3rem;
+            padding: 1.5rem 0;
+            .advert-sallary {
+                margin-top: 13px;
+            }
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 1rem;
+            a {     
+                margin: 0.5rem 0;  
+            }
+            .btn {
+                font-size: 0.9em;
+            }
+        }
+        .corner-ribbon {
+            &.pro > * {
+                color: darken(map_get($ribbonColors, pro), 30%);
+                background: map_get($ribbonColors, pro);
+                &:before, 
+                &:after {
+                    border-color: darken(map_get($ribbonColors, pro), 30%) transparent transparent transparent;
+                }
+            }
+            &.top > * {
+                color: darken(map_get($ribbonColors, top), 30%);
+                background: map_get($ribbonColors, top);
+                &:before, 
+                &:after {
+                    border-color: darken(map_get($ribbonColors, top), 30%) transparent transparent transparent;
+                }
+            }
+            &.vip > * {
+                color: darken(map_get($ribbonColors, vip), 30%);
+                background: map_get($ribbonColors, vip);
+                &:before, 
+                &:after {
+                    border-color: darken(map_get($ribbonColors, vip), 30%) transparent transparent transparent;
+                }
+            }
+        }
+    }
+    &.pagination-sm {
+        justify-content: flex-end;
+    }
+}
+
+/*ribbon*/
+.corner-ribbon {
+    font-weight: bold;
+    width: 85px;
+    height: 85px;
+    overflow: hidden;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    > * {
+        text-align: center;
+        text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px;
+        -webkit-transform: rotate(45deg);
+        position: relative;
+        padding: 7px 0;
+        left: -5px;
+        top: 14px;
+        width: 120px;
+        background-color: #ba89b6;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#ba89b6), to(#a769a2));
+        color: #6b3f68;
+        -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+        &:before,
+        &:after {
+            content: "";
+            border-top: 3px solid #7b4877;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            position: absolute;
+            bottom: -3px;
+        }
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+    }
+    &.corner-ribbon-left {
+        left: -3px;
+        > * {
+            left: -30px;
+            -webkit-transform: rotate(-45deg);
+        }
+    }
+}

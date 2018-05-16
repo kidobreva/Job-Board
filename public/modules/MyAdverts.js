@@ -6,11 +6,16 @@
             controller: 'MyAdverts',
             title: 'Моите Обяви',
             resolve: {
-                isCompnany: function($rootScope, $location) {
-                    if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
-                        $location.path('/home');
-                        // $rootScope.$apply();
-                    }
+                isCompany: function($rootScope, $location, $interval) {
+                    var int = $interval(function() {
+                        if ($rootScope.user || $rootScope.user === null) {
+                            $interval.cancel(int);
+                            if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
+                                $location.path('/home');
+                                //$rootScope.$apply();
+                            }
+                        }
+                    }, 100);
                 }
             }
         });
