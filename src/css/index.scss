@@ -1,3 +1,5 @@
+@import "_config.scss";
+
 /* cyrillic */
 @font-face {
     font-family: 'Montserrat';
@@ -24,302 +26,156 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    /* font-size: 12px; */
-
     margin: 0;
     padding: 0;
-}
-
-body > header {
-    height: 250px;
-    padding-top: 20px;
-
-    background: url(../images/header.jpg) no-repeat;
-    background-position-y: -150px;
-    background-size: cover;
-}
-
-ul:not(.nav-primary) {
-    /* height: 60px; */
-    /* list-style: none; */
-}
-
-.consulting-rev a:hover, .consulting-rev a:hover .fa-chevron-right {
-    cursor: pointer;
-
-    color: #090821;
-    background: #c79d63;
-}
-
-main {
-    width: 100%;
-}
-
-main header h3 {
-    font-size: 27px;
-
-    margin-top: 40px;
-
-    text-align: center;
-}
-
-main section {
-    text-align: center;
-}
-
-main .professional-area {
-    position: relative;
-
-    display: flex;
-    align-items: center;
-
-    width: 980px;
-    margin: 0 auto;
-
-    border-top: 2px solid #4e4b4b;
-    border-bottom: 2px solid #4e4b4b;
-}
-
-main .professional-area a.left svg {
-    color: #000;
-    /* position: absolute; */
-    /* top: 200px; */
-    /* left: -56px; */
-}
-
-main .professional-area a.right svg {
-    color: #000;
-    /* position: absolute; */
-    /* top: 200px; */
-    /* left: 1050px; */
-}
-
-main .professional-area section {
-    display: flex;
-    justify-content: center;
-}
-
-main .professional-area section .advert-block {
-    width: 25%;
-}
-
-main .professional-area section img {
-    /* width: 150px;
-    height: 150px; */
-}
-
-main .professional-area section .links {
-    margin-top: 10px;
-}
-
-main .professional-area section .links a {
-    font-size: 15px;
-
-    text-decoration: none;
-
-    color: #000;
-}
-
-main h5 {
-    font-size: 24px;
-
-    width: 520px;
-    margin: 0 auto;
-
-    text-align: center;
-}
-
-main section.banner {
-    position: relative;
-
-    display: block;
-
-    margin-top: 40px;
-    margin-bottom: 0;
-    padding-top: 35px;
-    padding-bottom: 46px;
-}
-
-main section.banner span {
-    color: #c79d63;
-}
-
-main section.banner::after {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    content: '';
-
-    opacity: 0.3;
-    background: url(../images/steel-bg.jpg) center center;
-    background-size: cover;
-}
-
-main section.news {
-    font-family: 'Montserrat', sans-serif;
-
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    color: #fff;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url('/images/background-choose-us.jpg') no-repeat center;
-    background-size: cover;
-}
-
-main section.news {
-    padding-bottom: 40px;
-}
-
-main section.news h2 {
-    font-size: 40px;
-
-    margin-bottom: 20px;
-
-    text-align: center;
-}
-
-main section.news div.news-container {
-    display: flex;
-    justify-content: center;
-}
-
-main section.news div.news-container .news-block {
-    display: block;
-
-    width: 300px;
-    margin-right: 30px;
-    padding: 20px 15px;
-
-    text-decoration: none;
-
-    border: 2px solid #c79d63;
-}
-
-main section.news div.news-container .news-block a {
-    font-size: 18px;
-    line-height: 10px;
-
-    text-decoration: none;
-
-    color: #fff;
-}
-
-main section.news div.news-container .news-block a:hover {
-    text-decoration: underline;
-}
-
-main section.news div.news-container .news-block p {
-    margin-top: 30px;
-}
-
-main section.consulting-woman {
-    position: relative;
-
-    height: 600px;
-    margin: 0;
-
-    background-image: url('../images/consulting-woman.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-main section.consulting-woman article.testimonial-info {
-    position: absolute;
-    top: 70px;
-    right: 40px;
-
-    width: 500px;
-    padding: 64px 60px 53px 60px;
-
-    background: rgba(255, 255, 255, 0.7);
-}
-
-.testimonial-info > p::before, .testimonial-info > p::after {
-    font-size: 32px;
-
-    content: open-quote;
-
-    color: #c79d63;
-}
-
-.testimonial-info > p::after {
-    content: close-quote;
-}
-
-main section.consulting-woman article.testimonial-info footer {
-    margin-top: 20px;
-
-    text-align: left;
-}
-
-main section.consulting-woman article.testimonial-info footer h4 {
-    font-size: 24px;
-}
-
-main section.consulting-woman article.testimonial-info footer p {
-    font-size: 14px;
-
-    margin-bottom: 0;
-    padding: 0;
-
-    color: #777;
-}
-
-
-main section.companies div {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    width: 1280px;
-    height: 150px;
-    margin: 0 auto;
-}
-
-main section.companies a img {
-    width: 150px;
-}
-
-.professional-area > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-
-    height: 385px;
-}
-
-.info-socials-container ul {
-    margin: 0;
-    padding: 0;
-}
-
-.carousel svg {
-    width: 40px;
-    height: 40px;
-}
-
-.carousel {
-    display: flex;
-    justify-content: center;
-
-    height: 305px;
-}
-
-.carousel > div {
-    display: flex;
-    align-items: center;
-
-    width: 980px;
-}
-
-.carousel ol {
-    display: none;
+    > header {
+        height: 250px;
+        padding-top: 20px;
+    
+        background: url(../images/header.jpg) no-repeat;
+        background-position-y: -150px;
+        background-size: cover;
+    }
+    main {
+        width: 100%;
+        header h3 {
+            font-size: 27px;        
+            margin-top: 40px;        
+            text-align: center;
+        }
+        .professional-area {
+            position: relative;        
+            display: flex;
+            align-items: center;        
+            width: 980px;
+            margin: 0 auto;        
+            border-top: 2px solid #4e4b4b;
+            border-bottom: 2px solid #4e4b4b; 
+            > div {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;            
+                height: 385px;
+            }  
+            .carousel {
+                display: flex;
+                justify-content: center;            
+                height: 350px;
+                > div {
+                    display: flex;
+                    align-items: center;                
+                    width: 980px;
+                }
+                svg {
+                    width: 40px;
+                    height: 40px;
+                }
+                ol {
+                    display: none;
+                }
+                section {
+                    display: flex;
+                    justify-content: center;
+                    .advert-block {
+                        width: 25%;
+                    }
+                    .links {
+                        margin-top: 10px;
+                        a {
+                            font-size: 15px;                    
+                            text-decoration: none;                    
+                            color: #000;
+                        }
+                    }
+                }    
+            }  
+               
+        }
+        section {
+            text-align: center;
+            &.banner {
+                position: relative;            
+                display: block;            
+                margin-top: 40px;
+                margin-bottom: 0;
+                padding-top: 35px;
+                padding-bottom: 46px;
+                h5 {
+                    font-size: 24px;                
+                    width: 520px;
+                    margin: 0 auto;                
+                    text-align: center;
+                    span {
+                        color: #c79d63;
+                    }
+                }
+                &:after {
+                    position: absolute;
+                    z-index: -1;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;                
+                    content: '';                
+                    opacity: 0.3;
+                    background: url(../images/steel-bg.jpg) center center;
+                    background-size: cover;
+                }
+            }
+            &.news {
+                font-family: 'Montserrat', sans-serif;            
+                margin: 0;
+                padding-top: 10px;
+                padding-bottom: 50px;            
+                color: #fff;
+                background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                            url('/images/background-choose-us.jpg') no-repeat center;
+                background-size: cover;
+                h2 {
+                    font-size: 40px;                
+                    margin-bottom: 20px;                
+                    text-align: center;
+                }
+                div.news-container {
+                    display: flex;
+                    justify-content: center;
+                    .news-block {
+                        display: block;                    
+                        width: 300px;
+                        margin-right: 30px;
+                        padding: 20px 15px;                    
+                        text-decoration: none;                    
+                        border: 2px solid #c79d63;
+                        a {
+                            font-size: 18px;
+                            line-height: 10px;                        
+                            text-decoration: none;                        
+                            color: #fff;
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                        p {
+                            margin-top: 30px;
+                        }
+                    }
+                }
+            }
+            &.companies div {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;            
+                width: 1280px;
+                height: 150px;
+                margin: 0 auto;
+                a img {
+                    width: 150px;
+                }
+            }
+        }
+        
+    }
+    
 }
 
 /* .carousel .slide {
@@ -329,7 +185,7 @@ main section.companies a img {
     justify-content: space-around;
 } */
 
-.carousel section {
-    display: flex;
-    justify-content: center;
-}
+// .carousel section {
+//     display: flex;
+//     justify-content: center;
+// }

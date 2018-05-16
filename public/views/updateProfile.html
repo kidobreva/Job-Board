@@ -3,15 +3,18 @@
         <h2>Настройки на профила</h2>
     </div>
     <form class="user-info" name="updateProfileForm" ng-submit="updateProfile()">
-        <label><span>*Име</span>
+        <label>
+            <span>*Име</span>
             <input class="inputs" type="text" ng-model="user.firstName" required />
         </label>
 
-        <label><span>*Фамилия</span>
+        <label>
+            <span>*Фамилия</span>
             <input class="inputs" type="text" ng-model="user.lastName" required />
         </label>
 
-        <label><span>Нова парола</span>
+        <label>
+            <span>Нова парола</span>
             <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.newPassword" />
         </label>
         <span class="red" ng-if="shortPass">Моля въведете парола с минимум 6 символа!</span>
@@ -34,7 +37,10 @@
                     ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }"
             >Запази</button>
         </div>
-        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+        <div uib-alert ng-repeat="alert in alerts" 
+             ng-class="'alert-' + (alert.type || 'warning')" 
+             close="closeAlert($index)"
+        >{{alert.msg}}</div>
     </form>
 </section>
 <!-- ng-click="clicked()" -->

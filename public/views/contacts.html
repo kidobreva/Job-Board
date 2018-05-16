@@ -11,27 +11,36 @@
         <form class="form-group" name="contactForm" ng-submit="sendMessage()">
             <h4>Свържете се с нас</h4>
             <label for="name">Вашето име:
-                <input class="form-control" id="name" required ng-model="message.name" /></label>
+                <input class="form-control" id="name" required ng-model="message.name" />
+            </label>
 
             <label for="email">Вашият имейл:
-                <input class="form-control" id="email" required ng-model="message.email" /></label>
-                <span ng-if="message.email && !validateEmail() && isSubmitted()">Моля въведете валиден имейл!</span>
+                <input class="form-control" id="email" required ng-model="message.email" />
+            </label>
+            <span ng-if="message.email && !validateEmail() && isSubmitted()">Моля въведете валиден имейл!</span>
 
             <label for="phone">Вашият телефон:
-                <input class="form-control" id="phone" required ng-model="message.phone" /></label>
-                <span ng-if="message.phone && !validatePhone() && isSubmitted()">Моля въведете валиден телефон!</span>
+                <input class="form-control" id="phone" required ng-model="message.phone" />
+            </label>
+            <span ng-if="message.phone && !validatePhone() && isSubmitted()">Моля въведете валиден телефон!</span>
 
             <label for="text">Съобщение:
-                <textarea class="form-control" id="text" required ng-model="message.text" /></textarea></label>
+                <textarea class="form-control" id="text" required ng-model="message.text" /></textarea>
+            </label>
 
             <!-- button -->
             <button class="btn btn-primary"
                     ng-click="clicked()"
                     ng-disabled="contactForm.$invalid"
-                    ng-style="{ 'cursor' : (!contactForm.$invalid) ? 'pointer' : 'normal' }">Изпрати запитване</button>
+                    ng-style="{ 'cursor' : (!contactForm.$invalid) ? 'pointer' : 'normal' }"
+            >Изпрати запитване</button>
 
             <!-- alert -->
-            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+            <div uib-alert 
+                 ng-repeat="alert in alerts" 
+                 ng-class="'alert-' + (alert.type || 'warning')" 
+                 close="closeAlert($index)"
+            >{{alert.msg}}</div>
             <!-- ng-if="msg" class="msg"  -->
         </form>
         <div class="contact-info">
