@@ -30,6 +30,7 @@
         // Get adverts
         AdvertsService.getAdverts($routeParams.page, $routeParams.size)
             .then(function(advertsArr) {
+                console.log(advertsArr.data);
                 $scope.maxSize = +advertsArr.data.len;
                 $scope.totalItems = advertsArr.data.size;
                 $scope.adverts = advertsArr.data.adverts;

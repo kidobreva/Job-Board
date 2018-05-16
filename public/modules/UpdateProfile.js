@@ -47,18 +47,6 @@
                 if ($scope.invalid === false) {
                     sendUserData();
                 }
-
-                // if ($scope.user.newPassword) {
-                //     if ($scope.user.newPassword !== $scope.user.repeatNewPassword
-                //         || $scope.user.newPassword.length < 6 ) {
-                //             console.log($scope.user)
-                //             console.log('The passwords are not the same!');
-                //         } else {
-                //             sendUserData();
-                //         }
-                //     } else {
-                //          sendUserData();
-                //  }
             }
 
             $scope.alerts = [];
@@ -79,7 +67,6 @@
                         console.log(response);
                         if (response.status === 200) {
                             $scope.errCode = false;
-                            //$scope.errCodeEqualPass = false;
                             $scope.addAlert();
                             $scope.user = response.data;
                         }
@@ -89,10 +76,6 @@
                             $scope.errCode = true;
                             $scope.$apply();
                         }
-                        // if (err.status === 400) {
-                        //     $scope.errCodeEqualPass = true;
-                        //     $scope.$apply();
-                        // }
                         console.log('error', err);
                     });
             }
@@ -100,8 +83,7 @@
 
         $scope.validatePass = function() {
             var invalid = false;
-            var shortPass = false;
-            //console.log($scope.user.repeatNewPassword);
+            $scope.shortPass = $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
             if (
                 $scope.user.repeatNewPassword &&
                 $scope.user.repeatNewPassword !== $scope.user.newPassword
@@ -111,22 +93,6 @@
 
             $scope.invalid = invalid;
         };
-        // function isShortPass ($scope) {
-        //     if ($scope.user.newPassword.length < 6 &&
-        //         $scope.user.repeatNewPassword < 6 ) {
-        //         console.log('new pass lenght', $scope.user.newPassword.length);
-        //         shortPass = true;
-        //     }
-        //     $shortPass = shortPass;
-        // }
-
-        // $scope.isSubmitted = function () {
-        //     return $scope.submit;
-        // }
-
-        // $scope.clicked = function () {
-        //     $scope.submit = true;
-        // }
     }
 
     // Module

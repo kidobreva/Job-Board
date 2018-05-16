@@ -4,27 +4,31 @@
 <section class="adverts-page" ng-if="loaded && adverts">
   <!-- Adverts list -->
   <div class="adverts-list adverts">
+    <h2>Oбяви за работа</h2>
     <div class="adverts-div" ng-repeat="advert in adverts">
-      <div ng-if="$root.user.img" class="advert-logo">
+      <div class="advert-logo">
         <div ng-if="advert.paid !== 'free'" ng-class="{
             pro: advert.paid === 'pro',
             top: advert.paid === 'top',
             vip: advert.paid === 'vip'
             }" class="corner-ribbon corner-ribbon-left"><div class="ribbon-size">{{advert.paid}}</div>
         </div>
-        <img ng-src="{{$root.user.img}}">
+        <img src="{{advert.logo}}">
       </div>
       <div class="advert-info">
         <a href="/advert/{{advert.id}}">
             {{advert.title}}
         </a>
-        <span>Заплата от:
-          <b>{{advert.salary.min | currency: "лв."}}</b> до
-          <b>{{advert.salary.max | currency: "лв." }}</b>
-        </span>
-        <br />
-        <span>{{ advert.date | date: "fullDate" }}</span>, гр.
-        <span>{{advert.city}}</span>
+        <div class="advert-sallary">
+            <span>Заплата от:
+                <b>{{advert.salary.min | currency: "лв."}}</b> до
+                <b>{{advert.salary.max | currency: "лв." }}</b>
+            </span>
+            <div>
+                <span>Публикувана на {{ advert.date | date: "fullDate" }}</span>, гр.
+                <span>{{advert.city}}</span>
+            </div>
+        </div>
       </div>
     </div>
   </div>

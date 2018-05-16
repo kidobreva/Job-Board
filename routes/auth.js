@@ -14,6 +14,7 @@ router.get('/api/logout', (req, res) => {
         res.sendStatus(401);
     } else {
         req.session.destroy(err => {
+            res.clearCookie('connect.sid');
             res.sendStatus(err ? 500 : 200);
         });
     }

@@ -15,36 +15,40 @@
 
         <div ng-if="!registerUser.isCompany" >
             <label><span>*</span>Име
-            <input class="inputs" name="username" type="text" required ng-model="registerUser.firstName" /></label>
+                <input class="inputs" name="username" type="text" required ng-model="registerUser.firstName" />
+            </label>
         </div>
 
         <div ng-if="!registerUser.isCompany" >
-        <label><span>*</span>Фамилия
-            <input class="inputs" name="username" type="text" required ng-model="registerUser.lastName" /></label>
+            <label><span>*</span>Фамилия
+                <input class="inputs" name="username" type="text" required ng-model="registerUser.lastName" />
+            </label>
         </div>
 
         <div ng-if="registerUser.isCompany" >
             <label><span>*</span>Юридическо име на фирмата
-                <input class="inputs" name="username" type="text" required ng-model="registerUser.title" /></label>
+                <input class="inputs" name="username" type="text" required ng-model="registerUser.title" />
+            </label>
         </div>
 
         <div ng-if="registerUser.isCompany" >
             <label><span>*</span>ЕИК/БУЛСТАТ
-                <input class="inputs" name="username" type="text" required ng-model="registerUser.bulstat" /></label>
+                <input class="inputs" name="username" type="text" required ng-model="registerUser.bulstat" />
+            </label>
         </div>
 
         <label><span>*</span>E-mail
-        <input class="inputs" name="email" type="email" required ng-model="registerUser.email" /></label>
+            <input class="inputs" name="email" type="email" required ng-model="registerUser.email" />
+        </label>
 
         <label><span>*</span>Парола
-        <input class="inputs" name="pass" type="password" required ng-model="registerUser.password" /></label>
+            <input class="inputs" name="pass" type="password" required ng-model="registerUser.password" />
+        </label>
 
         <label><span>*</span>Повторете паролата
-        <input class="inputs" name="repeat-pass" type="password" required ng-model="registerUser.repeatPassword" /></label>
+            <input class="inputs" name="repeat-pass" type="password" required ng-model="registerUser.repeatPassword" />
+        </label>
 
-        <div class="pass-info">
-            <p>Паролата трябва да съдържа минимум 6 символа.</p>
-        </div>
         <div class="required-info">
             <span>*</span>
             <p>Задължително поле</p>
@@ -57,7 +61,8 @@
         <div class="buttons">
             <button class="btn btn-primary" 
                     ng-disabled="registerUsers.$invalid" 
-                    ng-style="{ 'cursor' : (!registerUsers.$invalid) ? 'pointer' : 'normal' }">Регистрация</button>
+                    ng-style="{ 'cursor' : (!registerUsers.$invalid) ? 'pointer' : 'normal' }"
+            >Регистрация</button>
         </div>
     </form>
 
@@ -65,15 +70,18 @@
         <h2>Вход:</h2>
 
         <label>E-mail
-        <input class="inputs" name="username" type="text" ng-model="user.email" required /></label>
+            <input class="inputs" name="username" type="text" ng-model="user.email" required />
+        </label>
 
         <label>Парола
-        <input class="inputs" name="pass" type="password" ng-model="user.password" required /></label>
+            <input class="inputs" name="pass" type="password" ng-model="user.password" required />
+        </label>
         <div class="error"></div>
         <div class="buttons">
             <button class="btn btn-primary"
-            ng-disabled="loginUsers.$invalid" 
-            ng-style="{ 'cursor' : (!loginUsers.$invalid) ? 'pointer' : 'normal' }">Вход</button>
+                    ng-disabled="loginUsers.$invalid" 
+                    ng-style="{ 'cursor' : (!loginUsers.$invalid) ? 'pointer' : 'normal' }"
+            >Вход</button>
             <a href="/">Забравена парола</a>
         </div>
         <p>Ако нямате регистрация, моля регистрирайте се, за да създадете свой профил, където може да качите своето CV и да кандидатствате по избраните от вас обяви за работа.</p>

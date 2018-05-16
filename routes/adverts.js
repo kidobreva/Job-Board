@@ -65,6 +65,7 @@ router.post('/api/advert', (req, res) => {
                     req.body.id = ++len;
                     req.body.company = req.session.user.title;
                     req.body.companyId = req.session.user.id;
+                    req.body.logo = req.session.user.img;
                     req.body.views = 0;
                     req.body.candidates = [];
                     req.body.date = Date.now();
