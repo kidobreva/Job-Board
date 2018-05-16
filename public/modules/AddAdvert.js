@@ -49,7 +49,7 @@
     }
 
     // Controller
-    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams) {
+    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams, $sanitize) {
         console.log('Init AddAdvert Controller');
 
         if ($routeParams.id) {
@@ -93,11 +93,12 @@
         ];
 
         $scope.addAdvert = function() {
+            $scope.advert.description = $sanitize($scope.advert.description);
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
                     $rootScope.user.adverts.push(response);
                     // show success alert and clean the form
-                    $scope.addAlert($scope.isEdit);
+                    $scope.addAlert();
                     if (!$scope.isEdit) {
                         $scope.advert.description = '';
                         angular.element(document.forms)[0].reset();
@@ -111,7 +112,7 @@
 
         // Alert
         $scope.alerts = [];
-        $scope.addAlert = function(isEdit) {
+        $scope.addAlert = function() {
             $scope.alerts.length = 0;
             if (!$scope.isEdit) {
                 $scope.alerts.push({
@@ -120,8 +121,9 @@
                 });
             } else {
                 $scope.alerts.push({
-                     type: 'primary', 
-                     msg: 'Промените бяха запазени успешно!' });
+                    type: 'primary',
+                    msg: 'Промените бяха запазени успешно!'
+                });
             }
 
             $scope.$apply();

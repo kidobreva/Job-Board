@@ -85,4 +85,6 @@
 </section>
 
 <!-- Pagination -->
-<ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>
+<div ng-show="adverts">
+  <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>
+</div>

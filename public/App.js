@@ -4,6 +4,7 @@
         'ngRoute',
         'ngAnimate',
         'ui.bootstrap',
+        'ngSanitize',
         'ngWig',
 
         // Users

@@ -27,20 +27,24 @@ router.get('/api/advert/:id', function(req, res) {
 
 // (GET) Adverts
 router.get('/api/adverts/:page', (req, res) => {
-    req.db
-        .get('adverts')
-        .find({}, { sort: { id: -1 } })
-        .then(advertsArr => {
+    const adverts = req.db.get('adverts');
+    adverts.count().then(size => {
+        adverts.find({}, { sort: { id: -1 } }).then(advertsArr => {
             console.log(advertsArr);
             if (advertsArr[0]) {
                 res.json({
-                    adverts: advertsArr.slice((req.params.page - 1) * 10, req.params.page * 10),
-                    len: advertsArr.length
+                    adverts: advertsArr.slice(
+                        (req.params.page - 1) * req.query.size,
+                        req.params.page * req.query.size
+                    ),
+                    len: req.query.size,
+                    size
                 });
             } else {
                 res.sendStatus(404);
             }
         });
+    });
 });
 
 // (POST) Add advert
