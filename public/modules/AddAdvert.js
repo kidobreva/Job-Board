@@ -1,38 +1,15 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        // Check for user on first visit
-        function isCompany($rootScope, $location, $interval) {
-            var int = $interval(function() {
-                if ($rootScope.user || $rootScope.user === null) {
-                    $interval.cancel(int);
-                    if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
-                        $location.path('/home');
-                        // $rootScope.$apply();
-                    }
-                }
-            }, 100);
-        }
-
         $routeProvider.when('/advert/:id/edit', {
             templateUrl: 'views/add-advert.html',
             controller: 'AddAdvert',
-            title: 'Промени обява',
-            resolve: {
-                isCompnany: function($rootScope, $location, $interval) {
-                    isCompany.apply(null, arguments);
-                }
-            }
+            title: 'Промени обява'
         });
         $routeProvider.when('/add-advert', {
             templateUrl: 'views/add-advert.html',
             controller: 'AddAdvert',
-            title: 'Добави обява',
-            resolve: {
-                isCompnany: function($rootScope, $location, $interval) {
-                    isCompany.apply(null, arguments);
-                }
-            }
+            title: 'Добави обява'
         });
     }
 
@@ -49,20 +26,35 @@
     }
 
     // Controller
-    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams, $sanitize) {
+    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams, $sanitize, $location) {
         console.log('Init AddAdvert Controller');
 
-        if ($routeParams.id) {
-            AddAdvertService.getAdvert($routeParams.id)
-                .then(advert => {
-                    $scope.isEdit = true;
-                    $scope.advert = advert.data;
-                    $scope.$apply();
-                })
-                .catch(function(err) {
-                    console.error(err);
-                });
-        }
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role !== 'COMPANY') {
+                    $location.path('/home');
+                } else {
+                    if ($routeParams.id) {
+                        AddAdvertService.getAdvert($routeParams.id)
+                            .then(advert => {
+                                $scope.isEdit = true;
+                                $scope.advert = advert.data;
+                                $scope.$apply();
+                            })
+                            .catch(function(err) {
+                                console.error(err);
+                            });
+                    }
+                }
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
 
         // Cities
         $scope.cities = [
@@ -96,7 +88,7 @@
             $scope.advert.description = $sanitize($scope.advert.description);
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
-                    $rootScope.user.adverts.push(response);
+                    // $rootScope.user.adverts.push(response);
                     // show success alert and clean the form
                     $scope.addAlert();
                     if (!$scope.isEdit) {

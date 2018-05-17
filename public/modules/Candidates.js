@@ -4,27 +4,14 @@
         $routeProvider.when('/my-adverts/:id/candidates', {
             templateUrl: 'views/admin/users.html',
             controller: 'Candidates',
-            title: 'Кандидати',
-            resolve: {
-                isCompany: function($rootScope, $location, $interval) {
-                    var int = $interval(function() {
-                        if ($rootScope.user || $rootScope.user === null) {
-                            $interval.cancel(int);
-                            if (!$rootScope.user || $rootScope.user.role !== 'COMPANY') {
-                                $location.path('/home');
-                                //$rootScope.$apply();
-                            }
-                        }
-                    }, 100);
-                }
-            }
+            title: 'Кандидати'
         });
     }
 
     // Service
     function Service($rootScope, $routeParams) {
         // Get users
-        this.getUsers = function() {
+        this.getCandidates = function() {
             return $rootScope.promise.get('/api/advert/' + $routeParams.id + '/candidates');
         };
     }
@@ -33,35 +20,40 @@
     function Ctrl(CandidatesService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init Candidates Controller');
 
-        // Get users
-        function getUsers() {
-            CandidatesService.getUsers()
-                .then(function(response) {
-                    console.log(response);
-                    $scope.users = response.data;
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                })
-                .catch(function(response) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                });
-        }
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role !== 'COMPANY') {
+                    $location.path('/home');
+                } else {
+                    // Get users
+                    CandidatesService.getCandidates()
+                        .then(function(response) {
+                            $scope.users = response.data;
+                            $scope.$apply();
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                        })
+                        .catch(function() {
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                        });
 
-        var int = $interval(function() {
-            if ($rootScope.headerLoaded) {
-                $interval.cancel(int);
-
-                getUsers();
-
-                // Show loading animation
-                $timeout(function() {
-                    if (!$scope.loaded) {
-                        $scope.timeout = true;
-                    }
-                }, 1000);            
-            }
-        }, 100);
+                    // Show loading wheel if needed after 1 second
+                    $timeout(function() {
+                        if (!$scope.loaded) {
+                            $scope.timeout = true;
+                        }
+                    }, 1000);
+                }
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
     }
 
     // Module

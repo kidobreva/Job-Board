@@ -33,12 +33,6 @@
         'Contacts'
     ];
 
-    // Module
-    angular
-        .module('App', modules)
-        .config(Config)
-        .run(Run);
-
     // Config
     function Config($locationProvider, $routeProvider) {
         $locationProvider.html5Mode(true);
@@ -77,7 +71,7 @@
     }
 
     // Run
-    function Run($rootScope, $route, $http, $location, $routeParams) {
+    function Run($rootScope, $route, $http, $location, $routeParams, $q) {
         console.log('Init App Run');
 
         // Change page title, based on Route information
@@ -149,19 +143,37 @@
         };
 
         // Check for user on init
-        $rootScope.promise
-            .get('/api/profile')
-            .then(function(response) {
-                $rootScope.user = response.data;
-                $rootScope.isLogged = true;
-                $rootScope.headerLoaded = true;
-                console.log('Current user:', response.data);
+        $rootScope.getCurrentUser = function() {
+            var deferred = $q.defer();
+            $rootScope.promise
+                .get('/api/profile')
+                .then(function(response) {
+                    $rootScope.user = response.data;
+                    $rootScope.isLogged = true;
+                    $rootScope.headerLoaded = true;
+                    deferred.resolve(response.data);
+                })
+                .catch(function() {
+                    $rootScope.user = null;
+                    $rootScope.isLogged = false;
+                    $rootScope.headerLoaded = true;
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
+        $rootScope
+            .getCurrentUser()
+            .then(function(user) {
+                console.log('Current user:', user);
             })
             .catch(function() {
-                $rootScope.user = null;
-                $rootScope.isLogged = false;
-                $rootScope.headerLoaded = true;
                 console.warn('No user logged in!');
             });
     }
+
+    // Module
+    angular
+        .module('App', modules)
+        .config(Config)
+        .run(Run);
 })();

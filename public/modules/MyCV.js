@@ -19,30 +19,23 @@
     }
 
     // Controller
-    function Ctrl(MyCVService, $rootScope, $scope, $location, $interval, $timeout) {
+    function Ctrl(MyCVService, $rootScope, $scope, $location) {
         console.log('Init MyCV Controller');
 
-        var int = $interval(function() {
-            if ($rootScope.headerLoaded) {
-                $interval.cancel(int);
-
-                // Check if the there is user
-                if (!$rootScope.user) {
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role !== 'USER') {
                     $location.path('/home');
-                    $rootScope.$apply();
-                } else {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
                 }
-            }
-        }, 100);
-
-        // Show loading animation
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
 
         // Upload picture
         $scope.uploadCV = function() {

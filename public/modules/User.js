@@ -26,41 +26,42 @@
     // Controller
     function Ctrl(UserService, $rootScope, $scope, $location, $interval, $timeout) {
         console.log('Init User Controller');
+        $scope.blockUser = UserService.blockUser.bind(null);
 
-        var int = $interval(function() {
-            if ($rootScope.headerLoaded) {
-                $interval.cancel(int);
-
-                // Check if the the user is a company or an admin
-                if (!$rootScope.user) {
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role === 'USER') {
                     $location.path('/home');
-                    // $rootScope.$apply();
-                } else if ($rootScope.user.role !== 'COMPANY' || $rootScope.user.role !== 'ADMIN') {
-                    $location.path('/home');
-                    // $rootScope.$apply();
                 } else {
+                    // Get user
                     UserService.getUser()
                         .then(function(response) {
+                            $scope.userDetails = response.data;
+                            $scope.$apply();
                             $scope.loaded = true;
                             $scope.timeout = false;
-                            $scope.user = response.data;
                         })
                         .catch(function() {
                             $scope.loaded = true;
                             $scope.timeout = false;
                         });
+
+                    // Show loading wheel if needed after 1 second
+                    $timeout(function() {
+                        if (!$scope.loaded) {
+                            $scope.timeout = true;
+                        }
+                    }, 1000);
                 }
-            }
-        }, 100);
-
-        // Show loading animation
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
-
-        $scope.blockUser = UserService.blockUser.bind(null);
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
     }
 
     // Module

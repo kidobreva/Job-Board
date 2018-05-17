@@ -24,45 +24,42 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, $scope, $timeout) {
+    function Ctrl(CompanyService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Company Controller');
 
-        // Loader
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function() {
+                // Get company
+                CompanyService.getCompany()
+                    .then(function(response) {
+                        console.log(response);
+                        $scope.company = response.data;
+                        $scope.loaded = true;
+                        $scope.timeout = false;
+                    })
+                    .catch(function(err) {
+                        $scope.loaded = true;
+                        $scope.timeout = false;
+                        console.error(err.data);
+                    });
 
-        // Get company
-        CompanyService.getCompany()
-            .then(function(response) {
-                console.log(response);
-                $scope.loaded = true;
-                $scope.timeout = false;
-                $scope.company = response.data;
+                // Show loading wheel if needed after 1 second
+                $timeout(function() {
+                    if (!$scope.loaded) {
+                        $scope.timeout = true;
+                    }
+                }, 1000);
             })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
             });
 
         // (Admin) Block company
-        $scope.blockCompany = function() {
-            CompanyService.getCompany()
-                .then(function(response) {
-                    console.log(response);
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.company = response.data;
-                })
-                .catch(function(err) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    console.error(err.data);
-                });
-        };
+        $scope.blockCompany = CompanyService.getCompany.bind(null);
     }
 
     // Module

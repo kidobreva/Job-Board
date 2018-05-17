@@ -15,17 +15,11 @@
             return $rootScope.promise.get('/api/adverts/' + page + '?size=' + (size || 5));
         };
     }
+    
     // Controller
     function Ctrl(AdvertsService, $scope, $timeout, $routeParams, $location) {
         console.log('Init Adverts Controller');
         $scope.currentPage = $routeParams.page;
-
-        // Loader
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
 
         // Get adverts
         AdvertsService.getAdverts($routeParams.page, $routeParams.size)
@@ -42,6 +36,13 @@
                 $scope.timeout = false;
                 console.log(err);
             });
+
+        // Loading wheel
+        $timeout(function() {
+            if (!$scope.loaded) {
+                $scope.timeout = true;
+            }
+        }, 1000);
 
         $scope.changePage = function() {
             $scope.adverts = null;

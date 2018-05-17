@@ -15,9 +15,9 @@
         if ($routeParams.category !== 'undefined') {
             query += 'category=' + $routeParams.category + '&';
         }
-        if ($routeParams.city !== 'undefined') {
-            query += 'city=' + $routeParams.city + '&';
-        }
+        // if ($routeParams.city !== 'undefined') {
+        //     query += 'city=' + $routeParams.city + '&';
+        // }
 
         // Search
         this.search = function() {
@@ -29,17 +29,11 @@
     function Ctrl(SearchService, $scope, $timeout) {
         console.log('Init Search Controller');
 
-        // Loader
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
-
         SearchService.search()
             .then(function(adverts) {
                 console.log(adverts);
                 $scope.adverts = adverts.data;
+                $scope.$apply();
                 $scope.loaded = true;
                 $scope.timeout = false;
             })
@@ -48,6 +42,13 @@
                 $scope.timeout = false;
                 console.log(err);
             });
+
+        // Show loading wheel if needed after 1 second
+        $timeout(function() {
+            if (!$scope.loaded) {
+                $scope.timeout = true;
+            }
+        }, 1000);
     }
 
     // Module

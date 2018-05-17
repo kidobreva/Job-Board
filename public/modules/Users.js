@@ -17,46 +17,43 @@
     }
 
     // Controller
-    function Ctrl(UsersService, $rootScope, $scope, $location, $interval, $timeout) {
+    function Ctrl(UsersService, $rootScope, $scope, $location, $timeout) {
         console.log('Init Users Controller');
 
-        // Get users
-        function getUsers() {
-            UsersService.getUsers()
-                .then(function(response) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.users = response.data;
-                })
-                .catch(function() {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                });
-        }
-
-        var int = $interval(function() {
-            if ($rootScope.headerLoaded) {
-                $interval.cancel(int);
-
-                // Check if the user is admin
-                if (!$rootScope.user) {
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role !== 'ADMIN') {
                     $location.path('/home');
-                    $rootScope.$apply();
-                } else if ($rootScope.user.role !== 'ADMIN') {
-                    $location.path('/home');
-                    $rootScope.$apply();
                 } else {
-                    getUsers();
+                    // Get users
+                    UsersService.getUsers()
+                        .then(function(response) {
+                            $scope.users = response.data;
+                            $scope.$apply();
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                        })
+                        .catch(function() {
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                        });
 
-                    // Show loading animation
+                    // Show loading wheel if needed after 1 second
                     $timeout(function() {
                         if (!$scope.loaded) {
                             $scope.timeout = true;
                         }
                     }, 1000);
                 }
-            }
-        }, 100);
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
     }
 
     // Module

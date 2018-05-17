@@ -22,65 +22,31 @@
     }
 
     // Controller
-    function Ctrl(UpdateProfileService, $rootScope, $scope) {
+    function Ctrl(UpdateProfileService, $rootScope, $scope, $location) {
         console.log('Init UpdateProfile Controller');
 
-        UpdateProfileService.getProfile()
-            .then(function(response) {
-                $scope.user = response.data;
-                $scope.loaded = true;
-                $scope.$apply();
-                console.log($scope.loaded);
-                $scope.timeout = false;
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function() {
+                // Get profile
+                UpdateProfileService.getProfile()
+                    .then(function(response) {
+                        $scope.user = response.data;
+                        $scope.loaded = true;
+                        $scope.$apply();
+                    })
+                    .catch(function() {
+                        $scope.loaded = true;
+                    });
             })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
             });
 
-        $scope.updateProfile = function() {
-            if (new Hashes.SHA1().hex($scope.user.currentPass) !== $rootScope.user.password) {
-                sendUserData();
-                console.log('Invalid currentPass!');
-            } else {
-                if ($scope.invalid === false) {
-                    sendUserData();
-                }
-            }
-
-            $scope.alerts = [];
-
-            $scope.addAlert = function() {
-                $scope.alerts.length = 0;
-                $scope.alerts.push({ type: 'primary', msg: 'Данните ви бяха успешно обновени!' });
-                $scope.$apply();
-            };
-
-            $scope.closeAlert = function(index) {
-                $scope.alerts.splice(index, 1);
-            };
-
-            function sendUserData() {
-                UpdateProfileService.updateProfile($scope.user)
-                    .then(function(response) {
-                        console.log(response);
-                        if (response.status === 200) {
-                            $scope.errCode = false;
-                            $scope.addAlert();
-                            $scope.user = response.data;
-                        }
-                    })
-                    .catch(function(err) {
-                        if (err.status === 401) {
-                            $scope.errCode = true;
-                            $scope.$apply();
-                        }
-                        console.log('error', err);
-                    });
-            }
-        };
-
+        // Validate pass
         $scope.validatePass = function() {
             var invalid = false;
             $scope.shortPass = $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
@@ -90,8 +56,50 @@
             ) {
                 invalid = true;
             }
-
             $scope.invalid = invalid;
+        };
+
+        // Send user data
+        function sendUserData() {
+            UpdateProfileService.updateProfile($scope.user)
+                .then(function(response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        $scope.errCode = false;
+                        $scope.addAlert();
+                        $scope.user = response.data;
+                    }
+                })
+                .catch(function(err) {
+                    if (err.status === 401) {
+                        $scope.errCode = true;
+                        $scope.$apply();
+                    }
+                    console.log('error', err);
+                });
+        }
+
+        // Update profile
+        $scope.updateProfile = function() {
+            if ($scope.user.currentPass !== $rootScope.user.password) {
+                sendUserData();
+                console.log('Invalid currentPass!');
+            } else {
+                if ($scope.invalid === false) {
+                    sendUserData();
+                }
+            }
+        };
+
+        // Alerts
+        $scope.alerts = [];
+        $scope.addAlert = function() {
+            $scope.alerts.length = 0;
+            $scope.alerts.push({ type: 'primary', msg: 'Данните ви бяха успешно обновени!' });
+            $scope.$apply();
+        };
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
         };
     }
 

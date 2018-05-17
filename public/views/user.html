@@ -1,6 +1,8 @@
 <div id="loader" ng-if="timeout"></div>
-<div ng-if="loaded">
+<p ng-if="headerLoaded && !userDetails">Няма такъв потребител!</p>
+<div ng-if="userDetails">
     <h3>Потребител</h3>
-    <p>Имейл: {{user.email}}</p>
-    <button ng-if="$root.user.role === 'ADMIN'" ng-click="blockUser()">Блокирай потребителя</button>
+    <p>Имейл: {{userDetails.email}}</p>
+    <button ng-if="$root.user.role === 'ADMIN' && userDetails.role !== 'ADMIN'"
+            ng-click="blockUser()">Блокирай потребителя</button>
 </div>

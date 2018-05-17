@@ -66,13 +66,14 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
 // Profile edit
 router.post('/api/profile/edit', (req, res) => {
     console.log('Profile Post:', req.body);
+    console.log(req.session.user);
     if (!req.session.user) {
         res.sendStatus(401);
     } else {
         const users = req.db.get('users');
         users.findOne({ id: req.session.user.id }).then(user => {
             if (user) {
-                if (sha1(req.body.currentPass) !== req.session.user.password) {
+                if (sha1(req.body.currentPass) !== user.password) {
                     res.sendStatus(401);
                 } else {
                     // edit

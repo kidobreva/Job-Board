@@ -1,6 +1,6 @@
-<div id="loader" ng-if="timeout"></div>
+<div id="loader" ng-show="timeout"></div>
 <p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
-<table class="table" ng-if="loaded">
+<table class="table" ng-if="users">
     <thead>
         <tr>
             <th scope="col">#</th>

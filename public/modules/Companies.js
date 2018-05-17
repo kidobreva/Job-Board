@@ -17,31 +17,38 @@
     }
 
     // Controller
-    function Ctrl(CompaniesService, $scope, $timeout) {
+    function Ctrl(CompaniesService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Companies Controller');
 
-        // Loader
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function() {
+                // Get companies
+                CompaniesService.getCompanies()
+                    .then(function(response) {
+                        $scope.companies = response.data;
+                        $scope.loaded = true;
+                        $scope.$apply();
+                        $scope.timeout = false;
+                    })
+                    .catch(function() {
+                        $scope.loaded = true;
+                        $scope.timeout = false;
+                    });
 
-        $scope.getCompanies = function() {
-            CompaniesService.getCompanies()
-                .then(function(companies) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    $scope.companies = companies.data;
-                })
-                .catch(function(err) {
-                    $scope.loaded = true;
-                    $scope.timeout = false;
-                    console.log(err);
-                });
-        };
-
-        $scope.getCompanies();
+                // Show loading wheel if needed after 1 second
+                $timeout(function() {
+                    if (!$scope.loaded) {
+                        $scope.timeout = true;
+                    }
+                }, 1000);
+            })
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
+            });
     }
 
     // Module

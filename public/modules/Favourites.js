@@ -17,27 +17,42 @@
     }
 
     // Controller
-    function Ctrl(FavouritesService, $scope, $timeout) {
+    function Ctrl(FavouritesService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Favourites Controller');
 
-        // Loader
-        $timeout(function() {
-            if (!$scope.loaded) {
-                $scope.timeout = true;
-            }
-        }, 1000);
+        // Check for current user
+        $rootScope
+            .getCurrentUser()
+            .then(function(currentUser) {
+                // Check for the user's role
+                if (currentUser.role !== 'USER') {
+                    $location.path('/home');
+                } else {
+                    FavouritesService.getFavourites()
+                        .then(function(response) {
+                            console.log(response);
+                            $scope.favourites = response.data.favourites;
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                        })
+                        .catch(function(err) {
+                            $scope.loaded = true;
+                            $scope.timeout = false;
+                            console.error(err.data);
+                        });
 
-        FavouritesService.getFavourites()
-            .then(function(response) {
-                console.log(response);
-                $scope.loaded = true;
-                $scope.timeout = false;
-                $scope.favourites = response.data.favourites;
+                    // Show loading wheel if needed after 1 second
+                    $timeout(function() {
+                        if (!$scope.loaded) {
+                            $scope.timeout = true;
+                        }
+                    }, 1000);
+                }
             })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
+            // If there's no user
+            .catch(function() {
+                // Redirect to the login
+                $location.path('/login');
             });
     }
 
