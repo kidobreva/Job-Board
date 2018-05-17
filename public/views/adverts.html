@@ -1,17 +1,29 @@
 <div id="loader" ng-if="timeout"></div>
-<p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
-
-<section class="adverts-page" ng-if="loaded && adverts">
+<p ng-if="loaded && !adverts">Няма публикувани обяви!</p>
+<!-- ng-if="loaded && adverts" -->
+<section class="adverts-page">
   <!-- Adverts list -->
   <div class="adverts-list adverts">
-    <h2>Oбяви за работа</h2>
-    <div class="adverts-div" ng-repeat="advert in adverts">
+    <div class="heading">
+      <h2>Oбяви за работа</h2>
+      <div>
+        <label>Обяви на страница:
+          <select ng-model="advertsPerPage" ng-change="beforeChangeSize()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
       <div class="advert-logo">
         <div ng-if="advert.paid !== 'free'" ng-class="{
             pro: advert.paid === 'pro',
             top: advert.paid === 'top',
             vip: advert.paid === 'vip'
-            }" class="corner-ribbon corner-ribbon-left"><div class="ribbon-size">{{advert.paid}}</div>
+            }" class="corner-ribbon corner-ribbon-left">
+            <div class="ribbon-size">{{advert.paid}}</div>
         </div>
         <img src="{{advert.logo}}">
       </div>
@@ -31,21 +43,27 @@
         </div>
       </div>
     </div>
+    <div class="page-list">
+      <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+    </div>
   </div>
 
   <!-- Search form -->
-  <form class="add-advert" ng-submit="searchAdvert($event)">
+  <form class="add-advert" ng-submit="searchAdvert()">
       <h3>Търсене на обява</h3>
       <!-- Search words -->
+      <label for="words">Ключови думи</label>
       <div class="form-group">
-          <label for="words">Ключови думи</label>
-          <input class="form-control" id="words" ng-model="advert.words" />
+        <label>
+          <input type="checkbox" id="advanced" ng-model="search.advanced"
+        /> търси в описание</label>
+        <input class="form-control" id="words" ng-model="search.title" />
       </div>
 
       <!-- City -->
       <div class="form-group">
           <label for="city">Населено място</label>
-          <select class="form-control" id="city" ng-model="advert.city">
+          <select class="form-control" id="city" ng-model="search.city">
               <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
             </select>
       </div>
@@ -53,7 +71,7 @@
       <!-- Category -->
       <div class="form-group">
           <label for="category">Категория</label>
-          <select class="form-control" id="category" ng-model="advert.category">
+          <select class="form-control" id="category" ng-model="search.category">
           <option value=""></option>
               <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
           </select>
@@ -62,7 +80,7 @@
     <!-- Type -->
     <div class="form-group">
       <label for="type">Вид заетост</label>
-      <select class="form-control" id="type" ng-model="advert.type" required>
+      <select class="form-control" id="type" ng-model="search.type">
         <option value=""></option>
         <option value="Пълен Работен Ден">Пълен Работен Ден</option>
         <option value="Непълен Работен Ден/Почасова">Непълен Работен Ден</option>
@@ -74,7 +92,7 @@
     <!-- Level -->
     <div class="form-group">
       <label for="level">Ниво на квалификация</label>
-      <select class="form-control" id="level" ng-model="advert.level" required>
+      <select class="form-control" id="level" ng-model="search.level">
         <option value=""></option>
         <option value="Мениджмънт">Мениджмънт</option>
         <option value="Експерти/Специалисти">Експерти/Специалисти</option>
@@ -87,8 +105,3 @@
       <button class="btn btn-info">Търси обява</button>
   </form>
 </section>
-
-<!-- Pagination -->
-<div ng-show="adverts">
-  <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="maxSize" class="pagination-sm" boundary-link-numbers="true" ng-change="changePage()" previous-text="Назад" next-text="Напред"></ul>
-</div>

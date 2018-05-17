@@ -1,6 +1,6 @@
 <div id="loader" ng-if="timeout"></div>
 <section ng-if="loaded" class="advert-page">
-  <aside> 
+  <aside>
     <h5>Информация</h5>
     <div ng-if="advert.paid !== 'free'" ng-class="{
       pro: advert.paid === 'pro',
@@ -32,29 +32,48 @@
           <span class="bold">Заплата:</span>
           <span>от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</span>
         </div>
-    
+
         <div>
           <span class="bold">Изтича на:</span>
           <span>{{advert.isExpired | date}}</span>
         </div>
-    
+
         <div>
             <span class="bold">Брой кандидатствали:</span>
             <span>{{advert.candidates.length}}</span>
         </div>
-    
+
         <div>
             <span class="bold">Брой преглеждания:</span>
             <span>{{advert.views}}</span>
         </div>
     </div>
-    
+
     <div class="buttons">
-      <a href="/advert/{{advert.id}}/edit" ng-if="$root.user.id === advert.companyId" class="btn btn-primary" >Промени обявата</a>
-      <button ng-if="$root.user.id === advert.companyId" class="btn btn-danger" ng-click="deleteAdvert()">Премахни обявата</button>
-      <button ng-if="$root.user.role === 'ADMIN'" class="btn btn-danger" ng-click="blockAdvert()">Блокирай обявата</button>
-      <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-primary" ng-click="save()">Запази в наблюдавани</button>
-      <button ng-if="$root.user.role !== 'COMPANY'" class="btn btn-danger" ng-click="reportAdvert()">Направи оплакване</button>
+      <a href="/advert/{{advert.id}}/edit"
+        ng-if="$root.user.id === advert.companyId"
+        class="btn btn-primary">Промени обявата</a>
+
+      <!-- Buttons -->
+      <button ng-if="$root.user.id === advert.companyId"
+              class="btn btn-danger"
+              ng-click="deleteAdvert()"
+      >Премахни обявата</button>
+
+      <button ng-if="$root.user.role === 'ADMIN'"
+              class="btn btn-danger"
+              ng-click="blockAdvert()"
+      >Блокирай обявата</button>
+
+      <button ng-if="$root.user.role !== 'COMPANY'"
+              class="btn btn-primary"
+              ng-click="save()"
+      >Запази в наблюдавани</button>
+
+      <button ng-if="$root.user.role !== 'COMPANY'"
+              class="btn btn-danger"
+              ng-click="reportAdvert()"
+      >Съобщи за нередност</button>
     </div>
   </aside>
   <main>
@@ -66,9 +85,5 @@
     <div ng-bind-html="advert.description" class="discription"></div>
 
     <button class="btn btn-success" ng-if="$root.user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
-    
   </main>
-
-  <!-- Buttons -->
-  
 </section>

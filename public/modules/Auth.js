@@ -4,7 +4,17 @@
         $routeProvider.when('/auth', {
             templateUrl: 'views/auth.html',
             controller: 'Auth',
-            title: 'Вход и регистрация'
+            title: 'Вход и регистрация',
+            resolve: {
+                isLogged: function($rootScope, $location) {
+                    $rootScope
+                        .getCurrentUser()
+                        .then(function() {
+                            $location.path('/home');
+                        })
+                        .catch(function() {});
+                }
+            }
         });
     }
 

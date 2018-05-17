@@ -135,7 +135,7 @@ router.post('/api/apply', (req, res) => {
     }
 });
 
-// (GET) Search adverts
+// Search my adverts
 router.get('/api/search', (req, res) => {
     console.log('Search Adverts:', req.query);
     if (req.query.companyId) {
@@ -158,28 +158,66 @@ router.get('/api/search', (req, res) => {
     });
 });
 
+// Search adverts
+router.post('/api/adverts/search', (req, res) => {
+    console.log('Search Adverts:', req.body);
+    if (req.query.companyId) {
+        req.query.companyId = +req.query.companyId;
+    }
+    if (req.body.title) {
+        if (req.body.advanced) {
+            req.body.description = { $regex: req.body.title, $options: 'i' };
+            delete req.body.advanced;
+        }
+        req.body.title = { $regex: req.body.title, $options: 'i' };
+    }
+    const queryArr = [];
+    Object.keys(req.body).forEach(prop => {
+        if (!req.body[prop]) {
+            delete req.body[prop];
+        } else {
+            queryArr.push({ [prop]: req.body[prop] });
+        }
+    });
+    const adverts = req.db.get('adverts');
+    adverts.find({ $or: queryArr }, { sort: { id: -1 } }).then(advertsArr => {
+        console.log(advertsArr);
+        if (advertsArr[0]) {
+            res.json({
+                adverts: advertsArr.slice(
+                    (req.query.page - 1) * req.query.size,
+                    req.query.page * req.query.size
+                ),
+                len: req.query.size,
+                size: advertsArr.length
+            });
+        } else {
+            res.sendStatus(404);
+        }
+    });
+});
+
 // (Get) Users
 router.get('/api/advert/:id/candidates', (req, res) => {
     // if (!req.session.user) {
     //     res.sendStatus(401);
     // } else {
-        const users =  req.db.get('users');
-        const adverts = req.db.get('adverts');
-        adverts.findOne({id: +req.params.id}).then(advert => {
-            users.find({id: {$all: advert.candidates}})
-                .then(users => {
-                    console.log(users)
-                    if (!users.length) {
-                        res.sendStatus(404);
-                    } else {
-                        users.forEach(user => {
-                            delete user.password;
-                        });
-                        res.json(users);
-                    }
-                })
+    const users = req.db.get('users');
+    const adverts = req.db.get('adverts');
+    adverts.findOne({ id: +req.params.id }).then(advert => {
+        users.find({ id: { $all: advert.candidates } }).then(users => {
+            console.log(users);
+            if (!users.length) {
+                res.sendStatus(404);
+            } else {
+                users.forEach(user => {
+                    delete user.password;
+                });
+                res.json(users);
+            }
         });
-        
+    });
+
     // }
 });
 

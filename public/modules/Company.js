@@ -55,7 +55,7 @@
             // If there's no user
             .catch(function() {
                 // Redirect to the login
-                $location.path('/login');
+                $location.path('/auth');
             });
 
         // (Admin) Block company

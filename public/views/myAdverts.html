@@ -3,7 +3,7 @@
 
 <section class="adverts-page" ng-if="loaded && adverts">
     <!-- Adverts list -->
-    <div class="adverts-list">
+    <div class="adverts-list my-adverts">
         <h2>Публикувани обяви</h2>
         <div class="adverts-div" ng-repeat="advert in adverts">
                 <div ng-if="advert.paid !== 'free'" ng-class="{

@@ -3,6 +3,7 @@
     var modules = [
         'ngRoute',
         'ngAnimate',
+        'angularUtils.directives.dirPagination',
         'ui.bootstrap',
         'ngSanitize',
         'ngWig',
@@ -34,9 +35,9 @@
     ];
 
     // Config
-    function Config($locationProvider, $routeProvider) {
+    function Config($locationProvider, $routeProvider, paginationTemplateProvider) {
         $locationProvider.html5Mode(true);
-
+        paginationTemplateProvider.setPath('vendors/angular/dirPagination.tpl.html');
         // Routes
         $routeProvider.when('/about', {
             templateUrl: 'views/about.html',

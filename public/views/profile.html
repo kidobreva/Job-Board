@@ -1,50 +1,50 @@
 <div id="loader" ng-if="timeout"></div>
 <!-- User -->
 <div ng-if="loaded && user.role === 'USER'" class="profile-page">
-  <section class="user-profile">
-    <div class="user-info">
-        <!-- Picture -->
-        <div class="profile-picture">
-            <img ng-src="user.img">
+    <section class="user-profile">
+        <div class="user-info">
+            <!-- Picture -->
+            <div class="profile-picture">
+                <img ng-src="user.img">
+            </div>
+
+            <!-- Upload picture -->
+            <label for="select">Прикачване на снимка</label>
+            <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
+            <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
+            <label ng-show="chosen" id="selected"></label>
+            <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
+
+            <!-- Info panel -->
+            <div class="info-panel">
+                <p>Име: {{ user.firstName + ' ' + user.lastName }}</p>
+                <p>E-mail: {{ user.email }}</p>
+                <p>Регистриран на: {{ user.registeredDate | date }}</p>
+            </div>
         </div>
 
-        <!-- Upload picture -->
-        <label for="select">Прикачване на снимка</label>
-        <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
-        <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
-        <label ng-show="chosen" id="selected"></label>
-        <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
-
-        <!-- Info panel -->
-        <div class="info-panel">
-            <p>Име: {{ user.firstName + ' ' + user.lastName }}</p>
-            <p>E-mail: {{ user.email }}</p>
-            <p>Регистриран на: {{ user.registeredDate | date }}</p>
+        <div class="profil-controll">
+            <div class="page-options">
+                <strong>Настройки на профила</strong>
+            </div>
+            <div class="options">
+                <span><a href="/myCV">Моите CV - та</a> [{{ user.cv.length }}]</span>
+                <a href="/myCV">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="/favourites">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>
+                <a href="/">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="/">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
+                <a href="/">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="/updateProfile">Настрoйки на профила</a></span>
+                <a href="/updateProfile">Покажи</a>
+            </div>
         </div>
-    </div>
-
-    <div class="profil-controll">
-        <div class="page-options">
-            <strong>Настройки на профила</strong>
-        </div>
-        <div class="options">
-            <span><a href="/myCV">Моите CV - та</a> [{{ user.cv.length }}]</span>
-            <a href="/myCV">Покажи</a>
-        </div>
-        <div class="options">
-            <span><a href="/favourites">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>
-            <a href="/">Покажи</a>
-        </div>
-        <div class="options">
-            <span><a href="/">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
-            <a href="/">Покажи</a>
-        </div>
-        <div class="options">
-            <span><a href="/updateProfile">Настрoйки на профила</a></span>
-            <a href="/updateProfile">Покажи</a>
-        </div>
-    </div>
-</section>
+    </section>
 </div>
 
 <!-- Company -->
