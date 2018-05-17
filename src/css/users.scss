@@ -1,7 +1,7 @@
 @import "_config.scss";
 
 section {
-    &.about {
+    &.users-page {
         @include default-page-size;
         .header-info {
             margin-bottom: $margin-bottom + 10px;
@@ -9,11 +9,5 @@ section {
                 border-bottom: $border-bottom;
             }
         }
-        p {
-            font-size: 15px;
-        }
-        ul.list {
-            list-style-type: disc;
-        }
     }
-} 
+}

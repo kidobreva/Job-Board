@@ -106,7 +106,7 @@ section {
         position: relative;
         padding: 7px 0;
         left: -5px;
-        top: 14px;
+        top: 11px;
         width: 120px;
         background-color: #ba89b6;
         background-image: -webkit-gradient(linear, left top, left bottom, from(#ba89b6), to(#a769a2));
@@ -132,7 +132,7 @@ section {
     &.corner-ribbon-left {
         left: -3px;
         > * {
-            left: -30px;
+            left: -31px;
             -webkit-transform: rotate(-45deg);
         }
     }

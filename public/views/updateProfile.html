@@ -3,15 +3,26 @@
         <h2>Настройки на профила</h2>
     </div>
     <form class="user-info" name="updateProfileForm" ng-submit="updateProfile()">
-        <label>
-            <span>*Име</span>
-            <input class="inputs" type="text" ng-model="user.firstName" required />
-        </label>
+        <div ng-if="user.role === 'USER'">
+            <label>
+                <span>*Име</span>
+                <input class="inputs" type="text" ng-model="user.firstName" required />
+            </label>
+        </div>        
 
-        <label>
-            <span>*Фамилия</span>
-            <input class="inputs" type="text" ng-model="user.lastName" required />
-        </label>
+        <div ng-if="user.role === 'USER'">
+            <label>
+                <span>*Фамилия</span>
+                <input class="inputs" type="text" ng-model="user.lastName" required />
+            </label>
+        </div>
+
+        <div ng-if="user.role === 'COMPANY'">
+            <label>
+                <span>*Юридическо име на фирмата</span>
+                <input class="inputs" type="text" ng-model="user.title" required />
+            </label>
+        </div>         
 
         <label>
             <span>Нова парола</span>
