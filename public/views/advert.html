@@ -81,8 +81,10 @@
         <img ng-src="{{$root.user.img}}">
     </div>
     <h1>{{advert.title}}</h1>
-    <h4>Описание и изисквания:</h4>
-    <div ng-bind-html="advert.description" class="discription"></div>
+    <div class="advert-description">
+      <h4>Описание и изисквания:</h4>
+      <div ng-bind-html="advert.description" class="discription"></div>
+    </div>
 
     <button class="btn btn-success" ng-if="$root.user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
   </main>

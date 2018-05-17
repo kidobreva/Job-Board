@@ -52,7 +52,8 @@
     <section class="company-profile">
         <div class="company-info">
             <!-- Picture -->
-            <div class="company-picture">
+            <div ng-if="!user.img" class="no-company-picture"></div>
+            <div ng-if="user.img" class="company-picture">
                 <img ng-src="{{user.img}}">
             </div>
 

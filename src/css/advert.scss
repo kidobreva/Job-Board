@@ -13,14 +13,17 @@ section{
             div.company-picture {
                 margin-bottom: 20px;
             }
-            h4 {
-                align-self: flex-start;
-                margin: 40px 30px 20px; 
-            }
-            div.discription {
-                align-self: flex-start;
-                margin: 0 30px;
-            }
+            .advert-description {
+                width: 100%;
+                h4 {
+                    align-self: flex-start;
+                    margin: 40px 60px 20px; 
+                }
+                div.discription {
+                    align-self: flex-start;   
+                    margin-left: 60px;                 
+                }
+            }            
         }
         aside {
             width: 300px;
@@ -53,31 +56,83 @@ section{
                     margin: 10px auto;
                 }
             }
-            .side-ribbon {
-                position: absolute;
-                top: -1em;
-                /*background: #ba89b6;*/
-                color: #fff;
-                padding: .5em 1em;
-                width: 80px;
-                height: 40px;
-                text-align: center;
-                -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-                -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-                .ribbon-size {
-                    font-weight: bold;
-                    text-transform: uppercase;
-                }
-              }
+            // .side-ribbon {
+            //     position: absolute;
+            //     top: -1em;
+            //     /*background: #ba89b6;*/
+            //     color: #fff;
+            //     padding: .5em 1em;
+            //     width: 80px;
+            //     height: 40px;
+            //     text-align: center;
+            //     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            //     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            //     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            //     &:before {
+            //         content: "";
+            //         position: absolute;
+            //         display: block;
+            //         border-style: solid;
+            //         /*border-color: #8b5287 transparent transparent transparent;*/
+            //         bottom: -1em;
+            //     }
+            //     &.left-ribbon {
+            //         left: -2em;
+            //         &:before {
+            //             left: 0;
+            //             border-width: 1em 0 0 2em;
+            //           }
+            //       }
+            //     .ribbon-size {
+            //         font-weight: bold;
+            //         text-transform: uppercase;
+            //     }
+            //     .side-ribbon.pro {
+            //         color: darken(map_get($ribbonColors, pro), 30%);
+            //         background: map_get($ribbonColors, pro);
+            //         &:before {
+            //             border-color: darken(map_get($ribbonColors, pro), 30%) transparent transparent transparent;
+            //         }
+            //     }
+            //     .side-ribbon.top    {
+            //         color: darken(map_get($ribbonColors, top), 30%);
+            //         background: map_get($ribbonColors, top);
+            //         &:before {
+            //             border-color: darken(map_get($ribbonColors, top), 30%) transparent transparent transparent;
+            //         }
+            //     } 
+            //     .side-ribbon.vip    {
+            //         color: darken(map_get($ribbonColors, vip), 30%);
+            //         background: map_get($ribbonColors, vip);
+            //         &:before {
+            //             border-color: darken(map_get($ribbonColors, vip), 30%) transparent transparent transparent;
+            //         }
+            //     }                
+            // }
         }
     }
 }
 
 /*ribbon*/
-.advert-page 
 
-.advert-page 
+.advert-page .side-ribbon {
+    position: absolute;
+    top: 0.8em;
+    /*background: #ba89b6;*/
+    color: #fff;
+    padding: .5em 1em;
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+.advert-page .ribbon-size {
+      font-weight: bold;
+      text-transform: uppercase;
+  }
 
 .advert-page .side-ribbon.pro {
     background: #a7a8eb;
@@ -96,7 +151,7 @@ section{
   }
 
 .advert-page .side-ribbon.top:before {
-    border-color: #8b5287 transparent transparent transparent;;
+    border-color: #8b5287 transparent transparent transparent;
   }
 
 .advert-page .side-ribbon.vip:before {

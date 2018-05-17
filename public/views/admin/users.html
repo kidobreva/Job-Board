@@ -1,24 +1,32 @@
-<div id="loader" ng-show="timeout"></div>
-<p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
-<table class="table" ng-if="users">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Имейл</th>
-            <th scope="col">Име</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="user in users">
-            <td>{{user.id}}</td>
-            <th scope="row">{{user.email}}</th>
-            <td>{{user.firstName}}</td>
-            <td>{{user.lastName}}</td>
-            <td>
-                <a href="/user/{{user.id}}">Повече</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<section class="users-page">
+    <div class="header-info">
+        <h2>Регистрирани потребители</h2>
+    </div>
+    <div id="loader" ng-show="timeout"></div>
+    <p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
+    <table class="table" ng-if="users">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имейл</th>
+                <th scope="col">Име</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>{{user.img}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <th scope="row">{{user.email}}</th>
+                <a ng-repeat="cv in $root.user.cv" href="{{cv}}" target="_blank">CV</a>
+                <!-- <a href="/user/{{user.id}}">Повече</a> -->
+                <td>
+                    <!-- <a href="/user/{{user.id}}">Повече</a> -->
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>        
+</section>

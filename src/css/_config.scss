@@ -1,6 +1,18 @@
 //$ribbonTopColor: #a7a8eb;
+@mixin default-page-size {
+    width: 980px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Tahoma, Helvetica, sans-serif;
+    color: #4E4B4B;
+    font-size: 15px
+}
+
 $ribbonColors: (
     pro: #a7a8eb,
     top: #ba89b6,
     vip: #ee3c45,
 );
+
+$margin-bottom: 20px;
+$border-bottom: 2px solid #4E4B4B;

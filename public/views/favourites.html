@@ -2,11 +2,39 @@
 <p ng-if="loaded && !favourites.length">Нямате наблюдавани обяви!</p>
 <div ng-if="loaded">
     <div ng-repeat="favourite in favourites">
-        <p>Наименование: {{favourite.title}}</p>
+        <!-- <p>Наименование: {{favourite.title}}</p>
         <p>Град: {{favourite.city}}</p>
         <p>Категория: {{favourite.category}}</p>
         <p>Ниво: {{favourite.level}}</p>
         <p>Тип: {{favourite.type}}</p>
-        <p>Описание: {{favourite.description}}</p>
+        <p>Описание: {{favourite.description}}</p> -->
+
+        
+        <!-- <div class="adverts-div" ng-repeat="advert in adverts">
+                <div class="advert-logo">
+                  <div ng-if="advert.paid !== 'free'" ng-class="{
+                      pro: advert.paid === 'pro',
+                      top: advert.paid === 'top',
+                      vip: advert.paid === 'vip'
+                      }" class="corner-ribbon corner-ribbon-left"><div class="ribbon-size">{{advert.paid}}</div>
+                  </div>
+                  <img src="{{advert.logo}}" />
+                </div>
+                <div class="advert-info">
+                  <a href="/advert/{{advert.id}}" />
+                      {{advert.title}}
+                  </a>
+                  <div class="advert-sallary">
+                      <span>Заплата от:
+                          <b>{{advert.salary.min | currency: "лв."}}</b> до
+                          <b>{{advert.salary.max | currency: "лв." }}</b>
+                      </span>
+                      <div>
+                          <span>Публикувана на {{ advert.date | date: "fullDate" }}</span>, гр.
+                          <span>{{advert.city}}</span>
+                      </div>
+                  </div>
+                </div>
+              </div> -->
     </div>
 </div>
