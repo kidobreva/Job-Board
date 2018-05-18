@@ -9,5 +9,20 @@ section {
                 border-bottom: $border-bottom;
             }
         }
+        .table {
+            width: 100%;
+            text-align: center;
+            // th {
+            //     &:first-child {
+            //         width: 15%;
+            //     }
+            //     &:nth-child(2) {
+            //         width: 35%;
+            //     }
+            //     &:last-child {
+            //         width: 15%;
+            //     }
+            // }
+        }
     }
 }

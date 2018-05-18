@@ -108,7 +108,14 @@ router.post('/api/apply', (req, res) => {
                         .get('adverts')
                         .findOneAndUpdate(
                             { id: req.body.data },
-                            { $push: { candidates: req.session.user.id } }
+                            { 
+                                $push: {
+                                     candidates: {
+                                        id: req.session.user.id,
+                                        date: Date.now()
+                                    } 
+                                }
+                            }
                         )
                         .then(advert => {
                             const notification = {
@@ -205,15 +212,29 @@ router.get('/api/advert/:id/candidates', (req, res) => {
     const users = req.db.get('users');
     const adverts = req.db.get('adverts');
     adverts.findOne({ id: +req.params.id }).then(advert => {
-        users.find({ id: { $all: advert.candidates } }).then(users => {
+        const candidatesIds = [];
+        const dates = [];
+        advert.candidates.forEach((user, i) => {
+            candidatesIds[i] = user.id;
+            dates[i] = user.date;
+        });
+        users.find({ id: { $in: candidatesIds } }).then(users => {
             console.log(users);
             if (!users.length) {
                 res.sendStatus(404);
             } else {
-                users.forEach(user => {
+                const candidates = [];
+                users.forEach((user, i) => {
                     delete user.password;
+                    candidates[i] = {
+                        date: dates[i],
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        cv: user.cv
+                    }
                 });
-                res.json(users);
+                res.json(candidates);
             }
         });
     });

@@ -25,20 +25,23 @@
             }" class="corner-ribbon corner-ribbon-left">
             <div class="ribbon-size">{{advert.paid}}</div>
         </div>
-        <img src="{{advert.logo}}">
+        <img ng-src="{{advert.logo}}">
       </div>
       <div class="advert-info">
         <a href="/advert/{{advert.id}}">
             {{advert.title}}
         </a>
         <div class="advert-sallary">
-            <span>Заплата от:
+            <span><strong>Заплата от:</strong>
                 <b>{{advert.salary.min | currency: "лв."}}</b> до
                 <b>{{advert.salary.max | currency: "лв." }}</b>
             </span>
             <div>
-                <span>Публикувана на {{ advert.date | date: "fullDate" }}</span>, гр.
+                <span><strong>Публикувана на:</strong> {{ advert.date | date }}</span>, гр.
                 <span>{{advert.city}}</span>
+            </div>
+            <div>
+              <span><strong>Категория:</strong> {{advert.category}}</span>
             </div>
         </div>
       </div>

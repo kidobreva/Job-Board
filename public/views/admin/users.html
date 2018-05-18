@@ -4,27 +4,24 @@
     </div>
     <div id="loader" ng-show="timeout"></div>
     <p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
-    <table class="table" ng-if="users">
+    <table class="table table-striped" ng-if="users">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Имейл</th>
+                <th scope="col">Дата</th>
                 <th scope="col">Име</th>
-                <th scope="col">Фамилия</th>
-                <th scope="col"></th>
+                <th scope="col">Имейл</th>
+                <th scope="col">CV</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="user in users">
-                <td>{{user.img}}</td>
-                <td>{{user.firstName}}</td>
-                <td>{{user.lastName}}</td>
-                <th scope="row">{{user.email}}</th>
-                <a ng-repeat="cv in $root.user.cv" href="{{cv}}" target="_blank">CV</a>
+                <!-- <td><img ng-if="user.img" src="{{user.img}}" alt=""></td> -->
+                <td>{{ user.date | date }}</td>
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td>{{user.email}}</td>                
                 <!-- <a href="/user/{{user.id}}">Повече</a> -->
                 <td>
-                    <!-- <a href="/user/{{user.id}}">Повече</a> -->
-                    
+                    <a ng-if="user.cv[0]" href="{{user.cv[0]}}" target="_blank"><i class="far fa-file-pdf fa-2x"></i></a>
                 </td>
             </tr>
         </tbody>

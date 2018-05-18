@@ -30,6 +30,7 @@
                 if (currentUser.role !== 'USER') {
                     $location.path('/home');
                 }
+                $scope.loaded = true;
             })
             // If there's no user
             .catch(function() {

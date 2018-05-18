@@ -2,5 +2,7 @@
 <div ng-if="loaded">
   <button ng-if="user.role === 'ADMIN'" ng-click="blockCompany()">Блокирай фирмата</button>
   <button ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
+  <img src="{{company.img}}" alt="">
   <p>Наименование: {{company.title}}</p>
+
 </div>

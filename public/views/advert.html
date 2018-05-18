@@ -6,11 +6,11 @@
       pro: advert.paid === 'pro',
       top: advert.paid === 'top',
       vip: advert.paid === 'vip'
-    }" class="side-ribbon left-ribbon"><div class="ribbon-size">{{advert.paid}}</div></div>
+    }" class="side-ribbon left-ribbon"><div class="ribbon-text-size">{{advert.paid}}</div></div>
     <div class="advert-info">
         <div>
             <span class="bold">Организация:</span>
-            <a href="/companies/{{advert.companyId}}">{{advert.company}}</a>
+            <a href="/company/{{advert.companyId}}">{{advert.company}}</a>
           </div>
         <div>
           <span class="bold">Град:</span>
@@ -77,8 +77,8 @@
     </div>
   </aside>
   <main>
-    <div ng-if="$root.user.img" class="company-picture">
-        <img ng-src="{{$root.user.img}}">
+    <div ng-if="advert.logo" class="company-picture">
+        <img ng-src="{{advert.logo}}">
     </div>
     <h1>{{advert.title}}</h1>
     <div class="advert-description">

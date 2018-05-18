@@ -27,36 +27,25 @@
     function Ctrl(CompanyService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Company Controller');
 
-        // Check for current user
-        $rootScope
-            .getCurrentUser()
-            .then(function() {
-                // Get company
-                CompanyService.getCompany()
-                    .then(function(response) {
-                        console.log(response);
-                        $scope.company = response.data;
-                        $scope.loaded = true;
-                        $scope.timeout = false;
-                    })
-                    .catch(function(err) {
-                        $scope.loaded = true;
-                        $scope.timeout = false;
-                        console.error(err.data);
-                    });
-
-                // Show loading wheel if needed after 1 second
-                $timeout(function() {
-                    if (!$scope.loaded) {
-                        $scope.timeout = true;
-                    }
-                }, 1000);
+        CompanyService.getCompany()
+            .then(function(response) {
+                console.log("Company", response);
+                $scope.company = response.data;
+                $scope.loaded = true;
+                $scope.timeout = false;
             })
-            // If there's no user
-            .catch(function() {
-                // Redirect to the login
-                $location.path('/auth');
+            .catch(function(err) {
+                $scope.loaded = true;
+                $scope.timeout = false;
+                console.error(err.data);
             });
+
+        // Show loading wheel if needed after 1 second
+        $timeout(function() {
+            if (!$scope.loaded) {
+                $scope.timeout = true;
+            }
+        }, 1000);
 
         // (Admin) Block company
         $scope.blockCompany = CompanyService.getCompany.bind(null);

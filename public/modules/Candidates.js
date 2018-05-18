@@ -31,12 +31,14 @@
                     // Get users
                     CandidatesService.getCandidates()
                         .then(function(response) {
+                            console.log(response);
                             $scope.users = response.data;
                             $scope.$apply();
                             $scope.loaded = true;
                             $scope.timeout = false;
                         })
-                        .catch(function() {
+                        .catch(function(err) {
+                            console.log(err);
                             $scope.loaded = true;
                             $scope.timeout = false;
                         });

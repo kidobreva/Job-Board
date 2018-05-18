@@ -8,21 +8,16 @@
         });
     }
 
+
     // Controller
-    function Ctrl($scope, $location) {
+
+    function Ctrl(SearchService) {
         console.log('Init Home Controller');
 
-        // Carousel
-        $scope.myInterval = 5000;
-        $scope.noWrapSlides = false;
-        $scope.active = 0;
-
-        // // Search advert
-        // $scope.searchAdvert = function() {
-        //     $location.url(`/search?category=${
-        //         $scope.advert.category
-        //     }&city=${$scope.advert.city}`);
-        // };
+        // SearchService.getServiceData().then(function (data) {
+        //     $cities = data.cities;
+        //     $categories = data.categories;
+        // })
     }
 
     // Module
