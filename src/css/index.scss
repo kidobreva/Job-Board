@@ -39,57 +39,42 @@ body {
     main {
         width: 100%;
         header h3 {
-            font-size: 27px;        
-            margin-top: 40px;        
-            text-align: center;
+            @include header-h3;
         }
-        .professional-area {
-            position: relative;        
+        .professional-area {       
             display: flex;
-            align-items: center;        
+            align-self: center;
             width: 980px;
             margin: 0 auto;        
             border-top: 2px solid #4e4b4b;
             border-bottom: 2px solid #4e4b4b; 
-            > div {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;            
-                height: 385px;
-            }  
-            .carousel {
-                display: flex;
-                justify-content: center;            
-                height: 350px;
-                > div {
-                    display: flex;
-                    align-items: center;                
-                    width: 980px;
-                }
-                svg {
-                    width: 40px;
-                    height: 40px;
-                }
-                ol {
-                    display: none;
-                }
-                section {
-                    display: flex;
-                    justify-content: center;
-                    .advert-block {
-                        width: 25%;
+            ul {
+                display: table-row;
+                width: 100%; 
+                height: 100%;
+                padding: 0;
+                list-style: none;
+                margin: 20px 0;           
+                
+                //border: 1px solid rgba(0, 0, 0, 0.2);
+                li {
+                    margin: 5px 15px;
+                    text-align: center;
+                    float: left;
+                    width: 30%;                    
+                    height: 60px;
+                    padding: 10px;
+                    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+                    &:hover {
+                        box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.6);
+                    }                    
+                    a {
+                        text-decoration: none;
+                        font-weight: bold;
+                        color: #4e4b4b;
                     }
-                    .links {
-                        margin-top: 10px;
-                        a {
-                            font-size: 15px;                    
-                            text-decoration: none;                    
-                            color: #000;
-                        }
-                    }
-                }    
-            }  
-               
+                }
+            }               
         }
         section {
             text-align: center;
@@ -124,7 +109,7 @@ body {
             }
             &.news {
                 font-family: 'Montserrat', sans-serif;            
-                margin: 0;
+                //margin: 0;
                 padding-top: 10px;
                 padding-bottom: 50px;            
                 color: #fff;
@@ -161,17 +146,26 @@ body {
                     }
                 }
             }
-            &.companies div {
-                display: flex;
-                align-items: center;
-                justify-content: space-around;            
-                width: 1280px;
-                height: 150px;
-                margin: 0 auto;
-                a img {
-                    width: 150px;
+            &.companies{
+                header {
+                        margin-top: $margin-bottom + 10px;
+                        h3 {
+                            border-bottom: $border-bottom;
+                        }
+                    }
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;            
+                    width: 1280px;
+                    height: 150px;
+                    margin: 0 auto;
+                    a img {
+                        width: 150px;
+                    }                    
                 }
-            }
+            } 
+            
         }
         
     }

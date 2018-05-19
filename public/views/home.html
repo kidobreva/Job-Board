@@ -1,95 +1,13 @@
 <main class="home-page">
     <header>
-        <h3>Избрани професионални области</h3>
+        <h3>Професионални области</h3>
     </header>
 
     <!-- Carousel -->
-    <div class="professional-area">
-        <div class="carousel">
-            <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-                <!-- Slide 0 -->
-                <div uib-slide index="0">
-                    <section>
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/it.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Информационни технологии (IT)</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/acc.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Счетоводство, одит, финанси</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/adm.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Административни и офис дейности</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/bank.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Банки, кредитиране</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-                <!-- Slide 1 -->
-                <div uib-slide index="1">
-                    <section>
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/eng.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Инженерни и технически дейности</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/media.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Медии</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div class="picture">
-                                <img src="images/categories/med.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Медицина, фармация, здравеопазване</a>
-                            </div>
-                        </div>
-
-                        <div class="advert-block">
-                            <div>
-                                <img src="images/categories/arch.jpg" alt="">
-                            </div>
-                            <div class="links">
-                                <a href="/">Архитектура, строителство</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
+    <div class="professional-area">  
+        <ul>
+            <li ng-repeat="category in categories"><a href="/">{{category}}</a></li>                
+        </ul>            
     </div>
 
     <!-- Banner -->
@@ -128,6 +46,9 @@
 
     <!-- Partners -->
     <section class="companies">
+        <header>
+            <h3>Партньори</h3>
+        </header>
         <div>
             <a href="http://imperiaonline.bg/" target="_blank">
                 <img src="images/partners/ImperiaOnline.png" alt="Imperia Online" />
