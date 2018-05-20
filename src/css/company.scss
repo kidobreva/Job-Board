@@ -5,20 +5,41 @@ section {
         @include default-page-size;
         padding: 0;
         header {
-            border-bottom: 10px solid #eee;
-            img {
-                max-width: 100%;
-            }
+            border-top: $border-bottom;
+            border-bottom: $border-bottom;
+            .company-img {
+                width: 100%;
+                align-self: center;
+                background: none;
+                img {
+                    display: block;
+                    width: 50%;
+                    max-height: 200px;
+                    margin: 0 auto;
+                }
+            }            
             h2 {
                 padding-bottom: 20px;
             }
         }
         div.company-info {
             display: flex;
-            margin-top: 20px;
+            //justify-content: space-around;
+            margin: 40px 0;
             main {
-                width: 50%;
+                width: 40%;
+                div {
+                    margin-bottom: 25px;
+                }
+            }
+            div > h5 {
+                padding-bottom: 10px;
+                border-bottom: 2px solid #868686;
+            }
+            aside {
+                margin-left: 60px;
             }
         }
+        
     }
 }

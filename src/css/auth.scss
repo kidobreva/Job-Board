@@ -30,7 +30,13 @@ section {
                     border: 1px solid #dadada;
                     border-radius: 5px;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
-                }
+                }                
+            }
+            span.red {
+                display: block;
+                color: red;
+                font-size: 15px;
+                margin-bottom: 10px;
             }
             div.required-info {
                 display: flex;
@@ -58,11 +64,7 @@ section {
                     font-style: italic;
                 }
             }
-            .error {
-                margin-bottom: 1rem;            
-                text-align: center;            
-                color: red;
-            }
+            
         }
         .sign-in-users {
             width: 350px;
@@ -80,6 +82,11 @@ section {
                     border-radius: 5px;
                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
                 }
+            }
+            .error {
+                margin-bottom: 1rem;            
+                //text-align: center;            
+                color: red;
             }
             .buttons {
                 display: flex;
