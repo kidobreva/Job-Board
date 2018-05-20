@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AACI,OADG,AACH,aAAc,AAAC,CCDf,KAAK,CAAE,KAAK,CACZ,MAAM,CAAE,MAAM,CACd,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,6BAA6B,CAC1C,KAAK,CAAE,OAAO,CACd,SAAS,CAAE,IACf,CDHQ,OAAO,CAAE,CAAC,CAOb,AAVL,AAIQ,OAJD,AACH,aAAc,CAGV,MAAM,AAAC,CACH,aAAa,CAAE,eAAe,CAIjC,AATT,AAMY,OANL,AACH,aAAc,CAGV,MAAM,CAEF,GAAG,AAAC,CACA,SAAS,CAAE,IAAI,CAClB",
+    "sources": [
+        "../../src/css/company.scss",
+        "../../src/css/_config.scss"
+    ],
+    "names": [],
+    "file": "company.min.css"
+}

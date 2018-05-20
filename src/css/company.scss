@@ -1,0 +1,24 @@
+@import "_config.scss";
+
+section {
+    &.company-page {
+        @include default-page-size;
+        padding: 0;
+        header {
+            border-bottom: 10px solid #eee;
+            img {
+                max-width: 100%;
+            }
+            h2 {
+                padding-bottom: 20px;
+            }
+        }
+        div.company-info {
+            display: flex;
+            margin-top: 20px;
+            main {
+                width: 50%;
+            }
+        }
+    }
+}

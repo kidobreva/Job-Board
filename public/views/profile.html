@@ -4,7 +4,10 @@
     <section class="user-profile">
         <div class="user-info">
             <!-- Picture -->
-            <div class="profile-picture">
+            <div ng-if="!user.img" class="no-profile-picture">
+                <img src="../images/images3UST31XE.png" alt="">
+            </div>
+            <div ng-if="user.img" class="profile-picture">
                 <img ng-src="{{user.img}}">
             </div>
 
@@ -52,7 +55,9 @@
     <section class="company-profile">
         <div class="company-info">
             <!-- Picture -->
-            <div ng-if="!user.img" class="no-company-picture"></div>
+            <div ng-if="!user.img" class="no-company-picture">
+                <img src="../images/images3UST31XE.png" alt="">
+            </div>
             <div ng-if="user.img" class="company-picture">
                 <img ng-src="{{user.img}}">
             </div>
