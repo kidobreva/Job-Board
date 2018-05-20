@@ -11,41 +11,17 @@
 
         <!-- Profile -->
         <li class="nav-item profile-btn"
-            ng-if="$root.isLogged && $root.user.role !== 'ADMIN'"
+            ng-if="$root.isLogged"
             ng-class="{activeMenu: isActive('/profile') }">
 
             <a href="/profile">Профил</a>
         </li>
-
-        <!-- Add advert -->
-        <!-- <li class="nav-item add-advert-btn"
-            ng-if="$root.isLogged && $root.user.role === 'COMPANY'"
-            ng-class="{activeMenu: isActive('/add-advert') }">
-
-            <a href="/add-advert">Добави обява</a>
-        </li> -->
-
-        <!-- Favourites -->
-        <!-- <li class="nav-item favourites-btn"
-            ng-if="$root.isLogged && $root.user.role !== 'ADMIN' && $root.user.role !== 'COMPANY'"
-            ng-class="{activeMenu: isActive('/favourites') }">
-
-            <a href="/favourites">Наблюдавани</a>
-        </li> -->
 
         <!-- Adverts -->
         <li class="nav-item adverts-btn"
             ng-class="{activeMenu: isActive('/adverts/{{$routeParams.page}}') }">
 
             <a href="/adverts">Обяви за работа</a>
-        </li>
-
-        <!-- (Admin) Users -->
-        <li class="nav-item users-btn"
-            ng-if="$root.isLogged && $root.user.role === 'ADMIN'"
-            ng-class="{activeMenu: isActive('/admin/users') }">
-
-            <a href="/admin/users">Потребители</a>
         </li>
 
         <!-- Companies -->

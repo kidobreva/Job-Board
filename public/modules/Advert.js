@@ -49,12 +49,14 @@
             .then(function(response) {
                 $scope.advert = response.data;
                 $scope.advert.description = $sce.trustAsHtml(response.data.description);
-                $scope.timeout = false;
                 $scope.loaded = true;
+                $scope.timeout = false;
+                $scope.$apply();
             })
             .catch(function(err) {
                 $scope.loaded = true;
                 $scope.timeout = false;
+                $scope.$apply();
                 console.error(err);
             });
 

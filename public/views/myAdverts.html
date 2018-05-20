@@ -1,7 +1,7 @@
 <div id="loader" ng-if="timeout"></div>
-<p ng-if="loaded && !adverts.length">Няма публикувани обяви!</p>
+<h5 ng-if="loaded && !adverts.length">Нямате публикувани обяви!</h5>
 
-<section class="adverts-page">
+<section class="adverts-page" ng-if="loaded && adverts[0]">
     <!-- Adverts list -->
     <div class="adverts-list my-adverts">
         <!-- Heading -->

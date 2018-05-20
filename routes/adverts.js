@@ -154,24 +154,30 @@ router.post('/api/apply', (req, res) => {
                             }
                         )
                         .then(advert => {
-                            const notification = {
-                                candidateId: req.session.user.id,
-                                advertId: advert.id,
-                                message: `${req.session.user.firstName} ${
-                                    req.session.user.lastName
-                                } кандидатства за вашата обява - ${advert.title}!`
-                            };
-                            users
-                                .findOneAndUpdate(
-                                    { id: advert.companyId },
-                                    { $push: { notifications: notification } }
-                                )
-                                .then(() => {
-                                    req.session.user.applied.push(req.body.data);
-                                    req.session.save(() => {
-                                        res.sendStatus(200);
-                                    });
+                            const messages = req.db.get('messages');
+                            messages.count().then(len => {
+                                ++len;
+                                messages.insert({
+                                    id: len,
+                                    date: Date.now(),
+                                    candidateId: req.session.user.id,
+                                    advertId: advert.id,
+                                    message: `${req.session.user.firstName} ${
+                                        req.session.user.lastName
+                                    } кандидатства за вашата обява - ${advert.title}!`
                                 });
+                                users
+                                    .findOneAndUpdate(
+                                        { id: advert.companyId },
+                                        { $push: { messages: len } }
+                                    )
+                                    .then(() => {
+                                        req.session.user.applied.push(req.body.data);
+                                        req.session.save(() => {
+                                            res.sendStatus(200);
+                                        });
+                                    });
+                            });
                         });
                 }
             });

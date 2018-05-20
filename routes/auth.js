@@ -73,7 +73,7 @@ router.post('/api/register', (req, res) => {
                 if (req.body.isCompany) {
                     req.body.role = 'COMPANY';
                     req.body.adverts = [];
-                    req.body.notifications = [];
+                    req.body.messages = [];
                 } else {
                     req.body.role = 'USER';
                     req.body.cv = [];

@@ -43,7 +43,7 @@
                 <a href="/">Покажи</a>
             </div>
             <div class="options">
-                <span><a href="/updateProfile">Настрoйки на профила</a></span>
+                <span><a href="/updateProfile">Промяна на лични данни</a></span>
                 <a href="/updateProfile">Покажи</a>
             </div>
         </div>
@@ -90,11 +90,39 @@
                 <a href="/my-adverts/1">Покажи</a>
             </div>
             <div class="options">
-                <span><a href="/">Съобщения</a> [{{ user.notifications.length }}]</span>
-                <a href="/">Покажи</a>
+                <span><a href="/messages">Съобщения</a> [{{ user.messages.length }}]</span>
+                <a href="/messages">Покажи</a>
             </div>
             <div class="options">
-                <span><a href="/updateProfile">Настрoйки на профила</a></span>
+                <span><a href="/updateProfile">Промяна на лични данни</a></span>
+                <a href="/updateProfile">Покажи</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Admin -->
+<div ng-if="loaded && user.role === 'ADMIN'" class="profile-page">
+    <section class="user-profile">
+        <div class="user-info"></div>
+        <div class="profil-controll">
+            <div class="page-options">
+                <strong>Админ панел</strong>
+            </div>
+            <div class="options">
+                <span><a href="/admin/users">Кандидати</a> [{{ users.length }}]</span>
+                <a href="/admin/users">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="/admin/categories">Категории</a> [{{ categories.length }}]</span>
+                <a href="/admin/categories">Промени</a>
+            </div>
+            <div class="options">
+                <span><a href="/messages">Съобщения</a> [{{ user.messages.length }}]</span>
+                <a href="/messages">Покажи</a>
+                </div>
+            <div class="options">
+                <span><a href="/updateProfile">Промяна на лични данни</a></span>
                 <a href="/updateProfile">Покажи</a>
             </div>
         </div>

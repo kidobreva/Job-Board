@@ -17,6 +17,7 @@
         'Favourites',
         'MyCV',
         'UpdateProfile',
+        'Messages',
 
         // Companies
         'Company',

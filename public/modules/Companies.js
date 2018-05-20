@@ -4,7 +4,7 @@
         $routeProvider.when('/companies', {
             templateUrl: 'views/companies.html',
             controller: 'Companies',
-            title: 'Фирми'
+            title: 'Работодатели'
         });
     }
 
@@ -17,19 +17,20 @@
     }
 
     // Controller
-    function Ctrl(CompaniesService, $scope, $timeout, $rootScope, $location) {
+    function Ctrl(CompaniesService, $scope, $timeout) {
         console.log('Init Companies Controller');
 
         CompaniesService.getCompanies()
             .then(function(response) {
                 $scope.companies = response.data;
                 $scope.loaded = true;
-                $scope.$apply();
                 $scope.timeout = false;
+                $scope.$apply();
             })
             .catch(function() {
                 $scope.loaded = true;
                 $scope.timeout = false;
+                $scope.$apply();
             });
 
         // Show loading wheel if needed after 1 second

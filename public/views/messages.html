@@ -1,0 +1,42 @@
+<section class="messages-page">
+    <div class="header-info">
+        <h2>Съобщения</h2>
+    </div>
+    <div id="loader" ng-show="timeout"></div>
+    <p ng-if="loaded && !messages.length">Нямате получени съобщения!</p>
+    <!-- <p>Когато получите съобщение, то ще се покаже тук.</p> -->
+
+    <!-- Company table -->
+    <table class="table" ng-if="user.role === 'COMPANY'">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Съобщение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="msg in messages">
+                <td>{{msg.date | date}}</td>
+                <td>{{msg.message}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Admin table -->
+    <table class="table" ng-if="user.role === 'ADMIN'">
+        <thead>
+            <tr>
+                <th>Подател</th>
+                <th>Дата</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="msg in messages">
+                <td>{{msg.email}}</td>
+                <td>{{msg.date | date}}</td>
+                <td>Прочетено/Непрочетено</td>
+            </tr>
+        </tbody>
+    </table>
+</section>

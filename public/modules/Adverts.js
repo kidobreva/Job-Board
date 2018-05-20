@@ -46,7 +46,7 @@
         };
         $scope.pageChanged = function(newPage) {
             console.log(newPage);
-            scrollTo(document.documentElement, document.querySelector('header').scrollHeight, 400);
+            scrollTo(document.documentElement, document.querySelector('header').offsetHeight, 400);
             getResultsPage(newPage);
         };
         $scope.beforeChangeSize = function() {
@@ -60,8 +60,8 @@
                 var lastRoute = $route.current;
                 var un = $rootScope.$on('$locationChangeSuccess', function() {
                     $route.current = lastRoute;
-                    un();
                 });
+                un();
             }
             return original.apply($location, [path]);
         };

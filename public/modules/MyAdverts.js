@@ -65,6 +65,7 @@
                     SearchService.getSearchData().then(function(res) {
                         $scope.categories = res.data.categories;
                         $scope.cities = res.data.cities;
+                        $scope.$apply();
                         doSearch($scope.currentPage, $scope.advertsPerPage);
                     });
 
@@ -84,11 +85,6 @@
 
         var header = document.querySelector('header');
 
-        $scope.searchAdvert = function() {
-            $scope.isSearch = true;
-            getResultsPage(1);
-        };
-
         function doSearch(num, size) {
             console.log(num, size);
             // Get adverts
@@ -97,9 +93,9 @@
                     console.log(result);
                     $scope.adverts = result.data.adverts;
                     $scope.totalAdverts = result.data.len;
-                    $scope.$apply();
                     $scope.loaded = true;
                     $scope.timeout = false;
+                    $scope.$apply();
                 })
                 .catch(function() {
                     $scope.adverts.length = 0;
@@ -116,8 +112,8 @@
                 var lastRoute = $route.current;
                 var un = $rootScope.$on('$locationChangeSuccess', function() {
                     $route.current = lastRoute;
-                    un();
                 });
+                un();
             }
             return original.apply($location, [path]);
         };
