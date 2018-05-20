@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "nodemonConfig": {
-    "ignore": ["public/*", "src/*"]
+    "ignore": [
+      "public/*",
+      "src/*"
+    ]
   },
   "scripts": {
     "start": "nodemon --require pretty-error/start ./bin/www"

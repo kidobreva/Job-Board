@@ -53,7 +53,7 @@ section {
             width: 50%;
             margin-left: 3rem;
             padding: 1.5rem 0;
-            .advert-sallary {
+            .advert-details {
                 margin-top: 13px;
             }
         }
@@ -95,10 +95,22 @@ section {
                 }
             }
         }
+        .no-data {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 5rem;
+        }
     }
     &.pagination-sm {
         justify-content: flex-end;
     }
+    // Fix for adverts transition
+    .adverts-div.ng-leave, .adverts-div.ng-leave-active {
+        display: none !important;
+    }
+    // .adverts-div.ng-move, .adverts-div.ng-move-active {
+    //     display: none !important;
+    // }
 }
 
 /*ribbon*/

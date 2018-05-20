@@ -7,7 +7,19 @@ const path = require('path');
 // (GET) Profile
 router.get('/api/profile', (req, res) => {
     if (req.session.user) {
-        res.json(req.session.user);
+        req.db
+            .get('users')
+            .findOne({ id: req.session.user.id })
+            .then(user => {
+                if (user) {
+                    res.json(user);
+                } else {
+                    req.session.destroy(err => {
+                        res.clearCookie('connect.sid');
+                        res.sendStatus(err ? 500 : 200);
+                    });
+                }
+            });
     } else {
         res.sendStatus(401);
     }

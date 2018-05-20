@@ -8,7 +8,6 @@ const fs = require('fs');
 const monk = require('monk');
 const db = monk('localhost:27017/database');
 const session = require('express-session');
-const sha1 = require('sha1');
 
 const app = express();
 
@@ -41,20 +40,6 @@ db.then(() => {
 // API routes
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
     app.use(require(`./routes/${path.basename(file, '.js')}`));
-});
-
-// Register admin
-const users = db.get('users');
-users.findOne({ id: 0 }).then(user => {
-    if (!user) {
-        users.insert({
-            id: 0,
-            role: 'ADMIN',
-            email: 'admin@jobboard.bg',
-            password: sha1('admin1'),
-            messages: []
-        });
-    }
 });
 
 // For using HTML5Mode in AngularJS

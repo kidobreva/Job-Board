@@ -11,7 +11,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
 }
@@ -61,72 +62,58 @@ nav {
     margin: 0 auto;
 
     background: rgba(30, 144, 255, 0.9);
-}
 
-nav > ul {
-    line-height: 1;
+    > ul {
+        line-height: 1;
 
-    display: flex;
-    zoom: 1;
-    flex-wrap: wrap;
-    /* justify-content: center; */
+        display: flex;
+        zoom: 1;
+        flex-wrap: wrap;
+        /* justify-content: center; */
 
-    width: 100%;
-    margin: 0;
-    padding: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
 
-    list-style: none;
+        list-style: none;
 
-    /* text-align: center; */
-    /* background: white; */
+        /* text-align: center; */
+        /* background: white; */
+
+        > li > a {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+
+            position: relative;
+
+            display: block;
+
+            padding: 1rem;
+
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.25s;
+            text-decoration: none;
+            text-transform: uppercase;
+            /* color: black; */
+
+            color: #fff;
+        }
+    }
+    > ul li {
+        display: inline-block;
+    }
+    > ul li a:hover {
+        text-decoration: none;
+
+        color: #fff;
+        background: rgba(0, 0, 139, 0.5);
+    }
 }
 
 .with-margin {
     margin-left: auto;
-}
-
-nav > ul li {
-    display: inline-block;
-}
-
-/* nav > ul li:first-child {
-    border-left: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-nav > ul li:not(:first-child) {
-    border-left: 1px solid rgba(255, 255, 255, 0.6);
-}
-
-nav > ul li:last-child {
-    border-right: 1px solid rgba(255, 255, 255, 0.6);
-} */
-
-nav > ul li a:hover {
-    text-decoration: none;
-
-    color: #fff;
-    background: rgba(0, 0, 139, 0.5);
-}
-
-nav > ul > li > a {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-
-    position: relative;
-
-    display: block;
-
-    padding: 1rem;
-
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.25s;
-    text-decoration: none;
-    text-transform: uppercase;
-    /* color: black; */
-
-    color: #fff;
 }
 
 @media all and (max-width: 1020px) {
@@ -153,26 +140,28 @@ nav > ul > li > a {
     }
 }
 
-.nav-menu ul li a:hover:before {
-    width: 100%;
-}
-.nav-menu ul li a:before {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+.nav-menu {
+    ul li a:hover:before {
+        width: 100%;
+    }
+    ul li a:before {
+        position: absolute;
+        bottom: 0;
+        left: 0;
 
-    display: block;
+        display: block;
 
-    width: 0;
-    height: 3px;
+        width: 0;
+        height: 3px;
 
-    content: '';
-    transition: width 0.25s;
+        content: '';
+        transition: width 0.25s;
 
-    background: gold;
-}
-.nav-menu ul li.active a {
-    color: #333;
+        background: gold;
+    }
+    ul li.active a {
+        color: #333;
+    }
 }
 
 .activeMenu {
@@ -197,7 +186,7 @@ nav > ul > li > a {
     height: 100px;
 
     -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 
     border: 16px solid #f3f3f3;
     border-top: 16px solid #3498db;
@@ -222,40 +211,25 @@ nav > ul > li > a {
     }
 }
 
-/* Add animation to "page content" */
-.animate-bottom {
-    position: relative;
-
-    -webkit-animation-name: animatebottom;
-            animation-name: animatebottom;
-    -webkit-animation-duration: 1s;
-            animation-duration: 1s;
-}
-
-@-webkit-keyframes animatebottom {
-    from {
-        bottom: -100px;
-
-        opacity: 0;
-    }
-    to {
-        bottom: 0;
-
-        opacity: 1;
-    }
+/* Alert animation */
+.alert {
+    animation-name: animatebottom;
+    animation-duration: 0.5s;
 }
 
 @keyframes animatebottom {
     from {
-        bottom: -100px;
-
+        bottom: -25px;
         opacity: 0;
     }
     to {
         bottom: 0;
-
         opacity: 1;
     }
+}
+
+.alert.ng-leave, .alert.ng-leave-active {
+    display: none !important;
 }
 
 /* Transition for the pages */

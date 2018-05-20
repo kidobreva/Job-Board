@@ -11,6 +11,13 @@
             controller: 'AddAdvert',
             title: 'Добави обява'
         });
+        $routeProvider.when('/adverts', {
+            resolve: {
+                load: function($location) {
+                    $location.path('/adverts/1');
+                }
+            }
+        });
     }
 
     // Service
@@ -20,13 +27,25 @@
             console.log('Add advert');
             return $rootScope.promise.post('/api/advert', advert);
         };
-        this.getAdvert = function(advertId) {
-            return $rootScope.promise.get('/api/advert/' + advertId);
+        this.getAdvert = function(advertId, isEdit) {
+            if (isEdit) {
+                return $rootScope.promise.get('/api/advert/' + advertId + '?edit=true');
+            } else {
+                return $rootScope.promise.get('/api/advert/' + advertId);
+            }
         };
     }
 
     // Controller
-    function Ctrl(AddAdvertService, $scope, $rootScope, $routeParams, $sanitize, $location) {
+    function Ctrl(
+        AddAdvertService,
+        SearchService,
+        $scope,
+        $rootScope,
+        $routeParams,
+        $sanitize,
+        $location
+    ) {
         console.log('Init AddAdvert Controller');
 
         // Check for current user
@@ -37,17 +56,27 @@
                 if (currentUser.role !== 'COMPANY') {
                     $location.path('/home');
                 } else {
-                    if ($routeParams.id) {
-                        AddAdvertService.getAdvert($routeParams.id)
-                            .then(advert => {
-                                $scope.isEdit = true;
-                                $scope.advert = advert.data;
-                                $scope.$apply();
-                            })
-                            .catch(function(err) {
-                                console.error(err);
-                            });
-                    }
+                    SearchService.getSearchData().then(function(res) {
+                        console.log(res.data);
+                        $scope.categories = res.data.categories;
+                        $scope.cities = res.data.cities;
+                        $scope.levels = res.data.levels;
+                        $scope.types = res.data.types;
+                        $scope.loaded = true;
+                        $scope.$apply();
+                        if ($routeParams.id) {
+                            AddAdvertService.getAdvert($routeParams.id, true)
+                                .then(advert => {
+                                    $scope.isEdit = true;
+                                    $scope.advert = advert.data;
+                                    $scope.$apply();
+                                    console.log(advert);
+                                })
+                                .catch(function(err) {
+                                    console.error(err);
+                                });
+                        }
+                    });
                 }
             })
             // If there's no user
@@ -56,38 +85,12 @@
                 $location.path('/auth');
             });
 
-        // Cities
-        $scope.cities = [
-            'София',
-            'Варна',
-            'Пловдив',
-            'Бургас',
-            'Слънчев бряг',
-            'Русе',
-            'Стара Загора',
-            'Велико Търново',
-            'Плевен',
-            'Шумен',
-            'Друг'
-        ];
-
-        // Categories
-        $scope.categories = [
-            'ИТ - Разработка/поддръжка на софтуер хардуер',
-            'Счетоводство, Одит',
-            'Административни дейности',
-            'Банково дело и Финанси',
-            'Инженерни дейности',
-            'Здравеопазване (Медицински работници)',
-            'Архитектура, Строителство и Градоустройство',
-            'Медии',
-            'Друго'
-        ];
-
+        // Add advert
         $scope.addAdvert = function() {
             $scope.advert.description = $sanitize($scope.advert.description);
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
+                    $scope.id = response.data.id;
                     // $rootScope.user.adverts.push(response);
                     // show success alert and clean the form
                     $scope.addAlert();
@@ -109,7 +112,7 @@
             if (!$scope.isEdit) {
                 $scope.alerts.push({
                     type: 'primary',
-                    msg: 'Обявата ви беше успешно публикувана!'
+                    msg: 'Обявата Ви беше публикувана успешно!'
                 });
             } else {
                 $scope.alerts.push({

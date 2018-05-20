@@ -23,6 +23,11 @@
         this.search = function() {
             return $rootScope.promise.post(query);
         };
+
+        // Get search data
+        this.getSearchData = function() {
+            return $rootScope.promise.get('/api/search-data');
+        };
     }
 
     // Controller

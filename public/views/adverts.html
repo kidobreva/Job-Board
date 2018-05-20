@@ -1,9 +1,7 @@
-<div id="loader" ng-if="timeout"></div>
-<p ng-if="loaded && !adverts">Няма публикувани обяви!</p>
-<!-- ng-if="loaded && adverts" -->
 <section class="adverts-page">
   <!-- Adverts list -->
   <div class="adverts-list adverts">
+    <!-- Heading -->
     <div class="heading">
       <h2>Oбяви за работа</h2>
       <div>
@@ -16,36 +14,49 @@
         </label>
       </div>
     </div>
+
+    <!-- No adverts -->
+    <p class="no-data" ng-if="loaded && !adverts[0]">Няма публикувани обяви!</p>
+    <div id="loader" ng-if="timeout"></div>
+
+    <!-- Adverts -->
     <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
+      <!-- Logo and ribbon -->
       <div class="advert-logo">
         <div ng-if="advert.paid !== 'free'" ng-class="{
             pro: advert.paid === 'pro',
             top: advert.paid === 'top',
             vip: advert.paid === 'vip'
             }" class="corner-ribbon corner-ribbon-left">
-            <div class="ribbon-size">{{advert.paid}}</div>
+          <div class="ribbon-size">{{advert.paid}}</div>
         </div>
         <img ng-src="{{advert.logo}}">
       </div>
+
+      <!-- Info -->
       <div class="advert-info">
+        <!-- title -->
         <a href="/advert/{{advert.id}}">
             {{advert.title}}
         </a>
-        <div class="advert-sallary">
-            <span><strong>Заплата от:</strong>
-                <b>{{advert.salary.min | currency: "лв."}}</b> до
-                <b>{{advert.salary.max | currency: "лв." }}</b>
-            </span>
-            <div>
-                <span><strong>Публикувана на:</strong> {{ advert.date | date }}</span>, гр.
-                <span>{{advert.city}}</span>
-            </div>
-            <div>
-              <span><strong>Категория:</strong> {{advert.category}}</span>
-            </div>
+
+        <!-- details -->
+        <div class="advert-details">
+          <span><strong>Заплата от:</strong>
+              <b>{{advert.salary.min | currency: "лв."}}</b> до
+              <b>{{advert.salary.max | currency: "лв." }}</b>
+          </span>
+          <div>
+              <span><strong>Публикувана на:</strong> {{ advert.date | date }}</span>, гр.
+              <span>{{cities[advert.city - 1].name}}</span>
+          </div>
+          <div>
+            <span><strong>Категория:</strong> {{categories[advert.category - 1].name}}</span>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Pagination -->
     <div class="page-list">
       <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
     </div>
@@ -58,37 +69,35 @@
       <label for="words">Ключови думи</label>
       <div class="form-group">
         <label>
-          <input type="checkbox" id="advanced" ng-model="search.advanced"
-        /> търси в описание</label>
-        <input class="form-control" id="words" ng-model="search.title" />
+          <input type="checkbox" id="advanced" ng-model="search.advanced"/> търси в описание
+        </label>
+        <input class="form-control" id="words" ng-model="search.title" placeholder="Въведи думи"/>
       </div>
 
       <!-- City -->
       <div class="form-group">
-          <label for="city">Населено място</label>
-          <select class="form-control" id="city" ng-model="search.city">
-              <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
-            </select>
+        <label for="city">Населено място</label>
+        <select class="form-control" id="city" ng-model="search.city">
+          <option value="" disabled selected hidden>Избери град</option>
+          <option ng-repeat="city in cities" value="{{city.id}}">{{city.name}}</option>
+        </select>
       </div>
 
       <!-- Category -->
       <div class="form-group">
-          <label for="category">Категория</label>
-          <select class="form-control" id="category" ng-model="search.category">
-          <option value=""></option>
-              <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-          </select>
+        <label for="category">Категория</label>
+        <select class="form-control" id="category" ng-model="search.category">
+          <option value="" disabled selected hidden>Избери кетегория</option>
+          <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
+        </select>
       </div>
 
     <!-- Type -->
     <div class="form-group">
       <label for="type">Вид заетост</label>
       <select class="form-control" id="type" ng-model="search.type">
-        <option value=""></option>
-        <option value="Пълен Работен Ден">Пълен Работен Ден</option>
-        <option value="Непълен Работен Ден/Почасова">Непълен Работен Ден</option>
-        <option value="Временна/Сезонна/По проект">Временна/Сезонна</option>
-        <option value="Постоянна">Постоянна</option>
+        <option value="" disabled selected hidden>Избери вид</option>
+        <option ng-repeat="type in types" value="{{type.id}}">{{type.name}}</option>
       </select>
     </div>
 
@@ -96,11 +105,8 @@
     <div class="form-group">
       <label for="level">Ниво на квалификация</label>
       <select class="form-control" id="level" ng-model="search.level">
-        <option value=""></option>
-        <option value="Мениджмънт">Мениджмънт</option>
-        <option value="Експерти/Специалисти">Експерти/Специалисти</option>
-        <option value="Служители/Работници">Служители/Работници</option>
-        <option value="Стажанти/Студенти">Стажанти/Студенти</option>
+        <option value="" disabled selected hidden>Избери ниво</option>
+        <option ng-repeat="level in levels" value="{{level.id}}">{{level.name}}</option>
       </select>
     </div>
 
