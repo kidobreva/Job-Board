@@ -34,21 +34,25 @@
 
         <div ng-if="registerUser.isCompany" >
             <label><span>*</span> ЕИК/БУЛСТАТ
-                <input class="inputs" name="username" type="text" required ng-model="registerUser.bulstat" />
-            </label>
+                <input class="inputs" name="username" ng-blur="validateBulstat()" type="text" required ng-model="registerUser.bulstat" />
+            </label> 
+            <span class="red" ng-if="errBulstat">Моля въведете валиден булстат!</span>           
         </div>
+        
 
         <label><span>*</span> E-mail
             <input class="inputs" name="email" type="email" required ng-model="registerUser.email" />
         </label>
 
         <label><span>*</span> Парола
-            <input class="inputs" name="pass" type="password" required ng-model="registerUser.password" />
+            <input class="inputs" name="pass" ng-blur="validatePass()" type="password" required ng-model="registerUser.password" />
         </label>
+        <span class="red" ng-if="shortPass">Моля въведете парола с минимум 6 символа!</span>
 
         <label><span>*</span> Повторете паролата
-            <input class="inputs" name="repeat-pass" type="password" required ng-model="registerUser.repeatPassword" />
+            <input class="inputs" name="repeat-pass" ng-blur="validatePass()" type="password" required ng-model="registerUser.repeatPassword" />
         </label>
+        <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>
 
         <div class="required-info">
             <span class="required">*</span> Задължително поле
@@ -84,7 +88,9 @@
             <input class="inputs" name="pass" type="password" ng-model="user.password" required />
         </label>
 
-        <div class="error"></div>
+        <div class="error">
+            <span ng-if="badUser">Грешен имейл или парола!</span>
+        </div>
 
         <!-- buttons -->
         <div class="buttons">

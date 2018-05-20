@@ -2,7 +2,7 @@
 
 section {
     &.adverts-page {
-        width: 980px;
+        width: 1000px;
         font-size: 0.9rem;
         display: flex;
         font-family: Tahoma, Helvetica, sans-serif;
@@ -43,7 +43,7 @@ section {
         .advert-logo {
             width: 150px;
             align-self: center;
-            margin-left: 1rem;
+            margin-left: 2rem;
             img {
                 max-width: 100%;
                 max-height: 200px;
@@ -51,7 +51,7 @@ section {
         }
         .advert-info {
             width: 50%;
-            margin-left: 3rem;
+            margin-left: 2rem;
             padding: 1.5rem 0;
             .advert-details {
                 margin-top: 13px;
@@ -61,7 +61,7 @@ section {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            margin-left: 1rem;
+            //margin-left: 1rem;
             a {     
                 margin: 0.5rem 0;  
             }

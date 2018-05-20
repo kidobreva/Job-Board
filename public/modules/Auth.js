@@ -48,6 +48,10 @@
                     $rootScope.$apply();
                 })
                 .catch(function(err) {
+                    if (err.status === 404) {
+                        $scope.badUser = true;
+                        $scope.$apply();
+                    }
                     console.error(err.data);
                 });
         };
@@ -63,6 +67,35 @@
                     console.error(err.data);
                 });
         };
+
+        // Validate pass
+        $scope.validatePass = function() {
+            var invalid = false;
+            $scope.shortPass = $scope.registerUser.password.length && $scope.registerUser.password.length < 6;
+            if (
+                $scope.registerUser.repeatPassword &&
+                $scope.registerUser.repeatPassword !== $scope.registerUser.password
+            ) {
+                invalid = true;
+            }
+            $scope.invalid = invalid;
+        };
+
+        // Validate bulstat
+        $scope.validateBulstat = function() {
+            var errBulstat = false;
+            if ($scope.registerUser.bulstat.length &&
+                ($scope.registerUser.bulstat.length !== 9 || !$scope.isNumberBulstat())) {
+                    errBulstat = true;
+            }
+            $scope.errBulstat = errBulstat;
+        }
+
+        $scope.isNumberBulstat = function() {
+            var regex = /^[0-9]*$/gm;
+            return regex.test(Number($scope.registerUser.bulstat));
+        };
+
     }
 
     // Module
