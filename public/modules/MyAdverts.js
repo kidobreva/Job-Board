@@ -11,15 +11,47 @@
     // Service
     function Service($rootScope) {
         // Get adverts
-        this.getAdverts = function() {
-            return $rootScope.promise.get('/api/search?companyId=' + $rootScope.user.id);
+        this.getAdverts = function(page, size) {
+            return $rootScope.promise.get(
+                '/api/my-adverts/search?companyId=' +
+                    $rootScope.user.id +
+                    '&page=' +
+                    page +
+                    '&size=' +
+                    (size || 5)
+            );
         };
     }
 
     // Controller
-    function Ctrl(MyAdvertsService, $rootScope, $scope, $timeout, $routeParams, $location) {
+    function Ctrl(
+        MyAdvertsService,
+        SearchService,
+        $rootScope,
+        $scope,
+        $timeout,
+        $routeParams,
+        $location,
+        $route
+    ) {
         console.log('Init Adverts Controller');
-        $scope.currentPage = $routeParams.page;
+
+        // Initial values for pagination
+        $scope.currentPage = $routeParams.page || 1;
+        $scope.adverts = [];
+        $scope.totalAdverts = 0;
+        $scope.advertsPerPage = $routeParams.size || '5';
+        $scope.pagination = {
+            current: $scope.currentPage
+        };
+
+        $scope.pageChanged = function(newPage) {
+            scrollTo(document.documentElement, header.scrollHeight, 400);
+            getResultsPage(newPage);
+        };
+        $scope.beforeChangeSize = function() {
+            $scope.pagination.current = 1;
+        };
 
         // Check for current user
         $rootScope
@@ -29,21 +61,12 @@
                 if (currentUser.role !== 'COMPANY') {
                     $location.path('/home');
                 } else {
-                    // Get adverts
-                    MyAdvertsService.getAdverts($routeParams.page)
-                        .then(function(advertsArr) {
-                            console.log(advertsArr);
-                            $scope.maxSize = 10;
-                            $scope.adverts = advertsArr.data.adverts;
-                            $scope.totalItems = advertsArr.data.len;
-                            $scope.loaded = true;
-                            $scope.timeout = false;
-                        })
-                        .catch(function(err) {
-                            $scope.loaded = true;
-                            $scope.timeout = false;
-                            console.log(err);
-                        });
+                    // Get search data
+                    SearchService.getSearchData().then(function(res) {
+                        $scope.categories = res.data.categories;
+                        $scope.cities = res.data.cities;
+                        doSearch($scope.currentPage, $scope.advertsPerPage);
+                    });
 
                     // Show loading wheel if needed after 1 second
                     $timeout(function() {
@@ -59,9 +82,88 @@
                 $location.path('/auth');
             });
 
-        $scope.changePage = function() {
-            $location.path('/my-adverts/' + $scope.currentPage);
+        var header = document.querySelector('header');
+
+        $scope.searchAdvert = function() {
+            $scope.isSearch = true;
+            getResultsPage(1);
         };
+
+        function doSearch(num, size) {
+            console.log(num, size);
+            // Get adverts
+            MyAdvertsService.getAdverts(num, size)
+                .then(function(result) {
+                    console.log(result);
+                    $scope.adverts = result.data.adverts;
+                    $scope.totalAdverts = result.data.len;
+                    $scope.$apply();
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                })
+                .catch(function() {
+                    $scope.adverts.length = 0;
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.$apply();
+                });
+        }
+
+        // Location path change without reload
+        var original = $location.path;
+        $location.path = function(path, reload) {
+            if (reload === false) {
+                var lastRoute = $route.current;
+                var un = $rootScope.$on('$locationChangeSuccess', function() {
+                    $route.current = lastRoute;
+                    un();
+                });
+            }
+            return original.apply($location, [path]);
+        };
+
+        function getResultsPage(pageNumber) {
+            $location.search({
+                size: $scope.advertsPerPage.toString()
+            });
+            $location.path('/my-adverts/' + pageNumber, false);
+            $scope.loaded = false;
+            doSearch(pageNumber, $scope.advertsPerPage);
+            // Loading wheel
+            $timeout(function() {
+                if (!$scope.loaded) {
+                    $scope.timeout = true;
+                }
+            }, 1000);
+        }
+
+        // ScrollTo animation
+        function easeInOutQuad(t, b, c, d) {
+            //t = current time
+            //b = start value
+            //c = change in value
+            //d = duration
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+        function scrollTo(element, to, duration) {
+            var start = element.scrollTop,
+                change = to - start,
+                currentTime = 0,
+                increment = 20;
+
+            var animateScroll = function() {
+                currentTime += increment;
+                var val = easeInOutQuad(currentTime, start, change, duration);
+                element.scrollTop = val;
+                if (currentTime < duration) {
+                    setTimeout(animateScroll, increment);
+                }
+            };
+            animateScroll();
+        }
     }
 
     // Module

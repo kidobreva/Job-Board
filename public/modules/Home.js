@@ -7,19 +7,9 @@
             title: 'Job Board - Начало'
         });
     }
-    console.log('Init Home Controller');
-
-    function Service($rootScope) {
-           // search data
-            this.getSearchData = function() {
-                return categories;
-
-                //return $rootScope.promise.get('/api/profile')        
-            }        
-    }    
 
     // Controller
-    function Ctrl(SearchService, $scope, $rootScope) {
+    function Ctrl(SearchService, $scope) {
         console.log('Init Home Controller');
 
         // Categories
@@ -50,17 +40,15 @@
             'Друго'
         ];
 
-        // SearchService.getSearchData().then(function (data) {
-        //     //$scope.cities = data.cities;
-        //     console.log(data.categories);
-        //     $scope.categories = data.categories;
-        // });
+        // Get search data
+        SearchService.getSearchData().then(function(response) {
+            console.log(response.data);
+        });
     }
 
     // Module
     angular
         .module('Home', ['ngRoute'])
         .config(Config)
-        .service('SearchService', Service)
         .controller('Home', Ctrl);
 })();

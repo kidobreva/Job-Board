@@ -8,45 +8,59 @@
       vip: advert.paid === 'vip'
     }" class="side-ribbon left-ribbon"><div class="ribbon-text-size">{{advert.paid}}</div></div>
     <div class="advert-info">
-        <div>
-            <span class="bold">Организация:</span>
-            <a href="/company/{{advert.companyId}}">{{advert.company}}</a>
-          </div>
-        <div>
-          <span class="bold">Град:</span>
-          <span>{{advert.city}}</span>
-        </div>
-        <div>
-          <span class="bold">Категория:</span>
-          <span>{{advert.category}}</span>
-        </div>
-        <div>
-          <span class="bold">Ниво:</span>
-          <span>{{advert.level}}</span>
-        </div>
-        <div>
-          <span class="bold">Тип:</span>
-          <span>{{advert.type}}</span>
-        </div>
-        <div>
-          <span class="bold">Заплата:</span>
-          <span>от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</span>
-        </div>
+      <!-- Organization -->
+      <div>
+        <span class="bold">Организация:</span>
+        <a href="/company/{{advert.companyId}}">{{advert.company}}</a>
+      </div>
 
-        <div>
-          <span class="bold">Изтича на:</span>
-          <span>{{advert.isExpired | date}}</span>
-        </div>
+      <!-- City -->
+      <div>
+        <span class="bold">Град:</span>
+        <span>{{advert.city}}</span>
+      </div>
 
-        <div>
-            <span class="bold">Брой кандидатствали:</span>
-            <span>{{advert.candidates.length}}</span>
-        </div>
+      <!-- Category -->
+      <div>
+        <span class="bold">Категория:</span>
+        <span>{{advert.category}}</span>
+      </div>
 
-        <div>
-            <span class="bold">Брой преглеждания:</span>
-            <span>{{advert.views}}</span>
-        </div>
+      <!-- Level -->
+      <div>
+        <span class="bold">Ниво:</span>
+        <span>{{advert.level}}</span>
+      </div>
+
+      <!-- Type -->
+      <div>
+        <span class="bold">Тип:</span>
+        <span>{{advert.type}}</span>
+      </div>
+
+      <!-- Salary -->
+      <div>
+        <span class="bold">Заплата:</span>
+        <span>от {{advert.salary.min | currency:"лв."}} до {{advert.salary.max | currency:"лв."}}</span>
+      </div>
+
+      <!-- Expires -->
+      <div>
+        <span class="bold">Изтича на:</span>
+        <span>{{advert.isExpired | date}}</span>
+      </div>
+
+      <!-- Candidates -->
+      <div>
+        <span class="bold">Брой кандидатствали:</span>
+        <span>{{advert.candidates.length}}</span>
+      </div>
+
+      <!-- Views -->
+      <div>
+        <span class="bold">Брой преглеждания:</span>
+        <span>{{advert.views}}</span>
+      </div>
     </div>
 
     <div class="buttons">
@@ -86,6 +100,9 @@
       <div ng-bind-html="advert.description" class="discription"></div>
     </div>
 
-    <button class="btn btn-success" ng-if="$root.user.role !== 'COMPANY'" ng-click="apply()"><b>Кандидатствай</b></button>
+    <button class="btn btn-success"
+            ng-if="$root.user.role !== 'COMPANY'"
+            ng-click="apply()"
+    ><b>Кандидатствай</b></button>
   </main>
 </section>

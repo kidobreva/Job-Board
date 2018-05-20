@@ -5,22 +5,43 @@ const router = express.Router();
 router.get('/api/advert/:id', function(req, res) {
     const id = +req.params.id;
     const adverts = req.db.get('adverts');
-    adverts.findOne({ id }).then(function(advert) {
+    adverts.findOne({ id }).then(advert => {
         if (!advert) {
             res.sendStatus(404);
         } else {
-            adverts.findOneAndUpdate(
-                { id },
-                {
-                    $set: {
-                        views: ++advert.views,
-                        isExpired: Date.now() < advert.expire ? advert.expire : 'Изтекла'
+            adverts
+                .findOneAndUpdate(
+                    { id },
+                    {
+                        $set: {
+                            views: ++advert.views,
+                            isExpired: Date.now() < advert.expire ? advert.expire : 'Изтекла'
+                        }
                     }
-                }
-            );
+                )
+                .then(advert => {
+                    (async function() {
+                        const category = await req.db
+                            .get('categories')
+                            .findOne({ id: +advert.category });
+                        const city = await req.db.get('cities').findOne({ id: +advert.city });
+                        const level = await req.db.get('levels').findOne({ id: +advert.level });
+                        const type = await req.db.get('types').findOne({ id: +advert.type });
+                        if (req.query.edit) {
+                            advert.category = category.id.toString();
+                            advert.city = city.id.toString();
+                            advert.level = level.id.toString();
+                            advert.type = type.id.toString();
+                        } else {
+                            advert.category = category.name;
+                            advert.city = city.name;
+                            advert.level = level.name;
+                            advert.type = type.name;
+                        }
 
-            advert.isExpired = Date.now() < advert.expire ? advert.expire : 'Изтекла';
-            res.json(advert);
+                        res.json(advert);
+                    })();
+                });
         }
     });
 });
@@ -29,8 +50,23 @@ router.get('/api/advert/:id', function(req, res) {
 router.get('/api/adverts/:page', (req, res) => {
     const adverts = req.db.get('adverts');
     adverts.count().then(size => {
-        adverts.find({}, { sort: { id: -1 } }).then(advertsArr => {
-            console.log(advertsArr);
+        const fields = {
+            _id: 0,
+            city: 1,
+            category: 1,
+            type: 1,
+            level: 1,
+            salary: 1,
+            title: 1,
+            paid: 1,
+            id: 1,
+            company: 1,
+            companyId: 1,
+            logo: 1,
+            date: 1
+        };
+        adverts.find({}, { fields, sort: { id: -1 } }).then(advertsArr => {
+            console.log('AdvertsArr', advertsArr);
             if (advertsArr[0]) {
                 res.json({
                     adverts: advertsArr.slice(
@@ -80,7 +116,7 @@ router.post('/api/advert', (req, res) => {
                             .then(() => {
                                 req.session.user.adverts.push(req.body.id);
                                 req.session.save(() => {
-                                    res.json(req.body.id);
+                                    res.json({ id: req.body.id });
                                 });
                             });
                     });
@@ -108,12 +144,12 @@ router.post('/api/apply', (req, res) => {
                         .get('adverts')
                         .findOneAndUpdate(
                             { id: req.body.data },
-                            { 
+                            {
                                 $push: {
-                                     candidates: {
+                                    candidates: {
                                         id: req.session.user.id,
                                         date: Date.now()
-                                    } 
+                                    }
                                 }
                             }
                         )
@@ -140,68 +176,6 @@ router.post('/api/apply', (req, res) => {
                 }
             });
     }
-});
-
-// Search my adverts
-router.get('/api/search', (req, res) => {
-    console.log('Search Adverts:', req.query);
-    if (req.query.companyId) {
-        req.query.companyId = +req.query.companyId;
-    }
-
-    const adverts = req.db.get('adverts');
-    adverts.find(req.query).then(adverts => {
-        const len = adverts.length;
-        if (len) {
-            console.log('Adverts:', adverts);
-            res.json({
-                adverts,
-                len
-            });
-        } else {
-            res.sendStatus(404);
-            console.log('No adverts!');
-        }
-    });
-});
-
-// Search adverts
-router.post('/api/adverts/search', (req, res) => {
-    console.log('Search Adverts:', req.body);
-    if (req.query.companyId) {
-        req.query.companyId = +req.query.companyId;
-    }
-    if (req.body.title) {
-        if (req.body.advanced) {
-            req.body.description = { $regex: req.body.title, $options: 'i' };
-            delete req.body.advanced;
-        }
-        req.body.title = { $regex: req.body.title, $options: 'i' };
-    }
-    const queryArr = [];
-    Object.keys(req.body).forEach(prop => {
-        if (!req.body[prop]) {
-            delete req.body[prop];
-        } else {
-            queryArr.push({ [prop]: req.body[prop] });
-        }
-    });
-    const adverts = req.db.get('adverts');
-    adverts.find({ $or: queryArr }, { sort: { id: -1 } }).then(advertsArr => {
-        console.log(advertsArr);
-        if (advertsArr[0]) {
-            res.json({
-                adverts: advertsArr.slice(
-                    (req.query.page - 1) * req.query.size,
-                    req.query.page * req.query.size
-                ),
-                len: req.query.size,
-                size: advertsArr.length
-            });
-        } else {
-            res.sendStatus(404);
-        }
-    });
 });
 
 // (Get) Users
@@ -232,7 +206,7 @@ router.get('/api/advert/:id/candidates', (req, res) => {
                         lastName: user.lastName,
                         email: user.email,
                         cv: user.cv
-                    }
+                    };
                 });
                 res.json(candidates);
             }

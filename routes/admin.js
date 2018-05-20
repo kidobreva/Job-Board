@@ -3,20 +3,17 @@ const router = express.Router();
 
 // (Get) Users
 router.get('/api/admin/users', (req, res) => {
-    if (!req.session.user && req.session.user.role !== 'ADMIN') {
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
             .get('users')
-            .find({ role: 'USER' })
+            .find({ role: 'USER' }, { password: 0 })
             .then(users => {
-                if (!users.length) {
-                    res.sendStatus(404);
-                } else {
-                    users.forEach(user => {
-                        delete user.password;
-                    });
+                if (users[0]) {
                     res.json(users);
+                } else {
+                    res.sendStatus(404);
                 }
             });
     }

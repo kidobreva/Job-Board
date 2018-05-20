@@ -40,7 +40,7 @@
     }
 
     // Controller
-    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce) {
+    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce, $location) {
         console.log('Init Advert Controller');
         $rootScope.title = title;
 
@@ -78,12 +78,19 @@
 
         // Apply for an advert
         $scope.apply = function() {
-            AdvertService.apply($scope.advert.id)
-                .then(function(response) {
-                    console.log(response);
+            $rootScope
+                .getCurrentUser()
+                .then(function() {
+                    AdvertService.apply($scope.advert.id)
+                        .then(function(response) {
+                            console.log(response);
+                        })
+                        .catch(function(err) {
+                            console.error(err.data);
+                        });
                 })
-                .catch(function(err) {
-                    console.error(err.data);
+                .catch(function() {
+                    $location.path('/auth');
                 });
         };
 

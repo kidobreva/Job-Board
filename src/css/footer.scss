@@ -1,4 +1,4 @@
-@import "_config.scss";
+@import '_config.scss';
 
 footer {
     display: flex;
@@ -10,11 +10,11 @@ footer {
     div.info-socials-container {
         display: flex;
         flex-direction: column;
-        justify-content: center;    
+        justify-content: center;
         list-style: none;
         ul.socials {
             font-size: 1.8rem;
-        
+
             display: flex;
             justify-content: space-between;
             list-style: none;
@@ -26,14 +26,13 @@ footer {
             list-style: none;
             height: 65%;
             li {
-                width: 180px;       
+                width: 180px;
                 color: #fff;
                 i {
-                    font-size: 16px;            
+                    font-size: 16px;
                     padding: 2px;
                 }
             }
-        
         }
         li ul.socials {
             width: 153px;
@@ -56,15 +55,15 @@ footer {
         }
     }
     .navigation ul {
-        display: flex;    
+        display: flex;
         margin-top: 25px;
-        padding-left: 0;    
+        padding-left: 0;
         list-style: none;
         li {
             padding-left: 30px;
             a {
-                font-size: 18px;            
-                text-decoration: none;            
+                font-size: 18px;
+                text-decoration: none;
                 color: white;
                 &:hover {
                     text-decoration: underline;
@@ -72,7 +71,6 @@ footer {
             }
         }
     }
-    
 }
 
 // footer .info-socials-container ul.info {

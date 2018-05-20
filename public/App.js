@@ -7,6 +7,7 @@
         'ui.bootstrap',
         'ngSanitize',
         'ngWig',
+        'angular.backtop',
 
         // Users
         'Auth',

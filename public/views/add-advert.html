@@ -1,4 +1,4 @@
-<form class="add-advert" ng-submit="addAdvert()">
+<form class="add-advert" ng-submit="addAdvert()" ng-show="loaded">
   <h3 ng-if="!isEdit">Публикуване на обява</h3><br />
   <h3 ng-if="isEdit">Промяна на обява</h3><br />
 
@@ -6,8 +6,8 @@
   <div class="form-group">
     <label for="city">Град</label>
     <select class="form-control" id="city" ng-model="advert.city" required>
-        <option value="" disabled selected hidden>Избери град</option>
-      <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
+      <option value="" disabled selected hidden>Избери град</option>
+      <option ng-repeat="city in cities" value="{{city.id}}">{{city.name}}</option>
     </select>
   </div>
 
@@ -15,8 +15,8 @@
   <div class="form-group">
     <label for="category">Категория</label>
     <select class="form-control" id="category" ng-model="advert.category" required>
-      <option value=""></option>
-        <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+        <option value="" disabled selected hidden>Избери категория</option>
+      <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
     </select>
   </div>
 
@@ -24,11 +24,8 @@
   <div class="form-group">
   <label for="type">Вид заетост</label>
     <select class="form-control" id="type" ng-model="advert.type" required>
-      <option value=""></option>
-      <option value="Пълен Работен Ден">Пълен Работен Ден</option>
-      <option value="Непълен Работен Ден/Почасова">Непълен Работен Ден/Почасова</option>
-      <option value="Временна/Сезонна/По проект">Временна/Сезонна/По проект</option>
-      <option value="Постоянна">Постоянна</option>
+        <option value="" disabled selected hidden>Избери вид</option>
+      <option ng-repeat="type in types" value="{{type.id}}">{{type.name}}</option>
     </select>
   </div>
 
@@ -36,11 +33,8 @@
   <div class="form-group">
   <label for="level">Ниво на квалификация</label>
     <select class="form-control" id="level" ng-model="advert.level" required>
-      <option value=""></option>
-      <option value="Мениджмънт">Мениджмънт</option>
-      <option value="Експерти/Специалисти">Експерти/Специалисти</option>
-      <option value="Служители/Работници">Служители/Работници</option>
-      <option value="Стажанти/Студенти">Стажанти/Студенти</option>
+        <option value="" disabled selected hidden>Избери ниво</option>
+      <option ng-repeat="level in levels" value="{{level.id}}">{{level.name}}</option>
     </select>
   </div>
 
@@ -58,14 +52,14 @@
   <!-- Title -->
   <div class="form-group">
   <label for="title">Заглавие</label>
-    <input class="form-control" id="title" ng-model="advert.title" required />
+    <input class="form-control" id="title" ng-model="advert.title" placeholder="Въведи заглавие" required />
   </div>
 
   <!-- PAID -->
   <div class="form-group">
     <label for="paid">Вид платена обява</label>
     <select class="form-control" id="paid" ng-model="advert.paid" required>
-      <option value=""></option>
+        <option value="" disabled selected hidden>Избери вид</option>
       <option value="pro">PRO - 150лв</option>
       <option value="top">TOP - 130лв</option>
       <option value="vip">VIP - 110лв</option>
@@ -82,5 +76,5 @@
   <!-- Submit -->
   <button ng-if="!isEdit" class="btn btn-primary">Публикувай обявата</button>
   <button ng-if="isEdit" class="btn btn-primary">Запази промените</button>
-  <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+  <div class="alert-div" uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)"><span>{{alert.msg}}</span> <a href="/advert/{{id}}">Преглед</a></div>
 </form>
