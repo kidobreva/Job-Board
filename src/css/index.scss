@@ -37,7 +37,7 @@ body {
     }
     main {
         width: 100%;
-        header h3 {
+        div h3 {
             @include header-h3;
         }
         .professional-area {
@@ -146,11 +146,12 @@ body {
                 }
             }
             &.companies {
-                header {
-                    margin-top: $margin-bottom + 10px;
-                    h3 {
-                        border-bottom: $border-bottom;
-                    }
+                h3 {
+                    margin: ($margin-bottom + 10px) auto 0;
+                    padding-bottom: 10px;
+                    border-bottom: $border-bottom;                      
+                    width: 400px;
+                    font-weight: bold;
                 }
                 div {
                     display: flex;

@@ -3,12 +3,12 @@
   <button ng-if="user.role === 'ADMIN'" ng-click="blockCompany()">Блокирай фирмата</button>
   <button ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
   <section class="company-page">
-    <header>
+    <div class="header">
       <div class="company-img">
           <img src="{{company.img}}" alt="">
       </div>        
-      <h2>Наименование: {{company.title}}</h2>
-    </header>
+      <h2>{{company.title}}</h2>
+    </div>
     <div class="company-info">
       <main>
         <div>
@@ -23,9 +23,12 @@
       <aside>
         <div>
           <h5>Всички обяви на компанията</h5> 
-          <ul>
-            <li><a href="/"></a></li>
-          </ul>
+          <div class="adverts-info" ng-repeat="advert in company.adverts">
+            <a href="/advert/{{advert.id}}">{{advert.title}}</a>
+            <span><strong>Заплата от: {{advert.salary.min | currency: "лв."}}</strong> до <strong>{{advert.salary.max | currency: "лв."}}</strong></span>
+            <span><strong>Публикувана на: </strong>{{ advert.date | date }}, гр. {{cities[advert.cityId - 1].name}}</span>
+            <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
+          </div>
         </div>                      
       </aside>
     </div>

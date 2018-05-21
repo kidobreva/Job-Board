@@ -24,22 +24,28 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, $scope, $timeout, $rootScope, $location) {
+    function Ctrl(CompanyService, SearchService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Company Controller');
 
-        CompanyService.getCompany()
-            .then(function(response) {
-                console.log("Company", response);
-                $scope.company = response.data;
-                $scope.loaded = true;
-                $scope.timeout = false;
-            })
-            .catch(function(err) {
-                $scope.loaded = true;
-                $scope.timeout = false;
-                console.error(err.data);
-            });
-
+        SearchService.getSearchData().then(function(res) {
+            $scope.categories = res.data.categories;
+            $scope.cities = res.data.cities;
+            
+            CompanyService.getCompany()
+                .then(function(response) {
+                    console.log("Company", response);
+                    $scope.company = response.data;                
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.$apply();
+                })
+                .catch(function(err) {
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    console.error(err.data);
+                    $scope.$apply();
+                });
+        });
 
         // Show loading wheel if needed after 1 second
         $timeout(function() {
