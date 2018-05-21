@@ -23,7 +23,7 @@
     <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
       <!-- Logo and ribbon -->
       <div class="advert-logo">
-        <div ng-if="advert.paid !== 4" ng-class="{
+        <div ng-if="advert.paymentId !== 4" ng-class="{
             pro: advert.paymentId === 1,
             top: advert.paymentId === 2,
             vip: advert.paymentId === 3

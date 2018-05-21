@@ -96,6 +96,12 @@
             return regex.test(Number($scope.registerUser.bulstat));
         };
 
+        $scope.reset = function(isCompany) {
+            $scope.registerUser = {};
+            if (isCompany) {
+                $scope.registerUser.isCompany = true;
+            }
+        }
     }
 
     // Module

@@ -17,6 +17,9 @@ section {
                     max-width: 500px;
                 }
             }
+            h1 {
+                width: 500px;
+            }
             .advert-description {
                 width: 100%;
                 h4 {
@@ -33,6 +36,7 @@ section {
             width: 300px;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
             position: relative;
+            max-height: 850px;
             h5 {
                 margin: 20px 0px;
                 text-align: center;

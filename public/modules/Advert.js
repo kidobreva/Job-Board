@@ -74,13 +74,20 @@
 
         // Save to favourites
         $scope.save = function() {
-            AdvertService.save($scope.advert.id)
-                .then(function(response) {
-                    console.log(response);
-                })
-                .catch(function(err) {
-                    console.error(err.data);
-                });
+            $rootScope
+                .getCurrentUser()
+                .then(function() {
+                    AdvertService.save($scope.advert.id)
+                        .then(function(response) {
+                            console.log(response);
+                        })
+                        .catch(function(err) {
+                            console.error(err.data);
+                        });
+                    })
+                    .catch(function() {
+                        $location.path('/auth');
+                    });
         };
 
         // Apply for an advert

@@ -8,6 +8,12 @@ function validateEmail(email) {
     return regex.test(String(email).toLowerCase());
 }
 
+// Bulstat validation
+function bulstatCheck(bulstat) {
+    const regex = /^[0-9]*$/gm;
+    return regex.test(+bulstat) && bulstat.length === 9;
+}
+
 // Logout
 router.get('/api/logout', (req, res) => {
     if (!req.session.user) {
@@ -56,7 +62,9 @@ router.post('/api/login', (req, res) => {
 // Register
 router.post('/api/register', (req, res) => {
     console.log(req.body);
+
     if (
+        (req.body.isCompany && !bulstatCheck(req.body.bulstat)) ||        
         req.session.user ||
         req.body.password !== req.body.repeatPassword ||
         req.body.password.length < 6 ||
@@ -66,7 +74,7 @@ router.post('/api/register', (req, res) => {
     } else {
         // get users and check for existing email
         const users = req.db.get('users');
-        users.findOne({ email: req.body.email }).then(user => {
+        users.findOne({$or : [{ email: req.body.email }, { bulstat: req.body.bulstat || 0 }]}).then(user => {
             if (user) {
                 res.sendStatus(409);
             } else {

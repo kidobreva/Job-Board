@@ -36,11 +36,11 @@ router.get('/api/advert/:id', function(req, res) {
                         const type = await req.db.get('types').findOne({ id: advert.typeId });
                         const company = await req.db.get('users').findOne({ id: advert.companyId });
                         if (req.query.edit) {
-                            advert.category = category.id.toString();
-                            advert.city = city.id.toString();
-                            advert.level = level.id.toString();
+                            advert.categoryId = category.id.toString();
+                            advert.cityId = city.id.toString();
+                            advert.levelId = level.id.toString();
                             advert.paymentId = payment.id.toString();
-                            advert.type = type.id.toString();
+                            advert.typeId = type.id.toString();
                         } else {
                             delete advert.categoryId;
                             delete advert.cityId;
