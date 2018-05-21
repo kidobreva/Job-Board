@@ -42,8 +42,8 @@
         $scope.uploadCV = function() {
             var fileReader = new FileReader();
             fileReader.onloadend = function(e) {
-                MyCVService.uploadCV(e.target.result).then(function() {
-                    $scope.user.cv = e.target.result;
+                MyCVService.uploadCV(e.target.result).then(function(res) {
+                    $scope.user.cv = res.data.cv;
                     $scope.$apply();
                 });
             };

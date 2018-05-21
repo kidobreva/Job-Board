@@ -1,12 +1,15 @@
 <div id="loader" ng-if="timeout"></div>
-<section ng-if="loaded" class="advert-page">
+<h5 ng-if="expired">Обявата е изтекла!</h5>
+<section ng-if="loaded && !expired" class="advert-page">
   <aside>
     <h5>Информация</h5>
-    <div ng-if="advert.paid !== 'free'" ng-class="{
-      pro: advert.paid === 'pro',
-      top: advert.paid === 'top',
-      vip: advert.paid === 'vip'
-    }" class="side-ribbon left-ribbon"><div class="ribbon-text-size">{{advert.paid}}</div></div>
+    <div ng-if="advert.payment !== 'Безплатна'" ng-class="{
+      pro: advert.payment === 'PRO',
+      top: advert.payment === 'TOP',
+      vip: advert.payment === 'VIP'
+    }" class="side-ribbon left-ribbon">
+      <div class="ribbon-text-size">{{advert.payment}}</div>
+    </div>
     <div class="advert-info">
       <!-- Organization -->
       <div>
@@ -47,7 +50,7 @@
       <!-- Expires -->
       <div>
         <span class="bold">Изтича на:</span>
-        <span>{{advert.isExpired | date}}</span>
+        <span>{{ now > advert.expirationDate ? 'Изтекла' : (advert.expirationDate | date) }}</span>
       </div>
 
       <!-- Candidates -->
@@ -91,8 +94,8 @@
     </div>
   </aside>
   <main>
-    <div ng-if="advert.logo" class="company-picture">
-        <img ng-src="{{advert.logo}}">
+    <div ng-if="advert.img" class="company-picture">
+        <img ng-src="{{advert.img}}">
     </div>
     <h1>{{advert.title}}</h1>
     <div class="advert-description">

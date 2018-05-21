@@ -47,6 +47,8 @@
         // Get adverts
         AdvertService.getAdvert()
             .then(function(response) {
+                console.log(response.data);
+                $scope.now = Date.now();
                 $scope.advert = response.data;
                 $scope.advert.description = $sce.trustAsHtml(response.data.description);
                 $scope.loaded = true;
@@ -54,6 +56,9 @@
                 $scope.$apply();
             })
             .catch(function(err) {
+                if (err.status === 403) {
+                    $scope.expired = true;
+                }
                 $scope.loaded = true;
                 $scope.timeout = false;
                 $scope.$apply();

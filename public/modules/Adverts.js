@@ -114,6 +114,7 @@
             $scope.cities = res.data.cities;
             $scope.levels = res.data.levels;
             $scope.types = res.data.types;
+            $scope.payments = res.data.payments;
             $scope.$apply();
             $scope.loaded = true;
             getResultsPage($scope.currentPage);

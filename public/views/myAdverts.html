@@ -18,12 +18,12 @@
             </div>
         </div>
         <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
-            <div ng-if="advert.paid !== 'free'" ng-class="{
-                pro: advert.paid === 'pro',
-                top: advert.paid === 'top',
-                vip: advert.paid === 'vip'
+            <div ng-if="advert.paymentId !== 4" ng-class="{
+                pro: advert.paymentId === 1,
+                top: advert.paymentId === 2,
+                vip: advert.paymentId === 3
                 }" class="corner-ribbon corner-ribbon-left">
-                <div class="ribbon-size">{{advert.paid}}</div>
+                <div class="ribbon-size">{{payments[advert.paymentId - 1].name}}</div>
             </div>
             <div ng-if="$root.user.img" class="advert-logo">
                 <img ng-src="{{$root.user.img}}">
@@ -38,8 +38,8 @@
                         <b>{{advert.salary.max | currency: "лв." }}</b>
                     </span>
                     <div>
-                        <span>Публикувана на {{ advert.date | date: "fullDate" }}</span>, гр.
-                        <span>{{cities[advert.city - 1].name}}</span>
+                        <span>Публикувана на: {{ advert.date | date }}</span>, гр.
+                        <span>{{cities[advert.cityId - 1].name}}</span>
                     </div>
                 </div>
             </div>

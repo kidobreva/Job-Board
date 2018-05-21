@@ -1,4 +1,4 @@
-@import "_config.scss";
+@import '_config.scss';
 
 section {
     &.company-page {
@@ -17,7 +17,7 @@ section {
                     max-height: 200px;
                     margin: 0 auto;
                 }
-            }            
+            }
             h2 {
                 padding-bottom: 20px;
             }
@@ -40,6 +40,5 @@ section {
                 margin-left: 60px;
             }
         }
-        
     }
 }

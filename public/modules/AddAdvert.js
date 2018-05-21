@@ -25,7 +25,7 @@
         // Add advert
         this.addAdvert = function(advert) {
             console.log('Add advert');
-            return $rootScope.promise.post('/api/advert', advert);
+            return $rootScope.promise.post('/api/advert', {advert: advert});
         };
         this.getAdvert = function(advertId, isEdit) {
             if (isEdit) {

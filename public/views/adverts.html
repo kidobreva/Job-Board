@@ -23,14 +23,15 @@
     <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
       <!-- Logo and ribbon -->
       <div class="advert-logo">
-        <div ng-if="advert.paid !== 'free'" ng-class="{
-            pro: advert.paid === 'pro',
-            top: advert.paid === 'top',
-            vip: advert.paid === 'vip'
+        <div ng-if="advert.paid !== 4" ng-class="{
+            pro: advert.paymentId === 1,
+            top: advert.paymentId === 2,
+            vip: advert.paymentId === 3
             }" class="corner-ribbon corner-ribbon-left">
-          <div class="ribbon-size">{{advert.paid}}</div>
+          <div class="ribbon-size">{{payments[advert.paymentId - 1].name}}</div>
         </div>
-        <img ng-src="{{advert.logo}}">
+        <img ng-if="advert.img" ng-src="{{advert.img}}">
+        <p ng-if="!advert.img">{{advert.company}}</p>
       </div>
 
       <!-- Info -->
@@ -48,10 +49,10 @@
           </span>
           <div>
               <span><strong>Публикувана на:</strong> {{ advert.date | date }}</span>, гр.
-              <span>{{cities[advert.city - 1].name}}</span>
+              <span>{{cities[advert.cityId - 1].name}}</span>
           </div>
           <div>
-            <span><strong>Категория:</strong> {{categories[advert.category - 1].name}}</span>
+            <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
           </div>
         </div>
       </div>

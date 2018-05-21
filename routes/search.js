@@ -13,6 +13,7 @@ router.get('/api/search-data', (req, res) => {
             categories: await req.db.get('categories').find({}, options),
             cities: await req.db.get('cities').find({}, options),
             levels: await req.db.get('levels').find({}, options),
+            payments: await req.db.get('payments').find({}, options),
             types: await req.db.get('types').find({}, options)
         });
     })();
@@ -24,24 +25,40 @@ router.get('/api/my-adverts/search', (req, res) => {
     if (req.query.companyId) {
         req.query.companyId = +req.query.companyId;
     }
-
+    const fields = {
+        _id: 0,
+        cityId: 1,
+        company: 1,
+        categoryId: 1,
+        candidates: 1,
+        img: 1,
+        typeId: 1,
+        levelId: 1,
+        salary: 1,
+        title: 1,
+        paymentId: 1,
+        id: 1,
+        date: 1
+    };
     const adverts = req.db.get('adverts');
-    adverts.find({ companyId: req.query.companyId }).then(advertsArr => {
-        const len = advertsArr.length;
-        if (len) {
-            console.log('Adverts:', advertsArr);
-            res.json({
-                adverts: advertsArr.slice(
-                    (+req.query.page - 1) * +req.query.size,
-                    +req.query.page * +req.query.size
-                ),
-                len
-            });
-        } else {
-            res.sendStatus(404);
-            console.log('No adverts!');
-        }
-    });
+    adverts
+        .find({ companyId: req.query.companyId }, { fields, sort: { id: -1 } })
+        .then(advertsArr => {
+            const len = advertsArr.length;
+            if (len) {
+                console.log('Adverts:', advertsArr);
+                res.json({
+                    adverts: advertsArr.slice(
+                        (+req.query.page - 1) * +req.query.size,
+                        +req.query.page * +req.query.size
+                    ),
+                    len
+                });
+            } else {
+                res.sendStatus(404);
+                console.log('No adverts!');
+            }
+        });
 });
 
 // Search adverts

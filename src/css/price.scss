@@ -1,4 +1,4 @@
-@import "_config.scss";
+@import '_config.scss';
 
 section {
     &.price {
@@ -6,16 +6,16 @@ section {
         margin: 0 auto;
         padding: 20px;
         font-family: Tahoma, Helvetica, sans-serif;
-        color: #4E4B4B;    
+        color: #4e4b4b;
         font-size: 15px;
         .header-info {
             margin-bottom: 30px;
             h2 {
-                border-bottom: 2px solid #4E4B4B;
+                border-bottom: 2px solid #4e4b4b;
             }
         }
         .table-head {
-            background-color:  rgba(186, 216, 247, 0.9);
+            background-color: rgba(186, 216, 247, 0.9);
         }
         td.price-span {
             vertical-align: middle;

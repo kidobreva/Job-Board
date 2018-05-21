@@ -1,7 +1,7 @@
-@import "_config.scss";
-@import "_side-ribbon.scss";
+@import '_config.scss';
+@import '_side-ribbon.scss';
 
-section{
+section {
     &.advert-page {
         display: flex;
         width: 980px;
@@ -13,18 +13,21 @@ section{
             align-items: center;
             div.company-picture {
                 margin-bottom: 20px;
+                img {
+                    max-width: 500px;
+                }
             }
             .advert-description {
                 width: 100%;
                 h4 {
                     align-self: flex-start;
-                    margin: 40px 60px 20px; 
+                    margin: 40px 60px 20px;
                 }
                 div.discription {
-                    align-self: flex-start;   
-                    margin-left: 60px;                 
+                    align-self: flex-start;
+                    margin-left: 60px;
                 }
-            }            
+            }
         }
         aside {
             width: 300px;
@@ -35,7 +38,7 @@ section{
                 text-align: center;
                 padding-left: 0;
             }
-            .advert-info {    
+            .advert-info {
                 width: 100%;
                 padding: 0 20px;
             }
@@ -60,5 +63,3 @@ section{
         }
     }
 }
-
-

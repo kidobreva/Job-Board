@@ -1,48 +1,48 @@
-@import "_config.scss";
+@import '_config.scss';
 
 section {
     &.userProfile {
         width: 1000px;
         margin: 0 auto;
-        padding: 20px;    
-        font-family: Tahoma, Helvetica, sans-serif;    
-        color: #4E4B4B;
+        padding: 20px;
+        font-family: Tahoma, Helvetica, sans-serif;
+        color: #4e4b4b;
         .header-info {
             margin-bottom: 30px;
             h2 {
-                border-bottom: 2px solid #4E4B4B;
+                border-bottom: 2px solid #4e4b4b;
             }
         }
         form {
             display: flex;
-            flex-direction: column;        
+            flex-direction: column;
             width: 700px;
             margin: 20px auto;
-            padding: 10px;        
+            padding: 10px;
             border: 1px solid #dedede;
             border-radius: 5px;
-            box-shadow: 1px 1px 2px #bbc6cc;   
+            box-shadow: 1px 1px 2px #bbc6cc;
             label {
                 display: flex;
                 justify-content: center;
                 margin: 0;
                 span {
                     float: left;
-                    font-size: 15px;                
+                    font-size: 15px;
                     width: 120px;
                     margin-top: 10px;
                 }
                 input {
                     font-size: 12px;
-                    line-height: 15px;                
+                    line-height: 15px;
                     width: 341px;
-                    height: 37px;                
+                    height: 37px;
                     margin: 11px 6px 16px 0;
-                    padding: 3px 3px 3px 5px;                
+                    padding: 3px 3px 3px 5px;
                     border: 1px solid #dadada;
                     border-radius: 5px;
                 }
-            } 
+            }
             span.red {
                 color: red;
                 font-size: 15px;
@@ -58,4 +58,3 @@ section {
         }
     }
 }
-

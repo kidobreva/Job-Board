@@ -18,12 +18,12 @@
                 <!-- <td><img ng-if="user.img" src="{{user.img}}" alt=""></td> -->
                 <td>{{ user.date | date }}</td>
                 <td>{{user.firstName}} {{user.lastName}}</td>
-                <td>{{user.email}}</td>                
+                <td>{{user.email}}</td>
                 <!-- <a href="/user/{{user.id}}">Повече</a> -->
                 <td>
-                    <a ng-if="user.cv[0]" href="{{user.cv[0]}}" target="_blank"><i class="far fa-file-pdf fa-2x"></i></a>
+                    <a ng-if="user.cv" href="{{user.cv}}" target="_blank"><i class="far fa-file-pdf fa-2x"></i></a>
                 </td>
             </tr>
         </tbody>
-    </table>        
+    </table>
 </section>

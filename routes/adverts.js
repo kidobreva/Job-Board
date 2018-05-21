@@ -8,14 +8,18 @@ router.get('/api/advert/:id', function(req, res) {
     adverts.findOne({ id }).then(advert => {
         if (!advert) {
             res.sendStatus(404);
+        } else if (
+            Date.now() > advert.expirationDate &&
+            (!req.session.user || req.session.user.role !== 'ADMIN')
+        ) {
+            res.sendStatus(403);
         } else {
             adverts
                 .findOneAndUpdate(
                     { id },
                     {
                         $set: {
-                            views: ++advert.views,
-                            isExpired: Date.now() < advert.expire ? advert.expire : 'Изтекла'
+                            views: ++advert.views
                         }
                     }
                 )
@@ -23,22 +27,35 @@ router.get('/api/advert/:id', function(req, res) {
                     (async function() {
                         const category = await req.db
                             .get('categories')
-                            .findOne({ id: +advert.category });
-                        const city = await req.db.get('cities').findOne({ id: +advert.city });
-                        const level = await req.db.get('levels').findOne({ id: +advert.level });
-                        const type = await req.db.get('types').findOne({ id: +advert.type });
+                            .findOne({ id: advert.categoryId });
+                        const city = await req.db.get('cities').findOne({ id: advert.cityId });
+                        const level = await req.db.get('levels').findOne({ id: advert.levelId });
+                        const payment = await req.db
+                            .get('payments')
+                            .findOne({ id: advert.paymentId });
+                        const type = await req.db.get('types').findOne({ id: advert.typeId });
+                        const company = await req.db.get('users').findOne({ id: advert.companyId });
                         if (req.query.edit) {
                             advert.category = category.id.toString();
                             advert.city = city.id.toString();
                             advert.level = level.id.toString();
+                            advert.paymentId = payment.id.toString();
                             advert.type = type.id.toString();
                         } else {
+                            delete advert.categoryId;
+                            delete advert.cityId;
+                            delete advert.levelId;
+                            delete advert.paymentId;
+                            delete advert.typeId;
+
                             advert.category = category.name;
                             advert.city = city.name;
                             advert.level = level.name;
+                            advert.payment = payment.name;
                             advert.type = type.name;
                         }
-
+                        advert.img = company.img;
+                        advert.company = company.title;
                         res.json(advert);
                     })();
                 });
@@ -52,19 +69,19 @@ router.get('/api/adverts/:page', (req, res) => {
     adverts.count().then(size => {
         const fields = {
             _id: 0,
-            city: 1,
-            category: 1,
-            type: 1,
-            level: 1,
+            cityId: 1,
+            company: 1,
+            categoryId: 1,
+            img: 1,
+            typeId: 1,
+            levelId: 1,
             salary: 1,
             title: 1,
-            paid: 1,
+            paymentId: 1,
             id: 1,
-            company: 1,
-            companyId: 1,
-            logo: 1,
             date: 1
         };
+        // TODO: For every advert find the company and take its name and logo
         adverts.find({}, { fields, sort: { id: -1 } }).then(advertsArr => {
             console.log('AdvertsArr', advertsArr);
             if (advertsArr[0]) {
@@ -83,40 +100,78 @@ router.get('/api/adverts/:page', (req, res) => {
     });
 });
 
-// (POST) Add advert
+// Add advert
 router.post('/api/advert', (req, res) => {
-    if (!req.session.user && req.session.user.role !== 'COMPANY') {
+    console.log('[POST] /api/advert:', req.body);
+
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'COMPANY') {
         res.sendStatus(401);
     } else {
+        const advertBody = req.body.advert;
+        // Get adverts collection
         const adverts = req.db.get('adverts');
-        adverts.count().then(len => {
-            adverts.find({ id: req.body.id }).then(advert => {
-                if (advert[0]) {
-                    adverts.findOneAndUpdate({ id: req.body.id }, req.body).then(() => {
+        // get the count to use it later as an Id
+        adverts.count().then(count => {
+            // check if the user adds or updates an advert
+            adverts.findOne({ id: advertBody.id }).then(advert => {
+                if (advert) {
+                    // Update the advert
+                    advert = {
+                        categoryId: +advertBody.categoryId,
+                        cityId: +advertBody.cityId,
+                        description: advertBody.description,
+                        levelId: +advertBody.levelId,
+                        paymentId: +advertBody.paymentId,
+                        salary: {
+                            min: advertBody.salary.min,
+                            max: advertBody.salary.max
+                        },
+                        title: advertBody.title,
+                        typeId: +advertBody.typeId
+                    };
+                    adverts.findOneAndUpdate({ id: advert.id }, advert).then(() => {
                         req.session.save(() => {
                             res.sendStatus(200);
                         });
                     });
                 } else {
-                    req.body.id = ++len;
-                    req.body.company = req.session.user.title;
-                    req.body.companyId = req.session.user.id;
-                    req.body.logo = req.session.user.img;
-                    req.body.views = 0;
-                    req.body.candidates = [];
-                    req.body.date = Date.now();
-                    req.body.expire = new Date(req.body.date + 1000 * 60 * 60 * 24 * 30);
-                    adverts.insert(req.body).then(() => {
+                    // Create the advert
+                    const now = Date.now();
+                    advert = {
+                        id: ++count,
+                        candidates: [],
+                        categoryId: +advertBody.categoryId,
+                        cityId: +advertBody.cityId,
+                        company: req.session.user.title,
+                        companyId: req.session.user.id,
+                        date: now,
+                        description: advertBody.description,
+                        expirationDate: new Date(now + 1000 * 60 * 60 * 24 * 30).getTime(),
+                        img: req.session.user.img,
+                        levelId: +advertBody.levelId,
+                        paymentId: +advertBody.paymentId,
+                        salary: {
+                            min: advertBody.salary.min,
+                            max: advertBody.salary.max
+                        },
+                        title: advertBody.title,
+                        typeId: +advertBody.typeId,
+                        views: 0
+                    };
+
+                    // Insert the advert into the database
+                    adverts.insert(advert).then(() => {
+                        // push the advertId to the user's adverts list
                         const users = req.db.get('users');
                         users
                             .findOneAndUpdate(
                                 { id: req.session.user.id },
-                                { $push: { adverts: req.body.id } }
+                                { $push: { adverts: advert.id } }
                             )
                             .then(() => {
-                                req.session.user.adverts.push(req.body.id);
                                 req.session.save(() => {
-                                    res.json({ id: req.body.id });
+                                    res.json({ id: advert.id });
                                 });
                             });
                     });

@@ -11,9 +11,10 @@
     // Service
     function Service($rootScope) {
         // Upload picture
-        this.uploadPicture = function(e) {
+        this.uploadPicture = function(name, e) {
             return $rootScope.promise.post('/api/profile/upload-picture/' + $rootScope.user.id, {
-                data: e.target.result
+                name: name,
+                img: e.target.result
             });
         };
     }
@@ -48,7 +49,8 @@
         $scope.uploadPicture = function() {
             var fileReader = new FileReader();
             fileReader.onloadend = function(e) {
-                ProfileService.uploadPicture(e).then(function() {
+                var name = angular.element(document.querySelector('.upload'))[0].files[0].name;
+                ProfileService.uploadPicture(name, e).then(function() {
                     $rootScope.user.img = e.target.result;
                     $scope.chosen = false;
                     $scope.$apply();

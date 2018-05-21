@@ -27,14 +27,14 @@ router.get('/api/profile', (req, res) => {
 
 // (POST) Upload picture
 router.post('/api/profile/upload-picture/:id', (req, res) => {
-    console.log('Profile Post:', req.body.data);
+    console.log('Profile Post:', req.body);
     if (!req.session.user) {
         res.sendStatus(401);
     } else {
         const users = req.db.get('users');
         users.findOne({ id: req.session.user.id }).then(user => {
             if (user) {
-                let img = req.body.data;
+                let img = req.body.img;
 
                 // Create folder for user
                 const dir = path.join(
@@ -47,9 +47,11 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                 }
+                let ext = req.body.name.split('.');
+                ext = ext[ext.length - 1];
                 if (img.slice(0, 10) === 'data:image') {
                     fs.writeFile(
-                        path.join(dir, `profile.${img.slice(11, 14)}`),
+                        path.join(dir, `profile.${ext}`),
                         Buffer.from(img.slice(22), 'base64'),
                         err => {
                             console.log(err ? err : 'File saved!');
@@ -58,7 +60,7 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                 }
                 img = path.join(
                     'uploads',
-                    path.join(req.session.user.id.toString(), `profile.${img.slice(11, 14)}`)
+                    path.join(req.session.user.id.toString(), `profile.${ext}`)
                 );
 
                 // save to database
@@ -137,28 +139,23 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                 }
-                fs.writeFile(
-                    path.join(dir, `cv${user.cv.length + 1}.pdf`),
-                    req.body.data,
-                    'base64',
-                    err => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log('File saved!');
+                fs.writeFile(path.join(dir, 'cv.pdf'), req.body.data, 'base64', err => {
+                    if (err) {
+                        console.log(err);
                     }
-                );
+                    console.log('File saved!');
+                });
 
                 const cv = path.join(
                     'uploads',
-                    path.join(req.session.user.id.toString(), `cv${user.cv.length + 1}.pdf`)
+                    path.join(req.session.user.id.toString(), 'cv.pdf')
                 );
 
                 // save to database
-                users.findOneAndUpdate({ id: req.session.user.id }, { $push: { cv } }).then(() => {
-                    req.session.user.cv.push(cv);
+                users.findOneAndUpdate({ id: req.session.user.id }, { $set: { cv } }).then(() => {
+                    req.session.user.cv = cv;
                     req.session.save(() => {
-                        res.json({ cv });
+                        res.json({cv});
                     });
                 });
             } else {

@@ -1,4 +1,4 @@
-@import "_config.scss";
+@import '_config.scss';
 
 section {
     &.contacts {
@@ -6,18 +6,18 @@ section {
         margin: 0 auto;
         padding: 20px;
         font-family: Tahoma, Helvetica, sans-serif;
-        color: #4E4B4B;
+        color: #4e4b4b;
         .header-info h2 {
-            border-bottom: 2px solid #4E4B4B;
+            border-bottom: 2px solid #4e4b4b;
         }
         .contact-div {
             display: flex;
             justify-content: space-around;
             form {
                 display: flex;
-                flex-direction: column;            
+                flex-direction: column;
                 width: 330px;
-                font-size: 15px;             
+                font-size: 15px;
                 margin-top: 25px;
                 h4 {
                     margin-bottom: 20px;

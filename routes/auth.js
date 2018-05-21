@@ -55,6 +55,7 @@ router.post('/api/login', (req, res) => {
 
 // Register
 router.post('/api/register', (req, res) => {
+    console.log(req.body);
     if (
         req.session.user ||
         req.body.password !== req.body.repeatPassword ||
@@ -69,26 +70,33 @@ router.post('/api/register', (req, res) => {
             if (user) {
                 res.sendStatus(409);
             } else {
-                // before register
-                if (req.body.isCompany) {
-                    req.body.role = 'COMPANY';
-                    req.body.adverts = [];
-                    req.body.messages = [];
-                } else {
-                    req.body.role = 'USER';
-                    req.body.cv = [];
-                    req.body.applied = [];
-                    req.body.favourites = [];
-                }
-                delete req.body.isCompany;
-                delete req.body.repeatPassword;
-                req.body.registeredDate = Date.now();
-                req.body.password = sha1(req.body.password);
-
-                // save to database
                 users.count().then(len => {
-                    req.body.id = len++;
-                    users.insert(req.body).then(user => {
+                    // before register
+                    user = {
+                        id: len++
+                    };
+                    if (req.body.isCompany) {
+                        user.role = 'COMPANY';
+                        user.title = req.body.title;
+                        user.bulstat = req.body.bulstat;
+                        user.adverts = [];
+                        user.messages = [];
+                    } else {
+                        user.role = 'USER';
+                        user.firstName = req.body.firstName;
+                        user.lastName = req.body.lastName;
+                        user.applied = [];
+                        user.favourites = [];
+                    }
+                    user.email = req.body.email;
+
+                    delete req.body.isCompany;
+                    delete req.body.repeatPassword;
+                    user.registeredDate = Date.now();
+                    user.password = sha1(req.body.password);
+
+                    // save to database
+                    users.insert(user).then(user => {
                         delete req.body.password;
                         console.log('New user has registered:', user);
                         req.session.user = user;

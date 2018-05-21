@@ -9,7 +9,7 @@ section {
         margin-bottom: 2rem;
         form {
             width: 25%;
-        }        
+        }
         .adverts-list {
             width: 71%;
             margin-right: auto;
@@ -30,7 +30,7 @@ section {
                 &:hover {
                     box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.6);
                 }
-            }            
+            }
         }
         .my-adverts {
             width: auto;
@@ -62,8 +62,8 @@ section {
             flex-direction: column;
             justify-content: center;
             //margin-left: 1rem;
-            a {     
-                margin: 0.5rem 0;  
+            a {
+                margin: 0.5rem 0;
             }
             .btn {
                 font-size: 0.9em;
@@ -73,7 +73,7 @@ section {
             &.pro > * {
                 color: darken(map_get($ribbonColors, pro), 30%);
                 background: map_get($ribbonColors, pro);
-                &:before, 
+                &:before,
                 &:after {
                     border-color: darken(map_get($ribbonColors, pro), 30%) transparent transparent transparent;
                 }
@@ -81,7 +81,7 @@ section {
             &.top > * {
                 color: darken(map_get($ribbonColors, top), 30%);
                 background: map_get($ribbonColors, top);
-                &:before, 
+                &:before,
                 &:after {
                     border-color: darken(map_get($ribbonColors, top), 30%) transparent transparent transparent;
                 }
@@ -89,7 +89,7 @@ section {
             &.vip > * {
                 color: darken(map_get($ribbonColors, vip), 30%);
                 background: map_get($ribbonColors, vip);
-                &:before, 
+                &:before,
                 &:after {
                     border-color: darken(map_get($ribbonColors, vip), 30%) transparent transparent transparent;
                 }
@@ -157,6 +157,7 @@ section {
         > * {
             left: -31px;
             -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
         }
     }
 }

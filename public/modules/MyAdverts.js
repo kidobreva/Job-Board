@@ -65,6 +65,7 @@
                     SearchService.getSearchData().then(function(res) {
                         $scope.categories = res.data.categories;
                         $scope.cities = res.data.cities;
+                        $scope.payments = res.data.payments;
                         $scope.$apply();
                         doSearch($scope.currentPage, $scope.advertsPerPage);
                     });
