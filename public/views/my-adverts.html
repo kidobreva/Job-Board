@@ -1,7 +1,7 @@
 <div id="loader" ng-if="timeout"></div>
 <h5 ng-if="loaded && !adverts.length">Нямате публикувани обяви!</h5>
 
-<section class="adverts-page" ng-if="loaded && adverts[0]">
+<section class="adverts-page">
     <!-- Adverts list -->
     <div class="adverts-list my-adverts">
         <!-- Heading -->
@@ -9,7 +9,7 @@
             <h2>Публикувани обяви</h2>
             <div>
                 <label>Обяви на страница:
-                <select ng-model="advertsPerPage" ng-change="beforeChangeSize()">
+                <select ng-model="advertsPerPage" ng-change="changeSize()">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -17,7 +17,7 @@
                 </label>
             </div>
         </div>
-        <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
+        <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="currentPage">
             <div ng-if="advert.paymentId !== 4" ng-class="{
                 pro: advert.paymentId === 1,
                 top: advert.paymentId === 2,

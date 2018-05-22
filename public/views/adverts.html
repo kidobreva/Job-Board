@@ -6,7 +6,7 @@
       <h2>Oбяви за работа</h2>
       <div>
         <label>Обяви на страница:
-          <select ng-model="advertsPerPage" ng-change="beforeChangeSize()">
+          <select ng-model="advertsPerPage" ng-change="changeSize()">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -20,7 +20,7 @@
     <div id="loader" ng-if="timeout"></div>
 
     <!-- Adverts -->
-    <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="pagination.current">
+    <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="currentPage">
       <!-- Logo and ribbon -->
       <div class="advert-logo">
         <div ng-if="advert.paymentId !== 4" ng-class="{
@@ -64,7 +64,7 @@
   </div>
 
   <!-- Search form -->
-  <form class="add-advert" ng-submit="searchAdvert()">
+  <form ng-submit="pageChanged(1)">
       <h3>Търсене на обява</h3>
       <!-- Search words -->
       <label for="words">Ключови думи</label>
@@ -72,14 +72,15 @@
         <label>
           <input type="checkbox" id="advanced" ng-model="search.advanced"/> търси в описание
         </label>
-        <input class="form-control" id="words" ng-model="search.title" placeholder="Въведи думи"/>
+        <input class="form-control" id="words" ng-model="search.keywords" placeholder="Въведи думи"/>
       </div>
 
       <!-- City -->
       <div class="form-group">
         <label for="city">Населено място</label>
-        <select class="form-control" id="city" ng-model="search.city">
+        <select class="form-control" id="city" ng-model="search.cityId">
           <option value="" disabled selected hidden>Избери град</option>
+          <option value="0">Всички</option>
           <option ng-repeat="city in cities" value="{{city.id}}">{{city.name}}</option>
         </select>
       </div>
@@ -87,8 +88,9 @@
       <!-- Category -->
       <div class="form-group">
         <label for="category">Категория</label>
-        <select class="form-control" id="category" ng-model="search.category">
+        <select class="form-control" id="category" ng-model="search.categoryId">
           <option value="" disabled selected hidden>Избери кетегория</option>
+          <option value="0">Всички</option>
           <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
         </select>
       </div>
@@ -96,8 +98,9 @@
     <!-- Type -->
     <div class="form-group">
       <label for="type">Вид заетост</label>
-      <select class="form-control" id="type" ng-model="search.type">
+      <select class="form-control" id="type" ng-model="search.typeId">
         <option value="" disabled selected hidden>Избери вид</option>
+        <option value="0">Всички</option>
         <option ng-repeat="type in types" value="{{type.id}}">{{type.name}}</option>
       </select>
     </div>
@@ -105,8 +108,9 @@
     <!-- Level -->
     <div class="form-group">
       <label for="level">Ниво на квалификация</label>
-      <select class="form-control" id="level" ng-model="search.level">
+      <select class="form-control" id="level" ng-model="search.levelId">
         <option value="" disabled selected hidden>Избери ниво</option>
+        <option value="0">Всички</option>
         <option ng-repeat="level in levels" value="{{level.id}}">{{level.name}}</option>
       </select>
     </div>

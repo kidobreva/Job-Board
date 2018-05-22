@@ -64,7 +64,7 @@ router.post('/api/register', (req, res) => {
     console.log(req.body);
 
     if (
-        (req.body.isCompany && !bulstatCheck(req.body.bulstat)) ||        
+        (req.body.isCompany && !bulstatCheck(req.body.bulstat)) ||
         req.session.user ||
         req.body.password !== req.body.repeatPassword ||
         req.body.password.length < 6 ||

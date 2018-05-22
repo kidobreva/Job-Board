@@ -2,7 +2,7 @@
     // Config
     function Config($routeProvider) {
         $routeProvider.when('/admin/users', {
-            templateUrl: 'views/admin/users.html',
+            templateUrl: 'views/users.html',
             controller: 'Users',
             title: 'Потребители'
         });
