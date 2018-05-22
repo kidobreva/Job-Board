@@ -214,12 +214,14 @@ router.post('/api/apply', (req, res) => {
                                 ++len;
                                 messages.insert({
                                     id: len,
-                                    date: Date.now(),
-                                    candidateId: req.session.user.id,
+                                    date: Date.now(),                                    
                                     advertId: advert.id,
-                                    message: `${req.session.user.firstName} ${
-                                        req.session.user.lastName
-                                    } кандидатства за вашата обява - ${advert.title}!`
+                                    advertTitle: advert.title,
+                                    candidate: {
+                                        cv: req.session.user.cv,
+                                        name: `${req.session.user.firstName} ${
+                                                req.session.user.lastName}`
+                                        }
                                 });
                                 users
                                     .findOneAndUpdate(

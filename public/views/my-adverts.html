@@ -6,7 +6,9 @@
     <div class="adverts-list my-adverts">
         <!-- Heading -->
         <div class="heading">
-            <h2>Публикувани обяви</h2>
+            <h2 ng-if="$root.user.role === 'COMPANY'">Публикувани обяви</h2>
+            <h2 ng-if="isActive('/favourites', true)">Наблюдавани обяви</h2>
+            <h2 ng-if="isActive('/applied', true)">Кандидатствания</h2>
             <div>
                 <label>Обяви на страница:
                 <select ng-model="advertsPerPage" ng-change="changeSize()">
@@ -25,8 +27,8 @@
                 }" class="corner-ribbon corner-ribbon-left">
                 <div class="ribbon-size">{{payments[advert.paymentId - 1].name}}</div>
             </div>
-            <div ng-if="$root.user.img" class="advert-logo">
-                <img ng-src="{{$root.user.img}}">
+            <div ng-if="advert.img" class="advert-logo">
+                <img ng-src="{{advert.img}}">
             </div>
             <div class="advert-info">
                 <a href="/advert/{{advert.id}}">
@@ -43,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="links">
+            <div class="links" ng-if="$root.user.role === 'COMPANY'">
                 <a href="/advert/{{advert.id}}/edit" class="btn btn-light">Промени обява</a>
                 <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates.length}}]</a>
             </div>

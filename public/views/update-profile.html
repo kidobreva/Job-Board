@@ -2,56 +2,75 @@
     <div class="header-info">
         <h2>Настройки на профила</h2>
     </div>
-    <form class="user-info" name="updateProfileForm" ng-submit="updateProfile()">
-        <div ng-if="user.role === 'USER'">
-            <label>
-                <span>*Име</span>
-                <input class="inputs" type="text" ng-model="user.firstName" required />
-            </label>
-        </div>
+    <div class="form-div">
+        <form class="user-info" name="updateProfileForm" ng-submit="updateProfile()">
+            <div ng-if="user.role === 'USER'">
+                <div class="form-group">
+                    <label for"firstName">*Име</label>
+                    <input class="inputs form-control" id="firstName" ng-model="user.firstName" required />
+                </div>
+            </div>
 
-        <div ng-if="user.role === 'USER'">
-            <label>
-                <span>*Фамилия</span>
-                <input class="inputs" type="text" ng-model="user.lastName" required />
-            </label>
-        </div>
+            <div ng-if="user.role === 'USER'">
+                <div class="form-group">
+                    <label for"lastName">*Фамилия</label>
+                    <input class="inputs form-control" id="lastName" ng-model="user.lastName" required />
+                </div>
+            </div>
 
-        <div ng-if="user.role === 'COMPANY'">
-            <label>
-                <span>*Юридическо име на фирмата</span>
-                <input class="inputs" type="text" ng-model="user.title" required />
-            </label>
-        </div>
+            <div ng-if="user.role === 'COMPANY'">
+                <div class="form-group">
+                    <label for"title">*Юридическо име на фирмата</label>
+                    <input class="inputs form-control" id="title" ng-model="user.title" required />
+                </div>        
+                <div class="form-group">
+                    <label for"address">Адрес</label>
+                    <input class="inputs form-control" id="address" ng-model="user.contacts.address" />
+                </div>
+                <div class="form-group">
+                    <label for"phone">Телефон</label>
+                    <input class="inputs form-control" id="phone" ng-model="user.contacts.phone" />
+                </div>
+                <div class="form-group">
+                    <label for"website">Официален сайт</label>
+                    <input class="inputs form-control" id="website" ng-model="user.contacts.website" />
+                </div>
+                    
+                <div class="form-group">   
+                    <label for"description">За компанията</label>
+                    <ng-wig class="description form-control" id="description" ng-model="user.description" ></ng-wig>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for"newPassword">Нова парола</label>
+                <input class="inputs form-control" id="newPassword" ng-blur="validatePass()" type="password" ng-model="user.newPassword" />
+            </div>
+            <span class="red" ng-if="shortPass">Моля въведете парола с минимум 6 символа!</span>
 
-        <label>
-            <span>Нова парола</span>
-            <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.newPassword" />
-        </label>
-        <span class="red" ng-if="shortPass">Моля въведете парола с минимум 6 символа!</span>
+            <div class="form-group">
+                <label for"repeatNewPassword">Повтори новата парола</label>
+                <input class="inputs form-control" id="repeatNewPassword" ng-blur="validatePass()" type="password" ng-model="user.repeatNewPassword" />
+            </div>
+            <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>
 
-        <label>
-            <span>Повтори новата парола</span>
-            <input class="inputs" ng-blur="validatePass()" type="password" ng-model="user.repeatNewPassword" />
-        </label>
-        <span class="red" ng-if="invalid">Моля въведете еднакви пароли!</span>
+            <div class="form-group">
+            <label for"currentPass">*Текуща парола</label>
+                <input class="inputs form-control" id="currentPass" type="password" ng-model="user.currentPass" required />
+            </div>
 
-        <label>
-            <span>*Текуща парола</span>
-            <input class="inputs" type="password" ng-model="user.currentPass" required />
-        </label>
-        <span class="red" ng-if="errCode">Моля въведете текуща парола!</span>
+            <span class="red" ng-if="errCode">Моля въведете текуща парола!</span>
 
-        <div class="save-changes">
-            <button class="btn btn-primary"
-                    ng-disabled="updateProfileForm.$invalid"
-                    ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }"
-            >Запази</button>
-        </div>
-        <div uib-alert ng-repeat="alert in alerts"
-             ng-class="'alert-' + (alert.type || 'warning')"
-             close="closeAlert($index)"
-            >{{alert.msg}}</div>
-    </form>
+            <div class="save-changes">
+                <button class="btn btn-primary"
+                        ng-disabled="updateProfileForm.$invalid"
+                        ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }"
+                >Запази</button>
+            </div>
+            <div uib-alert ng-repeat="alert in alerts"
+                ng-class="'alert-' + (alert.type || 'warning')"
+                close="closeAlert($index)"
+                >{{alert.msg}}</div>
+        </form>
+    </div>
 </section>
 <!-- ng-click="clicked()" -->

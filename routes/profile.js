@@ -25,6 +25,46 @@ router.get('/api/profile', (req, res) => {
     }
 });
 
+// (GET) Profile
+router.get('/api/edit-profile', (req, res) => {
+    if (req.session.user) {
+        req.db
+            .get('users')
+            .findOne({ id: req.session.user.id })
+            .then(user => {
+                console.log(user);
+                if (user) {
+                    switch (user.role) {
+                        case 'USER':
+                            user = {
+                                role: user.role,
+                                firstName: user.firstName,
+                                lastName: user.lastName
+                            }
+                            break;
+                        case 'COMPANY':
+                            user = {
+                                title: user.title,
+                                role: user.role,
+                                description: user.description,
+                                contacts: user.contacts
+                            }
+                            break;
+                    }
+                    res.json(user);
+                } else {
+                    req.session.destroy(err => {
+                        res.clearCookie('connect.sid');
+                        res.sendStatus(err ? 500 : 200);
+                    });
+                }
+            });
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+
 // (POST) Upload picture
 router.post('/api/profile/upload-picture/:id', (req, res) => {
     console.log('Profile Post:', req.body);
@@ -88,24 +128,49 @@ router.post('/api/profile/edit', (req, res) => {
                     res.sendStatus(401);
                 } else {
                     // edit
-                    if (req.body.newPassword) {
-                        user.password = sha1(req.body.newPassword);
-                        delete req.body.newPassword;
-                        delete req.body.repeatNewPassword;
-                        delete req.body.currentPass;
-                    }
                     for (var prop in user) {
                         if (user[prop] !== req.body[prop]) {
                             user[prop] = req.body[prop];
                         }
                     }
+                    for (var prop in req.body) {
+                        if (!(prop in user)) {
+                            user[prop] = req.body[prop];
+                        }
+                    }
+
+                    switch (user.role) {
+                        case 'USER':
+                            user = {
+                                $set: {
+                                    firstName: user.firstName,
+                                    lastName: user.lastName
+                                }
+                            }
+                            break;
+                        case 'COMPANY':
+                            user = {
+                                $set: {
+                                    title: user.title,
+                                    description: user.description,
+                                    contacts: user.contacts
+                                }
+                            }
+                            break;
+                    }
+                    if (req.body.newPassword) {
+                        user.$set.password = sha1(req.body.newPassword);
+                        // delete req.body.newPassword;
+                        // delete req.body.repeatNewPassword;
+                        // delete req.body.currentPass;
+                    }
 
                     // save to database
                     users.findOneAndUpdate({ id: req.session.user.id }, user).then(() => {
-                        req.session.user = user;
-                        req.session.save(() => {
-                            res.json(user);
-                        });
+                        // req.session.user = user;
+                        // req.session.save(() => {
+                            res.sendStatus(200);
+                        // });
                     });
                 }
             } else {

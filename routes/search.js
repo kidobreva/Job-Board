@@ -86,7 +86,7 @@ router.post('/api/adverts/:page', (req, res) => {
         if (!req.body[prop] || req.body[prop] === '0') {
             delete req.body[prop];
         } else {
-            queryArr[i] = { [prop]: !isNaN(req.body[prop]) ? +req.body[prop] : req.body[prop] };
+            queryArr.push({ [prop]: !isNaN(req.body[prop]) ? +req.body[prop] : req.body[prop] });
         }
     });
     console.log('Query', queryArr);

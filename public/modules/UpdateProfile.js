@@ -17,12 +17,12 @@
         };
 
         this.getProfile = function() {
-            return $rootScope.promise.get('/api/profile');
+            return $rootScope.promise.get('/api/edit-profile');
         };
     }
 
     // Controller
-    function Ctrl(UpdateProfileService, $rootScope, $scope, $location) {
+    function Ctrl(UpdateProfileService, $rootScope, $scope, $location, $sanitize, $sce) {
         console.log('Init UpdateProfile Controller');
 
         // Check for current user
@@ -32,6 +32,8 @@
                 // Get profile
                 UpdateProfileService.getProfile()
                     .then(function(response) {
+                        console.log(response);
+                        //$scope.user.contacts = {};
                         $scope.user = response.data;
                         $scope.loaded = true;
                         $scope.$apply();
@@ -49,7 +51,9 @@
         // Validate pass
         $scope.validatePass = function() {
             var invalid = false;
-            $scope.shortPass = $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
+            if ($scope.user.newPassword) {
+                $scope.shortPass = $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
+            }
             if (
                 $scope.user.repeatNewPassword &&
                 $scope.user.repeatNewPassword !== $scope.user.newPassword
@@ -61,14 +65,14 @@
 
         // Send user data
         function sendUserData() {
+            $scope.user.description = $sanitize($scope.user.description);
             UpdateProfileService.updateProfile($scope.user)
                 .then(function(response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        $scope.errCode = false;
-                        $scope.addAlert();
-                        $scope.user = response.data;
-                    }
+                    $scope.errCode = false;
+                    $scope.user.newPassword = '';
+                    $scope.user.repeatNewPassword = '';
+                    $scope.user.currentPass = '';
+                    $scope.addAlert();
                 })
                 .catch(function(err) {
                     if (err.status === 401) {
@@ -81,14 +85,15 @@
 
         // Update profile
         $scope.updateProfile = function() {
-            if ($scope.user.currentPass !== $rootScope.user.password) {
-                sendUserData();
-                console.log('Invalid currentPass!');
-            } else {
-                if ($scope.invalid === false) {
-                    sendUserData();
-                }
-            }
+            // if ($scope.user.currentPass !== $rootScope.user.password) {
+            //     sendUserData();
+            //     console.log('Invalid currentPass!');
+            // } else {
+            //     if ($scope.invalid === false) {
+            //         sendUserData();
+            //     }
+            // }
+            sendUserData();
         };
 
         // Alerts

@@ -45,7 +45,7 @@
     }
 
     // Controller
-    function Ctrl(AdvertsService, $rootScope, $scope, $routeParams, $location, $timeout, $route) {
+    function Ctrl(AdvertsService, $rootScope, $scope, $routeParams, $location, $timeout, $route, $sanitize) {
         console.log('Init Adverts Controller');
 
         // Location path change without reload
@@ -94,7 +94,13 @@
             delete $routeParams.page;
             $location.search(search);
             $scope.loaded = false;
-            doSearch(newPage, $routeParams);
+            if ($routeParams.keywords) {
+                var paramsCopy = angular.copy($routeParams);
+                paramsCopy.keywords = $sanitize($scope.search.keywords);
+                doSearch(newPage, paramsCopy);
+            } else {
+                doSearch(newPage, $routeParams);
+            }
         };
         $scope.changeSize = function() {
             $scope.currentPage = 1;

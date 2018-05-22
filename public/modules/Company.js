@@ -34,6 +34,7 @@
             CompanyService.getCompany()
                 .then(function(response) {
                     console.log('Company', response);
+                    // response.data.description = $sce.trustAsHtml(response.data.description);
                     $scope.company = response.data;
                     $scope.loaded = true;
                     $scope.timeout = false;

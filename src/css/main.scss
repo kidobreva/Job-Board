@@ -252,3 +252,15 @@ nav {
 .page.ng-leave.ng-leave-active {
     opacity: 0;
 }
+
+.messages {
+    width: 980px;
+    // text-align: center;
+}
+
+.messages th {
+    text-align: center;
+    &:first-child {
+        width: 130px;
+    }
+}
