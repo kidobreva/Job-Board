@@ -14,7 +14,6 @@
         'User',
         'Users',
         'Profile',
-        'Favourites',
         'MyCV',
         'UpdateProfile',
         'Messages',
@@ -27,8 +26,6 @@
         // Adverts
         'Advert',
         'Adverts',
-        'Search',
-        'MyAdverts',
         'Candidates',
 
         // Other
@@ -40,6 +37,7 @@
     function Config($locationProvider, $routeProvider, paginationTemplateProvider) {
         $locationProvider.html5Mode(true);
         paginationTemplateProvider.setPath('vendors/angular/dirPagination.tpl.html');
+
         // Routes
         $routeProvider.when('/about', {
             templateUrl: 'views/about.html',
@@ -83,9 +81,9 @@
         });
 
         // Set active class for the navbar
-        $rootScope.isActive = function(viewLocation) {
-            if ($routeParams.page) {
-                return viewLocation + $routeParams.page === $location.path();
+        $rootScope.isActive = function(viewLocation, hasPages) {
+            if (hasPages) {
+                return viewLocation === '/' + $location.path().split('/')[1];
             }
             return viewLocation === $location.path();
         };

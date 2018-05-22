@@ -58,10 +58,7 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                         }
                     );
                 }
-                img = path.join(
-                    'uploads',
-                    path.join(req.session.user.id.toString(), `profile.${ext}`)
-                );
+                img = `uploads/${req.session.user.id}/profile.${ext}`;
 
                 // save to database
                 users.findOneAndUpdate({ id: req.session.user.id }, { $set: { img } }).then(() => {
@@ -155,7 +152,7 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
                 users.findOneAndUpdate({ id: req.session.user.id }, { $set: { cv } }).then(() => {
                     req.session.user.cv = cv;
                     req.session.save(() => {
-                        res.json({cv});
+                        res.json({ cv });
                     });
                 });
             } else {

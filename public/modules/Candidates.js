@@ -2,7 +2,7 @@
     // Config
     function Config($routeProvider) {
         $routeProvider.when('/my-adverts/:id/candidates', {
-            templateUrl: 'views/admin/users.html',
+            templateUrl: 'views/users.html',
             controller: 'Candidates',
             title: 'Кандидати'
         });

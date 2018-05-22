@@ -8,7 +8,7 @@
                 <span>*Име</span>
                 <input class="inputs" type="text" ng-model="user.firstName" required />
             </label>
-        </div>        
+        </div>
 
         <div ng-if="user.role === 'USER'">
             <label>
@@ -22,7 +22,7 @@
                 <span>*Юридическо име на фирмата</span>
                 <input class="inputs" type="text" ng-model="user.title" required />
             </label>
-        </div>         
+        </div>
 
         <label>
             <span>Нова парола</span>
@@ -48,8 +48,8 @@
                     ng-style="{ 'cursor' : (!updateProfileForm.$invalid) ? 'pointer' : 'normal' }"
             >Запази</button>
         </div>
-        <div uib-alert ng-repeat="alert in alerts" 
-             ng-class="'alert-' + (alert.type || 'warning')" 
+        <div uib-alert ng-repeat="alert in alerts"
+             ng-class="'alert-' + (alert.type || 'warning')"
              close="closeAlert($index)"
             >{{alert.msg}}</div>
     </form>

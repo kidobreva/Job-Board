@@ -24,17 +24,17 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, SearchService, $scope, $timeout, $rootScope, $location) {
+    function Ctrl(CompanyService, AdvertsService, $scope, $timeout, $rootScope, $location) {
         console.log('Init Company Controller');
 
-        SearchService.getSearchData().then(function(res) {
+        AdvertsService.getSearchData().then(function(res) {
             $scope.categories = res.data.categories;
             $scope.cities = res.data.cities;
-            
+
             CompanyService.getCompany()
                 .then(function(response) {
-                    console.log("Company", response);
-                    $scope.company = response.data;                
+                    console.log('Company', response);
+                    $scope.company = response.data;
                     $scope.loaded = true;
                     $scope.timeout = false;
                     $scope.$apply();

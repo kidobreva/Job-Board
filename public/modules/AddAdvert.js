@@ -39,7 +39,7 @@
     // Controller
     function Ctrl(
         AddAdvertService,
-        SearchService,
+        AdvertsService,
         $scope,
         $rootScope,
         $routeParams,
@@ -56,7 +56,7 @@
                 if (currentUser.role !== 'COMPANY') {
                     $location.path('/home');
                 } else {
-                    SearchService.getSearchData().then(function(res) {
+                    AdvertsService.getSearchData().then(function(res) {
                         console.log(res.data);
                         $scope.categories = res.data.categories;
                         $scope.cities = res.data.cities;

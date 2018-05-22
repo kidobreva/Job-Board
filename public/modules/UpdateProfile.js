@@ -1,8 +1,8 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        $routeProvider.when('/updateProfile', {
-            templateUrl: 'views/updateProfile.html',
+        $routeProvider.when('/update-profile', {
+            templateUrl: 'views/update-profile.html',
             controller: 'UpdateProfile',
             title: 'Настойки на профила'
         });

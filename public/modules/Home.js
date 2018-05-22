@@ -9,11 +9,11 @@
     }
 
     // Controller
-    function Ctrl(SearchService, $scope) {
-        console.log('Init Home Controller');        
+    function Ctrl(AdvertsService, $scope) {
+        console.log('Init Home Controller');
 
         // Get search data
-        SearchService.getSearchData().then(function(response) {
+        AdvertsService.getSearchData().then(function(response) {
             console.log(response.data.categories);
             $scope.categories = response.data.categories;
             $scope.$apply();
