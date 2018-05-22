@@ -5,7 +5,7 @@
         <div class="user-info">
             <!-- Picture -->
             <div ng-if="!user.img" class="no-profile-picture">
-                <img src="../images/images3UST31XE.png" alt="">
+                <img src="../images/member-default.jpg" alt="">
             </div>
             <div ng-if="user.img" class="profile-picture">
                 <img ng-src="{{user.img}}">
@@ -20,9 +20,9 @@
 
             <!-- Info panel -->
             <div class="info-panel">
-                <p>Име: {{ user.firstName + ' ' + user.lastName }}</p>
-                <p>E-mail: {{ user.email }}</p>
-                <p>Регистриран на: {{ user.registeredDate | date }}</p>
+                <p><strong>Име:</strong> {{ user.firstName + ' ' + user.lastName }}</p>
+                <p><strong>E-mail:</strong> {{ user.email }}</p>
+                <p><strong>Регистриран на:</strong> {{ user.registeredDate | date }}</p>
             </div>
         </div>
 
@@ -71,9 +71,9 @@
 
             <!-- Info panel -->
             <div class="info-panel">
-                <p>Име: {{ user.title }}</p>
-                <p>E-mail: {{ user.email }}</p>
-                <p>Регистриран на: {{ user.registeredDate | date }}</p>
+                <p><strong>Име:</strong> {{ user.title }}</p>
+                <p><strong>E-mail:</strong> {{ user.email }}</p>
+                <p><strong>Регистриран на:</strong> {{ user.registeredDate | date }}</p>
             </div>
         </div>
 

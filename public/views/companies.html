@@ -1,7 +1,16 @@
 <div id="loader" ng-if="timeout"></div>
 <h5 ng-if="loaded && !companies">Няма регистрирани работодатели!</h5>
-<table class="table" ng-if="loaded && companies">
-  <thead>
+<section class="companies-page" ng-if="loaded && companies">
+  <div class="header-info">
+    <h2>Работодатели</h2>
+  </div>
+  <div ng-repeat="company in companies" class="companies-div">
+    <a href="/company/{{company.id}}">
+      <span ng-if="company.img"><img src="{{company.img}}" alt=""></span>
+      <span ng-if="!company.img">{{company.title}}</span>
+    </a>
+  </div>
+  <!-- <thead>
     <tr>
       <th scope="col">Наименование</th>
       <th scope="col"></th>
@@ -12,5 +21,5 @@
       <td>{{company.title}}</td>
       <td><a href="/company/{{company.id}}">Повече</a></td>
     </tr>
-  </tbody>
-</table>
+  </tbody> -->
+</section>
