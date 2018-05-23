@@ -49,6 +49,7 @@
                 })
                 .catch(function(err) {
                     if (err.status === 404) {
+                        $scope.user.password = '';
                         $scope.badUser = true;
                         $scope.$apply();
                     }
@@ -64,8 +65,35 @@
                     $rootScope.$apply();
                 })
                 .catch(function(err) {
+                    // if (err.status === 409) {
+                    //     $scope.badUser = true;
+                    //     $scope.$apply();
+                    // }
+                    $scope.addAlert(err.status);
+                    $scope.registerUser.bulstat = '';
+                    $scope.registerUser.email = '';
+                    $scope.registerUser.password = '';
+                    $scope.registerUser.repeatPassword = '';                    
                     console.error(err.data);
+                    $rootScope.$apply();
                 });
+        };
+
+        // Alerts
+        $scope.alerts = [];
+        $scope.addAlert = function(status) {
+            $scope.alerts.length = 0;
+            console.log(status);
+            if (status === 409){
+                $scope.alerts.push({ type: 'warning', msg: 'Потребител с такъв имейл вече съществува!' });
+            } else {
+                $scope.alerts.push({ type: 'warning', msg: 'Потребител с такъв булстат вече съществува!' });
+            }
+            
+            $scope.$apply();
+        };
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
         };
 
         // Validate pass

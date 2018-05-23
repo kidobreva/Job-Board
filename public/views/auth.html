@@ -65,7 +65,7 @@
         </div>
 
         <!-- error -->
-        <div class="error"></div>
+        <!-- <div class="error"><span ng-if="badUser">Този имейл вече съществува!</span></div> -->
 
         <!-- buttons -->
         <div class="buttons">
@@ -73,6 +73,11 @@
                     ng-disabled="registerUsers.$invalid"
                     ng-style="{ 'cursor' : (!registerUsers.$invalid) ? 'pointer' : 'normal' }"
             >Регистрация</button>
+        </div>
+        <div uib-alert ng-repeat="alert in alerts"
+            ng-class="'alert-' + (alert.type || 'warning')"
+            close="closeAlert($index)"
+            >{{alert.msg}}
         </div>
     </form>
 

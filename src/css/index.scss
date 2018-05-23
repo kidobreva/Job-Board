@@ -37,6 +37,7 @@ body {
     }
     main {
         width: 100%;
+        margin-top: 10px;
         div h3 {
             @include header-h3;
         }

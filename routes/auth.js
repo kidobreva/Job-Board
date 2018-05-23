@@ -59,6 +59,45 @@ router.post('/api/login', (req, res) => {
     }
 });
 
+function registerUser(req, res) {
+    const users = req.db.get('users');
+    users.count().then(len => {
+        // before register
+        user = {
+            id: len++
+        };
+        if (req.body.isCompany) {
+            user.role = 'COMPANY';
+            user.title = req.body.title;
+            user.bulstat = req.body.bulstat;
+            user.adverts = [];
+            user.messages = [];
+        } else {
+            user.role = 'USER';
+            user.firstName = req.body.firstName;
+            user.lastName = req.body.lastName;
+            user.applied = [];
+            user.favourites = [];
+        }
+        user.email = req.body.email;
+
+        delete req.body.isCompany;
+        delete req.body.repeatPassword;
+        user.registeredDate = Date.now();
+        user.password = sha1(req.body.password);
+
+        // save to database
+        users.insert(user).then(user => {
+            delete req.body.password;
+            console.log('New user has registered:', user);
+            req.session.user = user;
+            req.session.save(() => {
+                res.json(user);
+            });
+        });
+    });
+}
+
 // Register
 router.post('/api/register', (req, res) => {
     console.log(req.body);
@@ -74,47 +113,29 @@ router.post('/api/register', (req, res) => {
     } else {
         // get users and check for existing email
         const users = req.db.get('users');
-        users.findOne({$or : [{ email: req.body.email }, { bulstat: req.body.bulstat || 0 }]}).then(user => {
-            if (user) {
-                res.sendStatus(409);
-            } else {
-                users.count().then(len => {
-                    // before register
-                    user = {
-                        id: len++
-                    };
-                    if (req.body.isCompany) {
-                        user.role = 'COMPANY';
-                        user.title = req.body.title;
-                        user.bulstat = req.body.bulstat;
-                        user.adverts = [];
-                        user.messages = [];
-                    } else {
-                        user.role = 'USER';
-                        user.firstName = req.body.firstName;
-                        user.lastName = req.body.lastName;
-                        user.applied = [];
-                        user.favourites = [];
-                    }
-                    user.email = req.body.email;
-
-                    delete req.body.isCompany;
-                    delete req.body.repeatPassword;
-                    user.registeredDate = Date.now();
-                    user.password = sha1(req.body.password);
-
-                    // save to database
-                    users.insert(user).then(user => {
-                        delete req.body.password;
-                        console.log('New user has registered:', user);
-                        req.session.user = user;
-                        req.session.save(() => {
-                            res.json(user);
-                        });
+        if (req.body.isCompany) {
+            users.findOne({bulstat: req.body.bulstat || 0 }).then(user => {
+                if (user) {
+                    res.sendStatus(400);
+                } else {
+                    users.findOne({ email: req.body.email }).then(user => {
+                        if (user) {
+                            res.sendStatus(409);
+                        } else {
+                            registerUser(req, res);
+                        }
                     });
-                });
-            }
-        });
+                }
+            });
+        } else {
+            users.findOne({ email: req.body.email }).then(user => {
+                if (user) {
+                    res.sendStatus(409);
+                } else {
+                    registerUser(req, res);
+                }
+            });
+        }        
     }
 });
 
