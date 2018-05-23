@@ -8,6 +8,8 @@
         'ngSanitize',
         'ngWig',
         'angular.backtop',
+        'btorfs.multiselect',
+        'rzModule',
 
         // Users
         'Auth',

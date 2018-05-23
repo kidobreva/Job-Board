@@ -40,7 +40,7 @@
     }
 
     // Controller
-    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce, $location) {
+    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce, $sanitize, $location) {
         console.log('Init Advert Controller');
         $rootScope.title = title;
 
@@ -50,7 +50,7 @@
                 console.log(response.data);
                 $scope.now = Date.now();
                 $scope.advert = response.data;
-                $scope.advert.description = $sce.trustAsHtml(response.data.description);
+                $scope.advert.description = $sce.trustAsHtml($sanitize(response.data.description));
                 $scope.loaded = true;
                 $scope.timeout = false;
                 $scope.$apply();
@@ -84,10 +84,10 @@
                         .catch(function(err) {
                             console.error(err.data);
                         });
-                    })
-                    .catch(function() {
-                        $location.path('/auth');
-                    });
+                })
+                .catch(function() {
+                    $location.path('/auth');
+                });
         };
 
         // Apply for an advert

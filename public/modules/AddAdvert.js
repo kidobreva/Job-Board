@@ -25,7 +25,7 @@
         // Add advert
         this.addAdvert = function(advert) {
             console.log('Add advert');
-            return $rootScope.promise.post('/api/advert', {advert: advert});
+            return $rootScope.promise.post('/api/advert', { advert: advert });
         };
         this.getAdvert = function(advertId, isEdit) {
             if (isEdit) {
@@ -37,15 +37,7 @@
     }
 
     // Controller
-    function Ctrl(
-        AddAdvertService,
-        AdvertsService,
-        $scope,
-        $rootScope,
-        $routeParams,
-        $sanitize,
-        $location
-    ) {
+    function Ctrl(AddAdvertService, AdvertsService, $scope, $rootScope, $routeParams, $location) {
         console.log('Init AddAdvert Controller');
 
         // Check for current user
@@ -87,7 +79,6 @@
 
         // Add advert
         $scope.addAdvert = function() {
-            $scope.advert.description = $sanitize($scope.advert.description);
             AddAdvertService.addAdvert($scope.advert)
                 .then(function(response) {
                     $scope.id = response.data.id;

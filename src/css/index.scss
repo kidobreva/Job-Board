@@ -57,15 +57,19 @@ body {
 
                 //border: 1px solid rgba(0, 0, 0, 0.2);
                 li {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     margin: 5px 15px;
                     text-align: center;
                     float: left;
-                    width: 30%;
+                    width: 30.2%;
                     height: 60px;
-                    padding: 10px;
-                    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+                    // padding: 10px;
+                    border-bottom: 1px solid orange;
+                    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
                     &:hover {
-                        box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.6);
+                        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.4);
                     }
                     a {
                         text-decoration: none;
@@ -149,7 +153,7 @@ body {
                 h3 {
                     margin: ($margin-bottom + 10px) auto 0;
                     padding-bottom: 10px;
-                    border-bottom: $border-bottom;                      
+                    border-bottom: $border-bottom;
                     width: 400px;
                     font-weight: bold;
                 }
@@ -167,16 +171,118 @@ body {
             }
         }
     }
-}
 
-/* .carousel .slide {
+    /* .carousel .slide {
     height: 385px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 } */
 
-// .carousel section {
-//     display: flex;
-//     justify-content: center;
-// }
+    // .carousel section {
+    //     display: flex;
+    //     justify-content: center;
+    // }
+
+    multiselect .dropdown-menu {
+        max-height: 350px;
+    }
+
+    .home-page {
+        display: flex;
+        flex-direction: column;
+
+        .search-panel {
+            color: white;
+            display: flex;
+            justify-content: center;
+            background: url(../images/search.png);
+            background-size: cover;
+            margin-bottom: 2.5rem;
+            padding-top: 2rem;
+            height: 350px;
+            align-items: center;
+
+            form {
+                background: rgba(255, 255, 255, 0.2);
+                > div.up {
+                    width: 980px;
+                    // height: 300px;
+                    padding: 1rem 0;
+                    display: flex;
+                    align-self: flex-end;
+                    // flex-direction: column;
+                    justify-content: space-around;
+                    // margin: 1.5rem 0;
+
+                    > div {
+                        justify-content: space-around;
+                        // background: rgba(255, 165, 0, 0.5);
+                        display: flex;
+                        flex-direction: column;
+                        text-align: center;
+                        width: 400px;
+                        // height: 300px;
+                    }
+                }
+                .dropdown {
+                    justify-content: center;
+                }
+                .dropdown-menu {
+                    left: 24px;
+                }
+                .dropdown-toggle {
+                    align-self: center;
+                }
+                .submit {
+                    width: 150px;
+                }
+                .additional {
+                    width: 352px;
+                    padding: .5rem 1rem;
+                }
+            }
+        }
+    }
+}
+
+.custom-slider.rzslider {
+    .rz-bar {
+        background: #ffe4d1;
+        height: 2px;
+    }
+    .rz-selection {
+        background: gold;
+    }
+    .rz-pointer {
+        width: 8px;
+        height: 16px;
+        top: auto; /* to remove the default positioning */
+        bottom: 0;
+        background-color: #333;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .rz-pointer:after {
+        display: none;
+    }
+    .rz-bubble {
+        bottom: 14px;
+        color: white;
+    }
+    .rz-limit {
+        font-weight: bold;
+        color: orange;
+    }
+    .rz-tick {
+        width: 1px;
+        height: 10px;
+        margin-left: 4px;
+        border-radius: 0;
+        background: #ffe4d1;
+        top: -1px;
+    }
+    .rz-tick.rz-selected {
+        background: orange;
+    }
+}

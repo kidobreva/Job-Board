@@ -4,8 +4,8 @@
         $routeProvider.when('/adverts/:page', {
             templateUrl: 'views/adverts.html',
             controller: 'Adverts',
-            title: 'Обяви',
-            reloadOnSearch: false
+            title: 'Обяви'
+            // reloadOnSearch: false
         });
         $routeProvider.when('/my-adverts/:page', {
             templateUrl: 'views/my-adverts.html',
@@ -45,8 +45,18 @@
     }
 
     // Controller
-    function Ctrl(AdvertsService, $rootScope, $scope, $routeParams, $location, $timeout, $route, $sanitize) {
+    function Ctrl(
+        AdvertsService,
+        $rootScope,
+        $scope,
+        $routeParams,
+        $location,
+        $timeout,
+        $route,
+        $sanitize
+    ) {
         console.log('Init Adverts Controller');
+        console.log($routeParams);
 
         // Location path change without reload
         var original = $location.path;

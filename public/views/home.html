@@ -1,12 +1,92 @@
 <main class="home-page">
     <div>
+        <h3>Търсене на обяви</h3>
+    </div>
+    <section class="search-panel">
+        <form ng-submit="doSearch()">
+            <div class="up">
+                <!-- Left -->
+                <div class="left">
+                    <!-- keywords -->
+                    <div class="form-group">
+                        <label for="keywords">Ключови думи</label>
+                        <input id="keywords" class="form-control" ng-model="search.keywords" />
+                    </div>
+
+                    <!-- categories -->
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <multiselect id="category" ng-model="search.categoryId" id-prop="id" display-prop="name" options="categories" show-search="true" labels="labels"></multiselect>
+                    </div>
+
+                    <!-- cities -->
+                    <div class="form-group">
+                    <label for="city">Населено място</label>
+                        <multiselect id="city" ng-model="search.cityId" id-prop="id" display-prop="name" options="cities" show-search="true" labels="labels"></multiselect>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="right">
+                    <!-- Salary -->
+                    Месечна заплата (бруто в лв.)
+                    <rzslider
+                        class="custom-slider"
+                        rz-slider-model="slider.minValue"
+                        rz-slider-high="slider.maxValue"
+                        rz-slider-options="slider.options">
+                    </rzslider>
+
+                    <!-- Dropdown -->
+                    <div class="btn-group mb-2" uib-dropdown auto-close="outsideClick" is-open="status.isopen">
+                        <button id="single-button"
+                                type="button"
+                                class="btn btn-primary"
+                                uib-dropdown-toggle
+                                ng-disabled="disabled"
+                        >Допълнителни критерии<span class="caret"></span>
+                        </button>
+                        <!-- menu -->
+                        <div class="dropdown-menu"
+                            uib-dropdown-menu
+                            role="menu"
+                            aria-labelledby="single-button">
+
+                            <div class="additional" ng-show="status">
+                                <!-- level -->
+                                <div><b>Ниво на квалификация</b><br />
+                                    <div ng-repeat="level in levels" class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="{{level.name}}" name="{{level.name}}" class="custom-control-input">
+                                        <label class="custom-control-label" for="{{level.name}}">{{level.name}}</label>
+                                    </div>
+                                </div>
+
+                                <!-- type -->
+                                <div class="dropdown-divider"></div>
+                                <div><b>Вид заетост</b><br />
+                                    <div ng-repeat="type in types" class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" id="{{type.name}}" name="{{type.name}}" class="custom-control-input">
+                                        <label class="custom-control-label" for="{{type.name}}">{{type.name}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    <button class="submit btn btn-warning">ТЪРСИ</button>
+                </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <div>
         <h3>Професионални области</h3>
     </div>
-
-    <div class="professional-area">  
+    <div class="professional-area">
         <ul>
-            <li ng-repeat="category in categories"><a href="/adverts/?categoryId={{category.id}}">{{category.name}}</a></li>                
-        </ul>            
+            <li ng-repeat="category in categories"><a href="/adverts/?categoryId={{category.id}}">{{category.name}}</a></li>
+        </ul>
     </div>
 
     <!-- Banner -->
