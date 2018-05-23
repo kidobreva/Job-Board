@@ -1,7 +1,17 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        $routeProvider.when('/company/:id/:page', {
+        $routeProvider.when('/company/:id/page/:page', {
+            templateUrl: 'views/company.html',
+            controller: 'Company',
+            title: 'Информация за фирма'
+        });
+        $routeProvider.when('/company/:id', {
+            // resolve: {
+            //     redirect: function($location, $route) {
+            //         $location.path('/company/' + $route.current.params.id + '/page/1');
+            //     }
+            // }
             templateUrl: 'views/company.html',
             controller: 'Company',
             title: 'Информация за фирма'

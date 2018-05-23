@@ -4,8 +4,8 @@
         $routeProvider.when('/adverts/:page', {
             templateUrl: 'views/adverts.html',
             controller: 'Adverts',
-            title: 'Обяви'
-            // reloadOnSearch: false
+            title: 'Обяви',
+            reloadOnSearch: false
         });
         $routeProvider.when('/my-adverts/:page', {
             templateUrl: 'views/my-adverts.html',
@@ -57,6 +57,7 @@
     ) {
         console.log('Init Adverts Controller');
         console.log($routeParams);
+        var first = true;
 
         // Location path change without reload
         var original = $location.path;
@@ -76,12 +77,17 @@
         $scope.advertsPerPage = $routeParams.size || '5';
 
         // Change page
-        $scope.pageChanged = function(newPage) {
-            scrollTo(document.documentElement, document.querySelector('header').offsetHeight, 400);
+        $scope.pageChanged = function(newPage, isPagination) {
+            console.log('newPage', newPage);
+            if (isPagination) {
+                scrollTo(document.documentElement, document.querySelector('header').offsetHeight, 400);
+            }
             delete $routeParams.companyId;
             var search = angular.copy($routeParams);
             delete search.page;
-            search.size = $scope.advertsPerPage.toString();
+            if (!first) {
+                search.size = $scope.advertsPerPage.toString();
+            }
             switch ($location.path().split('/')[1]) {
                 case 'my-adverts':
                     $location.path('/my-adverts/' + newPage, false);
@@ -100,7 +106,7 @@
                     break;
                 case 'company':
                     var isCompany = true;
-                    $location.path('/company/' + $routeParams.id + '/' + newPage);
+                    $location.path('/company/' + $routeParams.id, false);
                     $routeParams.companyId = $routeParams.id;
                     $routeParams.size = $scope.advertsPerPage.toString();
                     break;
@@ -109,6 +115,8 @@
             }
             if (!isCompany) {
                 delete $routeParams.page;
+            } else {
+                delete search.id;
             }
             $location.search(search);
             $scope.loaded = false;

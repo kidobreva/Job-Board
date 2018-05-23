@@ -19,7 +19,7 @@
           <h5>Контакти</h5>
           <p><strong>Адрес: </strong>{{company.contacts.address}}</p>
           <p><strong>Телефон: </strong>{{company.contacts.phone}}</p>
-          <p><strong>Официален сайт: </strong>{{company.contacts.website}}</p>
+          <p><strong>Официален сайт: </strong><a href="{{company.contacts.website}}">{{company.contacts.website}}</a></p>
         </div>
       </main>
       <aside ng-controller="Adverts">
@@ -34,17 +34,17 @@
                 </select>
               </label>
             </div>
-          <div class="adverts-info" ng-repeat="advert in adverts">
-            <a href="/advert/{{advert.id}}">{{advert.title}}</a>
-            <span><strong>Заплата от: {{advert.salary.min | currency: "лв."}}</strong> до <strong>{{advert.salary.max | currency: "лв."}}</strong></span>
-            <span><strong>Публикувана на: </strong>{{ advert.date | date }}, гр. {{cities[advert.cityId - 1].name}}</span>
-            <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
-          </div>
-        </div>   
-        <!-- Pagination -->
-        <div class="page-list">
-          <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-        </div>                   
+            <div class="adverts-info" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="currentPage">
+              <a href="/advert/{{advert.id}}">{{advert.title}}</a>
+              <span><strong>Заплата от: {{advert.salary.min | currency: "лв."}}</strong> до <strong>{{advert.salary.max | currency: "лв."}}</strong></span>
+              <span><strong>Публикувана на: </strong>{{ advert.date | date }}, гр. {{cities[advert.cityId - 1].name}}</span>
+              <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
+            </div>
+            <!-- Pagination -->
+            <div class="page-list">
+              <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+            </div> 
+        </div>            
       </aside>
     </div>
   </section>
