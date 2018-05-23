@@ -57,14 +57,11 @@ body {
 
                 //border: 1px solid rgba(0, 0, 0, 0.2);
                 li {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    display: table;
                     margin: 5px 15px;
                     text-align: center;
                     float: left;
                     width: 30.2%;
-                    height: 60px;
                     // padding: 10px;
                     border-bottom: 1px solid orange;
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
@@ -72,9 +69,13 @@ body {
                         box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.4);
                     }
                     a {
+                        display: table-cell;
+                        height: 60px;
                         text-decoration: none;
                         font-weight: bold;
                         color: #4e4b4b;
+                        vertical-align: middle;
+                        padding: 0 20px;
                     }
                 }
             }

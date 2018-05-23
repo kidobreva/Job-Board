@@ -1,5 +1,5 @@
 <div id="loader" ng-if="timeout"></div>
-<div ng-if="loaded">
+<div>
   <button ng-if="user.role === 'ADMIN'" ng-click="blockCompany()">Блокирай фирмата</button>
   <button ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
   <section class="company-page">
@@ -15,23 +15,36 @@
           <h5 ng-if="company.description">За компнанията</h5>
           <div ng-bind-html="company.description"></div>
         </div>
-        <div>
-          <h5 ng-if="company.contacts">Контакти</h5>
+        <div ng-if="company.contacts">
+          <h5>Контакти</h5>
           <p><strong>Адрес: </strong>{{company.contacts.address}}</p>
           <p><strong>Телефон: </strong>{{company.contacts.phone}}</p>
           <p><strong>Официален сайт: </strong>{{company.contacts.website}}</p>
         </div>
       </main>
-      <aside>
+      <aside ng-controller="Adverts">
         <div>
-          <h5>Всички обяви на компанията</h5> 
-          <div class="adverts-info" ng-repeat="advert in company.adverts">
+          <h5>Всички обяви на компанията</h5>
+          <div>
+              <label>Обяви на страница:
+                <select ng-model="advertsPerPage" ng-change="changeSize()">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
+              </label>
+            </div>
+          <div class="adverts-info" ng-repeat="advert in adverts">
             <a href="/advert/{{advert.id}}">{{advert.title}}</a>
             <span><strong>Заплата от: {{advert.salary.min | currency: "лв."}}</strong> до <strong>{{advert.salary.max | currency: "лв."}}</strong></span>
             <span><strong>Публикувана на: </strong>{{ advert.date | date }}, гр. {{cities[advert.cityId - 1].name}}</span>
             <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
           </div>
-        </div>                      
+        </div>   
+        <!-- Pagination -->
+        <div class="page-list">
+          <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>                   
       </aside>
     </div>
   </section>

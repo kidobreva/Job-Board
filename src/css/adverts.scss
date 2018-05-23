@@ -89,7 +89,7 @@ section {
                 background: map_get($ribbonColors, pro);
                 &:before,
                 &:after {
-                    border-color: darken(map_get($ribbonColors, pro), 30%) transparent transparent transparent;
+                    border-color: darken(map_get($ribbonColors, pro), 15%) transparent transparent transparent;
                 }
             }
             &.top > * {
@@ -97,7 +97,7 @@ section {
                 background: map_get($ribbonColors, top);
                 &:before,
                 &:after {
-                    border-color: darken(map_get($ribbonColors, top), 30%) transparent transparent transparent;
+                    border-color: darken(map_get($ribbonColors, top), 15%) transparent transparent transparent;
                 }
             }
             &.vip > * {
@@ -105,7 +105,7 @@ section {
                 background: map_get($ribbonColors, vip);
                 &:before,
                 &:after {
-                    border-color: darken(map_get($ribbonColors, vip), 30%) transparent transparent transparent;
+                    border-color: darken(map_get($ribbonColors, vip), 15%) transparent transparent transparent;
                 }
             }
         }

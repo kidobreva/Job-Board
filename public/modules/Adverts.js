@@ -98,10 +98,18 @@
                     $routeParams.applied = $rootScope.user.applied;
                     $routeParams.size = $scope.advertsPerPage.toString();
                     break;
+                case 'company':
+                    var isCompany = true;
+                    $location.path('/company/' + $routeParams.id + '/' + newPage);
+                    $routeParams.companyId = $routeParams.id;
+                    $routeParams.size = $scope.advertsPerPage.toString();
+                    break;
                 default:
                     $location.path('/adverts/' + newPage, false);
             }
-            delete $routeParams.page;
+            if (!isCompany) {
+                delete $routeParams.page;
+            }
             $location.search(search);
             $scope.loaded = false;
             if ($routeParams.keywords) {

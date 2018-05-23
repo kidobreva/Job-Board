@@ -89,6 +89,10 @@ router.post('/api/adverts/:page', (req, res) => {
             delete req.body.salary;
         }
     }
+    if (req.body.id) {
+        delete req.body.id;
+    }
+    delete req.body.page;
 
     const page = req.params.page;
     const itemsOnPage = req.body.size;

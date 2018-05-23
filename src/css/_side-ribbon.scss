@@ -40,13 +40,13 @@
         display: block;
         border-style: solid;
         /*border-color: #8b5287 transparent transparent transparent;*/
-        bottom: -1em;
+        bottom: -0.5em;
     }
     &.left-ribbon {
-        left: -2em;
+        left: -1em;
         &:before {
             left: 0;
-            border-width: 1em 0 0 2em;
+            border-width: 0.5em 0 0 1em;
         }
     }
 }

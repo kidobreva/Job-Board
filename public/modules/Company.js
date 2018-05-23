@@ -1,7 +1,7 @@
 (function() {
     // Config
     function Config($routeProvider) {
-        $routeProvider.when('/company/:id', {
+        $routeProvider.when('/company/:id/:page', {
             templateUrl: 'views/company.html',
             controller: 'Company',
             title: 'Информация за фирма'
@@ -24,7 +24,7 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, AdvertsService, $scope, $timeout, $rootScope, $location) {
+    function Ctrl(CompanyService, AdvertsService, $routeParams, $scope, $timeout, $rootScope, $location) {
         console.log('Init Company Controller');
 
         AdvertsService.getSearchData().then(function(res) {
@@ -35,6 +35,7 @@
                 .then(function(response) {
                     console.log('Company', response);
                     // response.data.description = $sce.trustAsHtml(response.data.description);
+                    delete response.data.adverts;
                     $scope.company = response.data;
                     $scope.loaded = true;
                     $scope.timeout = false;
