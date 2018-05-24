@@ -268,7 +268,7 @@ angular.module("multiselect.html", []).run(["$templateCache", function ($templat
     "        </li>\n" +
     "\n" +
     "        <li role=\"presentation\" ng-repeat=\"option in selectedOptions\" class=\"active\">\n" +
-    "            <a class=\"btn\" href=\"\" title=\"{{showTooltip ? getDisplay(option) : ''}}\" ng-click=\"toggleItem(option); $event.stopPropagation()\" style=\"overflow-x: hidden;text-overflow: ellipsis\">\n" +
+    "            <a class=\"btn btn-primary\" href=\"\" title=\"{{showTooltip ? getDisplay(option) : ''}}\" ng-click=\"toggleItem(option); $event.stopPropagation()\" style=\"overflow-x: hidden;text-overflow: ellipsis\">\n" +
     "                <i class=\"fas fa-times\"></i>\n" +
     "                {{getDisplay(option)}}\n" +
     "            </a>\n" +

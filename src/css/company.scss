@@ -3,6 +3,7 @@
 section {
     &.company-page {
         @include default-page-size;
+        margin: 2rem;
         padding: 0;
         div.header {
             border-top: $border-bottom;
@@ -28,7 +29,7 @@ section {
             justify-content: space-between;
             margin: 40px 0;
             main {
-                width: 40%;
+                width: 48%;
                 div {
                     margin-bottom: 25px;
                 }
@@ -38,7 +39,7 @@ section {
                 border-bottom: 2px solid #868686;
             }
             aside {
-                width: 500px;
+                width: 45%;
                 //margin-left: 60px;
                 div.adverts-info {
                     width: 100%;

@@ -140,8 +140,8 @@
             $scope.types = res.data.types;
             $scope.payments = res.data.payments;
             $scope.search = $routeParams;
-            $scope.$apply();
             $scope.loaded = true;
+            $scope.$apply();
             $scope.pageChanged($scope.currentPage);
         });
 

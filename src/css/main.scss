@@ -23,7 +23,7 @@ body {
     flex-direction: column;
 
     min-height: 500px;
-    padding-top: 1.5rem;
+    // padding-top: 1.5rem;
     /* margin: 20px 0; */
 }
 
@@ -33,7 +33,7 @@ body {
 
 header {
     display: flex;
-    align-items: center;
+    // align-items: center;
     flex-direction: column;
 }
 
@@ -44,8 +44,9 @@ header img {
 header > div {
     margin-bottom: 1.5rem;
     padding: 0.25rem 0.5rem;
-
-    background: rgba(0, 0, 0, 0.5);
+    width: 980px;
+    align-self: center;
+    // background: rgba(0, 0, 0, 0.5);
 }
 
 /* Navigation */
@@ -253,8 +254,13 @@ nav {
     opacity: 0;
 }
 
+.messages-page {
+
+    margin-top: 1.5rem;
+}
 .messages {
     width: 980px;
+    
     // text-align: center;
 }
 

@@ -1,9 +1,13 @@
 @import '_config.scss';
 
+.profile-page {
+    margin: 2rem;
+}
+
 section {
-    padding-bottom: 2rem;
     &.user-profile,
     &.company-profile {
+        padding-top: 2rem;
         width: 980px;
         margin: 0 auto;
         display: flex;

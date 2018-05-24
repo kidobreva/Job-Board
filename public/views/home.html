@@ -1,8 +1,6 @@
 <main class="home-page">
-    <div>
-        <h3>Търсене на обяви</h3>
-    </div>
     <section class="search-panel">
+        <h3>Търсене на обяви</h3>
         <form ng-submit="doSearch()">
             <div class="up">
                 <!-- Left -->
@@ -22,7 +20,7 @@
                     <!-- cities -->
                     <div class="form-group">
                     <label for="city">Населено място</label>
-                        <multiselect id="city" ng-model="search.cityId" id-prop="id" display-prop="name" options="cities" show-search="true" labels="labels"></multiselect>
+                        <multiselect id="city" ng-model="search.cityId" id-prop="id" display-prop="name" options="cities" show-search="true" search-limit="10" labels="labels"></multiselect>
                     </div>
                 </div>
 
@@ -80,45 +78,36 @@
         </form>
     </section>
 
-    <div>
+    <section class="professional-area">
         <h3>Професионални области</h3>
-    </div>
-    <div class="professional-area">
-        <ul>
-            <li ng-repeat="category in categories"><a href="/adverts/?categoryId={{category.id}}">{{category.name}}</a></li>
-        </ul>
-    </div>
+        <div>
+            <ul>
+                <li ng-repeat="category in categories">
+                    <a href="/adverts/?categoryId={{category.id}}">{{category.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </section>
 
     <!-- Banner -->
     <section class="banner">
-        <h5>
-            <span>To help entrepreneurs get their act together</span> before they talk to investors.
-        </h5>
+        <h5>„<span>Намери си работа, която ти харесва, и никога</span> няма да ти се налага да работиш.“</h5>
     </section>
 
     <!-- News -->
     <section class="news">
-        <h2>Водещи бизнес новини</h2>
-        <div class="news-container">
-            <div class="news-block">
-                <a href="http://www.economy.bg/management/view/31603/BILLA-Bylgariya-planira-da-otkrie-mezhdu-8-i-10-novi-magazina-tazi-godina">
-                    BILLA България планира да открие между 8 и 10 нови магазина тази година
-                </a>
-                <p>Вижте какво сподели управителят на компанията Бойко Сачански пред Economy.bg</p>
-            </div>
-
-            <div class="news-block">
-                <a href="http://www.economy.bg/appointments/view/31662/Lufthansa-Bylgariya-ima-nov-generalen-menidzhyr-prodazhbi">
-                    Lufthansa България има нов генерален мениджър продажби
-                </a>
-                <p>От 1 май Заид Геблауи ще отговаря за цялата търговска дейност и продажбите на всички авиокомпании от Lufthansa Group на българския пазар.</p>
-            </div>
-
-            <div class="news-block">
-                <a href="http://www.economy.bg/humancapital/view/31638/Zashto-edin-chuzhdestranen-IT-specialist-izbra-Bylgariya-pred-rodinata-si">
-                    Защо един чуждестранен ИТ специалист избра България пред родината си?
-                </a>
-                <p>Тук човек може да си позволи много повече неща за доста по-малко пари в сравнение с останалите държави от ЕС, казва Денис Юхно, Delivery мениджър в софтуерната компания DataArt.</p>
+        <h2>Водещи новини</h2>
+        <div class="news-container carousel">
+            <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                <div uib-slide ng-repeat="items in news track by $index" index="$index">
+                    <div class="news-block" ng-repeat="item in items">
+                        <a href="{{item.link}}">
+                            {{item.title}}
+                        </a>
+                        <div ng-bind-html="item.description"></div>
+                        <span>{{item.pubDate | date: 'MMM d, h:mm'}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
