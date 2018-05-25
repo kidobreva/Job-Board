@@ -1,5 +1,5 @@
 <main class="home-page">
-    <section class="search-panel">
+    <section class="search-panel" ng-if="loaded">
         <h3>Търсене на обяви</h3>
         <form ng-submit="doSearch()">
             <div class="up">
@@ -54,7 +54,7 @@
                                 <!-- level -->
                                 <div><b>Ниво на квалификация</b><br />
                                     <div ng-repeat="level in levels" class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" id="{{level.name}}" name="{{level.name}}" class="custom-control-input">
+                                        <input type="checkbox" ng-model="selectedLevels[level.id]" id="{{level.name}}" name="{{level.name}}" class="custom-control-input">
                                         <label class="custom-control-label" for="{{level.name}}">{{level.name}}</label>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                 <div class="dropdown-divider"></div>
                                 <div><b>Вид заетост</b><br />
                                     <div ng-repeat="type in types" class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" id="{{type.name}}" name="{{type.name}}" class="custom-control-input">
+                                        <input type="checkbox" ng-model="selectedTypes[type.id]" id="{{type.name}}" name="{{type.name}}" class="custom-control-input">
                                         <label class="custom-control-label" for="{{type.name}}">{{type.name}}</label>
                                     </div>
                                 </div>

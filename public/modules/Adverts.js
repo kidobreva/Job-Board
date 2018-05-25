@@ -28,66 +28,47 @@
     }
 
     // Service
-    function Service($rootScope, $location) {
+    function Service($rootScope) {
         // Get search data
         this.getSearchData = function() {
             return $rootScope.promise.get('/api/search-data');
         };
 
         // Search
-        this.doSearch = function(page, query) {
-            console.log($location.path().split('/')[1]);
-            if ($location.path().split('/')[1] === 'my-adverts') {
-                return $rootScope.promise.post('/api/adverts/' + page, query);
+        this.doSearch = function(page, query, size) {
+            if (size) {
+                query.size = size;
             }
-            return $rootScope.promise.post('/api/adverts/' + page, query);
+            query.page = +page;
+            return $rootScope.promise.post('/api/adverts', query);
         };
     }
 
     // Controller
-    function Ctrl(
-        AdvertsService,
-        $rootScope,
-        $scope,
-        $routeParams,
-        $location,
-        $timeout,
-        $route,
-        $sanitize
-    ) {
+    function Ctrl(AdvertsService, $rootScope, $scope, $routeParams, $location, $timeout) {
         console.log('Init Adverts Controller');
-        console.log($routeParams);
-        var first = true;
-
-        // Location path change without reload
-        var original = $location.path;
-        $location.path = function(path, reload) {
-            if (reload === false) {
-                var lastRoute = $route.current;
-                var un = $rootScope.$on('$locationChangeSuccess', function() {
-                    $route.current = lastRoute;
-                });
-                $timeout(un, 200);
-            }
-            return original.apply($location, [path]);
-        };
+        var isFirstVisit = true;
+        var isSize = false;
 
         // Initial values for pagination
         $scope.currentPage = $routeParams.page || 1;
         $scope.advertsPerPage = $routeParams.size || '5';
+        $scope.changeSize = function(size) {
+            // $scope.pageChanged(1, false, size);
+            isSize = true;
+        };
 
         // Change page
-        $scope.pageChanged = function(newPage, isPagination) {
-            console.log('newPage', newPage);
-            if (isPagination) {
-                scrollTo(document.documentElement, document.querySelector('header').offsetHeight, 400);
-            }
-            delete $routeParams.companyId;
+        $scope.pageChanged = function(newPage, isPagination, size) {
+            console.log($scope.advertsPerPage);
             var search = angular.copy($routeParams);
-            delete search.page;
-            if (!first) {
-                search.size = $scope.advertsPerPage.toString();
+            delete search.size;
+            if (isSize) {
+                search.size = $scope.advertsPerPage;
             }
+
+            delete search.companyId;
+            delete $routeParams.page;
             switch ($location.path().split('/')[1]) {
                 case 'my-adverts':
                     $location.path('/my-adverts/' + newPage, false);
@@ -106,30 +87,37 @@
                     break;
                 case 'company':
                     var isCompany = true;
-                    $location.path('/company/' + $routeParams.id, false);
+                    if (!isFirstVisit) {
+                        $location.path('/company/' + $routeParams.id + '/page/' + newPage, false);
+                    }
                     $routeParams.companyId = $routeParams.id;
-                    $routeParams.size = $scope.advertsPerPage.toString();
+                    // $routeParams.size = $scope.advertsPerPage.toString();
                     break;
                 default:
                     $location.path('/adverts/' + newPage, false);
             }
+
+            // Delete unused params
+            delete search.page;
             if (!isCompany) {
-                delete $routeParams.page;
+                // delete $routeParams.page;
             } else {
                 delete search.id;
             }
+
+            // fake the url and do search
+            console.log(search);
             $location.search(search);
             $scope.loaded = false;
-            if ($routeParams.keywords) {
-                var paramsCopy = angular.copy($routeParams);
-                paramsCopy.keywords = $sanitize($scope.search.keywords);
-                doSearch(newPage, paramsCopy);
-            } else {
-                doSearch(newPage, $routeParams);
+
+            console.log($scope.advertsPerPage);
+            doSearch(newPage, $routeParams, $scope.advertsPerPage);
+            isFirstVisit = false;
+
+            // animate scroll
+            if (isPagination) {
+                $rootScope.scrollTo(document.querySelector('header').offsetHeight, 400);
             }
-        };
-        $scope.changeSize = function() {
-            $scope.currentPage = 1;
         };
 
         // Get search data
@@ -145,8 +133,8 @@
             $scope.pageChanged($scope.currentPage);
         });
 
-        function doSearch(num, query) {
-            AdvertsService.doSearch(num, query)
+        function doSearch(num, query, size) {
+            AdvertsService.doSearch(num, query, size)
                 .then(function(result) {
                     console.log('Adverts', result);
                     $scope.adverts = result.data.adverts;
@@ -169,34 +157,6 @@
                     $scope.timeout = true;
                 }
             }, 1000);
-        }
-
-        // ScrollTo animation
-        function easeInOutQuad(t, b, c, d) {
-            //t = current time
-            //b = start value
-            //c = change in value
-            //d = duration
-            t /= d / 2;
-            if (t < 1) return c / 2 * t * t + b;
-            t--;
-            return -c / 2 * (t * (t - 2) - 1) + b;
-        }
-        function scrollTo(element, to, duration) {
-            var start = element.scrollTop,
-                change = to - start,
-                currentTime = 0,
-                increment = 20;
-
-            var animateScroll = function() {
-                currentTime += increment;
-                var val = easeInOutQuad(currentTime, start, change, duration);
-                element.scrollTop = val;
-                if (currentTime < duration) {
-                    setTimeout(animateScroll, increment);
-                }
-            };
-            animateScroll();
         }
     }
 
