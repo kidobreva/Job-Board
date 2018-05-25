@@ -19,6 +19,7 @@
         'MyCV',
         'UpdateProfile',
         'Messages',
+        'Message',
 
         // Companies
         'Company',

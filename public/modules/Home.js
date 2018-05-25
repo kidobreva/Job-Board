@@ -13,7 +13,7 @@
         console.log('Init Home Controller');
 
         // Carousel
-        $scope.myInterval = 15000;
+        $scope.myInterval = 10000;
         $scope.noWrapSlides = false;
         $scope.active = 0;
 

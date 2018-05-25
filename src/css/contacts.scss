@@ -2,21 +2,17 @@
 
 section {
     &.contacts {
-        width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        font-family: Tahoma, Helvetica, sans-serif;
-        color: #4e4b4b;
+        @include default-page-size;        
         .header-info h2 {
             border-bottom: 2px solid #4e4b4b;
         }
         .contact-div {
-            display: flex;
-            justify-content: space-around;
+            // display: flex;
+            // justify-content: space-around;
             form {
-                display: flex;
-                flex-direction: column;
-                width: 330px;
+                // display: flex;
+                // flex-direction: column;
+                // width: 330px;
                 font-size: 15px;
                 margin-top: 25px;
                 h4 {
@@ -53,5 +49,9 @@ section {
                 color: #ee382d;
             }
         }
+        @media all and (max-width: 980px) {
+            width: 100%
+        }
     }
+
 }

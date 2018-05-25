@@ -1,12 +1,14 @@
 //$ribbonTopColor: #a7a8eb;
 @mixin default-page-size {
-    width: 980px;
+    width: $pageWidth;
     margin: 0 auto;
     padding: 20px;
     font-family: Tahoma, Helvetica, sans-serif;
     color: #4e4b4b;
     font-size: 15px;
 }
+
+$pageWidth: 980px;
 
 @mixin header-h3 {
     font-size: 27px;

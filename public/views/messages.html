@@ -28,14 +28,16 @@
             <tr>
                 <th>Подател</th>
                 <th>Дата</th>
-                <th>Статус</th>
+                <th>Текст</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="msg in messages">
+            <tr ng-repeat="msg in messages" ng-class="{ 'table-primary': !msg.isRead }">
                 <td>{{msg.email}}</td>
                 <td>{{msg.date | date}}</td>
-                <td>Прочетено/Непрочетено</td>
+                <td>{{msg.msg}}</td>
+                <td><a href="/message/{{msg.id}}">Покажи</a></td>
             </tr>
         </tbody>
     </table>

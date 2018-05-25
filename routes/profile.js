@@ -227,29 +227,6 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
     }
 });
 
-// My messages
-router.get('/api/my-messages', (req, res) => {
-    console.log('My messages:', req.query);
-    const users = req.db.get('users');
-    if (req.session.user) {
-        users.findOne({ id: req.session.user.id }).then(user => {
-            console.log(user);
-            const messages = req.db.get('messages');
-            messages.find({ id: { $in: user.messages } }).then(msgs => {
-                console.log('Messages:', msgs);
-                if (msgs[0]) {
-                    res.json({
-                        messages: msgs
-                    });
-                } else {
-                    res.sendStatus(404);
-                    console.log('No messages!');
-                }
-            });
-        });
-    } else {
-        res.sendStatus(401);
-    }
-});
+
 
 module.exports = router;

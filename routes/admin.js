@@ -79,17 +79,6 @@ router.patch('/api/user/block/:id', (req, res) => {
     }
 });
 
-// (POST) Send message to Admin
-router.post('/api/send-message', (req, res) => {
-    const messages = req.db.get('messages');
-    messages.count().then(len => {
-        ++len;
-        messages.insert({ id: len, msg: req.body.msg, date: Date.now(), email: req.body.email });
-        const users = req.db.get('users');
-        users.findOneAndUpdate({ id: 0 }, { $push: { messages: len } }).then(() => {
-            res.sendStatus(200);
-        });
-    });
-});
+
 
 module.exports = router;
