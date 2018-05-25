@@ -64,7 +64,7 @@ router.get('/api/search-data', (req, res) => {
 // });
 
 // Search adverts
-router.post('/api/adverts/:page', (req, res) => {
+router.post('/api/adverts', (req, res) => {
     console.log('Search Adverts:', req.body);
     if (req.body.search) {
         delete req.body.search;
@@ -80,7 +80,7 @@ router.post('/api/adverts/:page', (req, res) => {
             req.body.levelId = { $in: req.body.levelId.split(',').map(id => +id) };
         }
         if (req.body.typeId) {
-            req.body.typeId = { $in: req.body.cityId.split(',').map(id => +id) };
+            req.body.typeId = { $in: req.body.typeId.split(',').map(id => +id) };
         }
         if (req.body.salary) {
             var salary = req.body.salary.split(',').map(id => +id);
@@ -92,9 +92,9 @@ router.post('/api/adverts/:page', (req, res) => {
     if (req.body.id) {
         delete req.body.id;
     }
-    delete req.body.page;
 
-    const page = req.params.page;
+    const page = req.body.page || 1;
+    delete req.body.page;
     const itemsOnPage = req.body.size;
     delete req.body.size;
     if (req.body.keywords) {

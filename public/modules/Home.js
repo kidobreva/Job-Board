@@ -21,6 +21,8 @@
         $scope.search = {
             keywords: ''
         };
+        $scope.selectedLevels = {};
+        $scope.selectedTypes = {};
         $scope.status = {
             isopen: false
         };
@@ -59,11 +61,15 @@
 
         // Search
         $scope.doSearch = function() {
-            var url = '/adverts/1?search=true';
+            var url = '';
             Object.keys($scope.search).forEach(function(prop) {
                 if (typeof $scope.search[prop] !== 'object') {
-                    url += '&' + prop + '=' + $scope.search[prop];
+                    // Keywords
+                    if ($scope.search[prop]) {
+                        url += '&' + prop + '=' + $scope.search[prop];
+                    }
                 } else {
+                    // Category and city
                     url += '&' + prop + '=';
                     var arr = [];
                     Object.keys($scope.search[prop]).forEach(function(obj, i) {
@@ -72,7 +78,38 @@
                     url += arr;
                 }
             });
-            url += '&' + 'salary=' + $scope.slider.minValue + ',' + $scope.slider.maxValue;
+
+            // Salary
+            if (
+                $scope.slider.minValue !== $scope.slider.options.floor ||
+                $scope.slider.maxValue !== $scope.slider.options.ceil
+            ) {
+                url += '&' + 'salary=' + $scope.slider.minValue + ',' + $scope.slider.maxValue;
+            }
+
+            // Levels
+            var levelId = '';
+            Object.keys($scope.selectedLevels).forEach(function(level) {
+                if ($scope.selectedLevels[level]) {
+                    levelId += level + ',';
+                }
+            });
+            if (levelId) {
+                url += '&' + 'levelId=' + levelId.slice(0, -1);
+            }
+
+            // Types
+            var typeId = '';
+            Object.keys($scope.selectedTypes).forEach(function(type) {
+                if ($scope.selectedTypes[type]) {
+                    typeId += type + ',';
+                }
+            });
+            if (typeId) {
+                url += '&' + 'typeId=' + typeId.slice(0, -1);
+            }
+
+            url = url ? '/adverts/1?search=true' + url : '/adverts/1';
             $location.url(url);
         };
 
