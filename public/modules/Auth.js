@@ -44,7 +44,11 @@
                 .then(function(response) {
                     $rootScope.isLogged = true;
                     $rootScope.user = response.data;
-                    $location.path('/profile');
+                    if ($rootScope.user.role === 'ADMIN') {
+                        $location.path('/admin');
+                    } else {
+                        $location.path('/profile');
+                    }
                     $rootScope.$apply();
                 })
                 .catch(function(err) {
@@ -73,7 +77,7 @@
                     $scope.registerUser.bulstat = '';
                     $scope.registerUser.email = '';
                     $scope.registerUser.password = '';
-                    $scope.registerUser.repeatPassword = '';                    
+                    $scope.registerUser.repeatPassword = '';
                     console.error(err.data);
                     $rootScope.$apply();
                 });
@@ -84,12 +88,18 @@
         $scope.addAlert = function(status) {
             $scope.alerts.length = 0;
             console.log(status);
-            if (status === 409){
-                $scope.alerts.push({ type: 'warning', msg: 'Потребител с такъв имейл вече съществува!' });
+            if (status === 409) {
+                $scope.alerts.push({
+                    type: 'warning',
+                    msg: 'Потребител с такъв имейл вече съществува!'
+                });
             } else {
-                $scope.alerts.push({ type: 'warning', msg: 'Потребител с такъв булстат вече съществува!' });
+                $scope.alerts.push({
+                    type: 'warning',
+                    msg: 'Потребител с такъв булстат вече съществува!'
+                });
             }
-            
+
             $scope.$apply();
         };
         $scope.closeAlert = function(index) {
@@ -99,7 +109,8 @@
         // Validate pass
         $scope.validatePass = function() {
             var invalid = false;
-            $scope.shortPass = $scope.registerUser.password.length && $scope.registerUser.password.length < 6;
+            $scope.shortPass =
+                $scope.registerUser.password.length && $scope.registerUser.password.length < 6;
             if (
                 $scope.registerUser.repeatPassword &&
                 $scope.registerUser.repeatPassword !== $scope.registerUser.password
@@ -112,12 +123,14 @@
         // Validate bulstat
         $scope.validateBulstat = function() {
             var errBulstat = false;
-            if ($scope.registerUser.bulstat.length &&
-                ($scope.registerUser.bulstat.length !== 9 || !$scope.isNumberBulstat())) {
-                    errBulstat = true;
+            if (
+                $scope.registerUser.bulstat.length &&
+                ($scope.registerUser.bulstat.length !== 9 || !$scope.isNumberBulstat())
+            ) {
+                errBulstat = true;
             }
             $scope.errBulstat = errBulstat;
-        }
+        };
 
         $scope.isNumberBulstat = function() {
             var regex = /^[0-9]*$/gm;
@@ -129,7 +142,7 @@
             if (isCompany) {
                 $scope.registerUser.isCompany = true;
             }
-        }
+        };
     }
 
     // Module

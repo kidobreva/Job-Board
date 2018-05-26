@@ -33,7 +33,8 @@
 
         // Other
         'Home',
-        'Contacts'
+        'Contacts',
+        'Admin'
     ];
 
     // Config

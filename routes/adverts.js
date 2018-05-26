@@ -117,7 +117,7 @@ router.post('/api/advert', (req, res) => {
             adverts.findOne({ id: advertBody.id }).then(advert => {
                 if (advert) {
                     // Update the advert
-                    advert = {
+                    const updatedFields = {
                         categoryId: +advertBody.categoryId,
                         cityId: +advertBody.cityId,
                         description: advertBody.description,
@@ -130,11 +130,13 @@ router.post('/api/advert', (req, res) => {
                         title: advertBody.title,
                         typeId: +advertBody.typeId
                     };
-                    adverts.findOneAndUpdate({ id: advert.id }, advert).then(() => {
-                        req.session.save(() => {
-                            res.sendStatus(200);
+                    adverts
+                        .findOneAndUpdate({ id: advert.id }, { $set: updatedFields })
+                        .then(() => {
+                            req.session.save(() => {
+                                res.json({ id: advert.id });
+                            });
                         });
-                    });
                 } else {
                     // Create the advert
                     const now = Date.now();
@@ -214,14 +216,15 @@ router.post('/api/apply', (req, res) => {
                                 ++len;
                                 messages.insert({
                                     id: len,
-                                    date: Date.now(),                                    
+                                    date: Date.now(),
                                     advertId: advert.id,
                                     advertTitle: advert.title,
                                     candidate: {
                                         cv: req.session.user.cv,
                                         name: `${req.session.user.firstName} ${
-                                                req.session.user.lastName}`
-                                        }
+                                            req.session.user.lastName
+                                        }`
+                                    }
                                 });
                                 users
                                     .findOneAndUpdate(

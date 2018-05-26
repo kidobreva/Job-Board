@@ -1,0 +1,28 @@
+<!-- Admin -->
+<div ng-if="loaded && user.role === 'ADMIN'" class="profile-page">
+    <section class="user-profile">
+        <div class="user-info"></div>
+        <div class="profil-controll">
+            <div class="page-options">
+                <strong>Админ панел</strong>
+            </div>
+            <div class="options">
+                <span><a href="/admin/users">Кандидати</a> [{{ users.length }}]</span>
+                <a href="/admin/users">Покажи</a>
+            </div>
+            <div class="options">
+                <span><a href="/admin/categories">Категории</a> [{{ categories.length }}]</span>
+                <a href="/admin/categories">Промени</a>
+            </div>
+            <div class="options">
+                <span><a href="/messages">Съобщения</a> [{{ user.messages.length }}]</span>
+                <a href="/messages">Покажи</a>
+                </div>
+            <div class="options">
+                <span><a href="/update-profile">Промяна на лични данни</a></span>
+                <a href="/update-profile">Покажи</a>
+            </div>
+        </div>
+        <div id="loader" ng-if="timeout"></div>
+    </section>
+</div>

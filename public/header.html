@@ -1,71 +1,70 @@
 <div><a href="/home"><img src="images/logo.png" /></a></div>
 <nav ng-if="headerLoaded" class="nav-menu">
     <ul class="nav-primary">
-        <!-- Left part of the menu -->
-        <!-- Home -->
-        <li class="nav-item home-btn"
-            ng-class="{activeMenu: isActive('/home') }">
+        <div>
+            <!-- Left part of the menu -->
+            <!-- Home -->
+            <li class="nav-item home-btn"
+                ng-class="{activeMenu: isActive('/home') }">
 
-            <a href="/home">Начало</a>
-        </li>
+                <a href="/home">Начало</a>
+            </li>
 
-        <!-- Profile -->
-        <li class="nav-item profile-btn"
-            ng-if="$root.isLogged"
-            ng-class="{activeMenu: isActive('/profile') }">
+            <!-- Profile -->
+            <li class="nav-item profile-btn"
+                ng-if="$root.isLogged"
+                ng-class="{activeMenu: isActive('/profile') || isActive('/admin') }">
 
-            <a href="/profile">Профил</a>
-        </li>
+                <a ng-if="$root.user.role !== 'ADMIN'" href="/profile">Профил</a>
+                <a ng-if="$root.user.role === 'ADMIN'" href="/admin">Админ панел</a>
+            </li>
 
-        <!-- Adverts -->
-        <li class="nav-item adverts-btn"
-            ng-class="{activeMenu: isActive('/adverts', true) }">
+            <!-- Adverts -->
+            <li class="nav-item adverts-btn"
+                ng-class="{activeMenu: isActive('/adverts', true) }">
 
-            <a href="/adverts/1">Обяви за работа</a>
-        </li>
+                <a href="/adverts/1">Обяви за работа</a>
+            </li>
 
-        <!-- Companies -->
-        <li class="nav-item companies-btn"
-            ng-class="{activeMenu: isActive('/companies') }">
+            <!-- Companies -->
+            <li class="nav-item companies-btn"
+                ng-class="{activeMenu: isActive('/companies') }">
 
-            <a href="/companies">Работодатели</a>
-        </li>
+                <a href="/companies">Работодатели</a>
+            </li>
+        </div>
 
         <!-- Right part of the menu -->
-        <!-- About -->
-        <li class="menu-right nav-item about-btn with-margin"
-            ng-class="{activeMenu: isActive('/about') }">
+        <div class="menu-right">
+            <!-- About -->
+            <li class="nav-item about-btn"
+                ng-class="{activeMenu: isActive('/about') }">
 
-            <a href="/about">За нас</a>
-        </li>
+                <a href="/about">За нас</a>
+            </li>
 
-        <!-- Contacts -->
-        <li class="menu-right nav-item contacts-btn"
-            ng-class="{activeMenu: isActive('/contacts') }">
+            <!-- Contacts -->
+            <li class="nav-item contacts-btn"
+                ng-class="{activeMenu: isActive('/contacts') }">
 
-            <a href="/contacts">Контакти</a>
-        </li>
+                <a href="/contacts">Контакти</a>
+            </li>
 
-        <!-- Login -->
-        <li class="menu-right nav-item login-btn"
-            ng-if="!$root.isLogged"
-            ng-class="{activeMenu: isActive('/auth') }">
+            <!-- Login -->
+            <li class="nav-item login-btn"
+                ng-if="!$root.isLogged"
+                ng-class="{activeMenu: isActive('/auth') }">
 
-            <a href="/auth">Вход и регистрация</a>
-        </li>
+                <a href="/auth">Вход и регистрация</a>
+            </li>
 
-        <!-- Logout -->
-        <li class="menu-right nav-item logout-btn"
-            ng-if="$root.isLogged"
-            ng-class="{activeMenu: isActive('/logout') }">
+            <!-- Logout -->
+            <li class="nav-item logout-btn"
+                ng-if="$root.isLogged"
+                ng-class="{activeMenu: isActive('/logout') }">
 
-            <a href="/logout">Излез</a>
-        </li>
+                <a href="/logout">Излез</a>
+            </li>
+        </div>
     </ul>
 </nav>
-
-<!-- <section class="search">
-    <div>
-        <input type="text">
-    </div>
-</section> -->

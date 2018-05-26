@@ -43,10 +43,17 @@ header img {
 
 header > div {
     margin-bottom: 1.5rem;
+    display: flex;
     padding: 0.25rem 0.5rem;
     width: 980px;
     align-self: center;
     // background: rgba(0, 0, 0, 0.5);
+}
+
+@media all and (max-width: 980px) {
+    header > div {
+        width: 100%;
+    }
 }
 
 /* Navigation */
@@ -63,20 +70,25 @@ nav {
     margin: 0 auto;
 
     background: rgba(30, 144, 255, 0.9);
-
     > ul {
-        line-height: 1;
+        margin: 0;
+        padding: 0;
+        width: 100%;
 
         display: flex;
+        justify-content: space-between;
+        list-style: none;
+    }
+    > ul > div.menu-right {
+        // justify-content: flex-end;
+    }
+    > ul > div {
+        line-height: 1;
+        display: flex;
+        justify-content: center;
         zoom: 1;
         flex-wrap: wrap;
         /* justify-content: center; */
-
-        width: 100%;
-        margin: 0;
-        padding: 0;
-
-        list-style: none;
 
         /* text-align: center; */
         /* background: white; */
@@ -113,22 +125,30 @@ nav {
     }
 }
 
-.with-margin {
-    margin-left: auto;
-}
-
-@media all and (max-width: 1020px) {
+@media all and (max-width: 980px) {
     nav {
         width: 100%;
+        ul {
+            flex-direction: column;
+        }
     }
-    nav ul {
-        width: 100%;
+    body > header {
+        background-position-x: -250px;
+    }
+}
+
+@media all and (max-width: 680px) {
+    body > header {
+        height: auto;
+    }
+    body > header > div {
+        justify-content: center;
     }
 }
 
 @media all and (max-width: 800px) {
-    nav > ul > li {
-        flex: 1 1 20%;
+    nav > ul > div > li {
+        // flex: 1 1 20%;
     }
 }
 
@@ -136,8 +156,12 @@ nav {
     nav {
         position: static;
     }
-    nav > ul > li {
+    nav > ul > div > li {
         flex: 1 1 100%;
+        text-align: center;
+    }
+    header img {
+        width: 100%;
     }
 }
 
@@ -255,12 +279,11 @@ nav {
 }
 
 .messages-page {
-
     margin-top: 1.5rem;
 }
 .messages {
     width: 980px;
-    
+
     // text-align: center;
 }
 
