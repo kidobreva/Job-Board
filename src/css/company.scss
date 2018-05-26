@@ -17,6 +17,9 @@ section {
                     max-height: 200px;
                     margin: 0 auto;
                     padding: 15px 0;
+                    @media all and (max-width: 980px) {
+                        width: 50%;
+                    }
                 }
             }
             h2 {
@@ -52,6 +55,21 @@ section {
                     margin-top: 20px;
                 }
             }
+            @media all and (max-width: 800px) {
+                flex-direction: column;
+                main,
+                aside {
+                    width: 90%;
+                    align-self: center;
+                }
+            }
         }
+        @media all and (max-width: 980px) {
+            width: 100%;
+            margin: 2rem 0;
+            div.company-info {
+                justify-content: space-around;
+            }
+        }        
     }
 }

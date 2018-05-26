@@ -2,12 +2,8 @@
 
 section {
     &.price {
-        width: 1000px;
-        margin: 0 auto;
+        @include default-page-size;
         padding: 20px;
-        font-family: Tahoma, Helvetica, sans-serif;
-        color: #4e4b4b;
-        font-size: 15px;
         .header-info {
             margin-bottom: 30px;
             h2 {
@@ -27,6 +23,9 @@ section {
             margin-top: 0.5rem;
             display: block;
             white-space: nowrap;
+        }
+        @media all and (max-width: 980px) {
+            width: 100%
         }
     }
 }

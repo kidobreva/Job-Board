@@ -7,7 +7,7 @@
 section {
     &.user-profile,
     &.company-profile {
-        padding-top: 2rem;
+        //padding-top: 2rem;
         width: 980px;
         margin: 0 auto;
         display: flex;
@@ -16,6 +16,7 @@ section {
         }
         .user-info,
         .company-info {
+            //width: 320px;
             width: 30%;
             .no-company-picture,
             .no-profile-picture {
@@ -28,12 +29,12 @@ section {
             }
             .company-picture,
             .profile-picture {
-                width: 80%;
+                width: 70%;
                 //height: 150px;
                 line-height: 150px;
                 margin-bottom: $margin-bottom;
                 img {
-                    width: 100%;
+                    width: 80%;
                 }
             }
             .info-panel {
@@ -42,12 +43,29 @@ section {
                 background: #fff;
                 box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
             }
+            
         }
+        @media all and (max-width: 980px) {                  
+            width: 100%;
+        }
+        @media all and (max-width: 800px) {
+            width: 100%;
+            .user-info,
+            .company-info {
+                display: none;
+            }
+            .profil-controll {
+                width: 100%;
+            }
+        }             
     }
+    
     .profil-controll {
+        padding-top: 2rem;
         margin-left: 50px;
-        margin-top: 40px;
-        width: 100%;
+        //margin-top: 40px;
+        //width: 660px;
+        width: 70%;
         .page-options {
             background: rgba(186, 216, 247, 0.9);
             color: #000;
@@ -60,5 +78,8 @@ section {
             padding: 26px 0;
             border-bottom: 1px solid #ccc;
         }
+        // @media all and (max-width: 800px) {
+        //     width: 100%;
+        // }
     }
 }

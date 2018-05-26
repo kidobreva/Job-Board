@@ -14,7 +14,6 @@ footer {
         list-style: none;
         ul.socials {
             font-size: 1.8rem;
-
             display: flex;
             justify-content: space-between;
             list-style: none;
@@ -53,21 +52,44 @@ footer {
                 padding-left: 10px;
             }
         }
-    }
-    .navigation ul {
-        display: flex;
-        margin-top: 25px;
-        padding-left: 0;
-        list-style: none;
-        li {
-            padding-left: 30px;
-            a {
-                font-size: 18px;
-                text-decoration: none;
-                color: white;
-                &:hover {
-                    text-decoration: underline;
+        .navigation ul {
+            display: flex;
+            margin-top: 25px;
+            padding-left: 0;
+            list-style: none;
+            li {
+                padding-left: 30px;
+                a {
+                    font-size: 18px;
+                    text-decoration: none;
+                    color: white;
+                    &:hover {
+                        text-decoration: underline;
+                    }
                 }
+            }
+        }
+        @media all and (max-width: 980px) {
+            justify-content: center;
+            max-width: 100%;
+            .payments-methods {
+                margin-left: 100px;
+            }
+            ul {
+                flex-direction: column;
+            }
+        }
+    }
+    
+    @media all and (max-width: 580px) {
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        .payments-methods {
+            margin-top: 140px;
+            margin-left: 190px;
+            svg {
+                padding-left: 0px;
             }
         }
     }
