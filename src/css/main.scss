@@ -25,6 +25,10 @@ body {
     min-height: 500px;
     // padding-top: 1.5rem;
     /* margin: 20px 0; */
+    @media all and (max-width: 480px) {
+        width: 90%;
+        margin-left: 20px;
+    }
 }
 
 .home-page {
@@ -294,7 +298,15 @@ nav {
     }
 }
 
-
 .popover .row {
     justify-content: space-evenly;
+}
+
+@media all and (max-width: 980px) {
+    .messages-page {
+        width: 100%;
+    }
+    .messages table {
+        width: 100%;
+    }
 }

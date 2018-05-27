@@ -29,5 +29,21 @@ section {
             }
             
         }
+        @media all and (max-width: 980px) {
+            width: 100%;
+            .companies-div {
+                width: 29%;
+            }
+        }
+        @media all and (max-width: 800px) {
+            .companies-div {
+                width: 44%;
+            }
+        }
+        @media all and (max-width: 540px) {
+            .companies-div {
+                width: 80%;
+            }
+        }
     }
 }

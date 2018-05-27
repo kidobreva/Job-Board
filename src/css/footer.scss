@@ -12,9 +12,11 @@ footer {
         flex-direction: column;
         justify-content: center;
         list-style: none;
+        @media all and (max-width: 580px) {
+            height: 300px;
+        }
         ul.socials {
             font-size: 1.8rem;
-
             display: flex;
             justify-content: space-between;
             list-style: none;
@@ -42,6 +44,12 @@ footer {
                 width: 200px;
             }
         }
+        @media all and (max-width: 480px) {
+            ul {
+                margin: 0;
+                padding: 0;
+            }
+        }
     }
     .navigation-footer {
         display: flex;
@@ -53,23 +61,51 @@ footer {
                 padding-left: 10px;
             }
         }
-    }
-    .navigation ul {
-        display: flex;
-        margin-top: 25px;
-        padding-left: 0;
-        list-style: none;
-        li {
-            padding-left: 30px;
-            a {
-                font-size: 18px;
-                text-decoration: none;
-                color: white;
-                &:hover {
-                    text-decoration: underline;
+        .navigation ul {
+            display: flex;
+            margin-top: 25px;
+            padding-left: 0;
+            list-style: none;
+            li {
+                padding-left: 30px;
+                a {
+                    font-size: 18px;
+                    text-decoration: none;
+                    color: white;
+                    &:hover {
+                        text-decoration: underline;
+                    }
                 }
             }
         }
+        @media all and (max-width: 980px) {
+            justify-content: center;
+            max-width: 100%;
+            .payments-methods {
+                margin-left: 100px;
+            }
+            ul {
+                flex-direction: column;
+            }
+        }
+    }
+
+    @media all and (max-width: 580px) {
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        .navigation-footer .payments-methods {
+            margin-left: 0;
+            svg {
+                padding-left: 0;
+            }
+        }
+    }
+
+    @media all and (max-width: 480px) {
+        height: auto;
+        align-items: center;
     }
 }
 

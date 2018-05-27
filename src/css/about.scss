@@ -15,5 +15,8 @@ section {
         ul.list {
             list-style-type: disc;
         }
+        @media all and (max-width: 980px) {
+            width: 100%
+        }
     }
 }
