@@ -65,5 +65,33 @@ section {
                 }
             }
         }
+        @media all and (max-width: 980px) {                  
+            width: 100%;
+            flex-direction: column-reverse;
+            align-items: center;
+            img {
+                width: 50%;
+                align-self: center;
+            }
+            aside {
+                margin-top: 30px;
+            }
+        }
+
+        @media all and (max-width: 650px) {
+            .advert-description {
+                width: 90%;
+                margin-right: 60px;
+            }
+        }
+        @media all and (max-width: 480px) { 
+            min-width: 480px;                 
+            width: 90%;
+            .advert-description {
+                width: 90%;
+                margin-right: 0;
+                //margin: 0 10px;
+            }
+        }
     }
 }

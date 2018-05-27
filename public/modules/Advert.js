@@ -72,6 +72,7 @@
             }
         }, 1000);
 
+        $scope.advertAlert;
         // Save to favourites
         $scope.save = function() {
             $rootScope
@@ -79,6 +80,9 @@
                 .then(function() {
                     AdvertService.save($scope.advert.id)
                         .then(function(response) {
+                            //console.log('Alerts', $scope.addAlert);
+                            $scope.advertAlert = false;
+                            $scope.addAlert();
                             console.log(response);
                         })
                         .catch(function(err) {
@@ -97,6 +101,9 @@
                 .then(function() {
                     AdvertService.apply($scope.advert.id)
                         .then(function(response) {
+                            //console.log('Alerts2', $scope.addAlert);
+                            $scope.advertAlert = true;
+                            $scope.addAlert();
                             console.log(response);
                         })
                         .catch(function(err) {
@@ -117,6 +124,21 @@
                 .catch(function(err) {
                     console.error(err.data);
                 });
+        };
+
+        // Alerts
+        $scope.alerts = [];
+        $scope.addAlert = function() {
+            $scope.alerts.length = 0;
+            if ($scope.advertAlert === false) {
+                $scope.alerts.push({ type: 'primary', msg: 'Обявата беше запазена успешно!' });
+            } else {
+                $scope.alerts.push({ type: 'success', msg: 'Успешно кандидатствахте за тази обява!' });
+            }                                                                                      
+            $scope.$apply();
+        };
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
         };
     }
 

@@ -48,23 +48,26 @@ section {
         @media all and (max-width: 980px) {                  
             width: 100%;
         }
-        @media all and (max-width: 800px) {
+        @media all and (max-width: 680px) {                  
             width: 100%;
-            .user-info,
-            .company-info {
-                display: none;
-            }
+            flex-direction: column;
+            align-items: center;
             .profil-controll {
-                width: 100%;
-            }
+                margin: 0px;
+                a.shown {
+                    display: none;
+                }
+            }                       
+        }
+        @media all and (max-width: 480px) {
+            min-width: 480px;
+            width: 100%;
         }             
     }
     
     .profil-controll {
         padding-top: 2rem;
         margin-left: 50px;
-        //margin-top: 40px;
-        //width: 660px;
         width: 70%;
         .page-options {
             background: rgba(186, 216, 247, 0.9);
@@ -77,12 +80,20 @@ section {
             justify-content: space-between;
             padding: 26px 0;
             border-bottom: 1px solid #ccc;
+        }       
+    }
+    &.user-profile,
+    &.company-profile {
+        @media all and (max-width: 680px) {
+            .user-info,
+            .company-info,
+            .profil-controll {
+                width: 90%;
+            }
         }
-        // @media all and (max-width: 800px) {
-        //     width: 100%;
-        // }
     }
 }
+
 
 .upload-file {
     canvas {

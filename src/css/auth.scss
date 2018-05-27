@@ -13,6 +13,7 @@ section {
             margin-bottom: 1.5rem;
         }
         .register-users {
+            order: 1;
             //width: 350px;
             .radios {
                 margin: 1.5rem 1rem;
@@ -117,10 +118,11 @@ section {
         @media all and (max-width: 980px) {
             width: 100%;
             margin-left: 30px;
+            //flex-direction: column-reverse;
         }
-        @media all and (max-width: 575px) {
-            flex-direction: column-reverse;
-        }
+        // @media all and (max-width: 600px) {
+        //     flex-direction: column-reverse;
+        // }
     }
 }
 

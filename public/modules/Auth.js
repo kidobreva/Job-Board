@@ -111,10 +111,20 @@
         };
 
         // Validate email
-        $scope.validateEmail = function() {
+        var emailRegex = function() {
             var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return regex.test(String($scope.registerUser.email).toLowerCase());
         };
+        
+        $scope.validateEmail = function () {
+            var invalidEmail = false;
+            console.log('Regex', emailRegex());
+            if ($scope.registerUser.email && !emailRegex()) {
+                invalidEmail = true;
+            }
+            $scope.invalidEmail = invalidEmail;
+            console.log($scope.invalidEmail);
+        }
 
         // Validate pass
         $scope.validatePass = function() {
