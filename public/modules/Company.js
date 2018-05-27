@@ -31,7 +31,7 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, AdvertsService, $routeParams, $scope, $timeout, $rootScope, $location) {
+    function Ctrl(CompanyService, AdvertsService, $routeParams, $scope, $timeout) {
         console.log('Init Company Controller');
 
         AdvertsService.getSearchData().then(function(res) {
@@ -64,7 +64,12 @@
         }, 1000);
 
         // (Admin) Block company
-        $scope.blockCompany = CompanyService.getCompany.bind(null);
+        $scope.blockCompany = function() {
+            var conf = confirm('Наистина ли искате да блокирате организацията?');
+            if (conf) {
+                CompanyService.getCompany();
+            }
+        };
     }
 
     // Module

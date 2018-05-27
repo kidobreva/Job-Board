@@ -1,8 +1,6 @@
 <div id="loader" ng-if="timeout"></div>
 <div>
   <section class="company-page">
-      <button class="btn btn-danger" ng-if="user.role === 'ADMIN'" ng-click="blockCompany()">Блокирай фирмата</button>
-        <button class="btn btn-danger" ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
     <div class="header">
       <div class="company-img">
           <img src="{{company.img}}" alt="">
@@ -11,10 +9,23 @@
     </div>
     <div class="company-info">
       <main>
+        <!-- Video -->
+        <div ng-if="company.video">
+          <video src="{{company.video}}" controls>
+            Браузърът Ви не поддържа видео!
+          </video>
+        </div>
+
+        <!-- Description -->
         <div>
           <h5 ng-if="company.description">За компнанията</h5>
           <div ng-bind-html="company.description"></div>
         </div>
+
+        <!-- Gallery -->
+        <simple-image-gallery ng-if="company.pictures[0]" images="company.pictures"></simple-image-gallery>
+
+        <!-- Contacts -->
         <div ng-if="company.contacts">
           <h5>Контакти</h5>
           <p><strong>Адрес: </strong>{{company.contacts.address}}</p>
@@ -22,6 +33,8 @@
           <p><strong>Официален сайт: </strong><a href="{{company.contacts.website}}">{{company.contacts.website}}</a></p>
         </div>
       </main>
+
+      <!-- Adverts -->
       <aside ng-controller="Adverts">
         <div>
           <h5>Всички обяви на компанията</h5>
@@ -40,6 +53,7 @@
               <span><strong>Публикувана на: </strong>{{ advert.date | date }}, гр. {{cities[advert.cityId - 1].name}}</span>
               <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
             </div>
+
             <!-- Pagination -->
             <div class="page-list">
               <dir-pagination-controls on-page-change="pageChanged(newPageNumber, true)"></dir-pagination-controls>
@@ -47,5 +61,23 @@
         </div>
       </aside>
     </div>
+
+    <!-- Buttons -->
+    <button
+      ng-if="user.role === 'ADMIN'"
+      class="btn btn-danger"
+      mwl-confirm
+      title="Блокиране на организация"
+      message="Сигурни ли сте, че искате да блокирате организацията?"
+      confirm-text="Блокирай"
+      cancel-text="Откажи"
+      placement="right"
+      on-confirm="blockCompany()"
+      on-cancel="cancelClicked = true"
+      confirm-button-type="danger"
+      cancel-button-type="default"
+    >Блокирай организацията</button>
+
+    <button class="btn btn-danger" ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
   </section>
 </div>

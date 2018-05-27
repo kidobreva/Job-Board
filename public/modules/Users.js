@@ -52,7 +52,7 @@
             // If there's no user
             .catch(function() {
                 // Redirect to the login
-                $location.path('/auth');
+                $location.url('/auth?redirect=' + $location.path());
             });
     }
 

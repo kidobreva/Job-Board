@@ -27,11 +27,14 @@ section {
         div.company-info {
             display: flex;
             justify-content: space-between;
-            margin: 40px 0;
+            margin-top: 2.5rem;
             main {
                 width: 48%;
                 div {
                     margin-bottom: 25px;
+                    video {
+                        width: 100%;
+                    }
                 }
             }
             div > h5 {

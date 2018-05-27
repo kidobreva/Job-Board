@@ -10,6 +10,9 @@
         'angular.backtop',
         'btorfs.multiselect',
         'rzModule',
+        'mwl.confirm',
+        'angularFileUpload',
+        'fblindSimpleImageGallery',
 
         // Users
         'Auth',
@@ -40,7 +43,7 @@
     // Config
     function Config($locationProvider, $routeProvider, paginationTemplateProvider) {
         $locationProvider.html5Mode(true);
-        paginationTemplateProvider.setPath('vendors/angular/dirPagination.tpl.html');
+        paginationTemplateProvider.setPath('vendors/angular/dirPagination/dirPagination.tpl.html');
 
         // Routes
         $routeProvider.when('/about', {

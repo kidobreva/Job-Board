@@ -86,7 +86,7 @@
                         });
                 })
                 .catch(function() {
-                    $location.path('/auth');
+                    $location.url('/auth?redirect=' + $location.path());
                 });
         };
 
@@ -104,7 +104,7 @@
                         });
                 })
                 .catch(function() {
-                    $location.path('/auth');
+                    $location.url('/auth?redirect=' + $location.path());
                 });
         };
 

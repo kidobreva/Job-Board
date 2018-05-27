@@ -34,7 +34,7 @@
     }
 
     // Controller
-    function Ctrl(AuthService, $rootScope, $scope, $location) {
+    function Ctrl(AuthService, $rootScope, $scope, $location, $routeParams) {
         console.log('Init Auth Controller');
         $scope.registerUser = {};
         $scope.registerUser.isCompany = false;
@@ -44,10 +44,14 @@
                 .then(function(response) {
                     $rootScope.isLogged = true;
                     $rootScope.user = response.data;
-                    if ($rootScope.user.role === 'ADMIN') {
-                        $location.path('/admin');
+                    if ($routeParams.redirect) {
+                        $location.url($routeParams.redirect);
                     } else {
-                        $location.path('/profile');
+                        if ($rootScope.user.role === 'ADMIN') {
+                            $location.path('/admin');
+                        } else {
+                            $location.path('/profile');
+                        }
                     }
                     $rootScope.$apply();
                 })

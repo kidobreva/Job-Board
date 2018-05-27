@@ -63,7 +63,7 @@ function registerUser(req, res) {
     const users = req.db.get('users');
     users.count().then(len => {
         // before register
-        user = {
+        const user = {
             id: len++
         };
         if (req.body.isCompany) {
@@ -72,6 +72,7 @@ function registerUser(req, res) {
             user.bulstat = req.body.bulstat;
             user.adverts = [];
             user.messages = [];
+            user.pictures = [];
         } else {
             user.role = 'USER';
             user.firstName = req.body.firstName;
@@ -114,7 +115,7 @@ router.post('/api/register', (req, res) => {
         // get users and check for existing email
         const users = req.db.get('users');
         if (req.body.isCompany) {
-            users.findOne({bulstat: req.body.bulstat || 0 }).then(user => {
+            users.findOne({ bulstat: req.body.bulstat || 0 }).then(user => {
                 if (user) {
                     res.sendStatus(400);
                 } else {
@@ -135,7 +136,7 @@ router.post('/api/register', (req, res) => {
                     registerUser(req, res);
                 }
             });
-        }        
+        }
     }
 });
 

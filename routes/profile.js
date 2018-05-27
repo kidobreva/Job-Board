@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const sha1 = require('sha1');
 const fs = require('fs');
+const multer = require('multer');
 const path = require('path');
+const mime = require('mime');
 
 // (GET) Profile
 router.get('/api/profile', (req, res) => {
@@ -40,7 +42,7 @@ router.get('/api/edit-profile', (req, res) => {
                                 role: user.role,
                                 firstName: user.firstName,
                                 lastName: user.lastName
-                            }
+                            };
                             break;
                         case 'COMPANY':
                             user = {
@@ -48,7 +50,7 @@ router.get('/api/edit-profile', (req, res) => {
                                 role: user.role,
                                 description: user.description,
                                 contacts: user.contacts
-                            }
+                            };
                             break;
                     }
                     res.json(user);
@@ -63,7 +65,6 @@ router.get('/api/edit-profile', (req, res) => {
         res.sendStatus(401);
     }
 });
-
 
 // (POST) Upload picture
 router.post('/api/profile/upload-picture/:id', (req, res) => {
@@ -146,7 +147,7 @@ router.post('/api/profile/edit', (req, res) => {
                                     firstName: user.firstName,
                                     lastName: user.lastName
                                 }
-                            }
+                            };
                             break;
                         case 'COMPANY':
                             user = {
@@ -155,7 +156,7 @@ router.post('/api/profile/edit', (req, res) => {
                                     description: user.description,
                                     contacts: user.contacts
                                 }
-                            }
+                            };
                             break;
                     }
                     if (req.body.newPassword) {
@@ -169,7 +170,7 @@ router.post('/api/profile/edit', (req, res) => {
                     users.findOneAndUpdate({ id: req.session.user.id }, user).then(() => {
                         // req.session.user = user;
                         // req.session.save(() => {
-                            res.sendStatus(200);
+                        res.sendStatus(200);
                         // });
                     });
                 }
@@ -208,10 +209,7 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
                     console.log('File saved!');
                 });
 
-                const cv = path.join(
-                    'uploads',
-                    path.join(req.session.user.id.toString(), 'cv.pdf')
-                );
+                const cv = `uploads/${req.session.user.id}/cv.pdf`;
 
                 // save to database
                 users.findOneAndUpdate({ id: req.session.user.id }, { $set: { cv } }).then(() => {
@@ -227,6 +225,109 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
     }
 });
 
+// Upload pictures
+router.post('/api/profile/upload-pictures/:id', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'COMPANY') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (user) {
+                let name;
+                var storage = multer.diskStorage({
+                    destination: function(req, file, cb) {
+                        // Create folder for user
+                        const dir = path.join('public', 'uploads', req.session.user.id.toString());
+                        if (!fs.existsSync(path.join('public', 'uploads'))) {
+                            fs.mkdirSync(path.join('public', 'uploads'));
+                        }
+                        if (!fs.existsSync(dir)) {
+                            fs.mkdirSync(dir);
+                        }
+                        cb(null, path.join('public', 'uploads', req.session.user.id.toString()));
+                    },
+                    filename: function(req, file, cb) {
+                        name =
+                            (++user.pictures.length || 1) + '.' + mime.getExtension(file.mimetype);
+                        cb(null, name);
+                    }
+                });
+                var upload = multer({ storage }).single('file');
+                upload(req, res, function(err) {
+                    if (err) {
+                        res.sendStatus(400);
+                    } else {
+                        // save to database
+                        const picture = path.join('uploads', req.session.user.id.toString(), name);
+                        users
+                            .findOneAndUpdate(
+                                { id: req.session.user.id },
+                                { $push: { pictures: picture } }
+                            )
+                            .then(() => {
+                                req.session.save(() => {
+                                    res.json(200);
+                                });
+                            });
+                    }
+                });
+            } else {
+                console.log('No user!');
+            }
+        });
+    }
+});
 
+// Upload video
+router.post('/api/profile/upload-video/:id', (req, res) => {
+    if (!req.session.user && req.session.user.role !== 'COMPANY') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (user) {
+                var storage = multer.diskStorage({
+                    destination: function(req, file, cb) {
+                        // Create folder for user
+                        const dir = path.join('public', 'uploads', req.session.user.id.toString());
+                        if (!fs.existsSync(path.join('public', 'uploads'))) {
+                            fs.mkdirSync(path.join('public', 'uploads'));
+                        }
+                        if (!fs.existsSync(dir)) {
+                            fs.mkdirSync(dir);
+                        }
+                        cb(null, path.join('public', 'uploads', req.session.user.id.toString()));
+                    },
+                    filename: function(req, file, cb) {
+                        cb(null, 'video.' + mime.getExtension(file.mimetype));
+                    }
+                });
+                var upload = multer({ storage }).single('file');
+                upload(req, res, function(err) {
+                    if (err) {
+                        res.sendStatus(400);
+                    } else {
+                        // save to database
+                        const video = path.join(
+                            'uploads',
+                            req.session.user.id.toString(),
+                            'video.mp4'
+                        );
+                        users
+                            .findOneAndUpdate({ id: req.session.user.id }, { $set: { video } })
+                            .then(() => {
+                                req.session.user.video = video;
+                                req.session.save(() => {
+                                    res.json({ video });
+                                });
+                            });
+                    }
+                });
+            } else {
+                console.log('No user!');
+            }
+        });
+    }
+});
 
 module.exports = router;
