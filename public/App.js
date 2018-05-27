@@ -55,6 +55,10 @@
             templateUrl: 'views/price.html',
             title: 'Цени на услугите'
         });
+        $routeProvider.when('/faq', {
+            templateUrl: 'views/faq.html',
+            title: 'Често задавани въпроси'
+        });
         $routeProvider.when('/logout', {
             resolve: {
                 logout: function($rootScope, $location) {

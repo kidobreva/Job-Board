@@ -1,0 +1,30 @@
+@import '_config.scss';
+
+section {
+    &.faq {
+        @include default-page-size;
+        .header-info {
+            margin-bottom: $margin-bottom + 10px;
+            h2 {
+                border-bottom: $border-bottom;
+            }
+        }
+        .question {
+            display: flex;
+            h5 {
+                margin-left: 5px;
+            }
+            img {
+                width: 23px;
+                height: 23px;
+            }
+        }
+        @media all and (max-width: 980px) {
+            width: 100%
+        }
+        @media all and (max-width: 480px) {
+            min-width: 480px;
+            width: 100%
+        }
+    }
+}
