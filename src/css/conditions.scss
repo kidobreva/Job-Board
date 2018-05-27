@@ -1,0 +1,19 @@
+@import '_config.scss';
+
+section {
+    &.conditions {
+        @include default-page-size;
+        .header-info {
+            margin-bottom: $margin-bottom + 10px;
+            h2 {
+                border-bottom: $border-bottom;
+            }
+        }
+        p {
+            font-size: 15px;
+        }
+        @media all and (max-width: 980px) {
+            width: 100%;
+        }
+    }
+}

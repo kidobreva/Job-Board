@@ -3,22 +3,28 @@
 section {
     &.faq {
         @include default-page-size;
+        margin-bottom: 20px;
         .header-info {
-            margin-bottom: $margin-bottom + 10px;
+            margin-bottom: $margin-bottom;
             h2 {
                 border-bottom: $border-bottom;
             }
         }
-        .question {
-            display: flex;
-            h5 {
-                margin-left: 5px;
-            }
-            img {
-                width: 23px;
-                height: 23px;
+        .faq-info {
+            padding: 20px 0;
+            border-bottom: 1px solid #ccc;
+            .question {
+                display: flex;
+                h5 {
+                    margin-left: 5px;
+                }
+                img {
+                    width: 23px;
+                    height: 23px;
+                }
             }
         }
+        
         @media all and (max-width: 980px) {
             width: 100%
         }

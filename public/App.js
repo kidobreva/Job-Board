@@ -59,6 +59,10 @@
             templateUrl: 'views/faq.html',
             title: 'Често задавани въпроси'
         });
+        $routeProvider.when('/conditions', {
+            templateUrl: 'views/conditions.html',
+            title: 'Общи условия'
+        });
         $routeProvider.when('/logout', {
             resolve: {
                 logout: function($rootScope, $location) {
