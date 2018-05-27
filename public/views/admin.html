@@ -1,17 +1,22 @@
 <!-- Admin -->
 <div ng-if="loaded && user.role === 'ADMIN'" class="profile-page">
     <section class="user-profile">
-        <div class="user-info"></div>
+        <div class="info-panel">
+            <h4>Статистика:</h4>
+
+            <p>Общо публикувани обяви: {{numberOfAdverts}}</p>
+            <p>Общо регистрирани потребители: {{numberOfUsers}}</p>
+        </div>
         <div class="profil-controll">
             <div class="page-options">
                 <strong>Админ панел</strong>
             </div>
             <div class="options">
-                <span><a href="/admin/users">Кандидати</a> [{{ users.length }}]</span>
+                <span><a href="/admin/users">Кандидати</a> [{{ numberOfCandidates }}]</span>
                 <a href="/admin/users">Покажи</a>
             </div>
             <div class="options">
-                <span><a href="/admin/categories">Категории</a> [{{ categories.length }}]</span>
+                <span><a href="/admin/categories">Категории</a> [{{ categories }}]</span>
                 <a href="/admin/categories">Промени</a>
             </div>
             <div class="options">

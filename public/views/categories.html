@@ -1,0 +1,67 @@
+<!-- Add category modal -->
+<script type="text/ng-template" id="add-category.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Добавяне на категория</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+            <input ng-model="categoryName" placeholder="Име на категорията" />
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Добави</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Откажи</button>
+    </div>
+</script>
+
+<!-- Edit category modal -->
+<script type="text/ng-template" id="edit-category.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Преименуване на категория</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <input ng-model="categoryName" placeholder="Име на категорията" />
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Преименувай</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Откажи</button>
+    </div>
+</script>
+
+<section class="users-page">
+    <div class="header-info">
+        <h2>Категории</h2>
+        <button type="button" class="btn btn-info" ng-click="openAddCategory()">Добави нова категория</button>
+    </div>
+    <div id="loader" ng-show="timeout"></div>
+    <p ng-if="loaded && !categories.length">Няма Категории!</p>
+    <table class="table table-striped" ng-if="categories">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Име</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="category in categories">
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <button type="button" class="btn btn-default" ng-click="openEditCategory(category.id)">Промени</button>
+                    <button
+                        class="btn btn-default"
+                        mwl-confirm
+                        title="Премахване на категория"
+                        message="Сигурни ли сте, че искате да премахнете категорията?"
+                        confirm-text="Премахни"
+                        cancel-text="Откажи"
+                        placement="bottom"
+                        on-confirm="removeCategory(category.id)"
+                        on-cancel="cancelClicked = true"
+                        confirm-button-type="danger"
+                        cancel-button-type="default"
+                    >Премахни</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

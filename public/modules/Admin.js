@@ -10,7 +10,9 @@
 
     // Service
     function Service($rootScope) {
-        //
+        this.getStatistics = function() {
+            return $rootScope.promise.get('/api/admin/statistics');
+        };
     }
 
     // Controller
@@ -22,8 +24,17 @@
             .getCurrentUser()
             .then(function(user) {
                 $scope.user = user;
-                $scope.loaded = true;
-                $scope.timeout = false;
+
+                AdminService.getStatistics().then(function(response) {
+                    $scope.numberOfUsers = response.data.numberOfUsers;
+                    $scope.numberOfAdverts = response.data.numberOfAdverts;
+                    $scope.categories = response.data.numberOfCategories;
+                    $scope.numberOfCandidates = response.data.numberOfCandidates;
+
+                    $scope.loaded = true;
+                    $scope.timeout = false;
+                    $scope.$apply();
+                });
             })
             // If there's no user
             .catch(function() {

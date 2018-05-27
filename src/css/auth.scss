@@ -13,7 +13,6 @@ section {
             margin-bottom: 1.5rem;
         }
         .register-users {
-            order: 1;
             //width: 350px;
             .radios {
                 margin: 1.5rem 1rem;
@@ -66,6 +65,10 @@ section {
             }
             #alerts {
                 width: 80%;
+            }
+
+            @media all and (max-width: 576) {
+                order: 1;
             }
         }
         .sign-in-users {

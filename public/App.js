@@ -37,7 +37,8 @@
         // Other
         'Home',
         'Contacts',
-        'Admin'
+        'Admin',
+        'Categories'
     ];
 
     // Config
