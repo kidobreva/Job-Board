@@ -43,48 +43,55 @@ router.post('/api/apply', (req, res) => {
                 if (!user) {
                     console.log('No user!');
                 } else {
-                    req.db
-                        .get('adverts')
-                        .findOneAndUpdate(
-                            { id: req.body.data },
-                            {
-                                $push: {
-                                    candidates: {
-                                        id: req.session.user.id,
-                                        date: Date.now()
+                    req.db.get('adverts').findOne({ id: req.body.data }).then(advert => {
+                        const index = advert.candidates.findIndex(() => req.session.user.id);
+                    if ( index !== -1) {
+                        res.sendStatus(400);
+                    } else {                    
+                        req.db
+                            .get('adverts')
+                            .findOneAndUpdate(
+                                { id: req.body.data },
+                                {
+                                    $push: {
+                                        candidates: {
+                                            id: req.session.user.id,
+                                            date: Date.now()
+                                        }
                                     }
                                 }
-                            }
-                        )
-                        .then(advert => {
-                            const messages = req.db.get('messages');
-                            messages.count().then(len => {
-                                ++len;
-                                messages.insert({
-                                    id: len,
-                                    date: Date.now(),
-                                    advertId: advert.id,
-                                    advertTitle: advert.title,
-                                    candidate: {
-                                        cv: req.session.user.cv,
-                                        name: `${req.session.user.firstName} ${
-                                            req.session.user.lastName
-                                        }`
-                                    }
-                                });
-                                users
-                                    .findOneAndUpdate(
-                                        { id: advert.companyId },
-                                        { $push: { messages: len } }
-                                    )
-                                    .then(() => {
-                                        req.session.user.applied.push(req.body.data);
-                                        req.session.save(() => {
-                                            res.sendStatus(200);
-                                        });
+                            )
+                            .then(advert => {
+                                const messages = req.db.get('messages');
+                                messages.count().then(len => {
+                                    ++len;
+                                    messages.insert({
+                                        id: len,
+                                        date: Date.now(),
+                                        advertId: advert.id,
+                                        advertTitle: advert.title,
+                                        candidate: {
+                                            cv: req.session.user.cv,
+                                            name: `${req.session.user.firstName} ${
+                                                req.session.user.lastName
+                                            }`
+                                        }
                                     });
+                                    users
+                                        .findOneAndUpdate(
+                                            { id: advert.companyId },
+                                            { $push: { messages: len } }
+                                        )
+                                        .then(() => {
+                                            req.session.user.applied.push(req.body.data);
+                                            req.session.save(() => {
+                                                res.sendStatus(200);
+                                            });
+                                        });
+                                });
                             });
-                        });
+                        }
+                    });
                 }
             });
     }

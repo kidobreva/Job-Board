@@ -1,3 +1,37 @@
+<!-- Report modal -->
+<script type="text/ng-template" id="report.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Съобщи за нередност</h3>
+  </div>
+  <form class="modal-body" id="modal-body" ng-submit="ok()">
+    <div class="form-group">
+      <label for="email">Email за обратна връзка: </label> 
+      <input class="form-control" ng-model="reportEmail" id="email" placeholder="Имейл" required />
+    </div>
+    <div class="form-group">
+        <label for="message">Моля въведете съобщение: </label> 
+        <textarea class="form-control" ng-model="reportMsg" id="message" placeholder="Съобщение" required></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Изпрати</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Откажи</button>
+      </div>
+    </form>
+</script>
+
+<!-- Alert modal -->
+<script type="text/ng-template" id="alert.html">
+  <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Благодарим Ви!</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <p>Съобщението ви беше изпратено успешно!</p>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="cancel()"><i class="fas fa-check"></i></button>
+  </div>
+</script>
+
 <div id="loader" ng-if="timeout"></div>
 <h5 ng-if="expired">Обявата е изтекла!</h5>
 <section ng-if="loaded && !expired" class="advert-page">
@@ -82,18 +116,18 @@
               ng-click="blockAdvert()"
       >Блокирай обявата</button>
 
-      <button ng-if="$root.user.role !== 'COMPANY'"
+      <button ng-if="$root.user.role === 'USER'"
               class="btn btn-primary"
               ng-click="save()"
       >Запази в наблюдавани</button>
       <!-- alert -->
       <div uib-alert 
-           ng-repeat="alert in alerts" 
+           ng-repeat="alert in leftAlerts" 
            ng-class="'alert-' + (alert.type || 'warning')" 
            close="closeAlert($index)"
       >{{alert.msg}}</div>
 
-      <button ng-if="$root.user.role !== 'COMPANY'"
+      <button ng-if="$root.user.role === 'USER'"
               class="btn btn-danger"
               ng-click="reportAdvert()"
       >Съобщи за нередност</button>

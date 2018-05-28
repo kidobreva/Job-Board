@@ -32,19 +32,15 @@
             </div>
             <div class="options">
                 <span><a href="/myCV">Моето CV</a></span>
-                <a href="/myCV">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/favourites/1">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>
-                <a href="/favourites/1">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/applied/1">Къде сте кандидатствали</a> [{{ user.applied.length }}]</span>
-                <a href="/applied/1">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/update-profile">Промяна на лични данни</a></span>
-                <a href="/update-profile">Покажи</a>
             </div>
         </div>
     </section>
@@ -59,7 +55,7 @@
                 <img src="../images/member-default.jpg" alt="">
             </div>
             <div ng-if="user.img" class="company-picture">
-                <img ng-src="{{user.img}}">
+                <a href="/company/{{user.id}}"><img ng-src="{{user.img}}"></a>                
             </div>
 
             <!-- Upload picture -->
@@ -83,19 +79,15 @@
             </div>
             <div class="options">
                 <span><a href="/add-advert">Добави обява</a></span>
-                <a class="shown" href="/add-advert">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/my-adverts/1">Публикувани обяви</a> [{{ user.adverts.length }}]</span>
-                <a class="shown" href="/my-adverts/1">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/messages">Съобщения</a> [{{ user.messages.length }}]</span>
-                <a class="shown" href="/messages">Покажи</a>
             </div>
             <div class="options">
                 <span><a href="/update-profile">Промяна на лични данни</a></span>
-                <a class="shown" href="/update-profile">Покажи</a>
             </div>
         </div>
     </section>

@@ -33,6 +33,7 @@
                     SendMessageService.sendMessage($scope.message)
                         .then(function() {
                             $scope.addAlert();
+                            document.forms[0].reset();
                         })
                         .catch(function(err) {
                             console.error(err);

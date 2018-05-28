@@ -1,4 +1,46 @@
-(function() {
+// var partners = [
+//     {
+//         name: 'Imperia Online',
+//         href: 'http://imperiaonline.bg/',
+//         src: 'images/partners/ImperiaOnline.png'
+//     },
+//     {
+//         name: 'Upnetix',
+//         href: 'https://upnetix.com/',
+//         src: 'images/partners/Upnetix.png'
+//     },
+//     {
+//         name: 'IT Talents',
+//         href: 'http://ittalents.bg/',
+//         src: 'images/partners/ittalents.png'
+//     },
+//     {
+//         name: 'TraderBG',
+//         href: 'https://www.trader.bg/',
+//         src: 'images/partners/Traderbg.png'
+//     },
+//     {
+//         name: 'Nemetschek',
+//         href: 'https://www.nemetschek.bg/',
+//         src: 'images/partners/nemetschek.png'
+//     },
+//     {
+//         name: 'Epam',
+//         href: 'https://www.epam.com/',
+//         src: 'images/partners/epam.png'
+//     },
+//     {
+//         name: 'Imperia Online',
+//         href: 'http://imperiaonline.bg/',
+//         src: 'images/partners/ImperiaOnline.png'
+//     },
+//     {
+//         name: 'Imperia Online',
+//         href: 'http://imperiaonline.bg/',
+//         src: 'images/partners/ImperiaOnline.png'
+//     }];
+
+(function () {
     // Config
     function Config($routeProvider) {
         $routeProvider.when('/home', {
@@ -26,7 +68,7 @@
         $scope.status = {
             isopen: false
         };
-        $scope.toggled = function(open) {
+        $scope.toggled = function (open) {
             console.log('Dropdown is now: ', open);
         };
         $scope.labels = {
@@ -46,7 +88,7 @@
                 // },
                 floor: 200,
                 ceil: 5000,
-                translate: function(value, sliderId, label) {
+                translate: function (value, sliderId, label) {
                     switch (label) {
                         case 'model':
                             return 'от <b>' + value + '</b>';
@@ -60,9 +102,9 @@
         };
 
         // Search
-        $scope.doSearch = function() {
+        $scope.doSearch = function () {
             var url = '';
-            Object.keys($scope.search).forEach(function(prop) {
+            Object.keys($scope.search).forEach(function (prop) {
                 if (typeof $scope.search[prop] !== 'object') {
                     // Keywords
                     if ($scope.search[prop]) {
@@ -72,7 +114,7 @@
                     // Category and city
                     url += '&' + prop + '=';
                     var arr = [];
-                    Object.keys($scope.search[prop]).forEach(function(obj, i) {
+                    Object.keys($scope.search[prop]).forEach(function (obj, i) {
                         arr[i] = $scope.search[prop][obj].id;
                     });
                     url += arr;
@@ -89,7 +131,7 @@
 
             // Levels
             var levelId = '';
-            Object.keys($scope.selectedLevels).forEach(function(level) {
+            Object.keys($scope.selectedLevels).forEach(function (level) {
                 if ($scope.selectedLevels[level]) {
                     levelId += level + ',';
                 }
@@ -100,7 +142,7 @@
 
             // Types
             var typeId = '';
-            Object.keys($scope.selectedTypes).forEach(function(type) {
+            Object.keys($scope.selectedTypes).forEach(function (type) {
                 if ($scope.selectedTypes[type]) {
                     typeId += type + ',';
                 }
@@ -114,7 +156,7 @@
         };
 
         // Get search data
-        AdvertsService.getSearchData().then(function(response) {
+        AdvertsService.getSearchData().then(function (response) {
             $scope.categories = response.data.categories;
             $scope.cities = response.data.cities;
             $scope.levels = response.data.levels;
@@ -128,7 +170,7 @@
                 var newsArr = [];
                 var slides = 4;
                 var items = 3;
-                for (var i = 0; i < items * slides; ) {
+                for (var i = 0; i < items * slides;) {
                     var arr = [];
                     for (var j = 0; j < items; j++) {
                         // Parse the description
@@ -154,6 +196,30 @@
                 console.log('News', newsArr);
                 $scope.$apply();
             });
+
+            // // Get Partners
+            // //  $rootScope.promise.get('/api/partners').then(res => {
+            // function asd() {
+            //     // var partners = res.data;
+            //     var partnersArr = [];
+            //     var slides = 2;
+            //     var items = 4;
+            //     for (var i = 0; i < items * slides;) {
+            //         var arr = [];
+            //         for (var j = 0; j < items; j++) {
+
+            //             arr[j] = partners[i + j];
+            //             i++;
+            //         }
+            //         partnersArr.push(arr);
+            //     }
+            //     $scope.partners = partnersArr;
+            //     console.log('Partenrs', partnersArr);
+            //     $scope.$apply();
+            // }
+            // asd();
+
+            // // });
         });
     }
 
@@ -163,3 +229,5 @@
         .config(Config)
         .controller('Home', Ctrl);
 })();
+
+

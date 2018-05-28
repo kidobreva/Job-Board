@@ -104,6 +104,12 @@ body {
                                 font-size: 11px;
                             }
                         }
+                        @media all and (max-width: 425px) {
+                            width: 43%;
+                            a {                                
+                                font-size: 10px;
+                            }
+                        }
                     }
                 }
                 @media all and (max-width: 980px) {
@@ -221,7 +227,7 @@ body {
             }
             @media all and (max-width: 600px) {
                 &.news {
-                    min-width: 480px;
+                    min-width: 425px;
                 }
             }
             &.companies {
@@ -233,6 +239,29 @@ body {
                     width: 400px;
                     font-weight: bold;
                 }
+                // .carousel {
+                //     svg {
+                //         color: black;
+                //         width: 50px !important;
+                //         height: 50px;
+                //     }
+                //     > div {
+                //         display: flex;
+                //         align-items: center;
+                //         margin: 0 auto;
+                //         width: 980px;
+                //     }
+                //     ol {
+                //         display: none;
+                //     }                
+                //     .text-center {
+                //         display: flex;
+                //         justify-content: space-around;
+                //     }
+                //     img {
+                //         max-width: 100%;
+                //     }
+                // }
                 div {
                     display: flex;
                     align-items: center;
@@ -336,6 +365,9 @@ body {
                     line-height: 35px;
                     button.submit btn btn-warning {
                         margin-top: 20px;
+                    }
+                    .row {
+                        margin: 0;
                     }
                 }
             }

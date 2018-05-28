@@ -111,15 +111,15 @@
         };
 
         // Validate email
-        var emailRegex = function() {
+        var emailRegex = function(str) {
             var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return regex.test(String($scope.registerUser.email).toLowerCase());
+            return regex.test(String(str).toLowerCase());
         };
         
         $scope.validateEmail = function () {
             var invalidEmail = false;
             console.log('Regex', emailRegex());
-            if ($scope.registerUser.email && !emailRegex()) {
+            if (!emailRegex($scope.registerUser.email)) {
                 invalidEmail = true;
             }
             $scope.invalidEmail = invalidEmail;

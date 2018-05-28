@@ -40,7 +40,16 @@
     }
 
     // Controller
-    function Ctrl(AdvertService, $rootScope, $scope, $timeout, title, $sce, $sanitize, $location) {
+    function Ctrl(AdvertService,
+                  SendMessageService, 
+                  $rootScope, 
+                  $scope, 
+                  $timeout, 
+                  title, 
+                  $sce, 
+                  $sanitize, 
+                  $location, 
+                  $uibModal) {
         console.log('Init Advert Controller');
         $rootScope.title = title;
 
@@ -81,8 +90,7 @@
                     AdvertService.save($scope.advert.id)
                         .then(function(response) {
                             //console.log('Alerts', $scope.addAlert);
-                            $scope.advertAlert = false;
-                            $scope.addAlert();
+                            $scope.addAlert('save');
                             console.log(response);
                         })
                         .catch(function(err) {
@@ -102,11 +110,11 @@
                     AdvertService.apply($scope.advert.id)
                         .then(function(response) {
                             //console.log('Alerts2', $scope.addAlert);
-                            $scope.advertAlert = true;
-                            $scope.addAlert();
+                            $scope.addAlert('apply');
                             console.log(response);
                         })
                         .catch(function(err) {
+                            $scope.addAlert('applyError');
                             console.error(err.data);
                         });
                 })
@@ -126,19 +134,71 @@
                 });
         };
 
+        //Alert modal
+        function alert() {
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'alert.html',
+                controller: function($uibModalInstance, $scope) {
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                }
+            });
+        };
+
+        //Send report message
+        $scope.reportAdvert = function() {
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'report.html',
+                controller: function($uibModalInstance, $scope) {
+                    $scope.ok = function() {
+                        SendMessageService.sendMessage({
+                            text: $scope.reportMsg,
+                            phone: undefined,
+                            email: $scope.reportEmail
+                        });
+                        $uibModalInstance.close();
+                        alert();
+                    };
+
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                }
+            });
+        };
+
+        
+
+
         // Alerts
         $scope.alerts = [];
-        $scope.addAlert = function() {
+        $scope.leftAlerts = [];
+        $scope.addAlert = function(type) {
             $scope.alerts.length = 0;
-            if ($scope.advertAlert === false) {
-                $scope.alerts.push({ type: 'primary', msg: 'Обявата беше запазена успешно!' });
-            } else {
-                $scope.alerts.push({ type: 'success', msg: 'Успешно кандидатствахте за тази обява!' });
-            }                                                                                      
+            switch (type) {
+                case 'save':
+                    $scope.leftAlerts.push({ type: 'primary', msg: 'Обявата беше запазена успешно!' });
+                    break;
+                case 'apply':
+                    $scope.alerts.push({ type: 'success', msg: 'Успешно кандидатствахте за тази обява!' });
+                    break;
+                case 'applyError':
+                    $scope.alerts.push({ type: 'danger', msg: 'Вече сте кандидатствали за тази обява!' });
+                    break;
+            }              
+                                                                                                 
             $scope.$apply();
         };
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
+            $scope.leftAlerts.splice(index, 1);
         };
     }
 

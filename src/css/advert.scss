@@ -75,6 +75,14 @@ section {
             }
             aside {
                 margin-top: 30px;
+                width: 500px;
+                .advert-info {
+                    display: flex;
+                    flex-wrap: wrap;
+                    div {
+                        flex: 1 1 50%;
+                    }
+                }
             }
         }
 
