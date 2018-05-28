@@ -16,7 +16,6 @@
 
         // Users
         'Auth',
-        'User',
         'Users',
         'Profile',
         'MyCV',

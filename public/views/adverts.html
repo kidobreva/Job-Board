@@ -64,15 +64,12 @@
   </div>
 
   <!-- Search form -->
-  <form ng-submit="pageChanged(1) container-liquid">
+  <form ng-submit="pageChanged(1)" class="container-liquid">
       <h3>Търсене на обяви</h3>
       <!-- Search words -->
-      <label for="words">Ключови думи</label>
       <div class="form-group">
-        <label>
-          <input type="checkbox" id="advanced" ng-model="search.advanced"/> търси в описание
-        </label>
-        <input class="form-control" id="words" ng-model="search.keywords" placeholder="Въведи думи"/>
+          <label for="words">Ключови думи</label>
+          <input class="form-control" id="words" ng-model="search.keywords" placeholder="Въведи думи"/>
       </div>
 
       <!-- City -->

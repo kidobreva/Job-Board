@@ -1,54 +1,73 @@
 const express = require('express');
 const router = express.Router();
 
-// (Admin) Companies GET
-router.get('/api/companies', (req, res) => {
-    req.db
-        .get('users')
-        .find({ role: 'COMPANY' })
-        .then(companies => {
-            if (companies[0]) {
-                res.json(companies);
+// Get candidates
+router.get('/api/advert/:id/candidates', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'COMPANY') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        const adverts = req.db.get('adverts');
+        adverts.findOne({ id: +req.params.id }).then(advert => {
+            // Check if the advert is published by the current user
+            if (advert.companyId !== req.session.user.id) {
+                res.sendStatus(403);
             } else {
-                res.sendStatus(404);
-            }
-        });
-});
-
-// Company GET
-router.get('/api/company/:id', (req, res) => {
-    console.log('Company Get:', req.params);
-    const fields = {
-        password: 0,
-        role: 0,
-        _id: 0,
-        messages: 0
-    }
-
-    req.db
-        .get('users')
-        .findOne({ id: +req.params.id, role: 'COMPANY' }, {fields})
-        .then(company => {
-            if (company) {
-                console.log('Company Info:', company);
-                req.db.get('adverts').find({id: {$in: company.adverts}}).then(adverts => {
-                    const advs = [];
-                        adverts.forEach((advert, i) => {
-                            advs[i] = {
-                                title: advert.title,
-                                cityId: advert.cityId,
-                                salary: advert.salary,
-                                date: advert.date,
-                                categoryId: advert.categoryId
+                // get dates and IDs
+                const candidatesIds = [];
+                const dates = [];
+                advert.candidates.forEach((user, i) => {
+                    candidatesIds[i] = user.id;
+                    dates[i] = user.date;
+                });
+                users.find({ id: { $in: candidatesIds } }).then(users => {
+                    if (!users[0]) {
+                        res.sendStatus(404);
+                    } else {
+                        // send candidates
+                        const candidates = [];
+                        users.forEach((user, i) => {
+                            delete user.password;
+                            candidates[i] = {
+                                date: dates[i],
+                                firstName: user.firstName,
+                                lastName: user.lastName,
+                                email: user.email,
+                                cv: user.cv
                             };
                         });
-                        company.adverts = advs;
-                        res.json(company);
-                });                
-            } else {
-                res.sendStatus(404);
+                        res.json(candidates);
+                    }
+                });
             }
         });
+    }
+});
+
+// Delete Advert
+router.delete('/api/advert/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role === 'USER') {
+        res.sendStatus(401);
+    } else {
+        const adverts = req.db.get('adverts');
+        adverts.findOne({ id: +req.params.id }).then(advert => {
+            if (!advert) {
+                res.sendStatus(404);
+            } else {
+                // Check if the advert is published by the current user
+                if (advert.companyId !== req.session.user.id) {
+                    res.sendStatus(403);
+                } else {
+                    // Delete the advert
+                    adverts.findOneAndDelete({ id: +req.params.id }).then(() => {
+                        res.sendStatus(200);
+                    });
+                }
+            }
+        });
+    }
 });
 
 module.exports = router;

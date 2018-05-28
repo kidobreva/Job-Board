@@ -24,9 +24,7 @@
 
         // (Admin) Block company
         this.blockCompany = function() {
-            return $rootScope.promise.patch('/api/company/block/' + $routeParams.id, {
-                isBlocked: true
-            });
+            return $rootScope.promise.patch('/api/admin/block/' + $routeParams.id);
         };
     }
 

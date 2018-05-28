@@ -10,9 +10,7 @@
 
     // Service
     function Service($rootScope) {
-        // Add message
         this.updateProfile = function(user) {
-            console.log('Add message');
             return $rootScope.promise.post('/api/profile/edit', user);
         };
 
@@ -52,7 +50,8 @@
         $scope.validatePass = function() {
             var invalid = false;
             if ($scope.user.newPassword) {
-                $scope.shortPass = $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
+                $scope.shortPass =
+                    $scope.user.newPassword.length && $scope.user.newPassword.length < 6;
             }
             if (
                 $scope.user.repeatNewPassword &&
@@ -63,8 +62,9 @@
             $scope.invalid = invalid;
         };
 
-        // Send user data
-        function sendUserData() {
+        // Update profile
+        $scope.updateProfile = function() {
+            //if ($scope.invalid === false) {
             $scope.user.description = $sanitize($scope.user.description);
             UpdateProfileService.updateProfile($scope.user)
                 .then(function(response) {
@@ -81,19 +81,7 @@
                     }
                     console.log('error', err);
                 });
-        }
-
-        // Update profile
-        $scope.updateProfile = function() {
-            // if ($scope.user.currentPass !== $rootScope.user.password) {
-            //     sendUserData();
-            //     console.log('Invalid currentPass!');
-            // } else {
-            //     if ($scope.invalid === false) {
-            //         sendUserData();
-            //     }
-            // }
-            sendUserData();
+            //}
         };
 
         // Alerts

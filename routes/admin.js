@@ -1,26 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// (Get) Users
-router.get('/api/admin/users', (req, res) => {
-    if (!req.session.user || req.session.user.role !== 'ADMIN') {
-        res.sendStatus(401);
-    } else {
-        req.db
-            .get('users')
-            .find({ role: 'USER' }, { password: 0 })
-            .then(users => {
-                if (users[0]) {
-                    res.json(users);
-                } else {
-                    res.sendStatus(404);
-                }
-            });
-    }
-});
-
-// (Get) Statistics
+// Get statistics
 router.get('/api/admin/statistics', (req, res) => {
+    // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
@@ -31,12 +14,17 @@ router.get('/api/admin/statistics', (req, res) => {
         let numberOfAdverts;
         let numberOfCategories;
         let numberOfCandidates;
+        // Count the documents
+        // users
         users.count().then(count => {
             numberOfUsers = count;
+            // adverts
             adverts.count().then(count => {
                 numberOfAdverts = count;
+                // categories
                 categories.count().then(count => {
                     numberOfCategories = count;
+                    // candidates
                     users.find({ role: 'USER' }).then(users => {
                         numberOfCandidates = users.length;
                         res.json({
@@ -52,21 +40,21 @@ router.get('/api/admin/statistics', (req, res) => {
     }
 });
 
-// (DELETE) Advert
-router.delete('/api/advert/:id', (req, res) => {
-    if (
-        !req.session.user &&
-        (req.session.user.role === 'ADMIN' || req.session.user.id === req.params.id)
-    ) {
+/* ––––– USERS ––––– */
+
+// Get users
+router.get('/api/admin/users', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
-            .get('adverts')
-            .findOneAndDelete({ id: +req.params.id })
-            .then(advert => {
-                if (advert) {
-                    console.log('Advert Deleted:', advert);
-                    res.sendStatus(200);
+            .get('users')
+            .find({ role: 'USER' }, { password: 0 })
+            .then(users => {
+                if (users[0]) {
+                    // TODO: Send less data
+                    res.json(users);
                 } else {
                     res.sendStatus(404);
                 }
@@ -74,46 +62,33 @@ router.delete('/api/advert/:id', (req, res) => {
     }
 });
 
-// (PATCH) Block company
-router.patch('/api/company/block/:id', (req, res) => {
-    if (!req.session.user && req.session.user.role !== 'ADMIN') {
+// Block user
+router.patch('/api/admin/block/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         req.db
             .get('users')
-            .findOneAndUpdate({ id: +req.params.id, role: 'COMPANY' }, { $set: req.body })
-            .then(company => {
-                if (company) {
-                    console.log('Company Info:', company);
-                    res.json(company);
-                } else {
-                    res.sendStatus(404);
+            .findOneAndUpdate(
+                { id: +req.params.id },
+                {
+                    $set: {
+                        isBlocked: true
+                    }
                 }
-            });
-    }
-});
-
-// (PATCH) Block user
-router.patch('/api/user/block/:id', (req, res) => {
-    if (!req.session.user && req.session.user.role !== 'ADMIN') {
-        res.sendStatus(401);
-    } else {
-        req.db
-            .get('users')
-            .findOneAndUpdate({ id: +req.params.id, role: 'USER' }, { $set: req.body })
+            )
             .then(user => {
-                if (user) {
-                    console.log('User Info:', user);
-                    res.json(user);
-                } else {
-                    res.sendStatus(404);
-                }
+                res.sendStatus(user ? 200 : 404);
             });
     }
 });
+
+/* ––––– CATEGORIES ––––– */
 
 // (Get) Categories
 router.get('/api/admin/categories', (req, res) => {
+    // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
@@ -130,61 +105,64 @@ router.get('/api/admin/categories', (req, res) => {
     }
 });
 
-// (DELETE) Category
-router.delete('/api/admin/category/:id', (req, res) => {
-    if (!req.session.user && req.session.user.role === 'ADMIN') {
-        res.sendStatus(401);
-    } else {
-        req.db
-            .get('categories')
-            .findOneAndDelete({ id: +req.params.id })
-            .then(category => {
-                if (category) {
-                    console.log('Category Deleted:', category);
-                    res.sendStatus(200);
-                } else {
-                    res.sendStatus(404);
-                }
-            });
-    }
-});
-
 // Add category
 router.post('/api/admin/category', (req, res) => {
-    console.log('[POST] /api/admin/category:', req.body);
-
     // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
         const categories = req.db.get('categories');
-        categories.findOne({}, { sort: { id: -1 } }).then(lastItem => {
-            categories
-                .insert({
-                    id: ++lastItem.id,
-                    name: req.body.name
-                })
-                .then(() => {
-                    req.session.save(() => {
+        // Get the last document's id
+        categories.findOne({}, { sort: { id: -1 } }).then(lastDoc => {
+            const id = lastDoc ? ++lastDoc.id : 1;
+            if (req.body.name) {
+                // Insert the new category
+                categories
+                    .insert({
+                        id,
+                        name: req.body.name
+                    })
+                    .then(() => {
                         res.sendStatus(200);
                     });
-                });
+            } else {
+                res.sendStatus(400);
+            }
         });
     }
 });
 
 // Edit category
 router.patch('/api/admin/category/:id', (req, res) => {
-    console.log('[POST] /api/admin/category:', req.body);
     // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
-        const categories = req.db.get('categories');
-        categories
-            .findOneAndUpdate({ id: +req.params.id }, { $set: { name: req.body.name } })
-            .then(() => {
-                res.sendStatus(200);
+        if (req.body.name) {
+            // Insert the new category
+            req.db
+                .get('categories')
+                .findOneAndUpdate({ id: +req.params.id }, { $set: { name: req.body.name } })
+                .then(() => {
+                    res.sendStatus(200);
+                });
+        } else {
+            res.sendStatus(400);
+        }
+    }
+});
+
+// Delete Category
+router.delete('/api/admin/category/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+        res.sendStatus(401);
+    } else {
+        req.db
+            .get('categories')
+            .findOneAndDelete({ id: +req.params.id })
+            .then(category => {
+                res.sendStatus(category ? 200 : 404);
             });
     }
 });

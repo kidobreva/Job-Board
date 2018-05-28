@@ -3,50 +3,53 @@ const router = express.Router();
 
 // Get message
 router.get('/api/message/:id', (req, res) => {
-    console.log('Get message');
-    const messages = req.db.get('messages');
-    if (req.session.user.role === 'ADMIN') {
-        messages
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+        res.sendStatus(401);
+    } else {
+        req.db
+            .get('messages')
             .findOneAndUpdate({ id: +req.params.id }, { $set: { isRead: true } })
             .then(message => {
                 if (message) {
                     res.json({ message });
                 } else {
                     res.sendStatus(404);
-                    console.log('No message!');
                 }
             });
-    } else {
-        res.sendStatus(400);
     }
 });
 
-// My messages
+// Get "My messages"
 router.get('/api/my-messages', (req, res) => {
-    console.log('My message:');
-    const users = req.db.get('users');
-    if (req.session.user) {
-        users.findOne({ id: req.session.user.id }).then(user => {
-            console.log(user);
-            const messages = req.db.get('messages');
-            messages.find({ id: { $in: user.messages } }).then(msgs => {
-                console.log('Messages:', msgs);
-                if (msgs[0]) {
-                    res.json({
-                        messages: msgs
-                    });
-                } else {
-                    res.sendStatus(404);
-                    console.log('No messages!');
-                }
-            });
-        });
-    } else {
+    // Check if there's a user in the session
+    if (!req.session.user) {
         res.sendStatus(401);
+    } else {
+        // Find user
+        req.db
+            .get('users')
+            .findOne({ id: req.session.user.id })
+            .then(user => {
+                // Get his messages
+                req.db
+                    .get('messages')
+                    .find({ id: { $in: user.messages } })
+                    .then(msgs => {
+                        // Send
+                        if (msgs[0]) {
+                            res.json({
+                                messages: msgs
+                            });
+                        } else {
+                            res.sendStatus(404);
+                        }
+                    });
+            });
     }
 });
 
-// (POST) Send message to Admin
+// Send a message to the Admin
 router.post('/api/send-message', (req, res) => {
     const messages = req.db.get('messages');
     messages.count().then(len => {

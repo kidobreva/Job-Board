@@ -1,19 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
-// (GET) Advert
+// Get Advert
 router.get('/api/advert/:id', function(req, res) {
     const id = +req.params.id;
     const adverts = req.db.get('adverts');
     adverts.findOne({ id }).then(advert => {
+        // Check if the advert exists
         if (!advert) {
             res.sendStatus(404);
         } else if (
+            // Check if the advert is expired
             Date.now() > advert.expirationDate &&
             (!req.session.user || req.session.user.role !== 'ADMIN')
         ) {
             res.sendStatus(403);
         } else {
+            // Increment the views
             adverts
                 .findOneAndUpdate(
                     { id },
@@ -24,49 +27,62 @@ router.get('/api/advert/:id', function(req, res) {
                     }
                 )
                 .then(advert => {
-                    (async function() {
-                        const category = await req.db
-                            .get('categories')
-                            .findOne({ id: advert.categoryId });
-                        const city = await req.db.get('cities').findOne({ id: advert.cityId });
-                        const level = await req.db.get('levels').findOne({ id: advert.levelId });
-                        const payment = await req.db
-                            .get('payments')
-                            .findOne({ id: advert.paymentId });
-                        const type = await req.db.get('types').findOne({ id: advert.typeId });
-                        const company = await req.db.get('users').findOne({ id: advert.companyId });
-                        if (req.query.edit) {
-                            advert.categoryId = category.id.toString();
-                            advert.cityId = city.id.toString();
-                            advert.levelId = level.id.toString();
-                            advert.paymentId = payment.id.toString();
-                            advert.typeId = type.id.toString();
-                        } else {
-                            delete advert.categoryId;
-                            delete advert.cityId;
-                            delete advert.levelId;
-                            delete advert.paymentId;
-                            delete advert.typeId;
+                    if (!advert) {
+                        res.sendStatus(404);
+                    } else {
+                        (async function() {
+                            // Wait for the data to come
+                            const category = await req.db
+                                .get('categories')
+                                .findOne({ id: advert.categoryId });
+                            const city = await req.db.get('cities').findOne({ id: advert.cityId });
+                            const level = await req.db
+                                .get('levels')
+                                .findOne({ id: advert.levelId });
+                            const payment = await req.db
+                                .get('payments')
+                                .findOne({ id: advert.paymentId });
+                            const type = await req.db.get('types').findOne({ id: advert.typeId });
+                            const company = await req.db
+                                .get('users')
+                                .findOne({ id: advert.companyId });
 
-                            advert.category = category.name;
-                            advert.city = city.name;
-                            advert.level = level.name;
-                            advert.payment = payment.name;
-                            advert.type = type.name;
-                        }
-                        advert.img = company.img;
-                        advert.company = company.title;
-                        res.json(advert);
-                    })();
+                            if (req.query.edit) {
+                                // If the user edits the advert
+                                advert.categoryId = category.id.toString();
+                                advert.cityId = city.id.toString();
+                                advert.levelId = level.id.toString();
+                                advert.paymentId = payment.id.toString();
+                                advert.typeId = type.id.toString();
+                            } else {
+                                // Delete props to send less data
+                                delete advert.categoryId;
+                                delete advert.cityId;
+                                delete advert.levelId;
+                                delete advert.paymentId;
+                                delete advert.typeId;
+
+                                advert.category = category.name;
+                                advert.city = city.name;
+                                advert.level = level.name;
+                                advert.payment = payment.name;
+                                advert.type = type.name;
+                            }
+                            advert.img = company.img;
+                            advert.company = company.title;
+                            res.json(advert);
+                        })();
+                    }
                 });
         }
     });
 });
 
-// (GET) Adverts
+// Get Adverts
 router.get('/api/adverts/:page', (req, res) => {
     const adverts = req.db.get('adverts');
     adverts.count().then(size => {
+        // Choose which fields to include
         const fields = {
             _id: 0,
             cityId: 1,
@@ -81,9 +97,9 @@ router.get('/api/adverts/:page', (req, res) => {
             id: 1,
             date: 1
         };
-        // TODO: For every advert find the company and take its name and logo
+
+        // Get the adverts sorted descendingly
         adverts.find({}, { fields, sort: { id: -1 } }).then(advertsArr => {
-            console.log('AdvertsArr', advertsArr);
             if (advertsArr[0]) {
                 res.json({
                     adverts: advertsArr.slice(
@@ -102,8 +118,6 @@ router.get('/api/adverts/:page', (req, res) => {
 
 // Add advert
 router.post('/api/advert', (req, res) => {
-    console.log('[POST] /api/advert:', req.body);
-
     // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'COMPANY') {
         res.sendStatus(401);
@@ -116,7 +130,7 @@ router.post('/api/advert', (req, res) => {
             // check if the user adds or updates an advert
             adverts.findOne({ id: advertBody.id }).then(advert => {
                 if (advert) {
-                    // Update the advert
+                    // Update the advert if it already exists
                     const updatedFields = {
                         categoryId: +advertBody.categoryId,
                         cityId: +advertBody.cityId,
@@ -172,114 +186,13 @@ router.post('/api/advert', (req, res) => {
                                 { $push: { adverts: advert.id } }
                             )
                             .then(() => {
-                                req.session.save(() => {
-                                    res.json({ id: advert.id });
-                                });
+                                res.json({ id: advert.id });
                             });
                     });
                 }
             });
         });
     }
-});
-
-// (POST) Apply for an advert
-router.post('/api/apply', (req, res) => {
-    if (!req.session.user) {
-        res.sendStatus(401);
-    } else if (req.session.user.role === 'COMPANY') {
-        res.sendStatus(403);
-    } else {
-        const users = req.db.get('users');
-        users
-            .findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: req.body.data } })
-            .then(user => {
-                if (!user) {
-                    console.log('No user!');
-                } else {
-                    req.db
-                        .get('adverts')
-                        .findOneAndUpdate(
-                            { id: req.body.data },
-                            {
-                                $push: {
-                                    candidates: {
-                                        id: req.session.user.id,
-                                        date: Date.now()
-                                    }
-                                }
-                            }
-                        )
-                        .then(advert => {
-                            const messages = req.db.get('messages');
-                            messages.count().then(len => {
-                                ++len;
-                                messages.insert({
-                                    id: len,
-                                    date: Date.now(),
-                                    advertId: advert.id,
-                                    advertTitle: advert.title,
-                                    candidate: {
-                                        cv: req.session.user.cv,
-                                        name: `${req.session.user.firstName} ${
-                                            req.session.user.lastName
-                                        }`
-                                    }
-                                });
-                                users
-                                    .findOneAndUpdate(
-                                        { id: advert.companyId },
-                                        { $push: { messages: len } }
-                                    )
-                                    .then(() => {
-                                        req.session.user.applied.push(req.body.data);
-                                        req.session.save(() => {
-                                            res.sendStatus(200);
-                                        });
-                                    });
-                            });
-                        });
-                }
-            });
-    }
-});
-
-// (Get) Users
-router.get('/api/advert/:id/candidates', (req, res) => {
-    // if (!req.session.user) {
-    //     res.sendStatus(401);
-    // } else {
-    const users = req.db.get('users');
-    const adverts = req.db.get('adverts');
-    adverts.findOne({ id: +req.params.id }).then(advert => {
-        const candidatesIds = [];
-        const dates = [];
-        advert.candidates.forEach((user, i) => {
-            candidatesIds[i] = user.id;
-            dates[i] = user.date;
-        });
-        users.find({ id: { $in: candidatesIds } }).then(users => {
-            console.log(users);
-            if (!users.length) {
-                res.sendStatus(404);
-            } else {
-                const candidates = [];
-                users.forEach((user, i) => {
-                    delete user.password;
-                    candidates[i] = {
-                        date: dates[i],
-                        firstName: user.firstName,
-                        lastName: user.lastName,
-                        email: user.email,
-                        cv: user.cv
-                    };
-                });
-                res.json(candidates);
-            }
-        });
-    });
-
-    // }
 });
 
 module.exports = router;

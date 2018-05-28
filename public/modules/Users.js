@@ -14,6 +14,12 @@
         this.getUsers = function() {
             return $rootScope.promise.get('/api/admin/users');
         };
+
+        // this.blockUser = function() {
+        //     return $rootScope.promise.patch('/api/admin/block/' + $routeParams.id, {
+        //         isBlocked: true
+        //     });
+        // };
     }
 
     // Controller

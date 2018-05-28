@@ -19,6 +19,7 @@ router.get('/api/logout', (req, res) => {
     if (!req.session.user) {
         res.sendStatus(401);
     } else {
+        // Destroy session and cookie
         req.session.destroy(err => {
             res.clearCookie('connect.sid');
             res.sendStatus(err ? 500 : 200);
@@ -28,7 +29,6 @@ router.get('/api/logout', (req, res) => {
 
 // Login
 router.post('/api/login', (req, res) => {
-    console.log('Login Post:', req.body);
     if (req.session.user) {
         res.sendStatus(400);
     } else {
@@ -59,6 +59,7 @@ router.post('/api/login', (req, res) => {
     }
 });
 
+// Register user
 function registerUser(req, res) {
     const users = req.db.get('users');
     users.count().then(len => {
@@ -101,8 +102,7 @@ function registerUser(req, res) {
 
 // Register
 router.post('/api/register', (req, res) => {
-    console.log(req.body);
-
+    // Checks
     if (
         (req.body.isCompany && !bulstatCheck(req.body.bulstat)) ||
         req.session.user ||
@@ -112,23 +112,10 @@ router.post('/api/register', (req, res) => {
     ) {
         res.sendStatus(400);
     } else {
-        // get users and check for existing email
         const users = req.db.get('users');
-        if (req.body.isCompany) {
-            users.findOne({ bulstat: req.body.bulstat || 0 }).then(user => {
-                if (user) {
-                    res.sendStatus(400);
-                } else {
-                    users.findOne({ email: req.body.email }).then(user => {
-                        if (user) {
-                            res.sendStatus(409);
-                        } else {
-                            registerUser(req, res);
-                        }
-                    });
-                }
-            });
-        } else {
+
+        // Check for existing email
+        const emailCheck = function() {
             users.findOne({ email: req.body.email }).then(user => {
                 if (user) {
                     res.sendStatus(409);
@@ -136,6 +123,20 @@ router.post('/api/register', (req, res) => {
                     registerUser(req, res);
                 }
             });
+        };
+
+        if (req.body.isCompany) {
+            // Register company
+            users.findOne({ bulstat: req.body.bulstat || 0 }).then(user => {
+                if (user) {
+                    res.sendStatus(400);
+                } else {
+                    emailCheck();
+                }
+            });
+        } else {
+            // Register user
+            emailCheck();
         }
     }
 });
