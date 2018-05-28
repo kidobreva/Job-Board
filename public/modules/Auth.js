@@ -69,7 +69,11 @@
                 .then(function(response) {
                     $rootScope.isLogged = true;
                     $rootScope.user = response.data;
-                    $location.path('/profile');
+                    if ($routeParams.redirect) {
+                        $location.url($routeParams.redirect);
+                    } else {
+                        $location.path('/profile');
+                    }
                     $rootScope.$apply();
                 })
                 .catch(function(err) {
@@ -115,8 +119,8 @@
             var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return regex.test(String(str).toLowerCase());
         };
-        
-        $scope.validateEmail = function () {
+
+        $scope.validateEmail = function() {
             var invalidEmail = false;
             console.log('Regex', emailRegex());
             if (!emailRegex($scope.registerUser.email)) {
@@ -124,7 +128,7 @@
             }
             $scope.invalidEmail = invalidEmail;
             console.log($scope.invalidEmail);
-        }
+        };
 
         // Validate pass
         $scope.validatePass = function() {

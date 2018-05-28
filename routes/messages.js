@@ -31,20 +31,28 @@ router.get('/api/my-messages', (req, res) => {
             .get('users')
             .findOne({ id: req.session.user.id })
             .then(user => {
-                // Get his messages
-                req.db
-                    .get('messages')
-                    .find({ id: { $in: user.messages } })
-                    .then(msgs => {
-                        // Send
-                        if (msgs[0]) {
-                            res.json({
-                                messages: msgs
-                            });
-                        } else {
-                            res.sendStatus(404);
-                        }
+                if (!user) {
+                    // If the user is not in the database, destroy his session
+                    req.session.destroy(err => {
+                        res.clearCookie('connect.sid');
+                        res.sendStatus(err ? 500 : 410);
                     });
+                } else {
+                    // Get his messages
+                    req.db
+                        .get('messages')
+                        .find({ id: { $in: user.messages } })
+                        .then(msgs => {
+                            // Send them
+                            if (msgs[0]) {
+                                res.json({
+                                    messages: msgs
+                                });
+                            } else {
+                                res.sendStatus(404);
+                            }
+                        });
+                }
             });
     }
 });

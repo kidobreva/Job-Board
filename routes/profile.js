@@ -24,7 +24,7 @@ router.get('/api/profile', (req, res) => {
                     // If the user is not in the database, destroy his session
                     req.session.destroy(err => {
                         res.clearCookie('connect.sid');
-                        res.sendStatus(err ? 500 : 200);
+                        res.sendStatus(err ? 500 : 410);
                     });
                 }
             });
@@ -46,7 +46,7 @@ router.get('/api/edit-profile', (req, res) => {
                 if (!user) {
                     req.session.destroy(err => {
                         res.clearCookie('connect.sid');
-                        res.sendStatus(err ? 500 : 200);
+                        res.sendStatus(err ? 500 : 410);
                     });
                 } else {
                     // Send profile data
@@ -85,7 +85,7 @@ router.post('/api/profile/edit', (req, res) => {
                 // If the user is not in the database, destroy his session
                 req.session.destroy(err => {
                     res.clearCookie('connect.sid');
-                    res.sendStatus(err ? 500 : 200);
+                    res.sendStatus(err ? 500 : 410);
                 });
             } else {
                 // Check the password
@@ -151,7 +151,7 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                 // If the user is not in the database, destroy his session
                 req.session.destroy(err => {
                     res.clearCookie('connect.sid');
-                    res.sendStatus(err ? 500 : 200);
+                    res.sendStatus(err ? 500 : 410);
                 });
             } else {
                 let img = req.body.img;
@@ -199,7 +199,7 @@ router.post('/api/profile/upload-pictures/:id', (req, res) => {
                 // If the user is not in the database, destroy his session
                 req.session.destroy(err => {
                     res.clearCookie('connect.sid');
-                    res.sendStatus(err ? 500 : 200);
+                    res.sendStatus(err ? 500 : 410);
                 });
             } else {
                 let name;
@@ -252,7 +252,11 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
         const users = req.db.get('users');
         users.findOne({ id: req.session.user.id }).then(user => {
             if (!user) {
-                res.sendStatus(404);
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
             } else {
                 // Create folder for the user
                 const dir = path.join('public', 'uploads', req.session.user.id.toString());
@@ -293,7 +297,7 @@ router.post('/api/profile/upload-video/:id', (req, res) => {
                 // If the user is not in the database, destroy his session
                 req.session.destroy(err => {
                     res.clearCookie('connect.sid');
-                    res.sendStatus(err ? 500 : 200);
+                    res.sendStatus(err ? 500 : 410);
                 });
             } else {
                 let name;

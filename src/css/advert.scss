@@ -4,6 +4,7 @@
 section {
     &.advert-page {
         display: flex;
+        align-items: flex-start;
         width: 980px;
         margin: 2rem 0;
         main {
@@ -36,7 +37,6 @@ section {
             width: 300px;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
             position: relative;
-            max-height: 850px;
             h5 {
                 margin: 20px 0px;
                 text-align: center;

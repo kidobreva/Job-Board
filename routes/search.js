@@ -60,8 +60,7 @@ router.post('/api/adverts', (req, res) => {
     if (searchBody.keywords) {
         // use case-insensitive regex
         const regex = { $regex: searchBody.keywords, $options: 'i' };
-        searchBody.title = regex;
-        searchBody.description = regex;
+        searchBody['$or'] = [{ title: regex }, { description: regex }];
         delete searchBody.keywords;
     }
 
@@ -92,8 +91,8 @@ router.post('/api/adverts', (req, res) => {
         // user's applied
         search = { id: { $in: searchBody.applied } };
     } else {
-        // search query and company
-        search = { $or: queryArr[0] ? queryArr : [{}] };
+        // search query (and company)
+        search = { $and: queryArr[0] ? queryArr : [{}] };
     }
 
     // Make sure to not send expired adverts

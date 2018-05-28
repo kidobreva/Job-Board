@@ -97,7 +97,6 @@ router.get('/api/adverts/:page', (req, res) => {
             id: 1,
             date: 1
         };
-
         // Get the adverts sorted descendingly
         adverts.find({}, { fields, sort: { id: -1 } }).then(advertsArr => {
             if (advertsArr[0]) {
@@ -125,7 +124,7 @@ router.post('/api/advert', (req, res) => {
         const advertBody = req.body.advert;
         // Get adverts collection
         const adverts = req.db.get('adverts');
-        // get the count to use it later as an Id
+        // get the count to use it later as an id
         adverts.count().then(count => {
             // check if the user adds or updates an advert
             adverts.findOne({ id: advertBody.id }).then(advert => {
@@ -147,9 +146,7 @@ router.post('/api/advert', (req, res) => {
                     adverts
                         .findOneAndUpdate({ id: advert.id }, { $set: updatedFields })
                         .then(() => {
-                            req.session.save(() => {
-                                res.json({ id: advert.id });
-                            });
+                            res.json({ id: advert.id });
                         });
                 } else {
                     // Create the advert
@@ -185,8 +182,16 @@ router.post('/api/advert', (req, res) => {
                                 { id: req.session.user.id },
                                 { $push: { adverts: advert.id } }
                             )
-                            .then(() => {
-                                res.json({ id: advert.id });
+                            .then(user => {
+                                if (!user) {
+                                    // If the user is not in the database, destroy his session
+                                    req.session.destroy(err => {
+                                        res.clearCookie('connect.sid');
+                                        res.sendStatus(err ? 500 : 410);
+                                    });
+                                } else {
+                                    res.json({ id: advert.id });
+                                }
                             });
                     });
                 }

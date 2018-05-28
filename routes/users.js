@@ -1,95 +1,101 @@
 const express = require('express');
 const router = express.Router();
 
-// Favourite POST
-router.post('/api/favourite', (req, res) => {
-    console.log('Favourite Post:', req.body.data);
-    if (!req.session.user && req.session.user.role !== 'USER') {
+// Save advert to favourites
+router.post('/api/favourite/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'USER') {
         res.sendStatus(401);
     } else {
-        const users = req.db.get('users');
-        users.findOne({ id: req.session.user.id }).then(user => {
-            if (!user) {
-                console.log('No user!');
-            } else {
-                // save to database
-                users
-                    .findOneAndUpdate(
-                        { id: req.session.user.id },
-                        { $push: { favourites: req.body.data } }
-                    )
-                    .then(() => {
-                        req.session.user.favourites.push(req.body.data);
-                        req.session.save(() => {
-                            res.sendStatus(200);
-                        });
+        // Find the user
+        req.db
+            .get('users')
+            .findOneAndUpdate(
+                { id: req.session.user.id },
+                { $push: { favourites: +req.params.id } }
+            )
+            .then(user => {
+                if (!user) {
+                    // If the user is not in the database, destroy his session
+                    req.session.destroy(err => {
+                        res.clearCookie('connect.sid');
+                        res.sendStatus(err ? 500 : 410);
                     });
-            }
-        });
+                } else {
+                    res.sendStatus(200);
+                }
+            });
     }
 });
 
-// (POST) Apply for an advert
-router.post('/api/apply', (req, res) => {
-    if (!req.session.user) {
+// Apply for an advert
+router.post('/api/apply/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'USER') {
         res.sendStatus(401);
-    } else if (req.session.user.role === 'COMPANY') {
-        res.sendStatus(403);
     } else {
         const users = req.db.get('users');
+        // Find the user
         users
-            .findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: req.body.data } })
+            .findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: +req.params.id } })
             .then(user => {
                 if (!user) {
-                    console.log('No user!');
+                    // If the user is not in the database, destroy his session
+                    req.session.destroy(err => {
+                        res.clearCookie('connect.sid');
+                        res.sendStatus(err ? 500 : 410);
+                    });
                 } else {
-                    req.db.get('adverts').findOne({ id: req.body.data }).then(advert => {
-                        const index = advert.candidates.findIndex(() => req.session.user.id);
-                    if ( index !== -1) {
-                        res.sendStatus(400);
-                    } else {                    
-                        req.db
-                            .get('adverts')
-                            .findOneAndUpdate(
-                                { id: req.body.data },
-                                {
-                                    $push: {
-                                        candidates: {
-                                            id: req.session.user.id,
-                                            date: Date.now()
+                    const adverts = req.db.get('adverts');
+                    adverts.findOne({ id: +req.params.id }).then(advert => {
+                        // Check if the user has already applied to that advert
+                        const index = advert.candidates.findIndex(
+                            advert => advert.id === req.session.user.id
+                        );
+                        if (index !== -1) {
+                            res.sendStatus(409);
+                        } else {
+                            // Push the user to the advert's candidates list
+                            adverts
+                                .findOneAndUpdate(
+                                    { id: +req.params.id },
+                                    {
+                                        $push: {
+                                            candidates: {
+                                                id: req.session.user.id,
+                                                date: Date.now()
+                                            }
                                         }
                                     }
-                                }
-                            )
-                            .then(advert => {
-                                const messages = req.db.get('messages');
-                                messages.count().then(len => {
-                                    ++len;
-                                    messages.insert({
-                                        id: len,
-                                        date: Date.now(),
-                                        advertId: advert.id,
-                                        advertTitle: advert.title,
-                                        candidate: {
-                                            cv: req.session.user.cv,
-                                            name: `${req.session.user.firstName} ${
-                                                req.session.user.lastName
-                                            }`
-                                        }
-                                    });
-                                    users
-                                        .findOneAndUpdate(
-                                            { id: advert.companyId },
-                                            { $push: { messages: len } }
-                                        )
-                                        .then(() => {
-                                            req.session.user.applied.push(req.body.data);
-                                            req.session.save(() => {
+                                )
+                                .then(advert => {
+                                    // Send message to the company
+                                    const messages = req.db.get('messages');
+                                    messages.count().then(len => {
+                                        ++len;
+                                        messages.insert({
+                                            id: len,
+                                            date: Date.now(),
+                                            advertId: advert.id,
+                                            advertTitle: advert.title,
+                                            candidate: {
+                                                cv: req.session.user.cv,
+                                                name: `${req.session.user.firstName} ${
+                                                    req.session.user.lastName
+                                                }`
+                                            }
+                                        });
+                                        // Update the database
+                                        users
+                                            .findOneAndUpdate(
+                                                { id: advert.companyId },
+                                                { $push: { messages: len } }
+                                            )
+                                            .then(() => {
                                                 res.sendStatus(200);
                                             });
-                                        });
+                                    });
                                 });
-                            });
                         }
                     });
                 }
@@ -97,53 +103,59 @@ router.post('/api/apply', (req, res) => {
     }
 });
 
-// Companies GET
-router.get('/api/companies', (req, res) => {
-    req.db
-        .get('users')
-        .find({ role: 'COMPANY' })
-        .then(companies => {
-            if (companies[0]) {
-                res.json(companies);
-            } else {
-                res.sendStatus(404);
-            }
-        });
-});
-
-// Company GET
+// Get company
 router.get('/api/company/:id', (req, res) => {
-    console.log('Company Get:', req.params);
+    // Choose which fields won't be sent
     const fields = {
-        password: 0,
-        role: 0,
         _id: 0,
-        messages: 0
+        role: 0,
+        messages: 0,
+        password: 0
     };
-
+    // Find the company
     req.db
         .get('users')
         .findOne({ id: +req.params.id, role: 'COMPANY' }, { fields })
         .then(company => {
-            if (company) {
-                console.log('Company Info:', company);
+            if (!company) {
+                res.sendStatus(404);
+            } else {
+                // Prepare the adverts data
                 req.db
                     .get('adverts')
                     .find({ id: { $in: company.adverts } })
-                    .then(adverts => {
-                        const advs = [];
-                        adverts.forEach((advert, i) => {
-                            advs[i] = {
+                    .then(advertsArr => {
+                        const adverts = [];
+                        advertsArr.forEach((advert, i) => {
+                            adverts[i] = {
+                                date: advert.date,
                                 title: advert.title,
                                 cityId: advert.cityId,
                                 salary: advert.salary,
-                                date: advert.date,
                                 categoryId: advert.categoryId
                             };
                         });
-                        company.adverts = advs;
+                        company.adverts = adverts;
                         res.json(company);
                     });
+            }
+        });
+});
+
+// Get companies
+router.get('/api/companies', (req, res) => {
+    // Choose which fields will be sent
+    const fields = {
+        id: 1,
+        img: 1,
+        title: 1
+    };
+    req.db
+        .get('users')
+        .find({ role: 'COMPANY' }, { fields })
+        .then(companies => {
+            if (companies[0]) {
+                res.json(companies);
             } else {
                 res.sendStatus(404);
             }

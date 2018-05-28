@@ -21,15 +21,13 @@
             },
 
             // Save to favourites
-            save: function(id) {
-                return $rootScope.promise.post('/api/favourite', {
-                    data: id
-                });
+            save: function() {
+                return $rootScope.promise.post('/api/favourite/' + $routeParams.id);
             },
 
             // Apply for an advert
             apply: function(id) {
-                return $rootScope.promise.post('/api/apply', { data: id });
+                return $rootScope.promise.post('/api/apply/' + $routeParams.id);
             },
 
             // Delete advert
