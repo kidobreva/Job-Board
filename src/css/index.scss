@@ -258,11 +258,42 @@ body {
                         display: flex;
                         justify-content: space-around;
                         align-items: center;
-                        height: 150px;
+                        height: 150px;                        
                     }
                     img {
                         max-width: 150px;
                     }
+                    @media all and (max-width: 980px) {
+                        .text-center {
+                            flex-direction: column;
+                            width: 680px;
+                            align-items: center;
+                            height: 300px;
+                        }
+                        .text-center {
+                            @media all and (max-width: 800px) {
+                                width: 100%;
+                            }
+                        }
+                        img {
+                            height: 70px;
+                        }                
+                        > div {
+                            width: 100%;
+                        }
+                        .carousel-inner {
+                            justify-content: center;
+                        }
+                        .carousel-item {
+                            width: 680px;
+                        }
+                        .carousel-item {
+                            @media all and (max-width: 800px) {
+                                width: 100%;
+                            }
+                        }
+                    }
+                    
                 }
                 // div {
                 //     display: flex;

@@ -225,7 +225,7 @@ angular.module('Carousel', ['ngRoute'])
                     }
                 }
                 $scope.partners = partnersArr;
-                console.log('Partenrs', partnersArr);
+                console.log('Parters', partnersArr);
                 // $scope.$apply();
             });
 });
