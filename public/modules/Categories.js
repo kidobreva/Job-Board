@@ -70,6 +70,21 @@
                 $location.url('/auth?redirect=' + $location.path());
             });
 
+        function updateView(type, category, index) {
+            console.log(category);
+            switch (type) {
+                case 'add':
+                    $scope.categories.push(category);
+                    break;
+                case 'rename':
+                    $scope.categories[index] = category;
+                    break;
+                case 'delete':
+                    $scope.categories.splice(index, 1);
+            }
+            $scope.$apply();
+        }
+
         // Add category modal
         $scope.openAddCategory = function() {
             $uibModal.open({
@@ -79,7 +94,9 @@
                 templateUrl: 'add-category.html',
                 controller: function($uibModalInstance, $scope) {
                     $scope.ok = function() {
-                        CategoriesService.addCategory($scope.categoryName);
+                        CategoriesService.addCategory($scope.categoryName).then(function(response) {
+                            updateView('add', response.data);
+                        });
                         $uibModalInstance.close();
                     };
 
@@ -91,7 +108,7 @@
         };
 
         // Edit category modal
-        $scope.openEditCategory = function(id) {
+        $scope.openEditCategory = function(id, index) {
             $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
@@ -99,7 +116,9 @@
                 templateUrl: 'edit-category.html',
                 controller: function($uibModalInstance, $scope) {
                     $scope.ok = function() {
-                        CategoriesService.editCategory(id, $scope.categoryName);
+                        CategoriesService.editCategory(id, $scope.categoryName).then(function(response) {
+                            updateView('rename', response.data, index);
+                        });
                         $uibModalInstance.close();
                     };
 
@@ -110,8 +129,10 @@
             });
         };
 
-        $scope.removeCategory = function(id) {
-            CategoriesService.removeCategory(id);
+        $scope.removeCategory = function(id, index) {
+            CategoriesService.removeCategory(id).then(function(response) {
+                updateView('delete', response.data, index);
+            });
         };
     }
 

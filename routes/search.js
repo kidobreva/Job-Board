@@ -112,6 +112,7 @@ router.post('/api/adverts', (req, res) => {
     console.log('Find adverts:', search);
     req.db
         .get('adverts')
+        // First sort them by payment type and then by id
         .find(search, { fields, sort: { paymentId: 1, id: -1 } })
         .then(advertsArr => {
             if (advertsArr[0]) {
