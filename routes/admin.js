@@ -122,8 +122,8 @@ router.post('/api/admin/category', (req, res) => {
                         id,
                         name: req.body.name
                     })
-                    .then(() => {
-                        res.sendStatus(200);
+                    .then((doc) => {
+                        res.json(doc);
                     });
             } else {
                 res.sendStatus(400);
@@ -143,8 +143,8 @@ router.patch('/api/admin/category/:id', (req, res) => {
             req.db
                 .get('categories')
                 .findOneAndUpdate({ id: +req.params.id }, { $set: { name: req.body.name } })
-                .then(() => {
-                    res.sendStatus(200);
+                .then((doc) => {
+                    res.json(doc);
                 });
         } else {
             res.sendStatus(400);

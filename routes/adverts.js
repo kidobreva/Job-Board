@@ -78,43 +78,6 @@ router.get('/api/advert/:id', function(req, res) {
     });
 });
 
-// Get Adverts
-router.get('/api/adverts/:page', (req, res) => {
-    const adverts = req.db.get('adverts');
-    adverts.count().then(size => {
-        // Choose which fields to include
-        const fields = {
-            _id: 0,
-            cityId: 1,
-            company: 1,
-            categoryId: 1,
-            img: 1,
-            typeId: 1,
-            levelId: 1,
-            salary: 1,
-            title: 1,
-            paymentId: 1,
-            id: 1,
-            date: 1
-        };
-        // Get the adverts sorted descendingly
-        adverts.find({}, { fields, sort: { id: -1 } }).then(advertsArr => {
-            if (advertsArr[0]) {
-                res.json({
-                    adverts: advertsArr.slice(
-                        (req.params.page - 1) * req.query.size,
-                        req.params.page * req.query.size
-                    ),
-                    len: req.query.size,
-                    size
-                });
-            } else {
-                res.sendStatus(404);
-            }
-        });
-    });
-});
-
 // Add advert
 router.post('/api/advert', (req, res) => {
     // Check for the current user's role

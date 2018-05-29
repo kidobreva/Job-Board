@@ -36,17 +36,15 @@
     <table class="table table-striped" ng-if="categories">
         <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Име</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="category in categories">
-                <td>{{ category.id }}</td>
+            <tr ng-repeat="category in categories track by $index">
                 <td>{{ category.name }}</td>
                 <td>
-                    <button type="button" class="btn btn-default" title="Промяна на категория" ng-click="openEditCategory(category.id)">
+                    <button type="button" class="btn btn-default" title="Промяна на категория" ng-click="openEditCategory(category.id, $index)">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
                     <button
@@ -57,7 +55,7 @@
                         confirm-text="Премахни"
                         cancel-text="Откажи"
                         placement="bottom"
-                        on-confirm="removeCategory(category.id)"
+                        on-confirm="removeCategory(category.id, $index)"
                         on-cancel="cancelClicked = true"
                         confirm-button-type="danger"
                         cancel-button-type="default"
