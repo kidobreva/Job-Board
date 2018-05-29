@@ -23,6 +23,9 @@ section {
             //         width: 15%;
             //     }
             // }
+            tr td:last-child {
+                width: 120px;
+            }
         }
     }
 }

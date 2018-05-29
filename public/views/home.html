@@ -113,20 +113,20 @@
     </section>
 
     <!-- Partners -->
-    <section class="companies">
+    <section class="companies" ng-controller="CarouselCtrl">
         <h3>Партньори</h3>
-        <!-- <div class="news-container carousel">
+        <div class="carousel">
             <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
                 <div uib-slide ng-repeat="items in partners track by $index" index="$index">
-                    <div class="news-block" ng-repeat="item in items">
+                    <div ng-repeat="item in items">
                         <a href="{{item.href}}" target="_blank">
                             <img src="{{item.src}}" alt="item.name" />
                         </a>
                     </div>
                 </div>
             </div>
-        </div> -->
-        <div>
+        </div>
+        <!-- <div>
             <a href="http://imperiaonline.bg/" target="_blank">
                 <img src="images/partners/ImperiaOnline.png" alt="Imperia Online" />
             </a>            
@@ -145,6 +145,6 @@
             <a href="https://www.epam.com/" target="_blank">
                 <img src="images/partners/epam.png" alt="Epam" />
             </a>
-        </div>
+        </div> -->
     </section>
 </main>

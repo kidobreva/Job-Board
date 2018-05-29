@@ -37,7 +37,8 @@
         'Home',
         'Contacts',
         'Admin',
-        'Categories'
+        'Categories',
+        'Carousel'
     ];
 
     // Config

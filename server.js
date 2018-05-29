@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     next();
 });
 db.then(() => {
-    console.log('Database connected to the server!');
+    console.log('Database connected to the server!');    
 });
 
 // API routes

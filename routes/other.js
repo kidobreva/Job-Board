@@ -34,4 +34,15 @@ router.get('/api/news', (req, res) => {
     //     });
 });
 
+    // Get news
+    router.get('/api/partners', (req, res) =>{
+        req.db.get('partners').find().then(partnersArr => {
+            if (partnersArr[0]) {
+                res.json(partnersArr);
+            } else {
+                res.sendStatus(410);
+            }
+        })
+    });
+
 module.exports = router;
