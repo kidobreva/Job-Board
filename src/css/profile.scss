@@ -2,6 +2,31 @@
 
 .profile-page {
     margin: 2rem;
+    width: 980px;
+    #simple-gallery {
+        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        padding: 1rem;
+        svg {
+            float: right;
+        }
+        
+    }
+    .uploads {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        .gallery-div, .video-div {
+            width: 49%;
+            video {
+                width: 100%;
+            }
+        }
+        .video-div {
+            padding: 1rem;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+    }
 }
 
 section {
@@ -48,7 +73,10 @@ section {
                 }
             }
             
+
         }
+        
+        
         @media all and (max-width: 980px) {                  
             width: 100%;
         }
@@ -148,9 +176,9 @@ section {
     }
 
     .total-progress-box {
+        width: 49%;
         height: 20px;
         margin-top: -20px;
-        margin-left: 90px;
         margin-right: 10px;
     }
 
@@ -179,8 +207,5 @@ section {
         background-color: #f5f5f5;
         margin: 2px;
     }
-
-    .zone {
-        width: 49%;
-    }
+    
 }

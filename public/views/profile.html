@@ -14,9 +14,7 @@
             <!-- Upload picture -->
             <label for="select">Прикачване на снимка</label>
             <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
-            <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
-            <label ng-show="chosen" id="selected"></label>
-            <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
+            <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
 
             <!-- Info panel -->
             <div class="info-panel">
@@ -59,11 +57,9 @@
             </div>
 
             <!-- Upload picture -->
-            <label for="select">Прикачване на снимка</label>
+            <label for="select">Прикачване на лого</label>
             <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
-            <input id="choose" hidden onchange="angular.element(this).scope().isChosen()" type="file" class="upload" name="file"/>
-            <label ng-show="chosen" id="selected"></label>
-            <button ng-if="chosen" class="btn btn-success" ng-click="uploadPicture()">Прикачи</button>
+            <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
 
             <!-- Info panel -->
             <div class="info-panel">
@@ -92,47 +88,45 @@
         </div>
     </section>
 
-    <!-- Radios for upload -->
-    <div class="radios">
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="picture" ng-checked="isVideo" ng-value="false" ng-model="isVideo"
-                class="custom-control-input" />
-            <label class="custom-control-label" for="picture">Снимки</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="video" ng-checked="isVideo" ng-value="true"
-                ng-model="isVideo" class="custom-control-input" />
-            <label class="custom-control-label" for="video">Видео</label>
-        </div>
-    </div>
-
-    <!-- Upload picture -->
-    <div class="upload-file" ng-if="!isVideo">
-        <div nv-file-drop="" nv-file-over="" uploader="uploadPictures" over-class="other-over-zone" class="other-drop-zone zone">
-            Плъзнете снимки, за да ги качите
-        </div>
-        <div>
-            <div>
-                Total progress: {{ uploadPictures.progress }}
-                <div class="total-progress-box">
-                    <div class="total-progress" ng-style="{ 'width': uploadPictures.progress + '%' }"></div>
+    <div class="uploads">
+        <div class="video-div">
+            <h3>Видео</h3>
+            <video src="{{user.video}}" controls controlsList="nodownload"></video>
+            <!-- Upload video -->
+            <div class="upload-file">
+                <div nv-file-drop="" nv-file-over="" uploader="uploadVideo" over-class="other-over-zone" class="other-drop-zone zone">
+                    Плъзнете видео, за да го качите
+                </div>
+                <div>
+                    <div>
+                            <span ng-if="uploadVideo.progress">{{ uploadVideo.progress }}%</span>
+                        <div class="total-progress-box">
+                            <div class="total-progress" ng-style="{ 'width': uploadVideo.progress + '%' }"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Upload video -->
-    <div class="upload-file" ng-if="isVideo">
-        <div nv-file-drop="" nv-file-over="" uploader="uploadVideo" over-class="other-over-zone" class="other-drop-zone zone">
-            Плъзнете видео, за да го качите
-        </div>
-        <div>
-            <div>
-                Total progress: {{ uploadVideo.progress }}
-                <div class="total-progress-box">
-                    <div class="total-progress" ng-style="{ 'width': uploadVideo.progress + '%' }"></div>
+        <div class="gallery-div">
+            <!-- Gallery -->
+            <simple-image-gallery ng-if="user.pictures[0]" isprofile="isProfile" deletepicture="deletePicture" images="user.pictures"></simple-image-gallery>
+            <!-- Upload pictures -->
+            <div class="upload-file">
+                <div nv-file-drop="" nv-file-over="" uploader="uploadPictures" over-class="other-over-zone" class="other-drop-zone zone">
+                    Плъзнете снимки, за да ги качите
+                </div>
+                <div>
+                    <div>
+                        <span ng-if="uploadPictures.progress">{{ uploadPictures.progress }}%</span>
+                        <div class="total-progress-box">
+                            <div class="total-progress" ng-style="{ 'width': uploadPictures.progress + '%' }"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+       
     </div>
+    
 </div>

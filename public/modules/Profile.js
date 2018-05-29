@@ -9,39 +9,60 @@
     }
 
     // Service
-    function Service($rootScope) {
-        // Upload picture
-        this.uploadPicture = function(name, e) {
-            return $rootScope.promise.post('/api/profile/upload-picture/' + $rootScope.user.id, {
-                name: name,
-                img: e.target.result
-            });
+    function Service($rootScope, $q) {
+        // Upload promise
+        this.upload = function(file) {
+            var deferred = $q.defer();
+            file.onSuccess = deferred.resolve;
+            file.onError = deferred.reject;
+            file.upload();
+            return deferred.promise;
         };
 
-        // Upload video
-        this.uploadVideo = function(name, e) {
-            return $rootScope.promise.post('/api/profile/upload-video/' + $rootScope.user.id, {
-                name: name,
-                img: e.target.result
-            });
+        this.deletePicture = function(url) {
+            console.log({ url: url });
+            return $rootScope.promise.patch('/api/profile/pictures', { url: url });
         };
     }
 
     // Controller
     function Ctrl(ProfileService, $rootScope, $scope, $location, FileUploader) {
         console.log('Init Profile Controller');
-        $scope.isVideo = false;
+        $scope.isProfile = true;
+        $scope.deletePicture = function(url) {
+            ProfileService.deletePicture(url);
+        };
 
         // Check for current user
         $rootScope
             .getCurrentUser()
             .then(function(user) {
+                // Uploader for avatar/logo
+                $scope.uploadPicture = new FileUploader({
+                    url: '/api/profile/upload-picture/' + $rootScope.user.id
+                });
+                $scope.uploadPicture.onAfterAddingFile = function(file) {
+                    ProfileService.upload(file)
+                        .then(function(data) {
+                            $scope.user.img = data.img + '?' + Date.now();
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                };
+
                 // Uploader for pictures
                 $scope.uploadPictures = new FileUploader({
                     url: '/api/profile/upload-pictures/' + $rootScope.user.id
                 });
                 $scope.uploadPictures.onAfterAddingFile = function(file) {
-                    file.upload();
+                    ProfileService.upload(file)
+                        .then(function(data) {
+                            $scope.user.pictures = data.pictures;
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
                 };
 
                 // Uploader for videos
@@ -65,26 +86,6 @@
         // Custom file select
         $scope.getFile = new selectFile();
         $scope.getFile.targets('choose', 'selected');
-
-        // Upload picture
-        $scope.isChosen = function() {
-            $scope.chosen = true;
-            $scope.$apply();
-        };
-        $scope.uploadPicture = function() {
-            var fileReader = new FileReader();
-            fileReader.onloadend = function(e) {
-                var name = angular.element(document.querySelector('.upload'))[0].files[0].name;
-                ProfileService.uploadPicture(name, e).then(function() {
-                    $rootScope.user.img = e.target.result;
-                    $scope.chosen = false;
-                    $scope.$apply();
-                });
-            };
-            fileReader.readAsDataURL(
-                angular.element(document.querySelector('.upload'))[0].files[0]
-            );
-        };
     }
 
     // Module

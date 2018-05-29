@@ -166,7 +166,7 @@
                     promise = $http.patch(url, data);
                     break;
                 case DELETE:
-                    promise = $http.delete(url, data);
+                    promise = $http.delete(url);
                     break;
             }
             return new Promise(function(resolve, reject) {

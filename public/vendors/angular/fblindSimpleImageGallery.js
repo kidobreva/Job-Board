@@ -2,12 +2,13 @@
 angular.module('fblindSimpleImageGallery', [])
   .directive('simpleImageGallery',
   function () {
-    var template =  '<div id="simple-gallery">' +
+    var template =  '<div id="simple-gallery">' + '<h3 ng-if="isprofile">Галерия</h3>' +
                       '<div id="simple-gallery" class="col-sm-12 image">' +
+                      '<a href="#" ng-if="isprofile" ng-click="deletepicture(currentImage)"><i class="far fa-trash-alt fa-2x"></i></a>' +
                         '<div class="item active">' +
-                          '<img ng-src="{{ currentImage || images[0] }}" class="img-responsive">' +
+                        '<a href="{{currentImage || images[0]}}"><img ng-src="{{ currentImage || images[0] }}" class="img-responsive"></a>' +
                         '</div>' +
-                      '</div>' +
+                        '</div>' +
                       '<div class="col-sm-12">' +
                         '<div class="row">' +
                           '<div class="col-sm-12" id="slider-thumbs">' +
@@ -25,7 +26,9 @@ angular.module('fblindSimpleImageGallery', [])
     return {
       restrict: 'E',
       scope: {
-        images: '='
+        images: '=',
+        isprofile: '=',
+        deletepicture: '='
       },
       template: template,
       controller: function ($scope) {
@@ -35,6 +38,7 @@ angular.module('fblindSimpleImageGallery', [])
       },
       link: function (scope, element, attrs) {
         scope.currentImage = scope.images[0] || {};
+        
       }
     };
   });

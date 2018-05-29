@@ -154,34 +154,38 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                     res.sendStatus(err ? 500 : 410);
                 });
             } else {
-                let img = req.body.img;
-
-                // Create folder for the user
-                const dir = path.join('public', 'uploads', req.session.user.id.toString());
-                if (!fs.existsSync(path.join('public', 'uploads'))) {
-                    fs.mkdirSync(path.join('public', 'uploads'));
-                }
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir);
-                }
-                // Decode the file and write it to the file system
-                // TODO: Use multer instead of doing it manually
-                let ext = req.body.name.split('.');
-                ext = ext[ext.length - 1];
-                if (img.slice(0, 10) === 'data:image') {
-                    fs.writeFile(
-                        path.join(dir, `profile.${ext}`),
-                        Buffer.from(img.slice(22), 'base64'),
-                        err => {
-                            console.log(err ? err : 'File saved!');
+                let name;
+                const storage = multer.diskStorage({
+                    destination: function(req, file, cb) {
+                        // Create folder for the user
+                        const dir = path.join('public', 'uploads', req.session.user.id.toString());
+                        if (!fs.existsSync(path.join('public', 'uploads'))) {
+                            fs.mkdirSync(path.join('public', 'uploads'));
                         }
-                    );
-                }
-                img = `uploads/${req.session.user.id}/profile.${ext}`;
-
-                // save to database and send url path to the user
-                users.findOneAndUpdate({ id: req.session.user.id }, { $set: { img } }).then(() => {
-                    res.json({ img });
+                        if (!fs.existsSync(dir)) {
+                            fs.mkdirSync(dir);
+                        }
+                        cb(null, path.join('public', 'uploads', req.session.user.id.toString()));
+                    },
+                    filename: function(req, file, cb) {
+                        name = 'profile.' + mime.getExtension(file.mimetype);
+                        cb(null, name);
+                    }
+                });
+                const upload = multer({ storage }).single('file');
+                upload(req, res, function(err) {
+                    if (err) {
+                        res.sendStatus(400);
+                    } else {
+                        // update database
+                        const img = `uploads/${req.session.user.id}/${name}`;
+                        // save to database and send url path to the user
+                        users
+                            .findOneAndUpdate({ id: req.session.user.id }, { $set: { img } })
+                            .then(() => {
+                                res.json({ img });
+                            });
+                    }
                 });
             }
         });
@@ -190,6 +194,7 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
 
 // Upload pictures for the company's gallery
 router.post('/api/profile/upload-pictures/:id', (req, res) => {
+    // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'COMPANY') {
         res.sendStatus(401);
     } else {
@@ -227,14 +232,14 @@ router.post('/api/profile/upload-pictures/:id', (req, res) => {
                         res.sendStatus(400);
                     } else {
                         // update database
-                        const picture = path.join('uploads', req.session.user.id.toString(), name);
+                        const picture = `uploads/${req.session.user.id}/${name}`;
                         users
                             .findOneAndUpdate(
                                 { id: req.session.user.id },
                                 { $push: { pictures: picture } }
                             )
-                            .then(() => {
-                                res.sendStatus(200);
+                            .then(user => {
+                                res.json({ pictures: user.pictures });
                             });
                     }
                 });
@@ -243,9 +248,35 @@ router.post('/api/profile/upload-pictures/:id', (req, res) => {
     }
 });
 
+// Delete pictures
+router.patch('/api/profile/pictures', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'COMPANY') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (!user) {
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
+            } else {
+                // update database
+                users
+                    .findOneAndUpdate({ id: req.session.user.id }, { $pull: { pictures: req.body.url } })
+                    .then(() => {
+                        res.sendStatus(200);
+                    });
+            }
+        });
+    }
+});
+
 // Upload CV
 router.post('/api/profile/upload-cv/:id', (req, res) => {
-    // Check for user in session
+    // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'USER') {
         res.sendStatus(401);
     } else {
@@ -288,6 +319,7 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
 
 // Upload video
 router.post('/api/profile/upload-video/:id', (req, res) => {
+    // Check for the current user's role
     if (!req.session.user || req.session.user.role !== 'COMPANY') {
         res.sendStatus(401);
     } else {
@@ -324,7 +356,7 @@ router.post('/api/profile/upload-video/:id', (req, res) => {
                         res.sendStatus(400);
                     } else {
                         // save to database and send url path to the user
-                        const video = path.join('uploads', req.session.user.id.toString(), name);
+                        const video = `uploads/${req.session.user.id}/${name}`;
                         users
                             .findOneAndUpdate({ id: req.session.user.id }, { $set: { video } })
                             .then(() => {
