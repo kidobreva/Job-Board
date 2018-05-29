@@ -18,9 +18,7 @@ router.post('/api/favourite/:id', (req, res) => {
                 });
             } else {
                 // Check if the user has already saved the advert to favourites
-                const index = user.favourites.findIndex(
-                    id => id === +req.params.id
-                );
+                const index = user.favourites.findIndex(id => id === +req.params.id);
                 if (index !== -1) {
                     res.sendStatus(409);
                 } else {

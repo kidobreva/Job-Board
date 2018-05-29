@@ -1,11 +1,12 @@
 <!-- Admin -->
 <div ng-if="loaded && user.role === 'ADMIN'" class="profile-page">
-    <section class="user-profile">
+    <section class="user-profile admin">
         <div class="info-panel">
             <h4>Статистика:</h4>
-
-            <p>Общо публикувани обяви: {{numberOfAdverts}}</p>
-            <p>Общо регистрирани потребители: {{numberOfUsers}}</p>
+            <div>
+                <p>Общо публикувани обяви:  <strong>{{numberOfAdverts}}</strong></p>
+                <p>Общо регистрирани потребители: <strong>{{numberOfUsers}}</strong></p>
+            </div>            
         </div>
         <div class="profil-controll">
             <div class="page-options">

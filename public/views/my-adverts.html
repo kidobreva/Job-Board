@@ -49,7 +49,7 @@
                 <a href="/advert/{{advert.id}}/edit" class="btn btn-light">Промени обява</a>
                 <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates.length}}]</a>
             </div>
-            <div class="links removeBtn" ng-if="$root.user.role === 'USER'">
+            <div ng-if="isActive('/favourites', true)" class="links removeBtn" ng-if="$root.user.role === 'USER'">
                 <button
                 class="btn btn-danger"
                 mwl-confirm
