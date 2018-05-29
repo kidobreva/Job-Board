@@ -30,14 +30,14 @@
 //         src: 'images/partners/epam.png'
 //     },
 //     {
-//         name: 'Imperia Online',
-//         href: 'http://imperiaonline.bg/',
-//         src: 'images/partners/ImperiaOnline.png'
+//         name: 'Softuare AG',
+//         href: 'https://www.softwareag.com/',
+//         src: 'images/partners/SAG-software.png'
 //     },
 //     {
-//         name: 'Imperia Online',
-//         href: 'http://imperiaonline.bg/',
-//         src: 'images/partners/ImperiaOnline.png'
+//         name: 'Experian',
+//         href: 'http://www.experian.bg/',
+//         src: 'images/partners/Experian BM TM RGB.png'
 //     }];
 
 (function () {
@@ -196,30 +196,6 @@
                 console.log('News', newsArr);
                 $scope.$apply();
             });
-
-            // // Get Partners
-            // //  $rootScope.promise.get('/api/partners').then(res => {
-            // function asd() {
-            //     // var partners = res.data;
-            //     var partnersArr = [];
-            //     var slides = 2;
-            //     var items = 4;
-            //     for (var i = 0; i < items * slides;) {
-            //         var arr = [];
-            //         for (var j = 0; j < items; j++) {
-
-            //             arr[j] = partners[i + j];
-            //             i++;
-            //         }
-            //         partnersArr.push(arr);
-            //     }
-            //     $scope.partners = partnersArr;
-            //     console.log('Partenrs', partnersArr);
-            //     $scope.$apply();
-            // }
-            // asd();
-
-            // // });
         });
     }
 
@@ -230,4 +206,26 @@
         .controller('Home', Ctrl);
 })();
 
-
+angular.module('Carousel', ['ngRoute'])
+       .controller('CarouselCtrl', function(AdvertsService, $scope, $location, $rootScope, $sce) {
+           console.log('Init Carousel');
+        // Get Partners
+             $rootScope.promise.get('/api/partners').then(res => {
+                var partners = res.data;
+                var partnersArr = [];
+                var slides = 2;
+                var items = 4;
+                for (var i = 0; i < slides; i++) {
+                    console.log(items * i)
+                    console.log((slides * items) / slides);
+                    if (i === slides - 1) {
+                        partnersArr.push(partners.slice((slides * items) / slides));
+                    } else {
+                        partnersArr.push(partners.slice(items * i, (slides * items) / slides));
+                    }
+                }
+                $scope.partners = partnersArr;
+                console.log('Partenrs', partnersArr);
+                // $scope.$apply();
+            });
+});

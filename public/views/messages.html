@@ -33,11 +33,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="msg in messages" ng-class="{ 'table-primary': !msg.isRead }">
-                <td>{{msg.email}}</td>
-                <td>{{msg.date | date}}</td>
-                <td>{{msg.msg}}</td>
-                <td><a href="/message/{{msg.id}}">Покажи</a></td>
+            <tr ng-repeat="msg in messages track by $index" ng-class="{ 'table-primary': !msg.isRead }">
+                <td ng-click="showMessage(msg.id)">{{msg.email}}</td>
+                <td ng-click="showMessage(msg.id)">{{msg.date | date}}</td>
+                <td ng-click="showMessage(msg.id)">{{msg.msg}}</td>
+                <!-- <td><button type="button" 
+                            class="btn btn-default" 
+                            title="Изтрий съобщение" 
+                            ng-click="deleteMessage(msg.id, $index, $event)"
+                            >&times;</button></td>  -->
+                <td><button
+                    class="btn btn-danger"
+                    mwl-confirm
+                    title="Изтриване на съобщение"
+                    message="Сигурни ли сте, че искате да изтриете съобщението?"
+                    confirm-text="Изтрий"
+                    cancel-text="Откажи"
+                    placement="bottom"
+                    on-confirm="deleteMessage(msg.id, $index)"
+                    on-cancel="cancelClicked = true"
+                    confirm-button-type="danger"
+                    cancel-button-type="default"
+                  >&times;</button></td>               
+                <!-- <td><a href="/message/{{msg.id}}">Покажи</a></td> -->
             </tr>
         </tbody>
     </table>

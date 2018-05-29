@@ -44,7 +44,9 @@
             <tr ng-repeat="category in categories track by $index">
                 <td>{{ category.name }}</td>
                 <td>
-                    <button type="button" class="btn btn-default" ng-click="openEditCategory(category.id, $index)">Промени</button>
+                    <button type="button" class="btn btn-default" title="Промяна на категория" ng-click="openEditCategory(category.id, $index)">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
                     <button
                         class="btn btn-default"
                         mwl-confirm
@@ -57,7 +59,7 @@
                         on-cancel="cancelClicked = true"
                         confirm-button-type="danger"
                         cancel-button-type="default"
-                    >Премахни</button>
+                    >&times;</button>
                 </td>
             </tr>
         </tbody>

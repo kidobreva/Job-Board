@@ -1,4 +1,11 @@
-<p>{{message.date | date}}</p>
-<p>{{message.email}}</p>
-<p>{{message.phone}}</p>
-<p>{{message.msg}}</p>
+<section class="message-page">
+    <div>
+        <p><strong>Подател:</strong> {{message.name | date}}</p>
+        <p><strong>Дата:</strong> {{message.date | date}}</p>
+        <p><strong>Емайл:</strong> {{message.email}}</p>
+        <p><strong>Телефон:</strong> {{message.phone}}</p>
+        <div class="text">
+            <p><strong>Текст:</strong> {{message.msg}}</p>
+        </div>        
+    </div>
+</section>

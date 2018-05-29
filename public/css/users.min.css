@@ -1,2 +1,2 @@
-section.users-page{width:980px;margin:0 auto;padding:20px;font-family:Tahoma, Helvetica, sans-serif;color:#4e4b4b;font-size:15px}section.users-page .header-info{margin-bottom:30px}section.users-page .header-info h2{border-bottom:2px solid #4e4b4b}section.users-page .table{width:100%;text-align:center}
+section.users-page{width:980px;margin:0 auto;padding:20px;font-family:Tahoma, Helvetica, sans-serif;color:#4e4b4b;font-size:15px}section.users-page .header-info{margin-bottom:30px}section.users-page .header-info h2{border-bottom:2px solid #4e4b4b}section.users-page .table{width:100%;text-align:center}section.users-page .table tr td:last-child{width:120px}
 /*# sourceMappingURL=users.min.css.map */

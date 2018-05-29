@@ -239,58 +239,60 @@ body {
                     width: 400px;
                     font-weight: bold;
                 }
-                // .carousel {
-                //     svg {
-                //         color: black;
-                //         width: 50px !important;
-                //         height: 50px;
-                //     }
-                //     > div {
-                //         display: flex;
-                //         align-items: center;
-                //         margin: 0 auto;
-                //         width: 980px;
-                //     }
-                //     ol {
-                //         display: none;
-                //     }                
-                //     .text-center {
-                //         display: flex;
-                //         justify-content: space-around;
-                //     }
-                //     img {
-                //         max-width: 100%;
-                //     }
-                // }
-                div {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-around;
-                    //width: 1280px;
-                    height: 150px;
-                    margin: 0 auto;
-                    a img {
-                        width: 150px;
+                .carousel {
+                    svg {
+                        color: black;
+                        width: 50px !important;
+                        height: 50px;
                     }
-                    @media all and (max-width: 980px) {
-                        width: 100%;
-                        //justify-content: space-between;
-                        a img {
-                            width: 70%;
-                        }
+                    > div {
+                        display: flex;
+                        align-items: center;
+                        margin: 0 auto;
+                        width: 980px;
                     }
-                    @media all and (max-width: 600px) {
-                        height: auto;
-                        flex-direction: column;
-                        align-items: inherit;
-                        a {
-                            margin-bottom: 1.5rem;
-                            img {
-                                width: 50%;
-                            }
-                        }
+                    ol {
+                        display: none;
+                    }                
+                    .text-center {
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        height: 150px;
+                    }
+                    img {
+                        max-width: 150px;
                     }
                 }
+                // div {
+                //     display: flex;
+                //     align-items: center;
+                //     justify-content: space-around;
+                //     //width: 1280px;
+                //     height: 150px;
+                //     margin: 0 auto;
+                //     a img {
+                //         width: 150px;
+                //     }
+                //     @media all and (max-width: 980px) {
+                //         width: 100%;
+                //         //justify-content: space-between;
+                //         a img {
+                //             width: 70%;
+                //         }
+                //     }
+                //     @media all and (max-width: 600px) {
+                //         height: auto;
+                //         flex-direction: column;
+                //         align-items: inherit;
+                //         a {
+                //             margin-bottom: 1.5rem;
+                //             img {
+                //                 width: 50%;
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -418,7 +420,7 @@ body {
 }
 
 // carousel
-.carousel {
+.news .carousel {
     svg {
         color: white;
         width: 50px !important;
