@@ -125,6 +125,7 @@
            ng-repeat="alert in leftAlerts" 
            ng-class="'alert-' + (alert.type || 'warning')" 
            close="closeAlert($index)"
+           class="errorFavorites"
       >{{alert.msg}}</div>
 
       <button ng-if="$root.user.role === 'USER'"
@@ -152,6 +153,7 @@
          ng-repeat="alert in alerts" 
          ng-class="'alert-' + (alert.type || 'warning')" 
          close="closeAlert($index)"
+         class="errorApply"
     >{{alert.msg}}</div>
   </main>
 </section>

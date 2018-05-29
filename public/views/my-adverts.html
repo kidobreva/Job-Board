@@ -19,7 +19,7 @@
             </div>
         </div>
         <h5 ng-if="loaded && !adverts.length">Нямате публикувани обяви!</h5>
-        <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage" total-items="totalAdverts" current-page="currentPage">
+        <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage track by $index" total-items="totalAdverts" current-page="currentPage">
             <div ng-if="advert.paymentId !== 4" ng-class="{
                 pro: advert.paymentId === 1,
                 top: advert.paymentId === 2,
@@ -48,6 +48,21 @@
             <div class="links" ng-if="$root.user.role === 'COMPANY'">
                 <a href="/advert/{{advert.id}}/edit" class="btn btn-light">Промени обява</a>
                 <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates.length}}]</a>
+            </div>
+            <div class="links removeBtn" ng-if="$root.user.role === 'USER'">
+                <button
+                class="btn btn-danger"
+                mwl-confirm
+                title="Изтриване на обява"
+                message="Сигурни ли сте, че искате да изтриете обявата?"
+                confirm-text="Изтрий"
+                cancel-text="Откажи"
+                placement="bottom"
+                on-confirm="removeFavourite(advert.id, $index)"
+                on-cancel="cancelClicked = true"
+                confirm-button-type="danger"
+                cancel-button-type="default"
+                >&times;</button>
             </div>
         </div>
     </div>

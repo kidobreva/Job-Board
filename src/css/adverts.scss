@@ -96,8 +96,15 @@ section {
                 .links {
                     margin-left: 1rem;      
                 } 
+                .removeBtn {
+                    margin-left: 50px;
+                }
                 @media all and (max-width: 800px) {
                     width: 100%;
+                    .removeBtn {
+                        width: 50px;
+                        margin: 0 auto;
+                    }
                 }
             }            
             @media all and (max-width: 680px) {

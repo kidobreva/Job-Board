@@ -200,4 +200,28 @@ router.post('/api/advert', (req, res) => {
     }
 });
 
+// Remove favourite advert
+router.delete('/api/favourite/:id', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'USER') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (!user) {
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
+            } else {
+                users.findOneAndUpdate({ id: req.session.user.id }, { $pull: { favourites: +req.params.id } })
+                     .then(() => {
+                    res.sendStatus(200);
+                });
+            }
+        });
+    }
+    
+});
+
 module.exports = router;

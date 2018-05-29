@@ -79,7 +79,7 @@
             }
         }, 1000);
 
-        $scope.advertAlert;
+        //$scope.advertAlert;
         // Save to favourites
         $scope.save = function() {
             $rootScope
@@ -92,6 +92,7 @@
                             console.log(response);
                         })
                         .catch(function(err) {
+                            $scope.addAlert('saveError');
                             console.error(err.data);
                         });
                 })
@@ -112,8 +113,11 @@
                             console.log(response);
                         })
                         .catch(function(err) {
-                            $scope.addAlert('applyError');
-                            console.error(err.data);
+                            if (err.status === 409) {
+                                $scope.addAlert('applyError');
+                            } else {
+                                $scope.addAlert('missingCv');
+                            }                            
                         });
                 })
                 .catch(function() {
@@ -171,24 +175,28 @@
                 }
             });
         };
-
-        
-
-
+    
         // Alerts
         $scope.alerts = [];
         $scope.leftAlerts = [];
         $scope.addAlert = function(type) {
             $scope.alerts.length = 0;
+            $scope.leftAlerts.length = 0;
             switch (type) {
                 case 'save':
                     $scope.leftAlerts.push({ type: 'primary', msg: 'Обявата беше запазена успешно!' });
+                    break;
+                case 'saveError':
+                    $scope.leftAlerts.push({ type: 'danger', msg: 'Обявата вече е запазена!' });
                     break;
                 case 'apply':
                     $scope.alerts.push({ type: 'success', msg: 'Успешно кандидатствахте за тази обява!' });
                     break;
                 case 'applyError':
                     $scope.alerts.push({ type: 'danger', msg: 'Вече сте кандидатствали за тази обява!' });
+                    break;
+                case 'missingCv':
+                    $scope.alerts.push({ type: 'primary', msg: 'Моля прикачете CV!' });
                     break;
             }              
                                                                                                  

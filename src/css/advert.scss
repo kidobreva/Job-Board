@@ -32,6 +32,9 @@ section {
                     margin-left: 60px;
                 }
             }
+            .errorApply {
+                margin-top: 20px;
+            }
         }
         aside {
             width: 300px;
@@ -63,6 +66,13 @@ section {
                 .btn {
                     margin: 10px auto;
                 }
+                .errorFavorites {
+                    width: 250px;
+                    margin: 0 auto;
+                    font-size: 14px;
+                    height: 51px;
+                    padding-top: 4px;
+                }                
             }
         }
         @media all and (max-width: 980px) {                  

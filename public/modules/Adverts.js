@@ -42,6 +42,10 @@
             query.page = +page;
             return $rootScope.promise.post('/api/adverts', query);
         };
+
+        this.removeFavourite = function(id) {
+            return $rootScope.promise.delete('/api/favourite/' + id);
+        }
     }
 
     // Controller
@@ -157,6 +161,15 @@
                     $scope.timeout = true;
                 }
             }, 1000);
+        }
+
+        //Delete adverts from favorites
+        $scope.removeFavourite = function(id, index) {
+            AdvertsService.removeFavourite(id).then(function(res) {
+                console.log(res);
+                $scope.adverts.splice(index, 1);
+                $scope.$apply();
+            });
         }
     }
 

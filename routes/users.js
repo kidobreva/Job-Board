@@ -8,23 +8,34 @@ router.post('/api/favourite/:id', (req, res) => {
         res.sendStatus(401);
     } else {
         // Find the user
-        req.db
-            .get('users')
-            .findOneAndUpdate(
-                { id: req.session.user.id },
-                { $push: { favourites: +req.params.id } }
-            )
-            .then(user => {
-                if (!user) {
-                    // If the user is not in the database, destroy his session
-                    req.session.destroy(err => {
-                        res.clearCookie('connect.sid');
-                        res.sendStatus(err ? 500 : 410);
-                    });
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (!user) {
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
+            } else {
+                // Check if the user has already saved the advert to favourites
+                const index = user.favourites.findIndex(
+                    id => id === +req.params.id
+                );
+                if (index !== -1) {
+                    res.sendStatus(409);
                 } else {
-                    res.sendStatus(200);
+                    users
+                        .findOneAndUpdate(
+                            { id: req.session.user.id },
+                            { $push: { favourites: +req.params.id } }
+                        )
+                        .then(user => {
+                            res.sendStatus(200);
+                        });
                 }
-            });
+            }
+        });
+
     }
 });
 
@@ -36,15 +47,16 @@ router.post('/api/apply/:id', (req, res) => {
     } else {
         const users = req.db.get('users');
         // Find the user
-        users
-            .findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: +req.params.id } })
-            .then(user => {
-                if (!user) {
-                    // If the user is not in the database, destroy his session
-                    req.session.destroy(err => {
-                        res.clearCookie('connect.sid');
-                        res.sendStatus(err ? 500 : 410);
-                    });
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (!user) {
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
+            } else {
+                if (!user.cv) {
+                    res.sendStatus(400);
                 } else {
                     const adverts = req.db.get('adverts');
                     adverts.findOne({ id: +req.params.id }).then(advert => {
@@ -55,9 +67,10 @@ router.post('/api/apply/:id', (req, res) => {
                         if (index !== -1) {
                             res.sendStatus(409);
                         } else {
-                            // Push the user to the advert's candidates list
-                            adverts
-                                .findOneAndUpdate(
+                            users.findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: +req.params.id } }).then(() => {
+                                // Push the user to the advert's candidates list
+                                adverts
+                                    .findOneAndUpdate(
                                     { id: +req.params.id },
                                     {
                                         $push: {
@@ -67,39 +80,47 @@ router.post('/api/apply/:id', (req, res) => {
                                             }
                                         }
                                     }
-                                )
-                                .then(advert => {
-                                    // Send message to the company
-                                    const messages = req.db.get('messages');
-                                    messages.count().then(len => {
-                                        ++len;
-                                        messages.insert({
-                                            id: len,
-                                            date: Date.now(),
-                                            advertId: advert.id,
-                                            advertTitle: advert.title,
-                                            candidate: {
-                                                cv: req.session.user.cv,
-                                                name: `${req.session.user.firstName} ${
-                                                    req.session.user.lastName
-                                                }`
-                                            }
-                                        });
-                                        // Update the database
-                                        users
-                                            .findOneAndUpdate(
+                                    )
+                                    .then(advert => {
+                                        // Send message to the company
+                                        const messages = req.db.get('messages');
+                                        messages.count().then(len => {
+                                            ++len;
+                                            messages.insert({
+                                                id: len,
+                                                date: Date.now(),
+                                                advertId: advert.id,
+                                                advertTitle: advert.title,
+                                                candidate: {
+                                                    cv: req.session.user.cv,
+                                                    name: `${req.session.user.firstName} ${
+                                                        req.session.user.lastName
+                                                        }`
+                                                }
+                                            });
+                                            // Update the database
+                                            users
+                                                .findOneAndUpdate(
                                                 { id: advert.companyId },
                                                 { $push: { messages: len } }
-                                            )
-                                            .then(() => {
-                                                res.sendStatus(200);
-                                            });
+                                                )
+                                                .then(() => {
+                                                    res.sendStatus(200);
+                                                });
+                                        });
                                     });
-                                });
+                            });
+
                         }
+
                     });
+
                 }
-            });
+
+            }
+
+        });
+
     }
 });
 
