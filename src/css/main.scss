@@ -284,6 +284,19 @@ nav {
 
 .messages-page {
     margin-top: 1.5rem;
+    width: 980px;
+    // th {
+    //     text-align: center;
+    // }
+    tr td:not(:last-child) {
+        cursor: pointer;        
+    }  
+    tr td:nth-child(3) {
+        width: 450px;
+    }
+    tr td:last-child {
+        width: 75px;
+    } 
 }
 .messages {
     width: 980px;

@@ -20,7 +20,7 @@
                 return $rootScope.promise.get('/api/message/' + $routeParams.id);
             },
 
-            // Delete advert
+            // Delete message
             deleteMessage: function(id) {
                 return $rootScope.promise.delete('/api/message/' + id);
             }

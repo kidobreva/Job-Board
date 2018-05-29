@@ -1,0 +1,14 @@
+@import '_config.scss';
+
+section {
+    &.message-page {
+        @include default-page-size;
+        padding-top: 40px;
+        padding-left: 50px;
+        div.text {
+            margin-top: 40px; 
+            word-wrap: break-word;
+            text-align: justify;
+        }
+    }
+}

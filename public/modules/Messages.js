@@ -17,7 +17,7 @@
     }
 
     // Controller
-    function Ctrl(MessagesService, $rootScope, $scope, $location, $timeout) {
+    function Ctrl(MessagesService, MessageService, $rootScope, $scope, $location, $timeout) {
         console.log('Init Messages Controller');
 
         // Check for current user
@@ -57,6 +57,22 @@
                 // Redirect to the login
                 $location.url('/auth?redirect=' + $location.path());
             });
+
+            $scope.showMessage = function (id) {
+                $location.path('/message/' + id);
+            }
+
+            // Delete message
+            $scope.deleteMessage = function(id, index) {
+                MessageService.deleteMessage(id)
+                    .then(function() {
+                        $scope.messages.splice(index, 1);
+                        $scope.$apply();
+                    })
+                    .catch(function(err) {
+                        console.error(err.data);
+                    });
+        };
     }
 
     // Module

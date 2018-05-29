@@ -45,6 +45,14 @@ router.get('/api/my-messages', (req, res) => {
                         .then(msgs => {
                             // Send them
                             if (msgs[0]) {
+                                msgs = msgs.map(msg => {
+                                    if (msg.msg.length <= 70) {
+                                        msg.msg = msg.msg.slice(0, 50)
+                                    } else {
+                                        msg.msg = msg.msg.slice(0, 50) + ' ...';
+                                    }                                   
+                                    return msg;
+                                });
                                 res.json({
                                     messages: msgs
                                 });
@@ -64,6 +72,7 @@ router.post('/api/send-message', (req, res) => {
         ++len;
         messages.insert({
             id: len,
+            name: req.body.name,
             msg: req.body.text,
             date: Date.now(),
             phone: req.body.phone,
@@ -74,6 +83,26 @@ router.post('/api/send-message', (req, res) => {
             res.sendStatus(200);
         });
     });
+});
+
+router.delete('/api/message/:id', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+        res.sendStatus(401);
+    } else {
+        req.db
+            .get('messages')
+            .findOneAndDelete({ id: +req.params.id })
+            .then(message => {
+                if (message) {
+                    req.db.get('users').findOneAndUpdate({ id: 0 }, { $pull: { messages: +req.params.id } }).then(() => {
+                        res.sendStatus(200);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+                
+            });
+    }
 });
 
 module.exports = router;
