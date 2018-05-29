@@ -34,6 +34,7 @@
     // Controller
     function Ctrl(CategoriesService, $rootScope, $scope, $location, $timeout, $uibModal) {
         console.log('Init Categories Controller');
+        $scope.sorted = false;
 
         // Check for current user
         $rootScope
@@ -74,7 +75,7 @@
             console.log(category);
             switch (type) {
                 case 'add':
-                    $scope.categories.push(category);
+                    $scope.categories.unshift(category);
                     break;
                 case 'rename':
                     $scope.categories[index] = category;
@@ -84,6 +85,20 @@
             }
             $scope.$apply();
         }
+
+        $scope.sort = function() {
+            if ($scope.sorted) {
+                $scope.categories.sort(function(a, b) {
+                    return a.name.localeCompare(b.name);
+                });
+                $scope.sorted = false;
+            } else {
+                $scope.categories.sort(function(a, b) {
+                    return b.name.localeCompare(a.name);
+                });
+                $scope.sorted = true;
+            }
+        };
 
         // Add category modal
         $scope.openAddCategory = function() {
@@ -108,15 +123,18 @@
         };
 
         // Edit category modal
-        $scope.openEditCategory = function(id, index) {
+        $scope.openEditCategory = function(id, index, name) {
             $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
                 templateUrl: 'edit-category.html',
                 controller: function($uibModalInstance, $scope) {
+                    $scope.categoryName = name;
                     $scope.ok = function() {
-                        CategoriesService.editCategory(id, $scope.categoryName).then(function(response) {
+                        CategoriesService.editCategory(id, $scope.categoryName).then(function(
+                            response
+                        ) {
                             updateView('rename', response.data, index);
                         });
                         $uibModalInstance.close();

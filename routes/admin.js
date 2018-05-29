@@ -79,7 +79,26 @@ router.patch('/api/admin/block/:id', (req, res) => {
                 }
             )
             .then(user => {
-                res.sendStatus(user ? 200 : 404);
+                if (!user) {
+                    res.sendStatus(404);
+                } else {
+                    if (user.role === 'COMPANY') {
+                        if (user.adverts[0]) {
+                            req.db
+                                .get('adverts')
+                                .update(
+                                    { id: { $in: user.adverts } },
+                                    { $set: { isBlocked: true } },
+                                    { multi: true }
+                                )
+                                .then(() => {
+                                    res.sendStatus(200);
+                                });
+                        }
+                    } else {
+                        res.sendStatus(200);
+                    }
+                }
             });
     }
 });
@@ -94,7 +113,7 @@ router.get('/api/admin/categories', (req, res) => {
     } else {
         req.db
             .get('categories')
-            .find()
+            .find({}, { sort: { name: 1 } })
             .then(categories => {
                 if (categories[0]) {
                     res.json(categories);
@@ -122,7 +141,7 @@ router.post('/api/admin/category', (req, res) => {
                         id,
                         name: req.body.name
                     })
-                    .then((doc) => {
+                    .then(doc => {
                         res.json(doc);
                     });
             } else {
@@ -143,7 +162,7 @@ router.patch('/api/admin/category/:id', (req, res) => {
             req.db
                 .get('categories')
                 .findOneAndUpdate({ id: +req.params.id }, { $set: { name: req.body.name } })
-                .then((doc) => {
+                .then(doc => {
                     res.json(doc);
                 });
         } else {
@@ -163,6 +182,22 @@ router.delete('/api/admin/category/:id', (req, res) => {
             .findOneAndDelete({ id: +req.params.id })
             .then(category => {
                 res.sendStatus(category ? 200 : 404);
+            });
+    }
+});
+
+/* ––––– ADVERTS ––––– */
+
+// Block advert
+router.patch('/api/advert/block/:id', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+        res.sendStatus(401);
+    } else {
+        req.db
+            .get('adverts')
+            .findOneAndUpdate({ id: +req.params.id }, { $set: { isBlocked: true } })
+            .then(() => {
+                res.sendStatus(200);
             });
     }
 });

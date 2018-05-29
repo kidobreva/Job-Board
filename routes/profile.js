@@ -265,7 +265,10 @@ router.patch('/api/profile/pictures', (req, res) => {
             } else {
                 // update database
                 users
-                    .findOneAndUpdate({ id: req.session.user.id }, { $pull: { pictures: req.body.url } })
+                    .findOneAndUpdate(
+                        { id: req.session.user.id },
+                        { $pull: { pictures: req.body.url } }
+                    )
                     .then(() => {
                         res.sendStatus(200);
                     });
@@ -289,28 +292,37 @@ router.post('/api/profile/upload-cv/:id', (req, res) => {
                     res.sendStatus(err ? 500 : 410);
                 });
             } else {
-                // Create folder for the user
-                const dir = path.join('public', 'uploads', req.session.user.id.toString());
-                if (!fs.existsSync(path.join('public', 'uploads'))) {
-                    fs.mkdirSync(path.join('public', 'uploads'));
-                }
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir);
-                }
-                // Decode the file and write it to the file system
-                // TODO: Use multer instead of doing it manually
-                req.body.data = req.body.data.replace('data:application/pdf;base64,', '');
-                fs.writeFile(path.join(dir, 'cv.pdf'), req.body.data, 'base64', err => {
-                    if (err) {
-                        console.log(err);
+                let name;
+                const storage = multer.diskStorage({
+                    destination: function(req, file, cb) {
+                        // Create folder for the user
+                        const dir = path.join('public', 'uploads', req.session.user.id.toString());
+                        if (!fs.existsSync(path.join('public', 'uploads'))) {
+                            fs.mkdirSync(path.join('public', 'uploads'));
+                        }
+                        if (!fs.existsSync(dir)) {
+                            fs.mkdirSync(dir);
+                        }
+                        cb(null, path.join('public', 'uploads', req.session.user.id.toString()));
+                    },
+                    filename: function(req, file, cb) {
+                        name = 'cv.' + mime.getExtension(file.mimetype);
+                        cb(null, name);
                     }
-                    console.log('File saved!');
                 });
-                const cv = `uploads/${req.session.user.id}/cv.pdf`;
-
-                // update database
-                users.findOneAndUpdate({ id: req.session.user.id }, { $set: { cv } }).then(() => {
-                    res.json({ cv });
+                const upload = multer({ storage }).single('file');
+                upload(req, res, function(err) {
+                    if (err) {
+                        res.sendStatus(400);
+                    } else {
+                        // save to database and send url path to the user
+                        const cv = `uploads/${req.session.user.id}/${name}`;
+                        users
+                            .findOneAndUpdate({ id: req.session.user.id }, { $set: { cv } })
+                            .then(() => {
+                                res.json({ cv });
+                            });
+                    }
                 });
             }
         });

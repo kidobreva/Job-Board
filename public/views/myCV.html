@@ -1,8 +1,0 @@
-<div id="loader" ng-if="timeout"></div>
-<div ng-if="loaded" class="mycv-page">
-  <label>Качване на CV
-    <input type="file" class="upload" name="file" />
-  </label>
-  <button ng-click="uploadCV()">Прикачи CV</button>
-  <a ng-if="$root.user.cv" href="{{$root.user.cv}}" target="_blank">CV</a>
-</div>

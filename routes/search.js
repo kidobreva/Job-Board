@@ -98,6 +98,9 @@ router.post('/api/adverts', (req, res) => {
     // Make sure to not send expired adverts
     search.expirationDate = { $gt: Date.now() };
 
+    // Make sure to not send blocked adverts
+    search.isBlocked = { $exists: false };
+
     // Exclude fields to send less data
     const fields = {
         _id: 0,

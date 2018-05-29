@@ -29,7 +29,13 @@
                 <strong>Настройки на профила</strong>
             </div>
             <div class="options">
-                <span><a href="/myCV">Моето CV</a></span>
+                <span ng-if="!$root.user.cv">Прикачете Вашето CV, за да можете да кандидатствате по обяви.</span>
+                <span><a ng-if="$root.user.cv" href="{{$root.user.cv}}" target="_blank">Моето CV</a></span>
+                <div>
+                    <!-- Upload CV -->
+                    <button ng-click="getFile.simulate()" id="select" class="btn btn-primary"/>Прикачи CV</button>
+                    <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
+                </div>
             </div>
             <div class="options">
                 <span><a href="/favourites/1">Наблюдавани обяви</a> [{{ user.favourites.length }}]</span>

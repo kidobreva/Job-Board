@@ -18,7 +18,6 @@
         'Auth',
         'Users',
         'Profile',
-        'MyCV',
         'UpdateProfile',
         'Messages',
         'Message',

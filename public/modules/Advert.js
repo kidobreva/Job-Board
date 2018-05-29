@@ -33,21 +33,28 @@
             // Delete advert
             deleteAdvert: function(id) {
                 return $rootScope.promise.delete('/api/advert/' + id);
+            },
+
+            // Block advert
+            blockAdvert: function(id) {
+                return $rootScope.promise.patch('/api/advert/block/' + id);
             }
         };
     }
 
     // Controller
-    function Ctrl(AdvertService,
-                  SendMessageService, 
-                  $rootScope, 
-                  $scope, 
-                  $timeout, 
-                  title, 
-                  $sce, 
-                  $sanitize, 
-                  $location, 
-                  $uibModal) {
+    function Ctrl(
+        AdvertService,
+        SendMessageService,
+        $rootScope,
+        $scope,
+        $timeout,
+        title,
+        $sce,
+        $sanitize,
+        $location,
+        $uibModal
+    ) {
         console.log('Init Advert Controller');
         $rootScope.title = title;
 
@@ -63,8 +70,11 @@
                 $scope.$apply();
             })
             .catch(function(err) {
-                if (err.status === 403) {
+                if (err.status === 404) {
                     $scope.expired = true;
+                }
+                if (err.status === 403) {
+                    $scope.isBlocked = true;
                 }
                 $scope.loaded = true;
                 $scope.timeout = false;
@@ -117,7 +127,7 @@
                                 $scope.addAlert('applyError');
                             } else {
                                 $scope.addAlert('missingCv');
-                            }                            
+                            }
                         });
                 })
                 .catch(function() {
@@ -136,6 +146,13 @@
                 });
         };
 
+        // Block advert
+        $scope.blockAdvert = function() {
+            AdvertService.blockAdvert($scope.advert.id).then(function(res) {
+                console.log(res);
+            });
+        };
+
         //Alert modal
         function alert() {
             $uibModal.open({
@@ -149,7 +166,7 @@
                     };
                 }
             });
-        };
+        }
 
         //Send report message
         $scope.reportAdvert = function() {
@@ -175,7 +192,7 @@
                 }
             });
         };
-    
+
         // Alerts
         $scope.alerts = [];
         $scope.leftAlerts = [];
@@ -184,22 +201,31 @@
             $scope.leftAlerts.length = 0;
             switch (type) {
                 case 'save':
-                    $scope.leftAlerts.push({ type: 'primary', msg: 'Обявата беше запазена успешно!' });
+                    $scope.leftAlerts.push({
+                        type: 'primary',
+                        msg: 'Обявата беше запазена успешно!'
+                    });
                     break;
                 case 'saveError':
                     $scope.leftAlerts.push({ type: 'danger', msg: 'Обявата вече е запазена!' });
                     break;
                 case 'apply':
-                    $scope.alerts.push({ type: 'success', msg: 'Успешно кандидатствахте за тази обява!' });
+                    $scope.alerts.push({
+                        type: 'success',
+                        msg: 'Успешно кандидатствахте за тази обява!'
+                    });
                     break;
                 case 'applyError':
-                    $scope.alerts.push({ type: 'danger', msg: 'Вече сте кандидатствали за тази обява!' });
+                    $scope.alerts.push({
+                        type: 'danger',
+                        msg: 'Вече сте кандидатствали за тази обява!'
+                    });
                     break;
                 case 'missingCv':
                     $scope.alerts.push({ type: 'primary', msg: 'Моля прикачете CV!' });
                     break;
-            }              
-                                                                                                 
+            }
+
             $scope.$apply();
         };
         $scope.closeAlert = function(index) {

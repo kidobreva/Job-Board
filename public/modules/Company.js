@@ -63,10 +63,9 @@
 
         // (Admin) Block company
         $scope.blockCompany = function() {
-            var conf = confirm('Наистина ли искате да блокирате организацията?');
-            if (conf) {
-                CompanyService.getCompany();
-            }
+            CompanyService.blockCompany().then(function(res) {
+                console.log(res);
+            });
         };
     }
 

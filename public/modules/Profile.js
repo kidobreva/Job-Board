@@ -51,6 +51,20 @@
                         });
                 };
 
+                // Uploader for CV
+                $scope.uploadPicture = new FileUploader({
+                    url: '/api/profile/upload-cv/' + $rootScope.user.id
+                });
+                $scope.uploadPicture.onAfterAddingFile = function(file) {
+                    ProfileService.upload(file)
+                        .then(function(res) {
+                            $scope.user.cv = res.cv;
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                };
+
                 // Uploader for pictures
                 $scope.uploadPictures = new FileUploader({
                     url: '/api/profile/upload-pictures/' + $rootScope.user.id

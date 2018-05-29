@@ -18,9 +18,7 @@ router.post('/api/favourite/:id', (req, res) => {
                 });
             } else {
                 // Check if the user has already saved the advert to favourites
-                const index = user.favourites.findIndex(
-                    id => id === +req.params.id
-                );
+                const index = user.favourites.findIndex(id => id === +req.params.id);
                 if (index !== -1) {
                     res.sendStatus(409);
                 } else {
@@ -35,7 +33,6 @@ router.post('/api/favourite/:id', (req, res) => {
                 }
             }
         });
-
     }
 });
 
@@ -67,60 +64,59 @@ router.post('/api/apply/:id', (req, res) => {
                         if (index !== -1) {
                             res.sendStatus(409);
                         } else {
-                            users.findOneAndUpdate({ id: req.session.user.id }, { $push: { applied: +req.params.id } }).then(() => {
-                                // Push the user to the advert's candidates list
-                                adverts
-                                    .findOneAndUpdate(
-                                    { id: +req.params.id },
-                                    {
-                                        $push: {
-                                            candidates: {
-                                                id: req.session.user.id,
-                                                date: Date.now()
-                                            }
-                                        }
-                                    }
-                                    )
-                                    .then(advert => {
-                                        // Send message to the company
-                                        const messages = req.db.get('messages');
-                                        messages.count().then(len => {
-                                            ++len;
-                                            messages.insert({
-                                                id: len,
-                                                date: Date.now(),
-                                                advertId: advert.id,
-                                                advertTitle: advert.title,
-                                                candidate: {
-                                                    cv: req.session.user.cv,
-                                                    name: `${req.session.user.firstName} ${
-                                                        req.session.user.lastName
-                                                        }`
+                            users
+                                .findOneAndUpdate(
+                                    { id: req.session.user.id },
+                                    { $push: { applied: +req.params.id } }
+                                )
+                                .then(() => {
+                                    // Push the user to the advert's candidates list
+                                    adverts
+                                        .findOneAndUpdate(
+                                            { id: +req.params.id },
+                                            {
+                                                $push: {
+                                                    candidates: {
+                                                        id: req.session.user.id,
+                                                        date: Date.now()
+                                                    }
                                                 }
-                                            });
-                                            // Update the database
-                                            users
-                                                .findOneAndUpdate(
-                                                { id: advert.companyId },
-                                                { $push: { messages: len } }
-                                                )
-                                                .then(() => {
-                                                    res.sendStatus(200);
+                                            }
+                                        )
+                                        .then(advert => {
+                                            // Send message to the company
+                                            const messages = req.db.get('messages');
+                                            messages.count().then(len => {
+                                                ++len;
+                                                messages.insert({
+                                                    id: len,
+                                                    date: Date.now(),
+                                                    advertId: advert.id,
+                                                    advertTitle: advert.title,
+                                                    candidate: {
+                                                        cv: req.session.user.cv,
+                                                        name: `${req.session.user.firstName} ${
+                                                            req.session.user.lastName
+                                                        }`
+                                                    }
                                                 });
+                                                // Update the database
+                                                users
+                                                    .findOneAndUpdate(
+                                                        { id: advert.companyId },
+                                                        { $push: { messages: len } }
+                                                    )
+                                                    .then(() => {
+                                                        res.sendStatus(200);
+                                                    });
+                                            });
                                         });
-                                    });
-                            });
-
+                                });
                         }
-
                     });
-
                 }
-
             }
-
         });
-
     }
 });
 
@@ -136,7 +132,7 @@ router.get('/api/company/:id', (req, res) => {
     // Find the company
     req.db
         .get('users')
-        .findOne({ id: +req.params.id, role: 'COMPANY' }, { fields })
+        .findOne({ id: +req.params.id, role: 'COMPANY', isBlocked: {$exists: false} }, { fields })
         .then(company => {
             if (!company) {
                 res.sendStatus(404);
@@ -173,7 +169,7 @@ router.get('/api/companies', (req, res) => {
     };
     req.db
         .get('users')
-        .find({ role: 'COMPANY' }, { fields })
+        .find({ role: 'COMPANY', isBlocked: { $exists: false } }, { fields })
         .then(companies => {
             if (companies[0]) {
                 res.json(companies);

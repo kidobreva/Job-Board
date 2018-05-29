@@ -23,6 +23,15 @@ section {
             //         width: 15%;
             //     }
             // }
+            button {
+                font-size: 0.9rem;
+            }
+            th {
+                cursor: pointer;
+            }
+            tr td, tr th {
+                vertical-align: middle;
+            }
             tr td:last-child {
                 width: 120px;
             }

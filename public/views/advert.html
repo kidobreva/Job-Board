@@ -34,7 +34,8 @@
 
 <div id="loader" ng-if="timeout"></div>
 <h5 ng-if="expired">Обявата е изтекла!</h5>
-<section ng-if="loaded && !expired" class="advert-page">
+<h5 ng-if="isBlocked">Обявата е блокирана!</h5>
+<section ng-if="loaded && !expired && !isBlocked" class="advert-page">
   <aside>
     <h5>Информация</h5>
     <div ng-if="advert.payment !== 'Безплатна'" ng-class="{

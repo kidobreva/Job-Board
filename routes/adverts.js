@@ -7,13 +7,14 @@ router.get('/api/advert/:id', function(req, res) {
     const adverts = req.db.get('adverts');
     adverts.findOne({ id }).then(advert => {
         // Check if the advert exists
-        if (!advert) {
-            res.sendStatus(404);
-        } else if (
+        if (
+            !advert ||
             // Check if the advert is expired
-            Date.now() > advert.expirationDate &&
-            (!req.session.user || req.session.user.role !== 'ADMIN')
+            (Date.now() > advert.expirationDate &&
+                (!req.session.user || req.session.user.role !== 'ADMIN'))
         ) {
+            res.sendStatus(404);
+        } else if (advert.isBlocked) {
             res.sendStatus(403);
         } else {
             // Increment the views
@@ -177,14 +178,17 @@ router.delete('/api/favourite/:id', (req, res) => {
                     res.sendStatus(err ? 500 : 410);
                 });
             } else {
-                users.findOneAndUpdate({ id: req.session.user.id }, { $pull: { favourites: +req.params.id } })
-                     .then(() => {
-                    res.sendStatus(200);
-                });
+                users
+                    .findOneAndUpdate(
+                        { id: req.session.user.id },
+                        { $pull: { favourites: +req.params.id } }
+                    )
+                    .then(() => {
+                        res.sendStatus(200);
+                    });
             }
         });
     }
-    
 });
 
 module.exports = router;
