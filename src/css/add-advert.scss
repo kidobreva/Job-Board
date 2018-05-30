@@ -5,6 +5,9 @@
     flex-direction: column;
     font-size: 0.9rem;
     margin-top: 1.5rem;
+    .first {
+        margin-top: 1.5rem;
+    }
     textarea {
         min-height: 250px;
     }
@@ -23,5 +26,5 @@
 
 .alert-div > div {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }

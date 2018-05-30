@@ -2,7 +2,8 @@
 
 <section class="adverts-page">
     <!-- Adverts list -->
-    <div class="adverts-list my-adverts">
+    <div class="adverts-list my-adverts"
+         ng-class="{'no-adverts': !adverts[0]}">
         <!-- Heading -->
         <div class="heading">
             <h2 ng-if="$root.user.role === 'COMPANY'">Публикувани обяви</h2>
@@ -18,7 +19,9 @@
                 </label>
             </div>
         </div>
-        <h5 ng-if="loaded && !adverts.length">Нямате публикувани обяви!</h5>
+        <h5 ng-if="loaded && !adverts.length && $root.user.role === 'COMPANY'">Нямате публикувани обяви!</h5>
+        <h5 ng-if="loaded && !adverts.length && isActive('/favourites', true)">Нямате наблюдавани обяви!</h5>
+        <h5 ng-if="loaded && !adverts.length && isActive('/applied', true)">Не сте кандидатствали по обяви!</h5>
         <div class="adverts-div" dir-paginate="advert in adverts | itemsPerPage: advertsPerPage track by $index" total-items="totalAdverts" current-page="currentPage">
             <div ng-if="advert.paymentId !== 4" ng-class="{
                 pro: advert.paymentId === 1,
@@ -62,7 +65,7 @@
                 on-cancel="cancelClicked = true"
                 confirm-button-type="danger"
                 cancel-button-type="default"
-                >&times;</button>
+                ><i class="fas fa-times"></i></button>
             </div>
         </div>
     </div>

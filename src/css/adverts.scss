@@ -75,6 +75,9 @@ section {
         .my-adverts {
             width: auto;
             margin: 0 auto;
+            &.no-adverts {
+                width: 71%;
+            }
             .adverts-div {
                 width: 800px;
                 .advert-logo {

@@ -31,6 +31,11 @@
             <div class="options">
                 <span ng-if="!$root.user.cv">Прикачете Вашето CV, за да можете да кандидатствате по обяви.</span>
                 <span><a ng-if="$root.user.cv" href="{{$root.user.cv}}" target="_blank">Моето CV</a></span>
+                <div uib-alert 
+                    ng-repeat="alert in alerts" 
+                    ng-class="'alert-' + (alert.type || 'warning')" 
+                    close="closeAlert($index)"
+                >{{alert.msg}}</div>
                 <div>
                     <!-- Upload CV -->
                     <button ng-click="getFile.simulate()" id="select" class="btn btn-primary"/>Прикачи CV</button>
@@ -56,7 +61,7 @@
         <div class="company-info">
             <!-- Picture -->
             <div ng-if="!user.img" class="no-company-picture">
-                <img src="../images/member-default.jpg" alt="">
+                <img src="../images/companies-logo.png" alt="">
             </div>
             <div ng-if="user.img" class="company-picture">
                 <a href="/company/{{user.id}}"><img ng-src="{{user.img}}"></a>                

@@ -59,6 +59,7 @@
                     ProfileService.upload(file)
                         .then(function(res) {
                             $scope.user.cv = res.cv;
+                            $scope.addAlert('user');
                         })
                         .catch(function(err) {
                             console.log(err);
@@ -96,6 +97,27 @@
                 // Redirect to the login
                 $location.url('/auth?redirect=' + $location.path());
             });
+
+        // Alerts
+        $scope.alerts = [];
+        $scope.leftAlerts = [];
+        $scope.addAlert = function(type) {
+            $scope.alerts.length = 0;
+            $scope.leftAlerts.length = 0;
+            switch (type) {
+                case 'user':
+                    $scope.alerts.push({
+                        type: 'primary',
+                        msg: 'CV-то ви беше прикачено успешно!'
+                    });
+                    break;                
+            }
+            // $scope.$apply();
+        };
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+            $scope.leftAlerts.splice(index, 1);
+        };
 
         // Custom file select
         $scope.getFile = new selectFile();

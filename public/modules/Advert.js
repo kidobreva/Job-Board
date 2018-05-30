@@ -177,13 +177,19 @@
                 templateUrl: 'report.html',
                 controller: function($uibModalInstance, $scope) {
                     $scope.ok = function() {
-                        SendMessageService.sendMessage({
-                            text: $scope.reportMsg,
-                            phone: undefined,
-                            email: $scope.reportEmail
+                        $rootScope
+                        .getCurrentUser()
+                        .then(function(user) {
+                            console.log('User', user);
+                            SendMessageService.sendMessage({
+                                text: $scope.reportMsg,
+                                phone: undefined,
+                                name: user.firstName + ' ' + user.lastName,
+                                email: $scope.reportEmail
+                            });
+                            $uibModalInstance.close();
+                            alert();
                         });
-                        $uibModalInstance.close();
-                        alert();
                     };
 
                     $scope.cancel = function() {
@@ -222,7 +228,7 @@
                     });
                     break;
                 case 'missingCv':
-                    $scope.alerts.push({ type: 'primary', msg: 'Моля прикачете CV!' });
+                    $scope.alerts.push({ type: 'primary', msg: 'Моля прикачете CV от вашия <a href="/profile">профил</a>!' });
                     break;
             }
 
