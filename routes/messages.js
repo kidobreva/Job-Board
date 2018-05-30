@@ -46,11 +46,14 @@ router.get('/api/my-messages', (req, res) => {
                             // Send them
                             if (msgs[0]) {
                                 msgs = msgs.map(msg => {
-                                    if (msg.msg.length <= 70) {
-                                        msg.msg = msg.msg.slice(0, 50)
-                                    } else {
-                                        msg.msg = msg.msg.slice(0, 50) + ' ...';
-                                    }                                   
+                                    if (msg.msg) {
+                                        if (msg.msg.length <= 70) {
+                                            msg.msg = msg.msg.slice(0, 50);
+                                        } else {
+                                            msg.msg = msg.msg.slice(0, 50) + ' ...';
+                                        }
+                                    }
+
                                     return msg;
                                 });
                                 res.json({
@@ -94,13 +97,15 @@ router.delete('/api/message/:id', (req, res) => {
             .findOneAndDelete({ id: +req.params.id })
             .then(message => {
                 if (message) {
-                    req.db.get('users').findOneAndUpdate({ id: 0 }, { $pull: { messages: +req.params.id } }).then(() => {
-                        res.sendStatus(200);
-                    });
+                    req.db
+                        .get('users')
+                        .findOneAndUpdate({ id: 0 }, { $pull: { messages: +req.params.id } })
+                        .then(() => {
+                            res.sendStatus(200);
+                        });
                 } else {
                     res.sendStatus(404);
                 }
-                
             });
     }
 });

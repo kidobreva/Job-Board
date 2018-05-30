@@ -52,10 +52,10 @@
                 };
 
                 // Uploader for CV
-                $scope.uploadPicture = new FileUploader({
+                $scope.uploadCV = new FileUploader({
                     url: '/api/profile/upload-cv/' + $rootScope.user.id
                 });
-                $scope.uploadPicture.onAfterAddingFile = function(file) {
+                $scope.uploadCV.onAfterAddingFile = function(file) {
                     ProfileService.upload(file)
                         .then(function(res) {
                             $scope.user.cv = res.cv;
@@ -120,8 +120,14 @@
         };
 
         // Custom file select
-        $scope.getFile = new selectFile();
-        $scope.getFile.targets('choose', 'selected');
+        $scope.getFile = function(id) {
+            if (id) {
+                var choose = document.getElementById(id);
+                if (typeof choose != 'undefined') {
+                    choose.click();
+                }
+            }
+        };
     }
 
     // Module

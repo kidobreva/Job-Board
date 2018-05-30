@@ -104,7 +104,6 @@ router.post('/api/adverts', (req, res) => {
     // Exclude fields to send less data
     const fields = {
         _id: 0,
-        candidates: 0,
         description: 0,
         levelId: 0,
         typeId: 0,
@@ -119,6 +118,11 @@ router.post('/api/adverts', (req, res) => {
         .find(search, { fields, sort: { paymentId: 1, id: -1 } })
         .then(advertsArr => {
             if (advertsArr[0]) {
+                // make sure to send only the candidates length istead of the array itself to send less data
+                advertsArr.forEach(advert => {
+                    advert.candidates = advert.candidates.length;
+                });
+                // Send the results
                 res.json({
                     adverts: advertsArr.slice(
                         (page - 1) * (itemsOnPage || 5),
