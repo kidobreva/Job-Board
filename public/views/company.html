@@ -17,8 +17,8 @@
         </div>
 
         <!-- Description -->
-        <div>
-          <h5 ng-if="company.description">За компнанията</h5>
+        <div ng-if="company.description">
+          <h5>За компнанията</h5>
           <div ng-bind-html="company.description"></div>
         </div>
 
@@ -32,6 +32,26 @@
           <p><strong>Телефон: </strong>{{company.contacts.phone}}</p>
           <p><strong>Официален сайт: </strong><a href="{{company.contacts.website}}">{{company.contacts.website}}</a></p>
         </div>
+
+        <!-- Buttons -->
+        <!-- block -->
+        <button
+          ng-if="user.role === 'ADMIN'"
+          class="btn btn-danger"
+          mwl-confirm
+          title="Блокиране на организация"
+          message="Сигурни ли сте, че искате да блокирате организацията?"
+          confirm-text="Блокирай"
+          cancel-text="Откажи"
+          placement="right"
+          on-confirm="blockCompany()"
+          on-cancel="cancelClicked = true"
+          confirm-button-type="danger"
+          cancel-button-type="default"
+        >Блокирай организацията</button>
+
+        <!-- report -->
+        <button class="btn btn-danger" ng-if="user.role === 'USER'" ng-click="reportCompany()">Съобщи за нередност</button>
       </main>
 
       <!-- Adverts -->
@@ -61,23 +81,5 @@
         </div>
       </aside>
     </div>
-
-    <!-- Buttons -->
-    <button
-      ng-if="user.role === 'ADMIN'"
-      class="btn btn-danger"
-      mwl-confirm
-      title="Блокиране на организация"
-      message="Сигурни ли сте, че искате да блокирате организацията?"
-      confirm-text="Блокирай"
-      cancel-text="Откажи"
-      placement="right"
-      on-confirm="blockCompany()"
-      on-cancel="cancelClicked = true"
-      confirm-button-type="danger"
-      cancel-button-type="default"
-    >Блокирай организацията</button>
-
-    <button class="btn btn-danger" ng-if="user.role === 'USER'" ng-click="reportCompany()">Направи оплакване</button>
   </section>
 </div>

@@ -13,7 +13,7 @@
 
             <!-- Upload picture -->
             <label for="select">Прикачване на снимка</label>
-            <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
+            <input type=button ng-click="getFile('choose')" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
             <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
 
             <!-- Info panel -->
@@ -33,8 +33,8 @@
                 <span><a ng-if="$root.user.cv" href="{{$root.user.cv}}" target="_blank">Моето CV</a></span>
                 <div>
                     <!-- Upload CV -->
-                    <button ng-click="getFile.simulate()" id="select" class="btn btn-primary"/>Прикачи CV</button>
-                    <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
+                    <button ng-click="getFile('chooseCV')" class="btn btn-primary"/>Прикачи CV</button>
+                    <input id="chooseCV" hidden type="file" nv-file-select uploader="uploadCV" class="upload" name="file"/>
                 </div>
             </div>
             <div class="options">
@@ -64,7 +64,7 @@
 
             <!-- Upload picture -->
             <label for="select">Прикачване на лого</label>
-            <input type=button ng-click="getFile.simulate()" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
+            <input type=button ng-click="getFile('choose')" id="select" class="btn btn-primary" value="Избери файл" /><p></p>
             <input id="choose" hidden type="file" nv-file-select uploader="uploadPicture" class="upload" name="file"/>
 
             <!-- Info panel -->

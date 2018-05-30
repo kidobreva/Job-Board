@@ -47,22 +47,22 @@
             </div>
             <div class="links" ng-if="$root.user.role === 'COMPANY'">
                 <a href="/advert/{{advert.id}}/edit" class="btn btn-light">Промени обява</a>
-                <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates.length}}]</a>
+                <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates}}]</a>
             </div>
             <div ng-if="isActive('/favourites', true)" class="links removeBtn" ng-if="$root.user.role === 'USER'">
                 <button
                 class="btn btn-danger"
                 mwl-confirm
-                title="Изтриване на обява"
-                message="Сигурни ли сте, че искате да изтриете обявата?"
-                confirm-text="Изтрий"
+                title="Премахване на обявата"
+                message="Сигурни ли сте, че искате да премахнете обявата?"
+                confirm-text="Премахни"
                 cancel-text="Откажи"
                 placement="bottom"
                 on-confirm="removeFavourite(advert.id, $index)"
                 on-cancel="cancelClicked = true"
                 confirm-button-type="danger"
                 cancel-button-type="default"
-                >&times;</button>
+                ><i class="fas fa-times"></i></button>
             </div>
         </div>
     </div>
