@@ -139,7 +139,8 @@
         $scope.deleteAdvert = function() {
             AdvertService.deleteAdvert($scope.advert.id)
                 .then(function(response) {
-                    console.log(response);
+                    console.log('TEST');
+                    $scope.addAlert('delete');
                 })
                 .catch(function(err) {
                     console.error(err.data);
@@ -150,11 +151,12 @@
         $scope.blockAdvert = function() {
             AdvertService.blockAdvert($scope.advert.id).then(function(res) {
                 console.log(res);
+                $scope.addAlert('blocked');
             });
         };
 
         //Alert modal
-        function alert() {
+        function alertModal() {
             $uibModal.open({
                 animation: true,
                 ariaLabelledBy: 'modal-title',
@@ -188,7 +190,7 @@
                                 email: $scope.reportEmail
                             });
                             $uibModalInstance.close();
-                            alert();
+                            alertModal();
                         });
                     };
 
@@ -215,6 +217,18 @@
                 case 'saveError':
                     $scope.leftAlerts.push({ type: 'danger', msg: 'Обявата вече е запазена!' });
                     break;
+                case 'delete':
+                    $scope.leftAlerts.push({
+                        type: 'success',
+                        msg: 'Обявата беше изтрита успешно!'
+                    });
+                    break;
+                case 'blocked':
+                    $scope.leftAlerts.push({
+                        type: 'success',
+                        msg: 'Обявата беше блокирана успешно!'
+                    });
+                    break;    
                 case 'apply':
                     $scope.alerts.push({
                         type: 'success',

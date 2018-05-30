@@ -30,27 +30,32 @@
                 }" class="corner-ribbon corner-ribbon-left">
                 <div class="ribbon-size">{{payments[advert.paymentId - 1].name}}</div>
             </div>
-            <div ng-if="advert.img" class="advert-logo">
-                <img ng-src="{{advert.img}}">
+            <div class="advert-logo">
+                <img ng-if="advert.img" ng-src="{{advert.img}}">
+                <p ng-if="!advert.img">{{advert.company}}</p>
             </div>
             <div class="advert-info">
                 <a href="/advert/{{advert.id}}">
                     {{advert.title}}
                 </a>
                 <div class="advert-details">
-                    <span>Заплата от:
-                        <b>{{advert.salary.min | currency: "лв."}}</b> до
-                        <b>{{advert.salary.max | currency: "лв." }}</b>
+                    <span><strong>Заплата от:
+                        {{advert.salary.min | currency: "лв."}} до
+                        {{advert.salary.max | currency: "лв." }}</strong>
                     </span>
                     <div>
-                        <span>Публикувана на: {{ advert.date | date }}</span>, гр.
+                        <span><strong>Публикувана на:</strong> {{ advert.date | date }}</span>, гр.
                         <span>{{cities[advert.cityId - 1].name}}</span>
+                    </div>
+                    <div>
+                        <span><strong>Категория:</strong> {{categories[advert.categoryId - 1].name}}</span>
                     </div>
                 </div>
             </div>
             <div class="links" ng-if="$root.user.role === 'COMPANY'">
                 <a href="/advert/{{advert.id}}/edit" class="btn btn-light">Промени обява</a>
-                <a href="/my-adverts/{{advert.id}}/candidates" class="btn btn-light">Кандидати [{{advert.candidates}}]</a>
+                <a href="/my-adverts/{{advert.id}}/candidates" ng-if="advert.candidates" class="btn btn-light">Кандидати <span><strong>{{advert.candidates}}</strong></span></a>
+                <button ng-if="!advert.candidates" ng-disabled="!advert.candidates" class="btn btn-light">Няма кандидати</button>
             </div>
             <div ng-if="isActive('/favourites', true)" class="links removeBtn" ng-if="$root.user.role === 'USER'">
                 <button

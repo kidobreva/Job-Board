@@ -3,10 +3,10 @@
         <h2>Съобщения</h2>
     </div>
     <div id="loader" ng-show="timeout"></div>
-    <p ng-if="loaded && !messages.length">Нямате получени съобщения!</p>
+    <!-- <p ng-if="loaded && !messages.length">Нямате получени съобщения!</p> -->
     <!-- <p>Когато получите съобщение, то ще се покаже тук.</p> -->
 
-    <!-- Company table -->
+    <!-- Company table -->    
     <table class="messages table" ng-if="user.role === 'COMPANY'">
         <thead>
             <tr>
@@ -16,27 +16,28 @@
         </thead>
         <tbody>
             <tr ng-repeat="msg in messages">
-                <td>{{msg.date | date}}</td>
-                <td><strong>{{msg.candidate.name}}</strong> кандидатства по вашата обява - <a href="/advert/{{msg.advertId}}">{{msg.advertTitle}}</a></td>
+                <td class="no-wrap">{{msg.date | date}}</td>
+                <td><strong><a href="{{msg.candidate.cv}}" target="_blank">{{msg.candidate.name}}</a></strong> кандидатства по вашата обява - <a href="/advert/{{msg.advertId}}">{{msg.advertTitle}}</a></td>
             </tr>
         </tbody>
     </table>
+    <div ng-if="user.role === 'COMPANY'"><p ng-if="loaded && !messages.length">Нямате получени съобщения!</p></div>
 
-    <!-- Admin table -->
+    <!-- Admin table -->    
     <table class="table" ng-if="user.role === 'ADMIN'">
         <thead>
             <tr>
-                <th>Подател</th>
                 <th>Дата</th>
+                <th>Подател</th>
                 <th>Текст</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="msg in messages track by $index" ng-class="{ 'table-primary': !msg.isRead }">
-                <td ng-click="showMessage(msg.id)">{{msg.email}}</td>
-                <td ng-click="showMessage(msg.id)">{{msg.date | date}}</td>
-                <td ng-click="showMessage(msg.id)">{{msg.msg}}</td>
+                <td class="no-wrap" ng-click="showMessage(msg.id)">{{msg.date | date}}</td>
+                <td class="no-wrap" ng-click="showMessage(msg.id)">{{msg.email}}</td>
+                <td class="max-size" ng-click="showMessage(msg.id)">{{msg.msg}}</td>
                 <!-- <td><button type="button" 
                             class="btn btn-default" 
                             title="Изтрий съобщение" 
@@ -54,9 +55,10 @@
                     on-cancel="cancelClicked = true"
                     confirm-button-type="danger"
                     cancel-button-type="default"
-                  >&times;</button></td>               
+                  ><i class="fas fa-times"></i></button></td>               
                 <!-- <td><a href="/message/{{msg.id}}">Покажи</a></td> -->
             </tr>
         </tbody>
     </table>
+    <div ng-if="user.role === 'ADMIN'"><p ng-if="loaded && !messages.length">Нямате получени съобщения!</p></div>
 </section>

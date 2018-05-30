@@ -288,27 +288,24 @@ nav {
     // th {
     //     text-align: center;
     // }
+    tr td {
+        vertical-align: middle;
+    }
     tr td:not(:last-child) {
         cursor: pointer;        
-    }  
-    tr td:nth-child(3) {
-        width: 450px;
-    }
-    tr td:last-child {
-        width: 75px;
     } 
 }
 .messages {
     width: 980px;
-
-    // text-align: center;
 }
-
-.messages th {
-    text-align: center;
-    &:first-child {
-        width: 130px;
-    }
+.no-wrap {
+    white-space: nowrap;
+}
+td.min-size {
+    width: .001%
+}
+td.max-size {
+    width: 100%
 }
 
 .popover .row {
@@ -319,7 +316,7 @@ nav {
     .messages-page {
         width: 100%;
     }
-    .messages table {
+    .messages {
         width: 100%;
     }
 }

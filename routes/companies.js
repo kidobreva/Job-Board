@@ -52,9 +52,8 @@ router.delete('/api/advert/:id', (req, res) => {
         res.sendStatus(401);
     } else {
         // Find the company
-        req.db
-            .get('users')
-            .findOne({ id: req.session.user.id })
+        const users = req.db.get('users');
+            users.findOne({ id: req.session.user.id })
             .then(user => {
                 if (!user) {
                     // If the user is not in the database, destroy his session
@@ -75,7 +74,10 @@ router.delete('/api/advert/:id', (req, res) => {
                             } else {
                                 // Delete the advert
                                 adverts.findOneAndDelete({ id: +req.params.id }).then(() => {
-                                    res.sendStatus(200);
+                                    users.findOneAndUpdate({ id: req.session.user.id }, { $pull: { adverts: +req.params.id }})
+                                         .then(() => {
+                                            res.sendStatus(200);
+                                         });                                    
                                 });
                             }
                         }

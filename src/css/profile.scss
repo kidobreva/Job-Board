@@ -27,6 +27,9 @@
             box-shadow: 0 0 8px rgba(0,0,0,0.2);
         }
     }
+    @media all and (max-width: 980px) {                  
+        width: 100%;
+    }
 }
 
 section {
@@ -71,11 +74,9 @@ section {
                 p {
                     font-size: 14px;
                 }
-            }
-            
+            }            
 
-        }
-        
+        }       
         
         @media all and (max-width: 980px) {                  
             width: 100%;
@@ -86,15 +87,12 @@ section {
             align-items: center;
             .profil-controll {
                 margin: 0px;
-                a.shown {
-                    display: none;
-                }
             }                       
         }
-        @media all and (max-width: 480px) {
-            min-width: 480px;
-            width: 100%;
-        }             
+        // @media all and (max-width: 480px) {
+        //     min-width: 480px;
+        //     width: 100%;
+        // }             
     }
     
     .profil-controll {

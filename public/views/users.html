@@ -1,13 +1,15 @@
 <section class="users-page">
     <div class="header-info">
-        <h2>Регистрирани потребители</h2>
+        <h2 ng-if="isActive('/admin/users', true)">Регистрирани потребители</h2>
+        <h2 ng-if="isActive('/my-adverts', true)">Кандидати</h2>
     </div>
     <div id="loader" ng-show="timeout"></div>
     <p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
     <table class="table table-striped" ng-if="users">
         <thead>
             <tr>
-                <th scope="col">Дата</th>
+                <th ng-if="$root.user.role === 'ADMIN'" scope="col">Дата на регистрация</th>
+                <th ng-if="$root.user.role === 'COMPANY'" scope="col">Дата на кандидатстване</th>
                 <th scope="col">Име</th>
                 <th scope="col">Имейл</th>
                 <th scope="col">CV</th>
@@ -16,7 +18,8 @@
         <tbody>
             <tr ng-repeat="user in users">
                 <!-- <td><img ng-if="user.img" src="{{user.img}}" alt=""></td> -->
-                <td>{{ user.date | date }}</td>
+                <td ng-if="$root.user.role === 'COMPANY'">{{ user.date | date }}</td>
+                <td ng-if="$root.user.role === 'ADMIN'">{{ user.registeredDate | date }}</td>
                 <td>{{user.firstName}} {{user.lastName}}</td>
                 <td>{{user.email}}</td>
                 <!-- <a href="/user/{{user.id}}">Повече</a> -->

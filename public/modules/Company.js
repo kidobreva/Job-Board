@@ -29,7 +29,7 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, AdvertsService, $routeParams, $scope, $timeout) {
+    function Ctrl(CompanyService, SendMessageService, $uibModal, $rootScope, AdvertsService, $routeParams, $scope, $timeout) {
         console.log('Init Company Controller');
 
         AdvertsService.getSearchData().then(function(res) {
@@ -54,6 +54,52 @@
                 });
         });
 
+        //Alert modal
+        function alertModal() {
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'alertModal.html',
+                controller: function($uibModalInstance, $scope) {
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                }
+            });
+        }
+
+        //Send report message
+        $scope.reportCompany = function() {
+            $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'reportCompany.html',
+                controller: function($uibModalInstance, $scope) {
+                    $scope.ok = function() {
+                        $rootScope
+                        .getCurrentUser()
+                        .then(function(user) {
+                            console.log('User', user);
+                            SendMessageService.sendMessage({
+                                text: $scope.reportMsg,
+                                phone: undefined,
+                                name: user.firstName + ' ' + user.lastName,
+                                email: $scope.reportEmail
+                            });
+                            $uibModalInstance.close();
+                            alertModal();
+                        });
+                    };
+
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                }
+            });
+        };
+
         // Show loading wheel if needed after 1 second
         $timeout(function() {
             if (!$scope.loaded) {
@@ -61,10 +107,24 @@
             }
         }, 1000);
 
+        
+
+        // Alerts
+        $scope.alerts = [];
+        $scope.addAlert = function() {
+            $scope.alerts.length = 0;
+            $scope.alerts.push({ type: 'primary', msg: 'Компанията е блокирана успешно!' });
+            $scope.$apply();
+        };
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
+
         // (Admin) Block company
         $scope.blockCompany = function() {
             CompanyService.blockCompany().then(function(res) {
                 console.log(res);
+                $scope.addAlert();
             });
         };
     }

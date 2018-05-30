@@ -37,8 +37,15 @@ section {
                     margin-bottom: 25px;
                     video {
                         width: 100%;
+                    }                    
+                    &.no-height {
+                        margin-top: 20px;
+                        div {
+                            margin-bottom: 0.3rem;
+                        }
                     }
                 }
+                
             }
             div > h5 {
                 padding-bottom: 10px;

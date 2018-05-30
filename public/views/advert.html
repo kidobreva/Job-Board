@@ -48,7 +48,7 @@
     <div class="advert-info">
       <!-- Organization -->
       <div>
-        <span class="bold">Организация:</span>
+        <span class="bold">Компания:</span>
         <a href="/company/{{advert.companyId}}">{{advert.company}}</a>
       </div>
 
@@ -107,15 +107,35 @@
         class="btn btn-primary">Промени обявата</a>
 
       <!-- Buttons -->
-      <button ng-if="$root.user.id === advert.companyId"
-              class="btn btn-danger"
-              ng-click="deleteAdvert()"
-      >Премахни обявата</button>
+      <button
+          ng-if="$root.user.id === advert.companyId"
+          class="btn btn-danger"
+          mwl-confirm
+          title="Изтрване на обявата"
+          message="Сигурни ли сте, че искате да изтриете обявата?"
+          confirm-text="Изтрий"
+          cancel-text="Откажи"
+          placement="right"
+          on-confirm="deleteAdvert()"
+          on-cancel="cancelClicked = true"
+          confirm-button-type="danger"
+          cancel-button-type="default"
+        >Премахни обявата</button>
 
-      <button ng-if="$root.user.role === 'ADMIN'"
-              class="btn btn-danger"
-              ng-click="blockAdvert()"
-      >Блокирай обявата</button>
+      <button
+          ng-if="$root.user.role === 'ADMIN'"
+          class="btn btn-danger"
+          mwl-confirm
+          title="Блокиране на обявата"
+          message="Сигурни ли сте, че искате да блокирате обявата?"
+          confirm-text="Блокирай"
+          cancel-text="Откажи"
+          placement="right"
+          on-confirm="blockAdvert()"
+          on-cancel="cancelClicked = true"
+          confirm-button-type="danger"
+          cancel-button-type="default"
+        >Блокирай обявата</button>
 
       <button ng-if="$root.user.role === 'USER'"
               class="btn btn-primary"
@@ -154,8 +174,7 @@
          ng-repeat="alert in alerts" 
          ng-class="'alert-' + (alert.type || 'warning')" 
          close="closeAlert($index)"
-         class="errorApply"
-         ng-bind-html="alert.msg"
-    ></div>
+         class="errorApply"         
+    ><span ng-bind-html="alert.msg"></span></div>
   </main>
 </section>
