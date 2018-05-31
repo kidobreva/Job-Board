@@ -4,7 +4,13 @@
         $routeProvider.when('/admin/users', {
             templateUrl: 'views/users.html',
             controller: 'Users',
-            title: 'Потребители'
+            title: 'Кандидати'
+        });
+
+        $routeProvider.when('/admin/companies', {
+            templateUrl: 'views/users.html',
+            controller: 'Users',
+            title: 'Компании'
         });
     }
 
@@ -15,16 +21,23 @@
             return $rootScope.promise.get('/api/admin/users');
         };
 
-        // this.blockUser = function() {
-        //     return $rootScope.promise.patch('/api/admin/block/' + $routeParams.id, {
-        //         isBlocked: true
-        //     });
-        // };
+        this.getCompanies = function() {
+            return $rootScope.promise.get('/api/admin/users?companies=true');
+        };
+
+        this.blockUser = function(id) {
+            return $rootScope.promise.patch('/api/admin/block/' + id);
+        };
+
+        this.unblockUser = function(id) {
+            return $rootScope.promise.patch('/api/admin/unblock/' + id);
+        };
     }
 
     // Controller
     function Ctrl(UsersService, $rootScope, $scope, $location, $timeout) {
         console.log('Init Users Controller');
+        $scope.location = $location;
 
         // Check for current user
         $rootScope
@@ -34,18 +47,35 @@
                 if (currentUser.role !== 'ADMIN') {
                     $location.path('/home');
                 } else {
-                    // Get users
-                    UsersService.getUsers()
-                        .then(function(response) {
-                            $scope.users = response.data;
-                            $scope.$apply();
-                            $scope.loaded = true;
-                            $scope.timeout = false;
-                        })
-                        .catch(function() {
-                            $scope.loaded = true;
-                            $scope.timeout = false;
-                        });
+                    if (location.pathname === '/admin/companies') {
+                        // Get users
+                        UsersService.getCompanies()
+                            .then(function(response) {
+                                console.log(response)
+                                console.log($location.path());
+                                $scope.users = response.data;
+                                $scope.$apply();
+                                $scope.loaded = true;
+                                $scope.timeout = false;
+                            })
+                            .catch(function() {
+                                $scope.loaded = true;
+                                $scope.timeout = false;
+                            });
+                    } else {
+                        // Get users
+                        UsersService.getUsers()
+                            .then(function(response) {
+                                $scope.users = response.data;
+                                $scope.$apply();
+                                $scope.loaded = true;
+                                $scope.timeout = false;
+                            })
+                            .catch(function() {
+                                $scope.loaded = true;
+                                $scope.timeout = false;
+                            });
+                    }
 
                     // Show loading wheel if needed after 1 second
                     $timeout(function() {
@@ -60,6 +90,19 @@
                 // Redirect to the login
                 $location.url('/auth?redirect=' + $location.path());
             });
+
+        $scope.blockUser = function(id, index) {
+            UsersService.blockUser(id).then(function(res) {
+                $scope.users[index].isBlocked = true;
+                $scope.$apply();
+            });
+        };
+        $scope.unblockUser = function(id, index) {
+            UsersService.unblockUser(id).then(function(res) {
+                delete $scope.users[index].isBlocked;
+                $scope.$apply();
+            });
+        };
     }
 
     // Module

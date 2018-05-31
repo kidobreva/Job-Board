@@ -41,11 +41,11 @@
   <!-- Salary -->
   <div class="form-group">
     <label>Заплата - минимум (.лв)
-      <input type="number" class="form-control" id="min" ng-model="advert.salary.min" min="0" required />
+      <input type="number" class="form-control" id="min" ng-blur="isValidSalary('min')" ng-model="advert.salary.min" min="200" max="5000" required />
     </label>
 
     <label>Заплата - максимум (.лв)
-      <input type="number" class="form-control" id="max" ng-model="advert.salary.max" min="0" required />
+      <input type="number" class="form-control" id="max" ng-blur="isValidSalary('max')" ng-model="advert.salary.max" min="200" max="5000" required />
     </label>
   </div>
 

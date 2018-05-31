@@ -101,40 +101,44 @@
 
     <div class="uploads">
         <div class="video-div">
-            <h3>Видео</h3>
-            <video src="{{user.video}}" controls controlsList="nodownload"></video>
+            <div class="video-heading">
+                <h3>Видео</h3>
+                <a
+                    href="#"
+                    ng-if="user.video"
+                    mwl-confirm
+                    title="Изтриване на видео"
+                    message="Сигурни ли сте, че искате да изтриете видеото?"
+                    confirm-text="Изтрий"
+                    cancel-text="Откажи"
+                    placement="bottom"
+                    on-confirm="deleteVideo()"
+                    on-cancel="cancelClicked = true"
+                    confirm-button-type="danger"
+                    cancel-button-type="default"
+                ><i class="far fa-trash-alt fa-2x"></i></a>
+            </div>
+            <video ng-if="user.video" src="{{user.video}}" controls controlsList="nodownload"></video>
             <!-- Upload video -->
             <div class="upload-file">
-                <div nv-file-drop="" nv-file-over="" uploader="uploadVideo" over-class="other-over-zone" class="other-drop-zone zone">
-                    Плъзнете видео, за да го качите
-                </div>
-                <div>
-                    <div>
-                            <span ng-if="uploadVideo.progress">{{ uploadVideo.progress }}%</span>
-                        <div class="total-progress-box">
-                            <div class="total-progress" ng-style="{ 'width': uploadVideo.progress + '%' }"></div>
-                        </div>
-                    </div>
-                </div>
+                <button ng-click="getFile('chooseVideo')" class="btn btn-primary"/>Прикачи видео</button>
+                <input id="chooseVideo" hidden type="file" nv-file-select uploader="uploadVideo" class="upload" name="file" multiple />
+                <div ng-if="uploadVideo.progress && uploadVideo.progress != 100" class="col-sm-4"><uib-progressbar value="uploadVideo.progress" striped="true" animate="true">{{uploadVideo.progress}}%</uib-progressbar></div>
             </div>
         </div>
 
         <div class="gallery-div">
             <!-- Gallery -->
             <simple-image-gallery ng-if="user.pictures[0]" isprofile="isProfile" deletepicture="deletePicture" images="user.pictures"></simple-image-gallery>
-            <!-- Upload pictures -->
-            <div class="upload-file">
-                <div nv-file-drop="" nv-file-over="" uploader="uploadPictures" over-class="other-over-zone" class="other-drop-zone zone">
-                    Плъзнете снимки, за да ги качите
+                <!-- Upload pictures -->
+                <div ng-if="!user.pictures[7]" class="upload-file">
+                    <label class="dropzone" nv-file-over uploader="uploadPictures" over-class="in">
+                        <div nv-file-drop="" nv-file-over="" uploader="uploadPictures" over-class="other-over-zone" class="other-drop-zone zone">
+                            Плъзнете снимки, за да ги качите във Вашата галерия.
+                    </label>
+                    <input hidden nv-file-select uploader="uploadPictures" type="file" />
                 </div>
-                <div>
-                    <div>
-                        <span ng-if="uploadPictures.progress">{{ uploadPictures.progress }}%</span>
-                        <div class="total-progress-box">
-                            <div class="total-progress" ng-style="{ 'width': uploadPictures.progress + '%' }"></div>
-                        </div>
-                    </div>
-                </div>
+                <div ng-if="uploadPictures.progress && uploadPictures.progress != 100" class="col-sm-4"><uib-progressbar value="uploadPictures.progress" striped="true" animate="true">{{uploadPictures.progress}}%</uib-progressbar></div>
             </div>
         </div>
        

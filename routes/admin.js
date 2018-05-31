@@ -14,6 +14,7 @@ router.get('/api/admin/statistics', (req, res) => {
         let numberOfAdverts;
         let numberOfCategories;
         let numberOfCandidates;
+        let numberOfCompanies;
         // Count the documents
         // users
         users.count().then(count => {
@@ -25,13 +26,18 @@ router.get('/api/admin/statistics', (req, res) => {
                 categories.count().then(count => {
                     numberOfCategories = count;
                     // candidates
-                    users.find({ role: 'USER' }).then(users => {
-                        numberOfCandidates = users.length;
-                        res.json({
-                            numberOfUsers,
-                            numberOfAdverts,
-                            numberOfCategories,
-                            numberOfCandidates
+                    users.find({ role: 'USER' }).then(candidates => {
+                        numberOfCandidates = candidates.length;
+                        // candidates
+                        users.find({ role: 'COMPANY' }).then(companies => {
+                            numberOfCompanies = companies.length;
+                            res.json({
+                                numberOfUsers,
+                                numberOfAdverts,
+                                numberOfCategories,
+                                numberOfCandidates,
+                                numberOfCompanies
+                            });
                         });
                     });
                 });
@@ -48,9 +54,16 @@ router.get('/api/admin/users', (req, res) => {
     if (!req.session.user || req.session.user.role !== 'ADMIN') {
         res.sendStatus(401);
     } else {
+        console.log(req.query);
+        let role;
+        if (req.query.companies) {
+            role = 'COMPANY';
+        } else {
+            role = 'USER';
+        }
         req.db
             .get('users')
-            .find({ role: 'USER' }, { password: 0 })
+            .find({ role }, { password: 0 })
             .then(users => {
                 if (users[0]) {
                     // TODO: Send less data
@@ -89,6 +102,47 @@ router.patch('/api/admin/block/:id', (req, res) => {
                                 .update(
                                     { id: { $in: user.adverts } },
                                     { $set: { isBlocked: true } },
+                                    { multi: true }
+                                )
+                                .then(() => {
+                                    res.sendStatus(200);
+                                });
+                        }
+                    } else {
+                        res.sendStatus(200);
+                    }
+                }
+            });
+    }
+});
+
+// Unblock user
+router.patch('/api/admin/unblock/:id', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+        res.sendStatus(401);
+    } else {
+        req.db
+            .get('users')
+            .findOneAndUpdate(
+                { id: +req.params.id },
+                {
+                    $unset: {
+                        isBlocked: ''
+                    }
+                }
+            )
+            .then(user => {
+                if (!user) {
+                    res.sendStatus(404);
+                } else {
+                    if (user.role === 'COMPANY') {
+                        if (user.adverts[0]) {
+                            req.db
+                                .get('adverts')
+                                .update(
+                                    { id: { $in: user.adverts } },
+                                    { $unset: { isBlocked: '' } },
                                     { multi: true }
                                 )
                                 .then(() => {

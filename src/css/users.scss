@@ -23,6 +23,12 @@ section {
             //         width: 15%;
             //     }
             // }
+            tr.blocked {
+                color: red;
+                a {
+                    color: red;
+                }
+            }
             button {
                 font-size: 0.9rem;
             }
@@ -34,6 +40,9 @@ section {
             }
             tr td:last-child {
                 width: 120px;
+            }
+            td {
+                word-break: break-word;
             }
         }
     }

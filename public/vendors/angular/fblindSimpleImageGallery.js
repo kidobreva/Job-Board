@@ -4,9 +4,9 @@ angular.module('fblindSimpleImageGallery', [])
   function () {
     var template =  '<div id="simple-gallery">' + '<h3 ng-if="isprofile">Галерия</h3>' +
                       '<div id="simple-gallery" class="col-sm-12 image">' +
-                      '<a href="#" ng-if="isprofile" ng-click="deletepicture(currentImage)"><i class="far fa-trash-alt fa-2x"></i></a>' +
+                      '<a href="#" ng-if="isprofile" ng-click="deletepicture(currentImage || images[0], this)"><i class="far fa-trash-alt fa-2x"></i></a>' +
                         '<div class="item active">' +
-                        '<a href="{{currentImage || images[0]}}"><img ng-src="{{ currentImage || images[0] }}" class="img-responsive"></a>' +
+                        '<a href="{{currentImage || images[0]}}" target="_blank"><img ng-src="{{ currentImage || images[0] }}" class="img-responsive"></a>' +
                         '</div>' +
                         '</div>' +
                       '<div class="col-sm-12">' +

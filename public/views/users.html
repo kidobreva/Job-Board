@@ -1,10 +1,11 @@
 <section class="users-page">
     <div class="header-info">
-        <h2 ng-if="isActive('/admin/users', true)">Регистрирани потребители</h2>
+        <h2 ng-if="location.$$path === '/admin/users'">Регистрирани кандидати</h2>
+        <h2 ng-if="location.$$path === '/admin/companies'">Регистрирани компании</h2>
         <h2 ng-if="isActive('/my-adverts', true)">Кандидати</h2>
     </div>
     <div id="loader" ng-show="timeout"></div>
-    <p ng-if="loaded && !users.length">Няма регистрирани потребители!</p>
+    <p ng-if="loaded && !users.length">Няма регистрирани кандидати!</p>
     <table class="table table-striped" ng-if="users">
         <thead>
             <tr>
@@ -12,19 +13,54 @@
                 <th ng-if="$root.user.role === 'COMPANY'" scope="col">Дата на кандидатстване</th>
                 <th scope="col">Име</th>
                 <th scope="col">Имейл</th>
-                <th scope="col">CV</th>
+                <th scope="col" ng-if="location.$$path === '/admin/users' || $root.user.role === 'COMPANY'">CV</th>
+                <th scope="col" ng-if="$root.user.role === 'ADMIN'"></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="user in users">
+            <tr ng-repeat="user in users"
+                ng-class="{blocked: user.isBlocked}">
                 <!-- <td><img ng-if="user.img" src="{{user.img}}" alt=""></td> -->
                 <td ng-if="$root.user.role === 'COMPANY'">{{ user.date | date }}</td>
                 <td ng-if="$root.user.role === 'ADMIN'">{{ user.registeredDate | date }}</td>
-                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td ng-if="location.$$path === '/admin/users' || $root.user.role === 'COMPANY'">{{user.firstName}} {{user.lastName}}</td>
+                <td ng-if="location.$$path === '/admin/companies'"><a href="/company/{{user.id}}">{{user.title}}</a></td>
                 <td>{{user.email}}</td>
                 <!-- <a href="/user/{{user.id}}">Повече</a> -->
-                <td>
+                <td ng-if="location.$$path === '/admin/users' || $root.user.role === 'COMPANY'">
                     <a ng-if="user.cv" href="{{user.cv}}" target="_blank"><i class="far fa-file-pdf fa-2x"></i></a>
+                </td>
+                <td ng-if="$root.user.role === 'ADMIN'">
+                    <button
+                        ng-if="!user.isBlocked"
+                        class="btn btn-danger bug"
+                        mwl-confirm
+                        title="Блокиране на потребител"
+                        message="Сигурни ли сте, че искате да блокирате потребителя?"
+                        confirm-text="Блокирай"
+                        cancel-text="Откажи"
+                        placement="bottom"
+                        on-confirm="blockUser(user.id, $index)"
+                        on-cancel="cancelClicked = true"
+                        confirm-button-type="danger"
+                        cancel-button-type="default"
+                    ><i class="fas fa-ban"></i></button>
+
+                    <button
+                        ng-if="user.isBlocked"
+                        class="btn btn-success bug"
+                        mwl-confirm
+                        title="Отблокиране на потребител"
+                        message="Сигурни ли сте, че искате да отблокирате потребителя?"
+                        confirm-text="Отблокирай"
+                        cancel-text="Откажи"
+                        placement="bottom"
+                        on-confirm="unblockUser(user.id, $index)"
+                        on-cancel="cancelClicked = true"
+                        confirm-button-type="danger"
+                        cancel-button-type="default"
+                    ><i class="fas fa-ban"></i></button>
+                </td>
                 </td>
             </tr>
         </tbody>

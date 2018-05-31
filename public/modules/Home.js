@@ -1,46 +1,4 @@
-// var partners = [
-//     {
-//         name: 'Imperia Online',
-//         href: 'http://imperiaonline.bg/',
-//         src: 'images/partners/ImperiaOnline.png'
-//     },
-//     {
-//         name: 'Upnetix',
-//         href: 'https://upnetix.com/',
-//         src: 'images/partners/Upnetix.png'
-//     },
-//     {
-//         name: 'IT Talents',
-//         href: 'http://ittalents.bg/',
-//         src: 'images/partners/ittalents.png'
-//     },
-//     {
-//         name: 'TraderBG',
-//         href: 'https://www.trader.bg/',
-//         src: 'images/partners/Traderbg.png'
-//     },
-//     {
-//         name: 'Nemetschek',
-//         href: 'https://www.nemetschek.bg/',
-//         src: 'images/partners/nemetschek.png'
-//     },
-//     {
-//         name: 'Epam',
-//         href: 'https://www.epam.com/',
-//         src: 'images/partners/epam.png'
-//     },
-//     {
-//         name: 'Softuare AG',
-//         href: 'https://www.softwareag.com/',
-//         src: 'images/partners/SAG-software.png'
-//     },
-//     {
-//         name: 'Experian',
-//         href: 'http://www.experian.bg/',
-//         src: 'images/partners/Experian BM TM RGB.png'
-//     }];
-
-(function () {
+(function() {
     // Config
     function Config($routeProvider) {
         $routeProvider.when('/home', {
@@ -68,7 +26,7 @@
         $scope.status = {
             isopen: false
         };
-        $scope.toggled = function (open) {
+        $scope.toggled = function(open) {
             console.log('Dropdown is now: ', open);
         };
         $scope.labels = {
@@ -88,7 +46,7 @@
                 // },
                 floor: 200,
                 ceil: 5000,
-                translate: function (value, sliderId, label) {
+                translate: function(value, sliderId, label) {
                     switch (label) {
                         case 'model':
                             return 'от <b>' + value + '</b>';
@@ -102,9 +60,9 @@
         };
 
         // Search
-        $scope.doSearch = function () {
+        $scope.doSearch = function() {
             var url = '';
-            Object.keys($scope.search).forEach(function (prop) {
+            Object.keys($scope.search).forEach(function(prop) {
                 if (typeof $scope.search[prop] !== 'object') {
                     // Keywords
                     if ($scope.search[prop]) {
@@ -114,7 +72,7 @@
                     // Category and city
                     url += '&' + prop + '=';
                     var arr = [];
-                    Object.keys($scope.search[prop]).forEach(function (obj, i) {
+                    Object.keys($scope.search[prop]).forEach(function(obj, i) {
                         arr[i] = $scope.search[prop][obj].id;
                     });
                     url += arr;
@@ -131,7 +89,7 @@
 
             // Levels
             var levelId = '';
-            Object.keys($scope.selectedLevels).forEach(function (level) {
+            Object.keys($scope.selectedLevels).forEach(function(level) {
                 if ($scope.selectedLevels[level]) {
                     levelId += level + ',';
                 }
@@ -142,7 +100,7 @@
 
             // Types
             var typeId = '';
-            Object.keys($scope.selectedTypes).forEach(function (type) {
+            Object.keys($scope.selectedTypes).forEach(function(type) {
                 if ($scope.selectedTypes[type]) {
                     typeId += type + ',';
                 }
@@ -156,7 +114,7 @@
         };
 
         // Get search data
-        AdvertsService.getSearchData().then(function (response) {
+        AdvertsService.getSearchData().then(function(response) {
             $scope.categories = response.data.categories;
             $scope.cities = response.data.cities;
             $scope.levels = response.data.levels;
@@ -167,30 +125,28 @@
             // Get News
             $rootScope.promise.get('/api/news').then(res => {
                 var news = res.data.rss.channel.item;
+                news.forEach(function(el) {
+                    // Parse the description
+                    var parser = new DOMParser();
+                    var dom = parser.parseFromString(el.description, 'text/html');
+                    var decodedString = dom.body.textContent;
+
+                    // Get the image
+                    var div = document.createElement('div');
+                    var description = angular.element(div).html(decodedString)[0];
+                    var img = angular.element(description).find('img')[0];
+                    el.description = img.outerHTML;
+
+                    // Convert the timestamp
+                    el.pubDate = new Date(el.pubDate).getTime();
+                });
                 var newsArr = [];
                 var slides = 4;
                 var items = 3;
-                for (var i = 0; i < items * slides;) {
-                    var arr = [];
-                    for (var j = 0; j < items; j++) {
-                        // Parse the description
-                        var parser = new DOMParser();
-                        var dom = parser.parseFromString(news[i + j].description, 'text/html');
-                        var decodedString = dom.body.textContent;
-
-                        // Get the image
-                        var div = document.createElement('div');
-                        var description = angular.element(div).html(decodedString)[0];
-                        var img = angular.element(description).find('img')[0];
-                        news[i + j].description = img.outerHTML;
-
-                        // Convert the timestamp
-                        news[i + j].pubDate = new Date(news[i + j].pubDate).getTime();
-
-                        arr[j] = news[i + j];
-                        i++;
+                for (var i = 0, len = news.length; i < slides; i++) {
+                    if (i !== len - 1) {
+                        newsArr.push(news.slice(items * i, slides * items / slides * (i + 1)));
                     }
-                    newsArr.push(arr);
                 }
                 $scope.news = newsArr;
                 console.log('News', newsArr);
@@ -206,26 +162,27 @@
         .controller('Home', Ctrl);
 })();
 
-angular.module('Carousel', ['ngRoute'])
-       .controller('CarouselCtrl', function(AdvertsService, $scope, $location, $rootScope, $sce) {
-           console.log('Init Carousel');
+angular
+    .module('Carousel', ['ngRoute'])
+    .controller('CarouselCtrl', function(AdvertsService, $scope, $location, $rootScope) {
+        console.log('Init Carousel');
         // Get Partners
-             $rootScope.promise.get('/api/partners').then(res => {
-                var partners = res.data;
-                var partnersArr = [];
-                var slides = 2;
-                var items = 4;
-                for (var i = 0; i < slides; i++) {
-                    console.log(items * i)
-                    console.log((slides * items) / slides);
-                    if (i === slides - 1) {
-                        partnersArr.push(partners.slice((slides * items) / slides));
-                    } else {
-                        partnersArr.push(partners.slice(items * i, (slides * items) / slides));
-                    }
+        $rootScope.promise.get('/api/partners').then(res => {
+            var partners = res.data;
+            var partnersArr = [];
+            var slides = 2;
+            var items = 4;
+            for (var i = 0; i < slides; i++) {
+                console.log(items * i);
+                console.log(slides * items / slides);
+                if (i === slides - 1) {
+                    partnersArr.push(partners.slice(slides * items / slides));
+                } else {
+                    partnersArr.push(partners.slice(items * i, slides * items / slides));
                 }
-                $scope.partners = partnersArr;
-                console.log('Parters', partnersArr);
-                // $scope.$apply();
-            });
-});
+            }
+            $scope.partners = partnersArr;
+            console.log('Parters', partnersArr);
+            // $scope.$apply();
+        });
+    });

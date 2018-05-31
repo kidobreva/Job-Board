@@ -89,7 +89,8 @@ router.post('/api/send-message', (req, res) => {
 });
 
 router.delete('/api/message/:id', (req, res) => {
-    if (!req.session.user || req.session.user.role !== 'ADMIN') {
+    // TODO: every msg should have its owner, so he can delete his own messages only
+    if (!req.session.user || req.session.user.role === 'USER') {
         res.sendStatus(401);
     } else {
         req.db
@@ -99,7 +100,10 @@ router.delete('/api/message/:id', (req, res) => {
                 if (message) {
                     req.db
                         .get('users')
-                        .findOneAndUpdate({ id: 0 }, { $pull: { messages: +req.params.id } })
+                        .findOneAndUpdate(
+                            { id: req.session.user.id },
+                            { $pull: { messages: +req.params.id } }
+                        )
                         .then(() => {
                             res.sendStatus(200);
                         });

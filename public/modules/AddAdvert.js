@@ -40,6 +40,24 @@
     function Ctrl(AddAdvertService, AdvertsService, $scope, $rootScope, $routeParams, $location) {
         console.log('Init AddAdvert Controller');
 
+        $scope.isValidSalary = function(type) {
+            if (type === 'min') {
+                if ($scope.advert.salary.min < 200 || $scope.advert.salary.min === undefined) {
+                    $scope.advert.salary.min = 200;
+                }
+                if ($scope.advert.salary.min > 5000) {
+                    $scope.advert.salary.min = 5000;
+                }
+            } else {
+                if ($scope.advert.salary.max < 200 || $scope.advert.salary.max === undefined) {
+                    $scope.advert.salary.max = 200;
+                }
+                if ($scope.advert.salary.max > 5000) {
+                    $scope.advert.salary.max = 5000;
+                }
+            }
+        };
+
         // Check for current user
         $rootScope
             .getCurrentUser()
@@ -54,6 +72,9 @@
                         $scope.cities = res.data.cities;
                         $scope.levels = res.data.levels;
                         $scope.types = res.data.types;
+                        $scope.advert = {};
+                        $scope.advert.salary = {};
+                        $scope.advert.salary.min = 200;
                         $scope.loaded = true;
                         $scope.$apply();
                         if ($routeParams.id) {

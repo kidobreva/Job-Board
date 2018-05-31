@@ -45,7 +45,7 @@
 
         this.removeFavourite = function(id) {
             return $rootScope.promise.delete('/api/favourite/' + id);
-        }
+        };
     }
 
     // Controller
@@ -120,6 +120,7 @@
 
             // animate scroll
             if (isPagination) {
+                console.log('scroll');
                 $rootScope.scrollTo(document.querySelector('header').offsetHeight, 400);
             }
         };
@@ -170,7 +171,7 @@
                 $scope.adverts.splice(index, 1);
                 $scope.$apply();
             });
-        }
+        };
     }
 
     // Module

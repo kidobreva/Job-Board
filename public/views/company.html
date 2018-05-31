@@ -73,8 +73,8 @@
           ng-if="user.role === 'ADMIN'"
           class="btn btn-danger"
           mwl-confirm
-          title="Блокиране на организация"
-          message="Сигурни ли сте, че искате да блокирате организацията?"
+          title="Блокиране на компания"
+          message="Сигурни ли сте, че искате да блокирате компанията?"
           confirm-text="Блокирай"
           cancel-text="Откажи"
           placement="right"
@@ -98,7 +98,7 @@
       <aside ng-controller="Adverts">
         <div>
           <h5>Всички обяви на компанията</h5>
-          <div>
+          <div class="size-button">
               <label>Обяви на страница:
                 <select ng-model="advertsPerPage" ng-change="changeSize()">
                   <option value="5">5</option>

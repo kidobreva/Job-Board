@@ -232,7 +232,7 @@
                 case 'apply':
                     $scope.alerts.push({
                         type: 'success',
-                        msg: 'Успешно кандидатствахте за тази обява!'
+                        msg: 'Кандидатствахте успешно за тази обява!'
                     });
                     break;
                 case 'applyError':

@@ -12,12 +12,26 @@
             <tr>
                 <th>Дата</th>
                 <th>Съобщение</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="msg in messages">
                 <td class="no-wrap">{{msg.date | date}}</td>
                 <td><strong><a href="{{msg.candidate.cv}}" target="_blank">{{msg.candidate.name}}</a></strong> кандидатства по вашата обява - <a href="/advert/{{msg.advertId}}">{{msg.advertTitle}}</a></td>
+                <td><button
+                    class="btn btn-danger"
+                    mwl-confirm
+                    title="Изтриване на съобщение"
+                    message="Сигурни ли сте, че искате да изтриете съобщението?"
+                    confirm-text="Изтрий"
+                    cancel-text="Откажи"
+                    placement="bottom"
+                    on-confirm="deleteMessage(msg.id, $index)"
+                    on-cancel="cancelClicked = true"
+                    confirm-button-type="danger"
+                    cancel-button-type="default"
+                  ><i class="fas fa-times"></i></button></td>
             </tr>
         </tbody>
     </table>

@@ -37,7 +37,7 @@ section {
                     margin-bottom: 25px;
                     video {
                         width: 100%;
-                    }                    
+                    }
                     &.no-height {
                         margin-top: 20px;
                         div {
@@ -45,11 +45,15 @@ section {
                         }
                     }
                 }
-                
             }
             div > h5 {
                 padding-bottom: 10px;
                 border-bottom: 2px solid #868686;
+            }
+            div.size-button {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
             }
             aside {
                 width: 45%;
@@ -80,6 +84,6 @@ section {
             div.company-info {
                 justify-content: space-around;
             }
-        }        
+        }
     }
 }

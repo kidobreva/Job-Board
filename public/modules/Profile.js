@@ -23,14 +23,29 @@
             console.log({ url: url });
             return $rootScope.promise.patch('/api/profile/pictures', { url: url });
         };
+
+        this.deleteVideo = function() {
+            return $rootScope.promise.delete('/api/profile/video');
+        };
     }
 
     // Controller
     function Ctrl(ProfileService, $rootScope, $scope, $location, FileUploader) {
         console.log('Init Profile Controller');
         $scope.isProfile = true;
-        $scope.deletePicture = function(url) {
-            ProfileService.deletePicture(url);
+        $scope.deletePicture = function(url, scope) {
+            ProfileService.deletePicture(url).then(function(res) {
+                scope.$parent.currentImage =
+                    scope.$parent.images[scope.$parent.images.indexOf(url) + 1];
+                $scope.user.pictures.splice($scope.user.pictures.indexOf(url), 1);
+                $scope.$apply();
+            });
+        };
+        $scope.deleteVideo = function() {
+            ProfileService.deleteVideo().then(function() {
+                $scope.user.video = null;
+                $scope.$apply();
+            });
         };
 
         // Check for current user
@@ -85,7 +100,13 @@
                     url: '/api/profile/upload-video/' + $rootScope.user.id
                 });
                 $scope.uploadVideo.onAfterAddingFile = function(file) {
-                    file.upload();
+                    ProfileService.upload(file)
+                        .then(function(data) {
+                            $scope.user.video = data.video;
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
                 };
 
                 $scope.user = user;
@@ -110,7 +131,7 @@
                         type: 'primary',
                         msg: 'CV-то ви беше прикачено успешно!'
                     });
-                    break;                
+                    break;
             }
             // $scope.$apply();
         };

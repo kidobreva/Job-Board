@@ -26,10 +26,12 @@
                 $scope.user = user;
 
                 AdminService.getStatistics().then(function(response) {
+                    // TODO: this should be just one object
                     $scope.numberOfUsers = response.data.numberOfUsers;
                     $scope.numberOfAdverts = response.data.numberOfAdverts;
                     $scope.categories = response.data.numberOfCategories;
                     $scope.numberOfCandidates = response.data.numberOfCandidates;
+                    $scope.numberOfCompanies = response.data.numberOfCompanies;
 
                     $scope.loaded = true;
                     $scope.timeout = false;

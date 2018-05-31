@@ -29,7 +29,16 @@
     }
 
     // Controller
-    function Ctrl(CompanyService, SendMessageService, $uibModal, $rootScope, AdvertsService, $routeParams, $scope, $timeout) {
+    function Ctrl(
+        CompanyService,
+        SendMessageService,
+        $uibModal,
+        $rootScope,
+        AdvertsService,
+        $routeParams,
+        $scope,
+        $timeout
+    ) {
         console.log('Init Company Controller');
 
         AdvertsService.getSearchData().then(function(res) {
@@ -78,9 +87,7 @@
                 templateUrl: 'reportCompany.html',
                 controller: function($uibModalInstance, $scope) {
                     $scope.ok = function() {
-                        $rootScope
-                        .getCurrentUser()
-                        .then(function(user) {
+                        $rootScope.getCurrentUser().then(function(user) {
                             console.log('User', user);
                             SendMessageService.sendMessage({
                                 text: $scope.reportMsg,
@@ -106,8 +113,6 @@
                 $scope.timeout = true;
             }
         }, 1000);
-
-        
 
         // Alerts
         $scope.alerts = [];

@@ -12,10 +12,14 @@ router.get('/api/profile', (req, res) => {
     if (!req.session.user) {
         res.sendStatus(401);
     } else {
+        const fields = {
+            password: 0,
+            _id: 0
+        };
         // Find user in database
         req.db
             .get('users')
-            .findOne({ id: req.session.user.id })
+            .findOne({ id: req.session.user.id }, { fields })
             .then(user => {
                 if (user) {
                     // TODO: Send less data
@@ -182,8 +186,19 @@ router.post('/api/profile/upload-picture/:id', (req, res) => {
                         // save to database and send url path to the user
                         users
                             .findOneAndUpdate({ id: req.session.user.id }, { $set: { img } })
-                            .then(() => {
-                                res.json({ img });
+                            .then(user => {
+                                if (user.role === 'COMPANY') {
+                                    req.db
+                                        .get('adverts')
+                                        .update(
+                                            { companyId: user.id },
+                                            { $set: { img } },
+                                            { multi: true }
+                                        )
+                                        .then(() => {
+                                            res.json({ img });
+                                        });
+                                }
                             });
                     }
                 });
@@ -269,6 +284,32 @@ router.patch('/api/profile/pictures', (req, res) => {
                         { id: req.session.user.id },
                         { $pull: { pictures: req.body.url } }
                     )
+                    .then(() => {
+                        res.sendStatus(200);
+                    });
+            }
+        });
+    }
+});
+
+// Delete video
+router.delete('/api/profile/video', (req, res) => {
+    // Check for the current user's role
+    if (!req.session.user || req.session.user.role !== 'COMPANY') {
+        res.sendStatus(401);
+    } else {
+        const users = req.db.get('users');
+        users.findOne({ id: req.session.user.id }).then(user => {
+            if (!user) {
+                // If the user is not in the database, destroy his session
+                req.session.destroy(err => {
+                    res.clearCookie('connect.sid');
+                    res.sendStatus(err ? 500 : 410);
+                });
+            } else {
+                // update database
+                users
+                    .findOneAndUpdate({ id: req.session.user.id }, { $unset: { video: '' } })
                     .then(() => {
                         res.sendStatus(200);
                     });

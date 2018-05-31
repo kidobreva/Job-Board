@@ -48,7 +48,8 @@ router.post('/api/login', (req, res) => {
                             res.json(user);
                         });
                     } else {
-                        res.sendStatus(403);
+                        // TODO: change the status code to 403 or something else
+                        res.sendStatus(404);
                         console.log('This user is blocked!');
                     }
                 } else {

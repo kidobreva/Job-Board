@@ -89,7 +89,6 @@ body {
                             margin: 5px 2%;
                         }
                         @media all and (max-width: 800px) {
-                            
                         }
                         @media all and (max-width: 600px) {
                             a {
@@ -104,7 +103,7 @@ body {
                             }
                         }
                         @media all and (max-width: 425px) {
-                            a {                                
+                            a {
                                 font-size: 10px;
                             }
                         }
@@ -221,11 +220,16 @@ body {
                             // min-width: 480px;
                         }
                     }
+                    @media all and (max-width: 360px) {
+                        .news-block {
+                            height: 300px;
+                        }
+                    }
                 }
             }
             @media all and (max-width: 600px) {
                 &.news {
-                   // min-width: 425px;
+                    // min-width: 425px;
                 }
             }
             &.companies {
@@ -251,12 +255,12 @@ body {
                     }
                     ol {
                         display: none;
-                    }                
+                    }
                     .text-center {
                         display: flex;
                         justify-content: space-around;
                         align-items: center;
-                        height: 150px;                        
+                        height: 150px;
                     }
                     img {
                         max-width: 150px;
@@ -275,7 +279,7 @@ body {
                         }
                         img {
                             max-height: 70px;
-                        }                
+                        }
                         > div {
                             width: 100%;
                         }
@@ -291,7 +295,6 @@ body {
                             }
                         }
                     }
-                    
                 }
                 // div {
                 //     display: flex;

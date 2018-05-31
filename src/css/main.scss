@@ -241,7 +241,7 @@ nav {
 }
 
 /* Alert animation */
-.alert {
+.alert, .bug {
     animation-name: animatebottom;
     animation-duration: 0.5s;
 }
@@ -258,7 +258,9 @@ nav {
 }
 
 .alert.ng-leave,
-.alert.ng-leave-active {
+.alert.ng-leave-active,
+.bug.ng-leave,
+.bug.ng-leave-active {
     display: none !important;
 }
 
@@ -285,6 +287,10 @@ nav {
 .messages-page {
     margin-top: 1.5rem;
     width: 980px;
+    .header-info {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+        padding-bottom: 0.5rem;
+    }
     // th {
     //     text-align: center;
     // }
