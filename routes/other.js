@@ -34,7 +34,7 @@ router.get('/api/news', (req, res) => {
     //     });
 });
 
-// Get news
+// Get partners
 router.get('/api/partners', (req, res) => {
     req.db.get('partners').find().then(partnersArr => {
         if (partnersArr[0]) {
