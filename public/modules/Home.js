@@ -27,7 +27,7 @@
             isopen: false
         };
         $scope.toggled = function(open) {
-            console.log('Dropdown is now: ', open);
+            // console.log('Dropdown is now: ', open);
         };
         $scope.labels = {
             itemsSelected: 'избрани',
@@ -149,7 +149,7 @@
                     }
                 }
                 $scope.news = newsArr;
-                console.log('News', newsArr);
+                // console.log('News', newsArr);
                 $scope.$apply();
             });
         });
@@ -165,7 +165,7 @@
 angular
     .module('Carousel', ['ngRoute'])
     .controller('CarouselCtrl', function(AdvertsService, $scope, $location, $rootScope) {
-        console.log('Init Carousel');
+        // console.log('Init Carousel');
         // Get Partners
         $rootScope.promise.get('/api/partners').then(res => {
             var partners = res.data;
@@ -173,8 +173,8 @@ angular
             var slides = 2;
             var items = 4;
             for (var i = 0; i < slides; i++) {
-                console.log(items * i);
-                console.log(slides * items / slides);
+                // console.log(items * i);
+                // console.log(slides * items / slides);
                 if (i === slides - 1) {
                     partnersArr.push(partners.slice(slides * items / slides));
                 } else {
@@ -182,7 +182,7 @@ angular
                 }
             }
             $scope.partners = partnersArr;
-            console.log('Parters', partnersArr);
+            // console.log('Parters', partnersArr);
             // $scope.$apply();
         });
     });

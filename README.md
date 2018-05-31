@@ -1,7 +1,7 @@
 # Job-Board
 Final Project – A website for job searching
 
-![](https://raw.githubusercontent.com/EmilTruthful/Job-Board/master/public/images/demo-0.png)
+![](https://raw.githubusercontent.com/EmilTruthful/Job-Board/master/public/images/demo/demo-0.png)
 
 This is a Single-page application (SPA) project that was built for 1 month in collaboration with [Kremena Dobreva](https://github.com/kidobreva) as part of a training course using:
 
@@ -21,6 +21,15 @@ This is a Single-page application (SPA) project that was built for 1 month in co
   - HTML5, AJAX, SPA, MVC, JSON
   - GIMP (for the logo and graphics)
   - Font Awesome
+
+##### How to run?
+You need to have MongoDB started, then type these commands:  
+  `git clone https://github.com/EmilTruthful/Job-Board.git`  
+  `cd Job-Board`  
+  `cd data`  
+  `mongorestore`  
+  `cd ..`  
+  `node server.js`  
 
 ##### Users features:
   - 2 types of users - candidates and companies
@@ -47,4 +56,5 @@ This is a Single-page application (SPA) project that was built for 1 month in co
  - Recover forgotten password
  - Move to Angular 2+ or other framework
 
-![](https://raw.githubusercontent.com/EmilTruthful/Job-Board/master/public/images/demo-1.png)
+![](https://raw.githubusercontent.com/EmilTruthful/Job-Board/master/public/images/demo/demo-1.png)
+![](https://raw.githubusercontent.com/EmilTruthful/Job-Board/master/public/images/demo/demo-2.png)
